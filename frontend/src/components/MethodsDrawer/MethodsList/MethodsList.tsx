@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import ListSubheader from '@mui/material/ListSubheader';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -7,11 +7,14 @@ import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 
-import { useDispatch  } from 'react-redux';
+import { useSelector, useDispatch  } from 'react-redux';
+import { RootState } from '../../../redux/reducer';
 import { addBlock } from '../../../data/actions/blocks'
 
 export default function MethodsList() {
   const dispatch = useDispatch()
+  const { query } = useSelector((state: RootState) => state.search)
+
   const initialState = [false, false, false, false, false, false, false]
 
   const [open, setOpen] = useState(initialState);
@@ -39,55 +42,71 @@ export default function MethodsList() {
     [key: string]: string[]
   }
 
-  const options: optionsProps = {
-    'Method' : [
-      'ARAS',
-      'EDAS',
-      'CODAS',
-      'COPRAS',
-      'COMET',
-      'TOPSIS',
-      'VIKOR',
-      'OCRA',
-      'MOORA',
-      'MAIRCA',
-      'MARCOS',
-      'PROMETHEE'
-    ],
-    'Criteria': [
-      'Random',
-      'Input',
-      'File'
-    ],
-    'Alternative': [
-      'Random',
-      'Input',
-      'File'
-    ],
-    'Weight': [
-      'Input',
-      'Equal',
-      'Entropy',
-      'Standard deviation',
-      'Variance'
-    ],
-    'Ranking': [
-      'Descending',
-      'Ascending'
-    ],
-    'Visualization': [
-      'A',
-      'B',
-      'C'
-    ],
-    'Correlation': [
-      'Pearson',
-      'Spearman',
-      'Weighted Spearman',
-      'WS rank similarity',
-      'Goodman-Kruskal'
-    ]
-  }
+  const options: optionsProps = useMemo(() => {
+    return {
+      'Method' : [
+        'ARAS',
+        'EDAS',
+        'CODAS',
+        'COPRAS',
+        'COMET',
+        'TOPSIS',
+        'VIKOR',
+        'OCRA',
+        'MOORA',
+        'MAIRCA',
+        'MARCOS',
+        'PROMETHEE'
+      ],
+      'Criteria': [
+        'Random',
+        'Input',
+        'File'
+      ],
+      'Alternative': [
+        'Random',
+        'Input',
+        'File'
+      ],
+      'Weight': [
+        'Input',
+        'Equal',
+        'Entropy',
+        'Standard deviation',
+        'Variance'
+      ],
+      'Ranking': [
+        'Descending',
+        'Ascending'
+      ],
+      'Visualization': [
+        'A',
+        'B',
+        'C'
+      ],
+      'Correlation': [
+        'Pearson',
+        'Spearman',
+        'Weighted Spearman',
+        'WS rank similarity',
+        'Goodman-Kruskal'
+      ]
+    }
+  }, [])
+
+  const filteredOptions: optionsProps = useMemo(() => {
+    const temp: optionsProps = {}
+    Object.keys(options).map(key => {
+      const filtered = options[key].filter(opt => {
+        return opt.toLowerCase().includes(query.toLowerCase())
+      })
+      if (filtered.length > 0) {
+        temp[key] = filtered
+      }
+    })
+    return temp
+
+  }, [options, query])
 
   return (
     <List
@@ -100,16 +119,18 @@ export default function MethodsList() {
         </ListSubheader>
       }
     >
-      {Object.keys(options).map((option, index) => {
+      {Object.keys(filteredOptions).map((option, index) => {
         return (
           <>
           <ListItemButton onClick={(e) => handleClick(e, index)}>
             <ListItemText primary={option} />
-            {open[index] ? <ExpandLess /> : <ExpandMore />}
+            
+            {query !== '' ? '' : open[index] ? <ExpandLess /> : <ExpandMore />}
+            
           </ListItemButton>
-          <Collapse in={open[index]} timeout="auto" unmountOnExit>
+          <Collapse in={query !== '' || open[index]} timeout="auto" unmountOnExit>
              <List component="div" disablePadding>
-               {options[option].map((opt) => {
+               {filteredOptions[option].map((opt) => {
                   return (
                     <ListItemButton sx={{ pl: 4 }} onClick={(e) => handleMethodClick(e, option, opt)}>
                      <ListItemText secondary={opt} />
