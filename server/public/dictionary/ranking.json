@@ -1,0 +1,30 @@
+[
+    {
+        "id": 1,
+        "type": "Ranking",
+        "name": "Ascending",
+        "inputConnections": [
+            "method"
+        ],
+        "outputConnections": [
+            "visualization"
+        ],
+        "hints": [
+            "Kiedy użyć tą wersję (podać metody)"
+        ]
+    },
+    {
+        "id": 2,
+        "type": "Ranking",
+        "name": "Descending",
+        "inputConnections": [
+            "method"
+        ],
+        "outputConnections": [
+            "visualization"
+        ],
+        "hints": [
+            "Kiedy użyć tą wersję (podać metody)"
+        ]
+    }
+]

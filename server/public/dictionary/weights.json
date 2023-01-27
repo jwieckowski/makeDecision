@@ -1,0 +1,221 @@
+[
+    {
+        "id": 1,
+        "type": "Weights",
+        "name": "Angle",
+        "extensions": [
+            "crisp"
+        ],
+        "requiredData": [
+            "matrix"
+        ],
+        "inputConnections": [
+            "matrix"
+        ],
+        "outputConnections": [
+            "method"
+        ],
+        "hints": [
+
+        ]
+    },
+    {
+        "id": 2,
+        "type": "Weights",
+        "name": "CILOS",
+        "extensions": [
+            "crisp"
+        ],
+        "requiredData": [
+            "matrix",
+            "types"
+        ],
+        "inputConnections": [
+            "matrix"
+        ],
+        "outputConnections": [
+            "method"
+        ],
+        "hints": [
+            "Wymaga typów kryteriów"
+        ]
+    },
+    {
+        "id": 3,
+        "type": "Weights",
+        "name": "CRITIC",
+        "extensions": [
+            "crisp"
+        ],
+        "requiredData": [
+            "matrix"
+        ],
+        "inputConnections": [
+            "matrix"
+        ],
+        "outputConnections": [
+            "method"
+        ],
+        "hints": [
+        ]
+    },
+    {
+        "id": 4,
+        "type": "Weights",
+        "name": "Entropy",
+        "extensions": [
+            "crisp",
+            "fuzzy",
+            "ifs"
+        ],
+        "requiredData": [
+            "matrix"
+        ],
+        "inputConnections": [
+            "matrix"
+        ],
+        "outputConnections": [
+            "method"
+        ],
+        "hints": [
+        ]
+    },
+    {
+        "id": 5,
+        "type": "Weights",
+        "name": "Equal",
+        "extensions": [
+            "crisp",
+            "fuzzy"
+        ],
+        "requiredData": [
+            "matrix"
+        ],
+        "inputConnections": [
+            "matrix"
+        ],
+        "outputConnections": [
+            "method"
+        ],
+        "hints": [
+        ]
+    },
+    {
+        "id": 6,
+        "type": "Weights",
+        "name": "Gini",
+        "extensions": [
+            "crisp"
+        ],
+        "requiredData": [
+            "matrix"
+        ],
+        "inputConnections": [
+            "matrix"
+        ],
+        "outputConnections": [
+            "method"
+        ],
+        "hints": [
+        ]
+    },
+    {
+        "id": 7,
+        "type": "Weights",
+        "name": "IDOCRIW",
+        "extensions": [
+            "crisp"
+        ],
+        "requiredData": [
+            "matrix"
+        ],
+        "inputConnections": [
+            "matrix"
+        ],
+        "outputConnections": [
+            "method"
+        ],
+        "hints": [
+            "Wymaga typów kryteriów"
+        ]
+    },
+    {
+        "id": 8,
+        "type": "Weights",
+        "name": "Input",
+        "extensions": [
+            "crisp",
+            "fuzzy",
+            "ifs"
+        ],
+        "requiredData": [
+            "weights"
+        ],
+        "outputConnections": [
+            "method"
+        ],
+        "hints": [
+            "Wartości wprowadzone przez użytkownika z klawiatury"
+        ]
+    },
+    {
+        "id": 9,
+        "type": "Weights",
+        "name": "MEREC",
+        "extensions": [
+            "crisp"
+        ],
+        "requiredData": [
+            "matrix"
+        ],
+        "inputConnections": [
+            "matrix"
+        ],
+        "outputConnections": [
+            "method"
+        ],
+        "hints": [
+            "Wymaga typów kryteriów"
+        ]
+    },
+    {
+        "id": 10,
+        "type": "Weights",
+        "name": "Standard deviation",
+        "extensions": [
+            "crisp",
+            "fuzzy"
+        ],
+        "requiredData": [
+            "matrix"
+        ],
+        "inputConnections": [
+            "matrix"
+        ],
+        "outputConnections": [
+            "method"
+        ],
+        "hints": [
+        ]
+    },
+    {
+        "id": 11,
+        "type": "Weights",
+        "name": "Variance",
+        "extensions": [
+            "crisp",
+            "fuzzy"
+        ],
+        "requiredData": [
+            "matrix"
+        ],
+        "inputConnections": [
+            "matrix"
+        ],
+        "outputConnections": [
+            "method"
+        ],
+        "hints": [
+        ]
+    }
+]

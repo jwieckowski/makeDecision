@@ -1,0 +1,34 @@
+{
+    "Example response for calculations": "v1", 
+    "method": {
+        "name": "Name of the method",
+        "results": "array with preferences ([0.75, 0.56, 0.44, 0.19, 0.92])"
+    },
+    "matrix": {
+        "empty": "no date to return"
+    },
+    "correlation": {
+        "name": "name of the method",
+        "results": "value/matrix with correlation 0.89"
+    },
+    "defuzzification": {
+        "empty": "no date to return"
+    },
+    "distance": {
+        "empty": "no date to return"
+    },
+    "normalization": {
+        "empty": "no date to return / (Think about how to solve the problem with returning data for every step (?))"
+    },
+    "ranking": {
+        "name": "name of the method",
+        "results": "array with ranking ([1, 2, 3, 4, 5])"
+    },
+    "visualization": {
+        "think about it": "backend or gui (?)"
+    },
+    "weights": {
+        "name": "name of the method",
+        "results": "array with weights ([0.25, 0.25, 0.25, 0.25])"
+    }
+}

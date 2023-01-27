@@ -1,0 +1,328 @@
+[
+    {
+        "id": 1,
+        "key": "Method",
+        "type": "primary",
+        "data": [
+            {
+                "id": 1,
+                "name": "ARAS",
+                "abbreviation": "Additive Ratio Assessment"
+            },
+            {
+                "id": 2,
+                "name": "COCOSO",
+                "abbreviation": "Combined Compromise Solution"
+            },
+            {
+                "id": 3,
+                "name": "CODAS",
+                "abbreviation": "Combinative Distance-based Assessment"
+            },
+            {
+                "id": 4,
+                "name": "COMET",
+                "abbreviation": "Characteristic Objects Method"
+            },
+            {
+                "id": 5,
+                "name": "COPRAS",
+                "abbreviation": "Complex Proportional Assessment"
+            },
+            {
+                "id": 6,
+                "name": "EDAS",
+                "abbreviation": "Evaluation based on Distance from Average Solution"
+            },
+            {
+                "id": 7,
+                "name": "MABAC",
+                "abbreviation": "Multi-Attributive Border Approximation area Comparison"
+            },
+            {
+                "id": 8,
+                "name": "MAIRCA",
+                "abbreviation": "Multi-Attributive Ideal-Real Comparative Analysis"
+            },
+            {
+                "id": 9,
+                "name": "MARCOS",
+                "abbreviation": "Measurement Alternatives and Ranking according to COmpromise Solution"
+            },
+            {
+                "id": 10,
+                "name": "MOORA",
+                "abbreviation": "Multi-Objective Optimization Method by Ratio Analysis"
+            },
+            {
+                "id": 11,
+                "name": "OCRA",
+                "abbreviation": "Operational Competitiveness Ratings"
+            },
+            {
+                "id": 12,
+                "name": "PROMETHEE",
+                "abbreviation": "Preference Ranking Organization METHod for Enrichment of Evaluations"
+            },
+            {
+                "id": 13,
+                "name": "SPOTIS",
+                "abbreviation": "Stable Preference Ordering Towards Ideal Solution"
+            },
+            {
+                "id": 14,
+                "name": "TOPSIS",
+                "abbreviation": "Technique for the Order of Prioritisation by Similarity to Ideal Solution"
+            },
+            {
+                "id": 15,
+                "name": "VIKOR",
+                "abbreviation": "VIseKriterijumska Optimizacija I Kompromisno Resenje"
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "key": "Decision matrix",
+        "type": "primary",
+        "data": [
+            {
+                "id": 1,
+                "name": "Input"
+            },
+            {
+                "id": 2,
+                "name": "File"
+            },
+            {
+                "id": 3,
+                "name": "Random"
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "key": "Normalization",
+        "type": "additional",
+        "data": [
+            {
+                "id": 1,
+                "name": "Enhanced accuracy"
+            },
+            {
+                "id": 2,
+                "name": "Logarithmic"
+            },
+            {
+                "id": 3,
+                "name": "Linear"
+            },
+            {
+                "id": 4,
+                "name": "Max"
+            },
+            {
+                "id": 5,
+                "name": "Min-max"
+            },
+            {
+                "id": 6,
+                "name": "Nonlinear"
+            },
+            {
+                "id": 7,
+                "name": "SAW"
+            },
+            {
+                "id": 8,
+                "name": "Sum"
+            },
+            {
+                "id": 9,
+                "name": "Vector"
+            },
+            {
+                "id": 9,
+                "name": "Zavadskas-Turskis"
+            }
+        ]
+    },
+    {
+        "id": 4,
+        "key": "Distance",
+        "type": "additional",
+        "data": [
+            {
+                "id": 1,
+                "name": "Euclidean"
+            },
+            {
+                "id": 2,
+                "name": "Hamming"
+            },
+            {
+                "id": 3,
+                "name": "L-R"
+            },
+            {
+                "id": 4,
+                "name": "Mahdavi"
+            },
+            {
+                "id": 5,
+                "name": "Tran-Duckstein"
+            },
+            {
+                "id": 6,
+                "name": "Weighted Euclidean"
+            },
+            {
+                "id": 7,
+                "name": "Weighted Hamming"
+            },
+            {
+                "id": 8,
+                "name": "Vertex"
+            }
+        ]
+    },
+    {
+        "id": 5,
+        "key": "Defuzzification",
+        "type": "additional",
+        "data": [
+            {
+                "id": 1,
+                "name": "Graded mean average"
+            },
+            {
+                "id": 2,
+                "name": "Mean"
+            },
+            {
+                "id": 3,
+                "name": "Mean area"
+            },
+            {
+                "id": 4,
+                "name": "Weighted mean"
+            }
+        ]
+    },
+    {
+        "id": 6,
+        "key": "Weight",
+        "type": "primary",
+        "data": [
+            {
+                "id": 1,
+                "name": "Angle"
+            },
+            {
+                "id": 2,
+                "name": "CILOS"
+            },
+            {
+                "id": 3,
+                "name": "CRITIC"
+            },
+            {
+                "id": 4,
+                "name": "Entropy"
+            },
+            {
+                "id": 5,
+                "name": "Equal"
+            },
+            {
+                "id": 6,
+                "name": "Gini"
+            },
+            {
+                "id": 7,
+                "name": "IDOCRIW"
+            },
+            {
+                "id": 8,
+                "name": "Input"
+            },
+            {
+                "id": 9,
+                "name": "MEREC"
+            },
+            {
+                "id": 10,
+                "name": "Standard deviation"
+            },
+            {
+                "id": 11,
+                "name": "Variance"
+            }
+        ]
+    },
+    {
+        "id": 7,
+        "key": "Ranking",
+        "type": "primary",
+        "data": [
+            {
+                "id": 1,
+                "name": "Ascending"
+            },
+            {
+                "id": 2,
+                "name": "Descending"
+            }
+        ]
+    },
+    {
+        "id": 8,
+        "key": "Visualization",
+        "type": "primary",
+        "data": [
+            {
+                "id": 1,
+                "name": "A"
+            },
+            {
+                "id": 2,
+                "name": "B"
+            },
+            {
+                "id": 3,
+                "name": "C"
+            }
+        ]
+    },
+    {
+        "id": 9,
+        "key": "Correlation",
+        "type": "primary",
+        "data": [
+            {
+                "id": 1,
+                "name": "Goodman-Kruskal"
+            },
+            {
+                "id": 2,
+                "name": "Kendall-Tau"
+            },
+            {
+                "id": 3,
+                "name": "Pearson"
+            },
+            {
+                "id": 4,
+                "name": "Spearman"
+            },
+            {
+                "id": 5,
+                "name": "Weighted Spearman"
+            },
+            {
+                "id": 6,
+                "name": "WS rank similarity"
+            }
+        ]
+    }
+]

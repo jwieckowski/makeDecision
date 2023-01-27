@@ -1,0 +1,103 @@
+[
+    {
+        "id": 1,
+        "type": "Correlation",
+        "name": "Goodman-Kruskall",
+        "requiredData": [
+            "ranking"
+        ],
+        "inputConnections": [
+            "ranking"
+        ],
+        "outputConnections": [
+            "visualization"
+        ],
+        "hints": [
+            
+        ]
+    },
+    {
+        "id": 2,
+        "type": "Correlation",
+        "name": "Kendall-Tau",
+        "requiredData": [
+            "ranking"
+        ],
+        "inputConnections": [
+            "ranking"
+        ],
+        "outputConnections": [
+            "visualization"
+        ],
+        "hints": [
+
+        ]
+    },
+    {
+        "id": 3,
+        "type": "Correlation",
+        "name": "Pearson",
+        "requiredData": [
+            "preferences"
+        ],
+        "inputConnections": [
+            "method"
+        ],
+        "outputConnections": [
+            "visualization"
+        ],
+        "hints": [
+            
+        ]
+    },
+    {
+        "id": 4,
+        "type": "Correlation",
+        "name": "Spearman",
+        "requiredData": [
+            "preferences"
+        ],
+        "inputConnections": [
+            "method"
+        ],
+        "outputConnections": [
+            "visualization"
+        ],
+        "hints": [
+
+        ]
+    },
+    {
+        "id": 5,
+        "name": "Weighted Spearman",
+        "requiredData": [
+            "ranking"
+        ],
+        "inputConnections": [
+            "ranking"
+        ],
+        "outputConnections": [
+            "visualization"
+        ],
+        "hints": [
+
+        ]
+    },
+    {
+        "id": 6,
+        "type": "Correlation",
+        "name": "WS rank similarity",
+        "requiredData": [
+            "ranking"
+        ],
+        "inputConnections": [
+            "ranking"
+        ],
+        "outputConnections": [
+            "visualization"
+        ],
+        "hints": [
+
+        ]
+    }
+]
