@@ -16,9 +16,6 @@
         "requiredData": [
             "file"
         ],
-        "outputConnections": [
-            "method"
-        ],
         "hints": [
             "Wskazówka w jakim formacie i jak zapisane dane"
         ]
@@ -32,12 +29,7 @@
             "fuzzy",
             "ifs"
         ],
-        "outputConnections": [
-            "method"
-        ],
         "requiredData": [
-            "alternatives",
-            "criteria",
             "matrix"
         ],
         "hints": [
@@ -52,9 +44,6 @@
             "crisp",
             "fuzzy",
             "ifs"
-        ],
-        "outputConnections": [
-            "method"
         ],
         "requiredData": [
             "alternatives",

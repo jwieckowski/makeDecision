@@ -3,10 +3,11 @@
         "id": 1,
         "type": "Visualization",
         "name": "A",
-        "inputConnections": [
-            "method",
-            "ranking",
-            "correlation"
+        "extensions": [
+            "crisp"
+        ],
+        "requiredData": [
+            "matrix"
         ],
         "hints": [
             "Co wyświetli"
@@ -16,10 +17,11 @@
         "id": 2,
         "type": "Visualization",
         "name": "B",
-        "inputConnections": [
-            "method",
-            "ranking",
-            "correlation"
+        "extensions": [
+            "crisp"
+        ],
+        "requiredData": [
+            "matrix"
         ],
         "hints": [
             "Co wyświetli"
@@ -29,10 +31,11 @@
         "id": 3,
         "type": "Visualization",
         "name": "C",
-        "inputConnections": [
-            "method",
-            "ranking",
-            "correlation"
+        "extensions": [
+            "crisp"
+        ],
+        "requiredData": [
+            "matrix"
         ],
         "hints": [
             "Co wyświetli"

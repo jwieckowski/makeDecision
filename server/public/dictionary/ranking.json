@@ -3,11 +3,12 @@
         "id": 1,
         "type": "Ranking",
         "name": "Ascending",
-        "inputConnections": [
-            "method"
+        "extensions": [
+            "crisp",
+            "fuzzy"
         ],
-        "outputConnections": [
-            "visualization"
+        "requiredData": [
+            "matrix"
         ],
         "hints": [
             "Kiedy użyć tą wersję (podać metody)"
@@ -17,11 +18,12 @@
         "id": 2,
         "type": "Ranking",
         "name": "Descending",
-        "inputConnections": [
-            "method"
+        "extensions": [
+            "crisp",
+            "fuzzy"
         ],
-        "outputConnections": [
-            "visualization"
+        "requiredData": [
+            "matrix"
         ],
         "hints": [
             "Kiedy użyć tą wersję (podać metody)"

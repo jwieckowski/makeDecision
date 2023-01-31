@@ -36,14 +36,6 @@
                 ]
             }
         ],
-        "inputConnections": [
-            "matrix"
-        ],
-        "outputConnections": [
-            "visualization",
-            "ranking",
-            "correlation"
-        ],
         "hints": [
 
         ]
@@ -73,14 +65,6 @@
                     }
                 ]
             }
-        ],
-        "inputConnections": [
-            "matrix"
-        ],
-        "outputConnections": [
-            "visualization",
-            "ranking",
-            "correlation"
         ],
         "hints": [
 
@@ -133,15 +117,6 @@
                 ]
             }
         ],
-        "inputConnections": [
-            "matrix",
-            "weights"
-        ],
-        "outputConnections": [
-            "visualization",
-            "ranking",
-            "correlation"
-        ],
         "hints": [
 
         ]
@@ -162,15 +137,6 @@
         ],
         "additional": [
             
-        ],
-        "inputConnections": [
-            "matrix",
-            "weights"
-        ],
-        "outputConnections": [
-            "visualization",
-            "ranking",
-            "correlation"
         ],
         "hints": [
 
@@ -203,15 +169,6 @@
                 ]
             }
         ],
-        "inputConnections": [
-            "matrix",
-            "weights"
-        ],
-        "outputConnections": [
-            "visualization",
-            "ranking",
-            "correlation"
-        ],
         "hints": [
 
         ]
@@ -242,15 +199,6 @@
                     }
                 ]
             }
-        ],
-        "inputConnections": [
-            "matrix",
-            "weights"
-        ],
-        "outputConnections": [
-            "visualization",
-            "ranking",
-            "correlation"
         ],
         "hints": [
 
@@ -298,15 +246,6 @@
                 ]
             }
         ],
-        "inputConnections": [
-            "matrix",
-            "weights"
-        ],
-        "outputConnections": [
-            "visualization",
-            "ranking",
-            "correlation"
-        ],
         "hints": [
 
         ]
@@ -353,15 +292,6 @@
                 ]
             }
         ],
-        "inputConnections": [
-            "matrix",
-            "weights"
-        ],
-        "outputConnections": [
-            "visualization",
-            "ranking",
-            "correlation"
-        ],
         "hints": [
 
         ]
@@ -391,15 +321,6 @@
                     }
                 ]
             }
-        ],
-        "inputConnections": [
-            "matrix",
-            "weights"
-        ],
-        "outputConnections": [
-            "visualization",
-            "ranking",
-            "correlation"
         ],
         "hints": [
 
@@ -431,15 +352,6 @@
                     }
                 ]
             }
-        ],
-        "inputConnections": [
-            "matrix",
-            "weights"
-        ],
-        "outputConnections": [
-            "visualization",
-            "ranking",
-            "correlation"
         ],
         "hints": [
 
@@ -482,15 +394,6 @@
                 ]
             }
         ],
-        "inputConnections": [
-            "matrix",
-            "weights"
-        ],
-        "outputConnections": [
-            "visualization",
-            "ranking",
-            "correlation"
-        ],
         "hints": [
 
         ]
@@ -522,15 +425,6 @@
                 ]
             }
         ],
-        "inputConnections": [
-            "matrix",
-            "weights"
-        ],
-        "outputConnections": [
-            "visualization",
-            "ranking",
-            "correlation"
-        ],
         "hints": [
 
         ]
@@ -550,15 +444,6 @@
             "criteriaTypes"
         ],
         "additional": [
-        ],
-        "inputConnections": [
-            "matrix",
-            "weights"
-        ],
-        "outputConnections": [
-            "visualization",
-            "ranking",
-            "correlation"
         ],
         "hints": [
 
@@ -606,15 +491,6 @@
                 ]
             }
         ],
-        "inputConnections": [
-            "matrix",
-            "weights"
-        ],
-        "outputConnections": [
-            "visualization",
-            "ranking",
-            "correlation"
-        ],
         "hints": [
 
         ]
@@ -656,15 +532,6 @@
                     }
                 ]
             }
-        ],
-        "inputConnections": [
-            "matrix",
-            "weights"
-        ],
-        "outputConnections": [
-            "visualization",
-            "ranking",
-            "correlation"
         ],
         "hints": [
 

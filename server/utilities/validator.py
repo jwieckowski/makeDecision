@@ -3,12 +3,17 @@ import numpy as np
 class Validator():
 
     @staticmethod
-    def validate_dimensions(matrix, weights, types):
+    def validate_dimensions(matrix, types, weights=None):
 
         # check dimensions match
-        if len(np.unique([matrix.shape[1], weights.shape[0], types.shape[0]])) != 1:
-            # return {'error': f'Number of criteria should equals number of weights and types, not {matrix.shape[1]}, {weights.shape[0]}, {types.shape[0]}'}
-            return f'Number of criteria should equals number of weights and types, not {matrix.shape[1]}, {weights.shape[0]}, {types.shape[0]}'
+        if weights == None:
+            if len(np.unique([matrix.shape[1], types.shape[0]])) != 1:
+                # return {'error': f'Number of criteria should equals number of weights and types, not {matrix.shape[1]}, {weights.shape[0]}, {types.shape[0]}'}
+                return f'Number of criteria should equals number of types, not {matrix.shape[1]}, {types.shape[0]}'
+        else:
+            if len(np.unique([matrix.shape[1], weights.shape[0], types.shape[0]])) != 1:
+                # return {'error': f'Number of criteria should equals number of weights and types, not {matrix.shape[1]}, {weights.shape[0]}, {types.shape[0]}'}
+                return f'Number of criteria should equals number of weights and types, not {matrix.shape[1]}, {weights.shape[0]}, {types.shape[0]}'
     
     @staticmethod
     def validate_orders_dimensions(matrix, orders):

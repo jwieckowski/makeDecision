@@ -3,31 +3,12 @@ import pymcdm.weights as crisp_weights
 import pyfdm.weights as fuzzy_weights
 
 class Weights():
-    def __init__(self, method, extension, types, weights = None):
-        self.method = method
-        self.extension = extension
-        self.weights = weights
-        self.types = types
+    def __init__(self, extension, types):
+        self.extension=extension
+        self.types=types
 
-    def validate_input_weights(self, matrix):
-        if self.weights == None:
-            return 'Error'
-        
-        if matrix.shape[1] != self.weights.shape[0]:
-            return "Different sizes"
-
-        if self.extension == 'ifs':
-            return 'All weights should be represented as ifs'
-
-        if self.extension == 'fuzzy':
-            return 'All weights should be represented as tfn'
-
-        if np.round(np.sum(self.weights), 5) != 1:
-            return "Sum not equals 1"
-
-    def calculate_weights(self, matrix):
-        methods = {
-            'Angle': {
+        self.weights_methods = {
+            'ANGLE': {
                 'crisp': crisp_weights.angle_weights
             },
             'CILOS': {
@@ -36,15 +17,15 @@ class Weights():
             'CRITIC': {
                 'crisp': crisp_weights.critic_weights,
             },
-            'Entropy': {
+            'ENTROPY': {
                 'crisp': crisp_weights.entropy_weights,
                 'fuzzy': fuzzy_weights.shannon_entropy_weights
             },
-            'Equal': {
+            'EQUAL': {
                 'crisp': crisp_weights.equal_weights,
                 'fuzzy': fuzzy_weights.equal_weights
             },
-            'Gini': {
+            'GINI': {
                 'crisp': crisp_weights.gini_weights
             },
             'IDOCRIW': {
@@ -53,30 +34,47 @@ class Weights():
             'MEREC': {
                 'crisp': crisp_weights.merec_weights
             },
-            'Standard deviation': {
+            'STANDARD DEVIATION': {
                 'crisp': crisp_weights.standard_deviation_weights,
                 'fuzzy': fuzzy_weights.standard_deviation_weights
             },
-            'Variance': {
+            'VARIANCE': {
                 'crisp': crisp_weights.variance_weights,
                 'fuzzy': fuzzy_weights.variance_weights
             }
         }
 
+    def validate_input_weights(self, matrix):
+        pass
+        # if self.weights == None:
+        #     return 'Error'
+        
+        # if matrix.shape[1] != self.weights.shape[0]:
+        #     return "Different sizes"
+
+        # if self.extension == 'ifs':
+        #     return 'All weights should be represented as ifs'
+
+        # if self.extension == 'fuzzy':
+        #     return 'All weights should be represented as tfn'
+
+        # if np.round(np.sum(self.weights), 5) != 1:
+        #     return "Sum not equals 1"
+
+    def calculate_weights(self, matrix, method):
+
         error = False
-        weights = None
-        if self.extension not in methods[self.method].keys():
-            error = f'Extension ({self.extension}) not found'
+        weights = np.array([])
+        if self.extension not in self.weights_methods[method].keys():
+            error = f'Extension {self.extension} not found for method {method}'
         else:
-            if self.method in ['MEREC', 'CILOS', 'IDOCRIW']:
-                weights = methods[self.method][self.extension](matrix, self.types)
+            if method in ['MEREC', 'CILOS', 'IDOCRIW']:
+                weights = self.weights_methods[method][self.extension](matrix, self.types)
             else:
-                weights = methods[self.method][self.extension](matrix)
+                weights = self.weights_methods[method][self.extension](matrix)
 
         return {
-            'method': self.method,
             'weights': weights.tolist(),
-            'extension': self.extension,
             'error': error
         }
 

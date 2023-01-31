@@ -7,8 +7,8 @@
         "extensions": [
             "fuzzy"
         ],
-        "inputConnections": [
-            "method"
+        "requiredData": [
+
         ],
         "hints": [
             
@@ -22,8 +22,8 @@
         "extensions": [
             "fuzzy"
         ],
-        "inputConnections": [
-            "method"
+        "requiredData": [
+
         ],
         "hints": [
             
@@ -37,8 +37,8 @@
         "extensions": [
             "fuzzy"
         ],
-        "inputConnections": [
-            "method"
+        "requiredData": [
+
         ],
         "hints": [
             
@@ -52,8 +52,8 @@
         "extensions": [
             "fuzzy"
         ],
-        "inputConnections": [
-            "method"
+        "requiredData": [
+
         ],
         "hints": [
             
@@ -67,8 +67,8 @@
         "extensions": [
             "fuzzy"
         ],
-        "inputConnections": [
-            "method"
+        "requiredData": [
+
         ],
         "hints": [
             
@@ -82,8 +82,8 @@
         "extensions": [
             "fuzzy"
         ],
-        "inputConnections": [
-            "method"
+        "requiredData": [
+
         ],
         "hints": [
 
@@ -97,8 +97,8 @@
         "extensions": [
             "fuzzy"
         ],
-        "inputConnections": [
-            "method"
+        "requiredData": [
+
         ],
         "hints": [
             
@@ -112,8 +112,8 @@
         "extensions": [
             "fuzzy"
         ],
-        "inputConnections": [
-            "method"
+        "requiredData": [
+
         ],
         "hints": [
 

@@ -277,26 +277,127 @@ results_schema = {
                 'type': 'array'
             }
         },
-        'mcda_methods': {
+        'extensions': {
             'type': 'array',
             'items': {
-                'type': 'string'
+                "type": 'string'
             }
-        },
-        'extension': {
-            'type': 'string'
         },
         'types': {
             'type': 'array',
             'items': {
-                'type': 'number'
+                'type': 'array',
+                "items": {
+                    "type": "number"
+                }
             }
         },
-        'weights_method': {
-            'type': 'string'
+        "method": {
+            "type": "array",
+            "items": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "method": {
+                            "type": "string"
+                        },
+                        "weights": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "methodCorrelations": {
+            "type": "array",
+            "items": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "correlation": {
+                            "type": "string",
+                        },    
+                        "data": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "method": {
+                                        "type": "string"
+                                    },
+                                    "weights": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "methodRankings": {
+            "type": "array",
+            "items": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "data": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "method": {
+                                        "type": "string"
+                                    },
+                                    "weights": {
+                                        "type": "string"
+                                    },
+                                    "order": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "rankingCorrelations": {
+            "type": "array",
+            "items": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "correlation": {
+                            "type": "string"
+                        },
+                        "data": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "method": {
+                                        "type": "string"
+                                    },
+                                    "weights": {
+                                        "type": "string"
+                                    },
+                                    "order": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
-    'required': ['matrix', 'mcda_methods', 'extension', 'types', 'weights_method']
+    'required': ['matrix', 'extensions', 'types', 'method', 'methodCorrelations', 'methodRankings', 'rankingCorrelations']
 }
 
 correlation_schema = {
@@ -338,37 +439,69 @@ def calculation_results():
     # if payload is invalid, request will be aborted with error code 400
     # if payload is valid it is stored in g.data
 
+    # data = request.get_json()
     data = g.data
-    matrix = np.array(data['matrix'])
-    mcda_methods = np.array(data['mcda_methods'])
-    extension = data['extension']
+    matrixes = np.array(data['matrix'])
+    extensions = np.array(data['extensions'])
     types = np.array(data['types'])
-    weights_method = data['weights_method']
-    correlation_methods = np.array(data['correlation_methods'])
-    ranking_order = data['ranking_order']
+    method = np.array(data['method'])
+    methodCorrelations = np.array(data['methodCorrelations'])
+    methodRankings = np.array(data['methodRankings'])
+    rankingCorrelations = np.array(data['rankingCorrelations'])
 
-    matrix_error = Validator.validate_matrix(matrix, extension)
-    if matrix_error:
-        return matrix_error, 400
+    print(matrixes)
+    print(extensions)
+    print(types)
+    print(method)
+    print(methodCorrelations)
+    print(methodRankings)
+    print(rankingCorrelations)
+    # print(data['params'])
 
-    types_error = Validator.validate_types(types)
-    if types_error:
-        return types_error, 400
+    # verification of input data
+    for m, ext in zip(matrixes, extensions):
+        matrix_error = Validator.validate_matrix(m, ext)
+        if matrix_error:
+            return matrix_error, 400
 
+    for m, t in zip(matrixes, types):
+        types_error = Validator.validate_types(t)
+        if types_error:
+            return types_error, 400
+
+    # retrieve additional params for assessment
     try:
-        params = data['params']
+        params = np.array(data['params'])
     except:
         params = None
 
-    weights = Calculations.calculate_weights(matrix, weights_method, extension, types)
+    for m, t in zip(matrixes, types):
+        dimension_error = Validator.validate_dimensions(m, t)
+        if dimension_error:
+            return dimension_error, 400
 
-    dimension_error = Validator.validate_dimensions(matrix, np.array(weights['weights']), types)
-    if dimension_error:
-        return dimension_error, 400
+    results = {
+        'method': [],
+        'methodCorrelations': [],
+        'methodRankings': [],
+        'rankingCorrelations': []
+    }
+    # MCDA evaluation
+    results['method'] = Calculations.calculate_preferences(matrixes, extensions, types, method, params)
 
-    mcda_results = Calculations.calculate_results(matrix, mcda_methods, extension, np.array(weights['weights']), types, params)
+    # MCDA preferences correlation
+    if len(methodCorrelations) > 0:
+        results['methodCorrelations'] = Calculations.calculate_preference_correlations(methodCorrelations, results['method'])
 
-    return jsonify(mcda_results)
+    # MCDA ranking calculation
+    if len(methodRankings) > 0:
+        results['methodRankings'] = Calculations.calculate_ranking(methodRankings, results['method'])
+
+    # MCDA ranking correlation
+    if len(rankingCorrelations) > 0:
+        results['rankingCorrelations'] = Calculations.calculate_ranking_correlations(rankingCorrelations, results['methodRankings'])
+
+    return jsonify(results)
 
 @app.route('/api/v1/evaluation', methods=['POST'])
 def calculation_evaluation():

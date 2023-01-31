@@ -3,6 +3,14 @@
         "id": 1,
         "key": "Method",
         "type": "primary",
+        "inputConnections": [
+            "weights"
+        ],
+        "outputConnections": [
+            "visualization",
+            "ranking",
+            "correlation"
+        ],
         "data": [
             {
                 "id": 1,
@@ -41,14 +49,6 @@
                         ]
                     }
                 ],
-                "inputConnections": [
-                    "matrix"
-                ],
-                "outputConnections": [
-                    "visualization",
-                    "ranking",
-                    "correlation"
-                ],
                 "hints": [
         
                 ]
@@ -78,14 +78,6 @@
                             }
                         ]
                     }
-                ],
-                "inputConnections": [
-                    "matrix"
-                ],
-                "outputConnections": [
-                    "visualization",
-                    "ranking",
-                    "correlation"
                 ],
                 "hints": [
         
@@ -138,15 +130,6 @@
                         ]
                     }
                 ],
-                "inputConnections": [
-                    "matrix",
-                    "weights"
-                ],
-                "outputConnections": [
-                    "visualization",
-                    "ranking",
-                    "correlation"
-                ],
                 "hints": [
         
                 ]
@@ -167,15 +150,6 @@
                 ],
                 "additional": [
                     
-                ],
-                "inputConnections": [
-                    "matrix",
-                    "weights"
-                ],
-                "outputConnections": [
-                    "visualization",
-                    "ranking",
-                    "correlation"
                 ],
                 "hints": [
         
@@ -208,15 +182,6 @@
                         ]
                     }
                 ],
-                "inputConnections": [
-                    "matrix",
-                    "weights"
-                ],
-                "outputConnections": [
-                    "visualization",
-                    "ranking",
-                    "correlation"
-                ],
                 "hints": [
         
                 ]
@@ -247,15 +212,6 @@
                             }
                         ]
                     }
-                ],
-                "inputConnections": [
-                    "matrix",
-                    "weights"
-                ],
-                "outputConnections": [
-                    "visualization",
-                    "ranking",
-                    "correlation"
                 ],
                 "hints": [
         
@@ -303,15 +259,6 @@
                         ]
                     }
                 ],
-                "inputConnections": [
-                    "matrix",
-                    "weights"
-                ],
-                "outputConnections": [
-                    "visualization",
-                    "ranking",
-                    "correlation"
-                ],
                 "hints": [
         
                 ]
@@ -358,15 +305,6 @@
                         ]
                     }
                 ],
-                "inputConnections": [
-                    "matrix",
-                    "weights"
-                ],
-                "outputConnections": [
-                    "visualization",
-                    "ranking",
-                    "correlation"
-                ],
                 "hints": [
         
                 ]
@@ -396,15 +334,6 @@
                             }
                         ]
                     }
-                ],
-                "inputConnections": [
-                    "matrix",
-                    "weights"
-                ],
-                "outputConnections": [
-                    "visualization",
-                    "ranking",
-                    "correlation"
                 ],
                 "hints": [
         
@@ -436,15 +365,6 @@
                             }
                         ]
                     }
-                ],
-                "inputConnections": [
-                    "matrix",
-                    "weights"
-                ],
-                "outputConnections": [
-                    "visualization",
-                    "ranking",
-                    "correlation"
                 ],
                 "hints": [
         
@@ -487,15 +407,6 @@
                         ]
                     }
                 ],
-                "inputConnections": [
-                    "matrix",
-                    "weights"
-                ],
-                "outputConnections": [
-                    "visualization",
-                    "ranking",
-                    "correlation"
-                ],
                 "hints": [
         
                 ]
@@ -527,15 +438,6 @@
                         ]
                     }
                 ],
-                "inputConnections": [
-                    "matrix",
-                    "weights"
-                ],
-                "outputConnections": [
-                    "visualization",
-                    "ranking",
-                    "correlation"
-                ],
                 "hints": [
         
                 ]
@@ -555,15 +457,6 @@
                     "criteriaTypes"
                 ],
                 "additional": [
-                ],
-                "inputConnections": [
-                    "matrix",
-                    "weights"
-                ],
-                "outputConnections": [
-                    "visualization",
-                    "ranking",
-                    "correlation"
                 ],
                 "hints": [
         
@@ -611,15 +504,6 @@
                         ]
                     }
                 ],
-                "inputConnections": [
-                    "matrix",
-                    "weights"
-                ],
-                "outputConnections": [
-                    "visualization",
-                    "ranking",
-                    "correlation"
-                ],
                 "hints": [
         
                 ]
@@ -662,15 +546,6 @@
                         ]
                     }
                 ],
-                "inputConnections": [
-                    "matrix",
-                    "weights"
-                ],
-                "outputConnections": [
-                    "visualization",
-                    "ranking",
-                    "correlation"
-                ],
                 "hints": [
         
                 ]
@@ -681,6 +556,12 @@
         "id": 2,
         "key": "Decision matrix",
         "type": "primary",
+        "inputConnections": [
+
+        ],
+        "outputConnections": [
+            "weights"
+        ],
         "data": [
             {
                 "id": 1,
@@ -699,9 +580,6 @@
                 "requiredData": [
                     "file"
                 ],
-                "outputConnections": [
-                    "method"
-                ],
                 "hints": [
                     "Wskazówka w jakim formacie i jak zapisane dane"
                 ]
@@ -715,12 +593,7 @@
                     "fuzzy",
                     "ifs"
                 ],
-                "outputConnections": [
-                    "method"
-                ],
                 "requiredData": [
-                    "alternatives",
-                    "criteria",
                     "matrix"
                 ],
                 "hints": [
@@ -735,9 +608,6 @@
                     "crisp",
                     "fuzzy",
                     "ifs"
-                ],
-                "outputConnections": [
-                    "method"
                 ],
                 "requiredData": [
                     "alternatives",
@@ -754,6 +624,12 @@
         "id": 3,
         "key": "Normalization",
         "type": "additional",
+        "inputConnections": [
+            
+        ],
+        "outputConnections": [
+            
+        ],
         "data": [
             {
                 "id": 1,
@@ -765,12 +641,6 @@
                 ],
                 "requiredData": [
                     "matrix"
-                ],
-                "inputConnections": [
-                    "matrix"
-                ],
-                "outputConnections": [
-                    "method"
                 ],
                 "hints": [
                     
@@ -786,12 +656,6 @@
                 ],
                 "requiredData": [
                     "matrix"
-                ],
-                "inputConnections": [
-                    "matrix"
-                ],
-                "outputConnections": [
-                    "method"
                 ],
                 "hints": [
                     
@@ -809,12 +673,6 @@
                 "requiredData": [
                     "matrix"
                 ],
-                "inputConnections": [
-                    "matrix"
-                ],
-                "outputConnections": [
-                    "method"
-                ],
                 "hints": [
                     
                 ]
@@ -830,12 +688,6 @@
                 ],
                 "requiredData": [
                     "matrix"
-                ],
-                "inputConnections": [
-                    "matrix"
-                ],
-                "outputConnections": [
-                    "method"
                 ],
                 "hints": [
                     
@@ -853,12 +705,6 @@
                 "requiredData": [
                     "matrix"
                 ],
-                "inputConnections": [
-                    "matrix"
-                ],
-                "outputConnections": [
-                    "method"
-                ],
                 "hints": [
         
                 ]
@@ -874,12 +720,6 @@
                 "requiredData": [
                     "matrix"
                 ],
-                "inputConnections": [
-                    "matrix"
-                ],
-                "outputConnections": [
-                    "method"
-                ],
                 "hints": [
                     
                 ]
@@ -894,12 +734,6 @@
                 ],
                 "requiredData": [
                     "matrix"
-                ],
-                "inputConnections": [
-                    "matrix"
-                ],
-                "outputConnections": [
-                    "method"
                 ],
                 "hints": [
         
@@ -917,12 +751,6 @@
                 "requiredData": [
                     "matrix"
                 ],
-                "inputConnections": [
-                    "matrix"
-                ],
-                "outputConnections": [
-                    "method"
-                ],
                 "hints": [
         
                 ]
@@ -939,12 +767,6 @@
                 "requiredData": [
                     "matrix"
                 ],
-                "inputConnections": [
-                    "matrix"
-                ],
-                "outputConnections": [
-                    "method"
-                ],
                 "hints": [
         
                 ]
@@ -960,12 +782,6 @@
                 "requiredData": [
                     "matrix"
                 ],
-                "inputConnections": [
-                    "matrix"
-                ],
-                "outputConnections": [
-                    "method"
-                ],
                 "hints": [
         
                 ]
@@ -976,6 +792,12 @@
         "id": 4,
         "key": "Distance",
         "type": "additional",
+        "inputConnections": [
+            
+        ],
+        "outputConnections": [
+
+        ],
         "data": [
             {
                 "id": 1,
@@ -985,8 +807,8 @@
                 "extensions": [
                     "fuzzy"
                 ],
-                "inputConnections": [
-                    "method"
+                "requiredData": [
+
                 ],
                 "hints": [
                     
@@ -1000,8 +822,8 @@
                 "extensions": [
                     "fuzzy"
                 ],
-                "inputConnections": [
-                    "method"
+                "requiredData": [
+
                 ],
                 "hints": [
                     
@@ -1015,8 +837,8 @@
                 "extensions": [
                     "fuzzy"
                 ],
-                "inputConnections": [
-                    "method"
+                "requiredData": [
+
                 ],
                 "hints": [
                     
@@ -1030,8 +852,8 @@
                 "extensions": [
                     "fuzzy"
                 ],
-                "inputConnections": [
-                    "method"
+                "requiredData": [
+
                 ],
                 "hints": [
                     
@@ -1045,8 +867,8 @@
                 "extensions": [
                     "fuzzy"
                 ],
-                "inputConnections": [
-                    "method"
+                "requiredData": [
+
                 ],
                 "hints": [
                     
@@ -1060,8 +882,8 @@
                 "extensions": [
                     "fuzzy"
                 ],
-                "inputConnections": [
-                    "method"
+                "requiredData": [
+
                 ],
                 "hints": [
         
@@ -1075,8 +897,8 @@
                 "extensions": [
                     "fuzzy"
                 ],
-                "inputConnections": [
-                    "method"
+                "requiredData": [
+
                 ],
                 "hints": [
                     
@@ -1090,8 +912,8 @@
                 "extensions": [
                     "fuzzy"
                 ],
-                "inputConnections": [
-                    "method"
+                "requiredData": [
+
                 ],
                 "hints": [
         
@@ -1103,6 +925,12 @@
         "id": 5,
         "key": "Defuzzification",
         "type": "additional",
+        "inputConnections": [
+          
+        ],
+        "outputConnections": [
+
+        ],
         "data": [
             {
                 "id": 1,
@@ -1112,8 +940,8 @@
                 "extensions": [
                     "fuzzy"
                 ],
-                "inputConnections": [
-                    "method"
+                "requiredData": [
+
                 ],
                 "hints": [
                     
@@ -1127,8 +955,8 @@
                 "extensions": [
                     "fuzzy"
                 ],
-                "inputConnections": [
-                    "method"
+                "requiredData": [
+                    
                 ],
                 "hints": [
                     
@@ -1142,8 +970,8 @@
                 "extensions": [
                     "fuzzy"
                 ],
-                "inputConnections": [
-                    "method"
+                "requiredData": [
+                    
                 ],
                 "hints": [
                     
@@ -1157,8 +985,8 @@
                 "extensions": [
                     "fuzzy"
                 ],
-                "inputConnections": [
-                    "method"
+                "requiredData": [
+                    
                 ],
                 "hints": [
         
@@ -1168,8 +996,14 @@
     },
     {
         "id": 6,
-        "key": "Weight",
+        "key": "Weights",
         "type": "primary",
+        "inputConnections": [
+            "matrix"
+        ],
+        "outputConnections": [
+            "method"
+        ],
         "data": [
             {
                 "id": 1,
@@ -1180,12 +1014,6 @@
                 ],
                 "requiredData": [
                     "matrix"
-                ],
-                "inputConnections": [
-                    "matrix"
-                ],
-                "outputConnections": [
-                    "method"
                 ],
                 "hints": [
         
@@ -1202,12 +1030,6 @@
                     "matrix",
                     "types"
                 ],
-                "inputConnections": [
-                    "matrix"
-                ],
-                "outputConnections": [
-                    "method"
-                ],
                 "hints": [
                     "Wymaga typów kryteriów"
                 ]
@@ -1222,12 +1044,7 @@
                 "requiredData": [
                     "matrix"
                 ],
-                "inputConnections": [
-                    "matrix"
-                ],
-                "outputConnections": [
-                    "method"
-                ],
+
                 "hints": [
                 ]
             },
@@ -1243,12 +1060,6 @@
                 "requiredData": [
                     "matrix"
                 ],
-                "inputConnections": [
-                    "matrix"
-                ],
-                "outputConnections": [
-                    "method"
-                ],
                 "hints": [
                 ]
             },
@@ -1263,12 +1074,6 @@
                 "requiredData": [
                     "matrix"
                 ],
-                "inputConnections": [
-                    "matrix"
-                ],
-                "outputConnections": [
-                    "method"
-                ],
                 "hints": [
                 ]
             },
@@ -1282,12 +1087,6 @@
                 "requiredData": [
                     "matrix"
                 ],
-                "inputConnections": [
-                    "matrix"
-                ],
-                "outputConnections": [
-                    "method"
-                ],
                 "hints": [
                 ]
             },
@@ -1300,12 +1099,6 @@
                 ],
                 "requiredData": [
                     "matrix"
-                ],
-                "inputConnections": [
-                    "matrix"
-                ],
-                "outputConnections": [
-                    "method"
                 ],
                 "hints": [
                     "Wymaga typów kryteriów"
@@ -1323,9 +1116,6 @@
                 "requiredData": [
                     "weights"
                 ],
-                "outputConnections": [
-                    "method"
-                ],
                 "hints": [
                     "Wartości wprowadzone przez użytkownika z klawiatury"
                 ]
@@ -1339,12 +1129,6 @@
                 ],
                 "requiredData": [
                     "matrix"
-                ],
-                "inputConnections": [
-                    "matrix"
-                ],
-                "outputConnections": [
-                    "method"
                 ],
                 "hints": [
                     "Wymaga typów kryteriów"
@@ -1361,12 +1145,6 @@
                 "requiredData": [
                     "matrix"
                 ],
-                "inputConnections": [
-                    "matrix"
-                ],
-                "outputConnections": [
-                    "method"
-                ],
                 "hints": [
                 ]
             },
@@ -1381,12 +1159,6 @@
                 "requiredData": [
                     "matrix"
                 ],
-                "inputConnections": [
-                    "matrix"
-                ],
-                "outputConnections": [
-                    "method"
-                ],
                 "hints": [
                 ]
             }
@@ -1396,16 +1168,23 @@
         "id": 7,
         "key": "Ranking",
         "type": "primary",
+        "inputConnections": [
+            "method"
+        ],
+        "outputConnections": [
+            "visualization"
+        ],
         "data": [
             {
                 "id": 1,
                 "type": "Ranking",
                 "name": "Ascending",
-                "inputConnections": [
-                    "method"
+                "extensions": [
+                    "crisp",
+                    "fuzzy"
                 ],
-                "outputConnections": [
-                    "visualization"
+                "requiredData": [
+                    "matrix"
                 ],
                 "hints": [
                     "Kiedy użyć tą wersję (podać metody)"
@@ -1415,11 +1194,12 @@
                 "id": 2,
                 "type": "Ranking",
                 "name": "Descending",
-                "inputConnections": [
-                    "method"
+                "extensions": [
+                    "crisp",
+                    "fuzzy"
                 ],
-                "outputConnections": [
-                    "visualization"
+                "requiredData": [
+                    "matrix"
                 ],
                 "hints": [
                     "Kiedy użyć tą wersję (podać metody)"
@@ -1431,15 +1211,24 @@
         "id": 8,
         "key": "Visualization",
         "type": "primary",
+        "inputConnections": [
+            "method",
+            "ranking",
+            "correlation"
+        ],
+        "outputConnections": [
+
+        ],
         "data": [
             {
                 "id": 1,
                 "type": "Visualization",
                 "name": "A",
-                "inputConnections": [
-                    "method",
-                    "ranking",
-                    "correlation"
+                "extensions": [
+                    "crisp"
+                ],
+                "requiredData": [
+                    "matrix"
                 ],
                 "hints": [
                     "Co wyświetli"
@@ -1449,10 +1238,11 @@
                 "id": 2,
                 "type": "Visualization",
                 "name": "B",
-                "inputConnections": [
-                    "method",
-                    "ranking",
-                    "correlation"
+                "extensions": [
+                    "crisp"
+                ],
+                "requiredData": [
+                    "matrix"
                 ],
                 "hints": [
                     "Co wyświetli"
@@ -1462,10 +1252,11 @@
                 "id": 3,
                 "type": "Visualization",
                 "name": "C",
-                "inputConnections": [
-                    "method",
-                    "ranking",
-                    "correlation"
+                "extensions": [
+                    "crisp"
+                ],
+                "requiredData": [
+                    "matrix"
                 ],
                 "hints": [
                     "Co wyświetli"
@@ -1477,19 +1268,23 @@
         "id": 9,
         "key": "Correlation",
         "type": "primary",
+        "inputConnections": [
+            "ranking",
+            "method"
+        ],
+        "outputConnections": [
+            "visualization"
+        ],
         "data": [
             {
                 "id": 1,
                 "type": "Correlation",
                 "name": "Goodman-Kruskall",
+                "extensions": [
+                    "crisp"
+                ],
                 "requiredData": [
                     "ranking"
-                ],
-                "inputConnections": [
-                    "ranking"
-                ],
-                "outputConnections": [
-                    "visualization"
                 ],
                 "hints": [
                     
@@ -1499,14 +1294,11 @@
                 "id": 2,
                 "type": "Correlation",
                 "name": "Kendall-Tau",
+                "extensions": [
+                    "crisp"
+                ],
                 "requiredData": [
                     "ranking"
-                ],
-                "inputConnections": [
-                    "ranking"
-                ],
-                "outputConnections": [
-                    "visualization"
                 ],
                 "hints": [
         
@@ -1516,14 +1308,11 @@
                 "id": 3,
                 "type": "Correlation",
                 "name": "Pearson",
+                "extensions": [
+                    "crisp"
+                ],
                 "requiredData": [
-                    "preferences"
-                ],
-                "inputConnections": [
-                    "method"
-                ],
-                "outputConnections": [
-                    "visualization"
+                    "matrix"
                 ],
                 "hints": [
                     
@@ -1533,14 +1322,11 @@
                 "id": 4,
                 "type": "Correlation",
                 "name": "Spearman",
+                "extensions": [
+                    "crisp"
+                ],
                 "requiredData": [
                     "preferences"
-                ],
-                "inputConnections": [
-                    "method"
-                ],
-                "outputConnections": [
-                    "visualization"
                 ],
                 "hints": [
         
@@ -1548,15 +1334,13 @@
             },
             {
                 "id": 5,
+                "type": "Correlation",
                 "name": "Weighted Spearman",
+                "extensions": [
+                    "crisp"
+                ],
                 "requiredData": [
                     "ranking"
-                ],
-                "inputConnections": [
-                    "ranking"
-                ],
-                "outputConnections": [
-                    "visualization"
                 ],
                 "hints": [
         
@@ -1566,14 +1350,11 @@
                 "id": 6,
                 "type": "Correlation",
                 "name": "WS rank similarity",
+                "extensions": [
+                    "crisp"
+                ],
                 "requiredData": [
                     "ranking"
-                ],
-                "inputConnections": [
-                    "ranking"
-                ],
-                "outputConnections": [
-                    "visualization"
                 ],
                 "hints": [
         

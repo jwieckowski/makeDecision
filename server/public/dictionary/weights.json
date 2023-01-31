@@ -9,12 +9,6 @@
         "requiredData": [
             "matrix"
         ],
-        "inputConnections": [
-            "matrix"
-        ],
-        "outputConnections": [
-            "method"
-        ],
         "hints": [
 
         ]
@@ -30,12 +24,6 @@
             "matrix",
             "types"
         ],
-        "inputConnections": [
-            "matrix"
-        ],
-        "outputConnections": [
-            "method"
-        ],
         "hints": [
             "Wymaga typów kryteriów"
         ]
@@ -50,12 +38,7 @@
         "requiredData": [
             "matrix"
         ],
-        "inputConnections": [
-            "matrix"
-        ],
-        "outputConnections": [
-            "method"
-        ],
+
         "hints": [
         ]
     },
@@ -71,12 +54,6 @@
         "requiredData": [
             "matrix"
         ],
-        "inputConnections": [
-            "matrix"
-        ],
-        "outputConnections": [
-            "method"
-        ],
         "hints": [
         ]
     },
@@ -91,12 +68,6 @@
         "requiredData": [
             "matrix"
         ],
-        "inputConnections": [
-            "matrix"
-        ],
-        "outputConnections": [
-            "method"
-        ],
         "hints": [
         ]
     },
@@ -110,12 +81,6 @@
         "requiredData": [
             "matrix"
         ],
-        "inputConnections": [
-            "matrix"
-        ],
-        "outputConnections": [
-            "method"
-        ],
         "hints": [
         ]
     },
@@ -128,12 +93,6 @@
         ],
         "requiredData": [
             "matrix"
-        ],
-        "inputConnections": [
-            "matrix"
-        ],
-        "outputConnections": [
-            "method"
         ],
         "hints": [
             "Wymaga typów kryteriów"
@@ -151,9 +110,6 @@
         "requiredData": [
             "weights"
         ],
-        "outputConnections": [
-            "method"
-        ],
         "hints": [
             "Wartości wprowadzone przez użytkownika z klawiatury"
         ]
@@ -167,12 +123,6 @@
         ],
         "requiredData": [
             "matrix"
-        ],
-        "inputConnections": [
-            "matrix"
-        ],
-        "outputConnections": [
-            "method"
         ],
         "hints": [
             "Wymaga typów kryteriów"
@@ -189,12 +139,6 @@
         "requiredData": [
             "matrix"
         ],
-        "inputConnections": [
-            "matrix"
-        ],
-        "outputConnections": [
-            "method"
-        ],
         "hints": [
         ]
     },
@@ -208,12 +152,6 @@
         ],
         "requiredData": [
             "matrix"
-        ],
-        "inputConnections": [
-            "matrix"
-        ],
-        "outputConnections": [
-            "method"
         ],
         "hints": [
         ]

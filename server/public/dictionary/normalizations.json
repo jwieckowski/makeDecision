@@ -10,12 +10,6 @@
         "requiredData": [
             "matrix"
         ],
-        "inputConnections": [
-            "matrix"
-        ],
-        "outputConnections": [
-            "method"
-        ],
         "hints": [
             
         ]
@@ -30,12 +24,6 @@
         ],
         "requiredData": [
             "matrix"
-        ],
-        "inputConnections": [
-            "matrix"
-        ],
-        "outputConnections": [
-            "method"
         ],
         "hints": [
             
@@ -53,12 +41,6 @@
         "requiredData": [
             "matrix"
         ],
-        "inputConnections": [
-            "matrix"
-        ],
-        "outputConnections": [
-            "method"
-        ],
         "hints": [
             
         ]
@@ -74,12 +56,6 @@
         ],
         "requiredData": [
             "matrix"
-        ],
-        "inputConnections": [
-            "matrix"
-        ],
-        "outputConnections": [
-            "method"
         ],
         "hints": [
             
@@ -97,12 +73,6 @@
         "requiredData": [
             "matrix"
         ],
-        "inputConnections": [
-            "matrix"
-        ],
-        "outputConnections": [
-            "method"
-        ],
         "hints": [
 
         ]
@@ -118,12 +88,6 @@
         "requiredData": [
             "matrix"
         ],
-        "inputConnections": [
-            "matrix"
-        ],
-        "outputConnections": [
-            "method"
-        ],
         "hints": [
             
         ]
@@ -138,12 +102,6 @@
         ],
         "requiredData": [
             "matrix"
-        ],
-        "inputConnections": [
-            "matrix"
-        ],
-        "outputConnections": [
-            "method"
         ],
         "hints": [
 
@@ -161,12 +119,6 @@
         "requiredData": [
             "matrix"
         ],
-        "inputConnections": [
-            "matrix"
-        ],
-        "outputConnections": [
-            "method"
-        ],
         "hints": [
 
         ]
@@ -183,12 +135,6 @@
         "requiredData": [
             "matrix"
         ],
-        "inputConnections": [
-            "matrix"
-        ],
-        "outputConnections": [
-            "method"
-        ],
         "hints": [
 
         ]
@@ -203,12 +149,6 @@
         ],
         "requiredData": [
             "matrix"
-        ],
-        "inputConnections": [
-            "matrix"
-        ],
-        "outputConnections": [
-            "method"
         ],
         "hints": [
 
