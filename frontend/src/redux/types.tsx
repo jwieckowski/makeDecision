@@ -1,3 +1,5 @@
+// DICTIONARIES TYPES ---------------------------------
+
 export type MethodAdditionalData = {
     id: number,
     method: string,
@@ -151,11 +153,14 @@ type DictionarySliceState = {
     error: null | string
 }
 
+//  SEARCH SLICE TYPES --------------------------------------------------------
 export type SearchSliceState = {
     query: string
 }
 
-type AdditionalType = {
+// RESULTS TYPES --------------------------------------------------------------
+
+export type AdditionalType = {
     [key: string]: string
 }
 
@@ -186,12 +191,49 @@ export type CorrelationBodyType = {
     correlationMethods: string[]
 }
 
-export type ResultsType = {
-    preference: [] | number[],
+// export type ResultsType = {
+//     preference: [] | number[],
+//     method: string,
+//     extension: string,
+//     additional: AdditionalType,
+//     error: boolean | string,
+// }
+
+export type ResultsMethod = {
     method: string,
+    weights: string,
+    weights_value: [] | number[],
+    preference: [] | number[],
     extension: string,
-    additional: AdditionalType,
-    error: boolean | string,
+    additional: [] | AdditionalType[],
+    error: boolean | string
+}
+
+export type ResultsMethodCorrelations = {
+    correlation: string,
+    results: [] | number[][],
+    methods: [] | AdditionalType[],
+    error: boolean | string
+}
+
+export type ResultsMethodRankings = {
+    ranking: [] | number[],
+    methods: AdditionalType,
+    error: boolean | string
+}
+
+export type ResultsRankingCorrelations = {
+    correlation: string,
+    results: [] | number[][],
+    methods: [] | AdditionalType[],
+    error: boolean | string
+}
+
+export type ResultsType = {
+    method: [] | ResultsMethod[][],
+    methodCorrelations: [] | ResultsMethodCorrelations[][],
+    methodRankings: [] | ResultsMethodRankings[][][],
+    rankingCorrelations: [] | ResultsRankingCorrelations[][]
 }
 
 export type RankingType = {
@@ -242,7 +284,7 @@ export type CalculationBodyType = {
 }
 
 export type CalculationSliceState = {
-    results: [] | ResultsType[],
+    results: [] | ResultsType,
     rankingResults: [] | RankingType[],
     correlationResults: [] | CorrelationType[],
     methodParameters: [] | ParamsType[],
@@ -252,6 +294,8 @@ export type CalculationSliceState = {
     loading: boolean,
     error: null | string
 }
+
+// BLOCKS TYPES --------------------------------------------------------------------------------
 
 export type BlockType = {
     _id: number,

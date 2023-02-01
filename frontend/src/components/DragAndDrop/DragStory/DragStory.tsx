@@ -23,7 +23,8 @@ import {
   addBodyMethodCorrelations,
   addBodyMethodRankings,
   addBodyRankingCorrelations,
-  clearBody
+  clearBody,
+  resetResults
 } from '../../../redux/slices/calculationSlice';
 
 import {MethodType, MethodCorrelationType, MethodRankingType, RankingCorrelationType} from '../../../redux/types'
@@ -44,6 +45,8 @@ export default function DragStory() {
   const { results, calculationBody  } = useSelector((state: RootState) => state.calculation)
   const dispatch = useAppDispatch()
 
+  console.log(results)
+
   const handleClick = (e: React.MouseEvent<HTMLElement>, id: string, type: string, method: string) => {
     // e.preventDefault()
     if (draggedItem !== null) return
@@ -63,12 +66,13 @@ export default function DragStory() {
     dispatch(setActiveBlock(null))
     dispatch(setConnections([]))
     dispatch(setBlocks([]))
+    dispatch(resetResults())
   }
   
   const handleCalculateClick = () => {
     dispatch(clearBody())
 
-    console.log(getNotConnectedBlocks(blocks, connections))
+    // console.log(getNotConnectedBlocks(blocks, connections))
     
     // first step to check connections from matrix to weights
     const matrices = blocks.filter(block => block.type.includes('matrix'))

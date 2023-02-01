@@ -86,15 +86,17 @@ const calculationSlice = createSlice({
     },
     clearBody: (state) => {
       state.calculationBody = initialState.calculationBody
+    },
+    resetResults: (state) => {
+      state.results = initialState.results
     }
   },
   extraReducers: (builder) => {
     builder
-      // all results
       .addCase(getResults.pending, (state: CalculationSliceState) => {
         state.loading = true;
       })
-      .addCase(getResults.fulfilled, (state: CalculationSliceState, action: PayloadAction<ResultsType[]>) => {
+      .addCase(getResults.fulfilled, (state: CalculationSliceState, action: PayloadAction<ResultsType>) => {
         state.results = action.payload
         state.loading = false;
       })
@@ -102,7 +104,6 @@ const calculationSlice = createSlice({
         state.error = 'Error get results';
         state.loading = false;
       })
-      // correlation
       .addCase(getCorrelations.pending, (state: CalculationSliceState) => {
         state.loading = true;
       })
@@ -114,7 +115,6 @@ const calculationSlice = createSlice({
         state.error = 'Error get correlation';
         state.loading = false;
       })
-      // ranking
       .addCase(getRanking.pending, (state: CalculationSliceState) => {
         state.loading = true;
       })
@@ -141,6 +141,7 @@ export const {
   addBodyMethodCorrelations,
   addBodyMethodRankings,
   addBodyRankingCorrelations,
-  clearBody
+  clearBody,
+  resetResults
 } = actions;
 export default reducer;

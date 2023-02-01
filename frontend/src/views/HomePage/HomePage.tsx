@@ -145,29 +145,29 @@ export default function HomePage() {
     // dispatch(getResults(body))
   }
 
-  function sendRanking (e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-    e.preventDefault()
+  // function sendRanking (e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+  //   e.preventDefault()
 
-    const matrix = results.map(res => res.preference)
-    const body = {
-      matrix: matrix,
-      order: ['Ascending', 'Ascending', 'Ascending', 'Ascending', 'Ascending']
-    }
+  //   // const matrix = results.map(res => res.preference)
+  //   // const body = {
+  //   //   matrix: matrix,
+  //   //   order: ['Ascending', 'Ascending', 'Ascending', 'Ascending', 'Ascending']
+  //   // }
 
-    dispatch(getRanking(body))
-  }
+  //   // dispatch(getRanking(body))
+  // }
 
-  function sendCorrelation (e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-    e.preventDefault()
+  // function sendCorrelation (e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+  //   e.preventDefault()
 
-    const matrix = results.map(res => res.preference)
-    const body = {
-      matrix: matrix,
-      correlationMethods: correlationMethods
-    }
+  //   // const matrix = results.map(res => res.preference)
+  //   // const body = {
+  //   //   matrix: matrix,
+  //   //   correlationMethods: correlationMethods
+  //   // }
 
-    dispatch(getCorrelations(body))
-  }
+  //   // dispatch(getCorrelations(body))
+  // }
 
   return (
     <Box>
@@ -246,7 +246,7 @@ export default function HomePage() {
         </Box>
       </Box>
 
-      {results.length > 0 &&
+      {/* {results.length > 0 &&
         <Box>
           <Typography>Results</Typography>
           {
@@ -350,7 +350,7 @@ export default function HomePage() {
               </Box>
             }
           </Box>
-      }
+      } */}
       {/* <Box sx={{style:'60%', margin: 'auto'}}>
         <Additionals extension={extension} />
       </Box> */}
