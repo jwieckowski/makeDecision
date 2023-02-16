@@ -8,7 +8,10 @@ import {useSelector} from 'react-redux'
 import {RootState} from '../../redux'
 import { ResultsType } from '../../redux/types'
 
-import CorrelationTable from '../../components/CorrelationTable'
+import PreferencesResults from '../../components/Results/Preferences'
+import PreferencesCorrelationsResults from '../../components/Results/PreferencesCorrelations'
+import RankingResults from '../../components/Results/Ranking'
+import RankingCorrelationsResults from '../../components/Results/RankingCorrelations'
 
 export default function CalculationPage() {
   const {results} = useSelector((state: RootState) => state.calculation)
@@ -38,68 +41,10 @@ export default function CalculationPage() {
               Results
             </Typography>
 
-            {/* METHODS PREFERENCES */}
-            <Typography>PREFERENCES</Typography>
-            {!Array.isArray(results) && results.method.map(result => {
-              return result.map(r => {
-                return (
-                  <Box sx={{m: '5px 0'}}>
-                    <Typography>MCDA method: {r.method}</Typography>
-                    <Typography>Weights method: {r.weights}</Typography>
-                    <Typography>Weights: {r.weights_value.map(value => value.toFixed(4)).join(', ')}</Typography>
-                    <Typography>Preferences: {r.preference.map(value => value.toFixed(4)).join(', ')}</Typography>
-                    {!r.error && <Typography>{r.error}</Typography>}
-                  </Box>
-                )
-                })
-              })
-            }
-          
-            {/* PREFERENCES CORRELATIONS */}
-            <Typography>CORRELATIONS OF PREFERENCES</Typography>
-            {!Array.isArray(results) && results.methodCorrelations.map(result => {
-              return result.map(r => {
-                return (
-                  <Box sx={{m: '5px 0'}}>
-                    <CorrelationTable correlation={r.correlation} methods={r.methods} results={r.results}/>
-                    {!r.error && <Typography>{r.error}</Typography>}
-                  </Box>
-                )
-                })
-              })
-            }
-
-            {/* METHODS RANKINGS */}
-            <Typography>RANKINGS</Typography>
-            {!Array.isArray(results) && results.methodRankings.map(result => {
-              return result.map(res => {
-                return res.map(r => {
-                    return (
-                      <Box sx={{m: '5px 0'}}>
-                        <Typography>MCDA method: {r.methods.method.toUpperCase()}</Typography>
-                        <Typography>Weights method: {r.methods.weights.toUpperCase()}</Typography>
-                        <Typography>Ranking: {r.ranking.join(', ')}</Typography>
-                        {!r.error && <Typography>{r.error}</Typography>}
-                      </Box>
-                  )
-                })
-                })
-              })
-            }
-
-            {/* RANKINGS CORRELATIONS */}
-            <Typography>CORRELATIONS OF RANKINGS</Typography>
-            {!Array.isArray(results) && results.rankingCorrelations.map(result => {
-              return result.map(r => {
-                return (
-                  <Box sx={{m: '5px 0'}}>
-                    <CorrelationTable correlation={r.correlation} methods={r.methods} results={r.results}/>
-                    {!r.error && <Typography>{r.error}</Typography>}
-                  </Box>
-                )
-                })
-              })
-            }
+            <PreferencesResults />
+            <PreferencesCorrelationsResults />
+            <RankingResults />
+            <RankingCorrelationsResults />
 
           </Box>
         </Box>

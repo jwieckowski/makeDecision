@@ -1,15 +1,27 @@
-import React, {useState} from 'react';
+import React from 'react';
 
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { Box, Typography, FormControl, InputLabel, MenuItem } from '@mui/material'
 
-export default function Extension() {
+import { RootState, useAppDispatch } from '../../../redux';
+import { useSelector } from 'react-redux';
+import { addBodyExtension } from '../../../redux/slices/calculationSlice';
 
-  const [extension, setExtension] = useState<string>('crisp')
-  const handleExtensionChange = (event: SelectChangeEvent) => {
-    setExtension(event.target.value as string);
+export default function Extension() {
+  const {extensions} = useSelector((state: RootState) => state.calculation.calculationBody)
+  const {blocks, activeBlock} = useSelector((state: RootState) => state.blocks)
+  const dispatch = useAppDispatch()
+
+  const matrixBlocks = blocks.filter(b => b.type.toLowerCase() === 'matrix')
+
+  const getBlockNumber = () => {
+    return matrixBlocks.map(b => b._id === activeBlock?.id).indexOf(true)
   }
   
+  const handleExtensionChange = (event: SelectChangeEvent) => {
+    dispatch(addBodyExtension({extension: event.target.value as string, id: matrixBlocks.map(b => b._id).indexOf(activeBlock?.id as never)}));
+  }
+
   return (
     <Box sx={{margin: '10px 0'}}>
       <FormControl fullWidth>
@@ -17,7 +29,7 @@ export default function Extension() {
         <Select
           labelId="extension-input"
           id="extension"
-          value={extension}
+          value={extensions[getBlockNumber()]}
           label="Extension"
           onChange={handleExtensionChange}
         >

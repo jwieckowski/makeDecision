@@ -56,6 +56,7 @@ export type CorrelationsItem = {
     inputConnections: [] | string[],
     outputConnections: [] | string[],
     hints: [] | string[]
+    additional?: null
 }
 
 export type DecisionMatrixItem = {
@@ -67,6 +68,7 @@ export type DecisionMatrixItem = {
     requiredData: [] | string[],
     outputConnections: [] | string[],
     hints: [] | string[]
+    additional?: null
 }
 
 export type DefuzzificationsItem = {
@@ -108,6 +110,7 @@ export type RankingItem = {
     inputConnections: [] | string[],
     outputConnections: [] | string[],
     hints: [] | string[]
+    additional?: null
 }
 
 export type VisualizationItem = {
@@ -116,6 +119,7 @@ export type VisualizationItem = {
     name: string,
     inputConnections: [] | string[],
     hints: [] | string[]
+    additional?: null
 }
 
 export type WeightsItem = {
@@ -127,6 +131,7 @@ export type WeightsItem = {
     inputConnections: [] | string[],
     outputConnections: [] | string[],
     hints: [] | string[]
+    additional?: null
 }
 
 type DictionarySliceState = {
@@ -190,14 +195,6 @@ export type CorrelationBodyType = {
     matrix: number[][],
     correlationMethods: string[]
 }
-
-// export type ResultsType = {
-//     preference: [] | number[],
-//     method: string,
-//     extension: string,
-//     additional: AdditionalType,
-//     error: boolean | string,
-// }
 
 export type ResultsMethod = {
     method: string,
@@ -274,6 +271,7 @@ export type RankingCorrelationType = {
 }
 
 export type CalculationBodyType = {
+    matrixFiles: [] | File[],
     matrix: [] | number[][][],
     extensions: [] | string[],
     types: [] | string[][],
@@ -291,6 +289,7 @@ export type CalculationSliceState = {
     alternatives: number,
     criteria: number,
     calculationBody: CalculationBodyType,
+    matrixFileNames: [] | string[],
     loading: boolean,
     error: null | string
 }
@@ -313,7 +312,9 @@ export type BlocksSliceState = {
     activeBlock: null | MethodsItem | CorrelationsItem | DecisionMatrixItem | RankingItem | VisualizationItem | WeightsItem,
     clickedBlockId: null | number,
     draggedItem: null | string,
-    modalOpen: boolean
+    modalOpen: boolean,
+    modalType: null | string,
+    connectionToDelete: null | string[]
 }
 
 export default DictionarySliceState

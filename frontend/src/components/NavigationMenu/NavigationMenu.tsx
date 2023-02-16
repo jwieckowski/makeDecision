@@ -14,10 +14,11 @@ import AdbIcon from '@mui/icons-material/Adb';
 import { Link } from "react-router-dom";
 
 export default function NavigationMenu() {
-  const pages = ['Home', 'Calculations', 'About', 'Contact'];
+  const pages = ['Home', 'Calculations', 'Methods', 'About', 'Contact'];
   const urls = [
     '/home',
     '/calculation',
+    '/methods',
     '/about',
     '/contact'
   ]

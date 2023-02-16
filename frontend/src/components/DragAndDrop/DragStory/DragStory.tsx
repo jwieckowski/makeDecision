@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useMemo} from 'react'
 import {Grid, Box, Button} from '@mui/material'
 import Xarrow, {Xwrapper} from 'react-xarrows';
 import { useSelector } from 'react-redux'
@@ -12,7 +12,10 @@ import {
   deleteConnection,
   setConnections, 
   setActiveBlock,
-  setClickedBlockId
+  setClickedBlockId,
+  setModalOpen,
+  setModalType,
+  setConnectionToDelete
 } from '../../../redux/slices/blocksSlice';
 import { 
   getResults,
@@ -24,12 +27,13 @@ import {
   addBodyMethodRankings,
   addBodyRankingCorrelations,
   clearBody,
+  resetBody,
   resetResults
 } from '../../../redux/slices/calculationSlice';
 
 import {MethodType, MethodCorrelationType, MethodRankingType, RankingCorrelationType} from '../../../redux/types'
 
-import { getMethodData, getSingleItemByName } from '../../../utilities/filtering';
+import { getMethodData, getSingleItemByName, getFilteredMethods } from '../../../utilities/filtering';
 import { getNotConnectedBlocks } from '../../../utilities/blocks';
 import { BlockType } from '../../../redux/types';
 
@@ -41,11 +45,14 @@ import DraggableBox from '../DraggableBox'
 export default function DragStory() {
   // const { allMethods, methodItem, correlationItem, decisionMatrixItem, rankingItem, visualizationItem, weightItem } = useSelector((state: RootState) => state.dictionary)
   const { allMethods} = useSelector((state: RootState) => state.dictionary)
-  const { blocks, clickedBlocks, connections, draggedItem} = useSelector((state: RootState) => state.blocks)
-  const { results, calculationBody  } = useSelector((state: RootState) => state.calculation)
+  const { blocks, clickedBlocks, connections, draggedItem, activeBlock} = useSelector((state: RootState) => state.blocks)
+  const { results, calculationBody} = useSelector((state: RootState) => state.calculation)
   const dispatch = useAppDispatch()
 
-  console.log(results)
+  const crispMethods = useMemo(() => getFilteredMethods(getMethodData(allMethods, 'method'), 'crisp'), [])
+  const fuzzyMethods = useMemo(() => getFilteredMethods(getMethodData(allMethods, 'method'), 'fuzzy'), [])
+
+  // console.log(results)
 
   const handleClick = (e: React.MouseEvent<HTMLElement>, id: string, type: string, method: string) => {
     // e.preventDefault()
@@ -56,7 +63,12 @@ export default function DragStory() {
 
     allMethods.map(methods => {
       if (methods.key.toLowerCase().includes(type.toLowerCase())) {
-        dispatch(setActiveBlock(methods.data.filter(item => item.name.toLowerCase() === method.toLowerCase())[0]))
+        // dispatch(setActiveBlock(methods.data.filter(item => item.name.toLowerCase() === method.toLowerCase())[0]))
+        dispatch(setActiveBlock({
+          ...methods.data.filter(item => item.name.toLowerCase() === method.toLowerCase())[0],
+          id: +id
+        }
+        ))
       }
     })
   }
@@ -67,6 +79,7 @@ export default function DragStory() {
     dispatch(setConnections([]))
     dispatch(setBlocks([]))
     dispatch(resetResults())
+    dispatch(resetBody())
   }
   
   const handleCalculateClick = () => {
@@ -74,6 +87,8 @@ export default function DragStory() {
 
     // console.log(getNotConnectedBlocks(blocks, connections))
     
+    let matrixIndexes: [] | number[] = []
+
     // first step to check connections from matrix to weights
     const matrices = blocks.filter(block => block.type.includes('matrix'))
     if (matrices.length === 0) {
@@ -82,7 +97,7 @@ export default function DragStory() {
     }
 
     // for each matrix in structure do calculations
-    matrices.map(matrix => {
+    matrices.forEach((matrix, matrixIdx) => {
       const m = [
         [78, 56, 1],
         [4, 45, 97],
@@ -91,19 +106,25 @@ export default function DragStory() {
         [85, 9, 29]
       ]
       
-      dispatch(addBodyMatrix(m))
-      dispatch(addBodyExtension('crisp'))
-      dispatch(addBodyTypes([-1, 1, 1]))
-
+      
       let weightsItems: [] | BlockType[] = []
       let mcdaItems: [] | BlockType[][] = []
-
+      
       // add weights methods connected with given matrix
-      connections.map(connection => {
+      connections.forEach(connection => {
         if (connection[0] === matrix._id.toString()) {
           weightsItems = [...weightsItems, blocks.filter(block => block._id === +connection[1])[0]]
         }
       })
+      
+      if (weightsItems.length === 0) {
+        matrixIndexes = [...matrixIndexes, matrixIdx]
+        return
+      }
+      
+      dispatch(addBodyMatrix(m))
+      dispatch(addBodyTypes([-1, 1, 1]))
+
 
       // check mcda connections with weights
       weightsItems.map(w => {
@@ -116,11 +137,16 @@ export default function DragStory() {
         })
         // if no connection from weight then insert empty object
         if (!connections.map(c => c[0]).includes(w._id.toString())) {
-          mcdaTempItems = [...mcdaTempItems, { _id: -1, type: '', method: '', inputConnections: [], outputConnections: []}]
+          // mcdaTempItems = [...mcdaTempItems, { _id: -1, type: '', method: '', inputConnections: [], outputConnections: []}]
+          mcdaTempItems = []
         }
-        mcdaItems = [...mcdaItems, [...mcdaTempItems]]
+        if (mcdaTempItems.length > 0) {
+          mcdaItems = [...mcdaItems, [...mcdaTempItems]]
+        }
       })
-      
+
+      if (mcdaItems.length === 0) return
+
       let methodItem: MethodType[] = []
       weightsItems.map((item, index) => {
         mcdaItems[index].map(mcda => {
@@ -185,7 +211,9 @@ export default function DragStory() {
             })
           })
         })
-        methodRankingItem = [...methodRankingItem, methodRanking]
+        if (methodRanking.data.length > 0 ) {
+          methodRankingItem = [...methodRankingItem, methodRanking]
+        }
         
         // correlations connections -> (ranking -> correlation)
         const rankCorrConnections = connections.filter(c => c[0] === block._id.toString() && correlationBlocks.map(b => b._id).includes(+c[1]))
@@ -209,7 +237,9 @@ export default function DragStory() {
               })
             })
           })
-          rankingCorrelationItem = [...rankingCorrelationItem, rankingCorrelation]
+          if (rankingCorrelation.data.length > 0) {
+            rankingCorrelationItem = [...rankingCorrelationItem, rankingCorrelation]
+          }
         })
       })
       if (methodRankingItem.length > 0) {
@@ -220,9 +250,61 @@ export default function DragStory() {
       }
     })
     
-    dispatch(getResults(calculationBody))
+    const body = {
+      ...calculationBody,
+      extensions: calculationBody.extensions.filter((e, idx) => !matrixIndexes.includes(idx as never))
+    }
+    dispatch(getResults(body))
   }
-  console.log(calculationBody)
+
+  const handleArrowClick = (c: string[]) => {
+    dispatch(setModalType('connection'))
+    dispatch(setModalOpen(true))
+    dispatch(setConnectionToDelete(c))
+  }
+
+  const getBlocks = (type: string) => {
+    return blocks.filter(b => b.type.toLowerCase() === type)
+  }
+
+  const checkForWrongDataMethodConnection = () => {
+    // let indexes: [] | number[] = []
+    // let wrongConnections: [] | string[][] = []
+
+    getBlocks('matrix').forEach((matrix, idx) => {
+      // let wrong: [] | string[] = []
+      let weightsID: [] | string[] = []
+      // save weights id
+      connections.forEach(c => {
+        if (c[0] === matrix._id.toString()) {
+          weightsID = [...weightsID, c[1]]
+        }
+      })
+
+      // check weights to method connection
+      weightsID.forEach(w => {
+        connections.forEach(c => {
+          if (c[0] === w) {
+            const methodBlock = blocks.filter(b => b._id === +c[1])[0]
+            if (calculationBody.extensions[idx] === 'fuzzy') {
+              if (!fuzzyMethods.map(m => m.name.toLowerCase()).includes(methodBlock.method.toLowerCase())) {
+                window.alert(`Metoda ${methodBlock.method.toUpperCase()} nie może byc połączona z danymi w formie fuzzy. Połączenie zostanie usunięte`)
+                dispatch(deleteConnection(c))
+                // wrong = [...wrong, methodBlock.method]
+              }
+            }
+            // indexes = indexes.includes(idx as never) ? indexes : [...indexes, idx] 
+          } 
+        })
+        // wrongConnections = [...wrongConnections, wrong]
+      })
+    })
+    
+    // console.log(calculationBody.extensions.map((e, idx) => {
+    //   return { extension: e, index: idx }
+    // }).filter(e => indexes.includes(e.index as never)))
+    // console.log(wrongConnections)
+  }
 
   useEffect(() => {
     if (clickedBlocks.length === 2) {
@@ -230,6 +312,8 @@ export default function DragStory() {
             const inputBlock = blocks.filter(b => b._id === +clickedBlocks[0])[0]
             const outputBlock = blocks.filter(b => b._id === +clickedBlocks[1])[0]
 
+            if (inputBlock === undefined || outputBlock === undefined) return
+            
             if (outputBlock.inputConnections.includes(inputBlock.type as never)) {
               // check for only one ranking connection
               if (outputBlock.type === 'ranking') {
@@ -241,6 +325,24 @@ export default function DragStory() {
                 } else {
                   window.alert('Metodę można połączyć tylko z jednym rankingiem')
                 }
+              } else if (outputBlock.type === 'correlation') {
+                const requiredData = getSingleItemByName(getMethodData(allMethods, 'correlation'), outputBlock.method).requiredData
+                // method->correlation
+                if (requiredData.includes('preferences' as never)) {
+                  if (inputBlock.type !== 'method') {
+                    window.alert('Ta metoda korelacji służy do obliczenia podobieństw preferencji, nie rankingów')
+                  } else {
+                    dispatch(addConnection([clickedBlocks[0], clickedBlocks[1]]))
+                  }
+                }
+                // ranking-> correlation
+                if (requiredData.includes('ranking' as never)) {
+                  if (inputBlock.type !== 'ranking') {
+                    window.alert('Ta metoda korelacji służy do obliczenia podobieństw rankingów, nie preferencji')
+                  } else {
+                    dispatch(addConnection([clickedBlocks[0], clickedBlocks[1]]))
+                  }
+                }
               } else {
                 dispatch(addConnection([clickedBlocks[0], clickedBlocks[1]]))
               }
@@ -250,17 +352,40 @@ export default function DragStory() {
         }
         dispatch(setClickedBlocks([]))
     }
-  }, [clickedBlocks])
 
+    if (calculationBody.extensions.length === 0) return
+    checkForWrongDataMethodConnection()
+
+  }, [clickedBlocks])
+  
   useEffect(() => {
     const currentBlocks = blocks.map(b => b._id)
+
     clickedBlocks.map(b => {
         if (!currentBlocks.includes(+b)) {
             dispatch(deleteClickedBlock(b))
-            connections.map(c => c.includes(b) && dispatch(deleteConnection(c)))
         }
     })
+    connections.forEach(c => {
+      let blockId = null
+      if (!currentBlocks.includes(+c[0])) blockId = c[0]
+      else if (!currentBlocks.includes(+c[1])) blockId = c[1]
+
+      if (blockId !== null) {
+        dispatch(deleteConnection(c))
+      } 
+    })
+      
+    if (!currentBlocks.includes(activeBlock?.id as never)) {
+      dispatch(setActiveBlock(null))
+    }
   }, [blocks])
+
+  useEffect(() => {
+    if (calculationBody.extensions.length === 0) return
+
+    checkForWrongDataMethodConnection()
+  }, [calculationBody.extensions])
 
   return (
     <Grid
@@ -302,12 +427,19 @@ export default function DragStory() {
           {
           connections.map(c => {
               return (
-                <Xarrow start={c[0]} end={c[1]}/>
+                <Xarrow 
+                  start={c[0]} 
+                  end={c[1]}
+                  // strokeWidth={8}
+                  headSize={8}
+                  passProps= {{cursor: "pointer", onClick: () => handleArrowClick(c)}}
+                />
               )
-          })
+            })
           }
-        </Xwrapper>
+        </Xwrapper>  
       </Grid>
+      
     </Grid>
   )
 }

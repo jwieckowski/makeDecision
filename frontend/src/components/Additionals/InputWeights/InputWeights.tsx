@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react'
 import { useSelector } from 'react-redux'
 
-import {RootState } from '../../redux/index'
+import {RootState } from '../../../redux/index'
 import {Box, Grid, Typography, TextField } from '@mui/material'
 
 type ParamType = {
     extension: string
 }
 
-export default function Weights({extension}: ParamType) {
+export default function InputWeights({extension}: ParamType) {
     const {criteria} = useSelector((state: RootState) => state.calculation)
     const [userWeights, setUserWeights] = useState<string[]>([])
     const [error, setError] = useState<null | string>(null)

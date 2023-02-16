@@ -1,4 +1,7 @@
-import { AllMethodsItem, MethodsItem } from "../redux/types"
+import { 
+    AllMethodsItem, 
+    MethodAdditional
+} from "../redux/types"
 
 export const filterMethodsType = (data: [] | AllMethodsItem[], type: string) => {
     return data.filter(d => d.type === type)
@@ -19,9 +22,10 @@ export const getSingleItemByName = (data: AllMethodsItem, name: string) => {
 export const getFilteredMethods = (array: AllMethodsItem, extension: string) => {
     return array.data.filter(a => a.extensions.includes(extension as never))
 }
-export const getAdditionalParameters = (methodItem: MethodsItem | null, extension: string) => {
-    if (methodItem === null) return []
-    return methodItem?.additional.filter(a => a.extension === extension)
+
+export const getAdditionalParameters = (additional: MethodAdditional[] | null | undefined, extension: string) => {
+    if (additional === null || additional === undefined) return []
+    return additional.filter(a => a.extension === extension)
 }
 
 export const removeFirst = (src: string[], element: string) => {

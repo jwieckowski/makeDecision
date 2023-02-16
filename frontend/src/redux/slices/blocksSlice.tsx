@@ -8,7 +8,9 @@ const initialState: BlocksSliceState = {
   activeBlock: null,
   clickedBlockId: null,
   draggedItem: null,
-  modalOpen: false
+  modalOpen: false,
+  modalType: null,
+  connectionToDelete: null
 }
 
 const blocksSlice = createSlice({
@@ -30,6 +32,12 @@ const blocksSlice = createSlice({
     setModalOpen: (state, action) => {
       state.modalOpen = action.payload
     },
+    setModalType: (state, action) => {
+      state.modalType = action.payload
+    },
+    setConnectionToDelete: (state, action) => {
+      state.connectionToDelete = action.payload
+    },
     setClickedBlocks: (state, action) => {
       state.clickedBlocks = action.payload
     },
@@ -47,6 +55,7 @@ const blocksSlice = createSlice({
     },
     deleteConnection: (state, action) => {
       state.connections = state.connections.filter(connection => !((connection[0] === action.payload[0]) && (connection[1] === action.payload[1])))
+      if (state.connectionToDelete !== null) state.connectionToDelete = null
     },
     setConnections: (state, action) => {
       state.connections = action.payload
@@ -74,7 +83,9 @@ export const {
   deleteConnection,
   setConnections,
   setModalOpen,
+  setModalType,
   setActiveBlock,
-  setClickedBlockId
+  setClickedBlockId,
+  setConnectionToDelete
 } = actions;
 export default reducer;

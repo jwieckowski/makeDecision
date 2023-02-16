@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import { useSelector } from 'react-redux'
 
-import {RootState } from '../../redux/index'
+import {RootState } from '../../../redux/index'
 import {Box, Grid, Typography, FormControl, InputLabel, MenuItem } from '@mui/material'
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
@@ -28,11 +28,11 @@ export default function CriteriaTypes() {
         <Box>
             <Grid container spacing={1} alignItems="center" justifyContent="center" sx={{mt: 4}}>
                 <Grid container item spacing={3}>
-                    <Box sx={{width: '100%', display: 'flex', flexDirection: 'row', gap:2, margin: '10px'}} >
+                    <Box sx={{width: '100%', display: 'flex', flexDirection: 'row', gap:5, margin: '10px'}} >
                         {(criteria < 12) && <Grid item xs={(12-criteria)/2}></Grid>}
                         {Array(criteria).fill(0).map((_, col) => {
                             return (
-                                <Grid key={`weight-${col}`} item xs={1}>
+                                <Grid key={`weight-${col}`} item xs={2}>
                                     <FormControl fullWidth>
                                         <InputLabel id="demo-simple-select-label">Type</InputLabel>
                                         <Select

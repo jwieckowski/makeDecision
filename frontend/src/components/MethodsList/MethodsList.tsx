@@ -7,12 +7,13 @@ import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 
-import { queryChange } from '../../redux/slices/searchSlice';
-import { fetchAllMethods } from '../../redux/slices/dictionarySlice'
 import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from '../../redux';
 import { AllMethodsItem } from '../../redux/types'
 import { addBlock } from '../../redux/slices/blocksSlice'
+import { fetchAllMethods } from '../../redux/slices/dictionarySlice'
+import { queryChange } from '../../redux/slices/searchSlice';
+import { addBodyExtension } from '../../redux/slices/calculationSlice';
 
 export default function MethodsList() {
   const dispatch = useAppDispatch()
@@ -46,6 +47,10 @@ export default function MethodsList() {
       outputConnections
     }
     dispatch(addBlock(block))
+
+    if (type.includes('matrix')) {
+      dispatch(addBodyExtension({id: -1, extension: 'crisp'}))
+    }
   }
 
   const filteredData: [] | AllMethodsItem[] = useMemo(() => {

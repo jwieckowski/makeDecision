@@ -1,18 +1,15 @@
 import React, {useEffect, useState} from 'react'
 import { useSelector } from 'react-redux'
 
-import {RootState, useAppDispatch } from '../../redux/index'
-import { setAlternatives, setCriteria } from '../../redux/slices/calculationSlice'
-import {Box, Grid, Typography, TextField } from '@mui/material'
+import {RootState } from '../../../redux/index'
+import {Box, Grid, TextField } from '@mui/material'
 
 
 type ParamType = {
     extension: string
 }
-
   
-export default function Matrix({extension} : ParamType) {
-    const dispatch = useAppDispatch()
+export default function InputMatrix({extension} : ParamType) {
     const {alternatives, criteria} = useSelector((state: RootState) => state.calculation)
     const [matrix, setMatrix] = useState<string[][]>([])
 
@@ -54,13 +51,6 @@ export default function Matrix({extension} : ParamType) {
         setMatrix(copy);
     }
 
-    function changeAlternatives(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) {
-        dispatch(setAlternatives(+e.target.value >= 0 ? +e.target.value : 0))
-    }
-
-    function changeCriteria(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) {
-        dispatch(setCriteria(+e.target.value >= 0 ? +e.target.value : 0))
-    }
 
     useEffect(() => {
         if (extension === 'crisp') setMatrix(Array(alternatives).fill(null).map(()=>Array(criteria).fill('0')))
@@ -68,28 +58,19 @@ export default function Matrix({extension} : ParamType) {
     }, [alternatives, criteria, extension])
       
     return (
-        <Box sx={{m: 4}}>
-            <Typography textAlign='center' sx={{m:2}}>
-                Matrix
-            </Typography>
-            <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 10, m: 2}}>
-                <Typography>Alternatives</Typography>
-                <TextField value={alternatives} id="outlined-basic" label="Outlined" variant="outlined" type='number' onChange={(e) => changeAlternatives(e)} />
-                <Typography>Criteria</Typography>
-                <TextField value={criteria} id="outlined-basic" label="Outlined" variant="outlined" type='number' onChange={(e) => changeCriteria(e)}/>
-            </Box>
+        <Box sx={{minWidth: '100%', maxWidth: '50vw', maxHeight: '40vh', overflow: 'auto'}}>
 
             <Box>
                 <Grid container spacing={1} alignItems="center" justifyContent="center" sx={{mt: 4}}>
                     <Grid container item spacing={3}>
                         {(matrix.length > 0 && matrix[0].length > 0) && Array(alternatives).fill(0).map((_, row) => {
                             return (
-                                <Box sx={{width: '100%', display: 'flex', flexDirection: 'row', gap:2, margin: '10px'}} >
+                                <Box sx={{width: '100%', display: 'flex', flexDirection: 'row', gap:5, margin: '10px'}} >
                                     {(criteria < 12) && <Grid item xs={(12-criteria)/2}></Grid>}
                                     {Array(criteria).fill(0).map((_, col) => {
                                         return (
-                                            <Grid key={`row-${row}-${col}`} item xs={1}>
-                                                <TextField 
+                                            <Grid key={`row-${row}-${col}`} item xs={2}>
+                                                <TextField
                                                     key={`${row}-${col}`} 
                                                     value={matrix.length === alternatives ? matrix[row][col]: '0'}
                                                     onChange={(e) => handleInputChange(e, row, col)}

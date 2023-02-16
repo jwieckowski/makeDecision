@@ -16,7 +16,7 @@ type MetricsType = {
 }
 
 export default function Metrics({extension, method, parameter}: MetricsType) {
-    const [metric, setMetric] = useState<string>('')
+  const [metric, setMetric] = useState<string>('')
   const { allMethods } = useSelector((state: RootState) => ({ ...state.dictionary }));
 
   useEffect(() => {
@@ -56,5 +56,6 @@ export default function Metrics({extension, method, parameter}: MetricsType) {
             </FormControl>
         </Box>
     : <></>
+    // <></>
 )
 }
