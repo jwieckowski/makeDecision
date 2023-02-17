@@ -1,6 +1,7 @@
 import React, {useEffect, useMemo} from 'react'
 import {Grid, Box, Button} from '@mui/material'
 import Xarrow, {Xwrapper} from 'react-xarrows';
+import { useSnackbar } from 'notistack'
 import { useSelector } from 'react-redux'
 import { RootState, useAppDispatch } from '../../../redux';
 import { 
@@ -48,9 +49,11 @@ export default function DragStory() {
   const { blocks, clickedBlocks, connections, draggedItem, activeBlock} = useSelector((state: RootState) => state.blocks)
   const { results, calculationBody} = useSelector((state: RootState) => state.calculation)
   const dispatch = useAppDispatch()
+  const { enqueueSnackbar } = useSnackbar();
 
   const crispMethods = useMemo(() => getFilteredMethods(getMethodData(allMethods, 'method'), 'crisp'), [])
   const fuzzyMethods = useMemo(() => getFilteredMethods(getMethodData(allMethods, 'method'), 'fuzzy'), [])
+  const HIDE_DURATION = 4000
 
   // console.log(results)
 
@@ -63,7 +66,6 @@ export default function DragStory() {
 
     allMethods.map(methods => {
       if (methods.key.toLowerCase().includes(type.toLowerCase())) {
-        // dispatch(setActiveBlock(methods.data.filter(item => item.name.toLowerCase() === method.toLowerCase())[0]))
         dispatch(setActiveBlock({
           ...methods.data.filter(item => item.name.toLowerCase() === method.toLowerCase())[0],
           id: +id
@@ -92,7 +94,7 @@ export default function DragStory() {
     // first step to check connections from matrix to weights
     const matrices = blocks.filter(block => block.type.includes('matrix'))
     if (matrices.length === 0) {
-      window.alert('No input data given')
+      enqueueSnackbar('No input data given', {variant: 'error', 'autoHideDuration': HIDE_DURATION});
       return
     }
 
@@ -284,7 +286,8 @@ export default function DragStory() {
             const methodBlock = blocks.filter(b => b._id === +c[1])[0]
             if (calculationBody.extensions[idx] === 'fuzzy') {
               if (!fuzzyMethods.map(m => m.name.toLowerCase()).includes(methodBlock.method.toLowerCase())) {
-                window.alert(`Metoda ${methodBlock.method.toUpperCase()} nie może byc połączona z danymi w formie fuzzy. Połączenie zostanie usunięte`)
+                // window.alert(`Metoda ${methodBlock.method.toUpperCase()} nie może byc połączona z danymi w formie fuzzy. Połączenie zostanie usunięte`)
+                enqueueSnackbar(`Metoda ${methodBlock.method.toUpperCase()} nie może byc połączona z danymi w formie fuzzy. Połączenie zostanie usunięte`, {variant: 'error', 'autoHideDuration': HIDE_DURATION});
                 dispatch(deleteConnection(c))
               }
             }
@@ -311,14 +314,17 @@ export default function DragStory() {
                 if (outConnections.filter(c => rankingBlocks.map(b => b._id).includes(+c)).length === 0) {
                   dispatch(addConnection([clickedBlocks[0], clickedBlocks[1]]))
                 } else {
-                  window.alert('Metodę można połączyć tylko z jednym rankingiem')
+                  // window.alert('Metodę można połączyć tylko z jednym rankingiem')
+                  enqueueSnackbar('Metodę można połączyć tylko z jednym rankingiem', {variant: 'error', 'autoHideDuration': HIDE_DURATION});
+                  
                 }
               } else if (outputBlock.type === 'correlation') {
                 const requiredData = getSingleItemByName(getMethodData(allMethods, 'correlation'), outputBlock.method).requiredData
                 // method->correlation
                 if (requiredData.includes('preferences' as never)) {
                   if (inputBlock.type !== 'method') {
-                    window.alert('Ta metoda korelacji służy do obliczenia podobieństw preferencji, nie rankingów')
+                    // window.alert('Ta metoda korelacji służy do obliczenia podobieństw preferencji, nie rankingów')
+                    enqueueSnackbar('Ta metoda korelacji służy do obliczenia podobieństw preferencji, nie rankingów', {variant: 'error', 'autoHideDuration': HIDE_DURATION});
                   } else {
                     dispatch(addConnection([clickedBlocks[0], clickedBlocks[1]]))
                   }
@@ -326,7 +332,8 @@ export default function DragStory() {
                 // ranking-> correlation
                 if (requiredData.includes('ranking' as never)) {
                   if (inputBlock.type !== 'ranking') {
-                    window.alert('Ta metoda korelacji służy do obliczenia podobieństw rankingów, nie preferencji')
+                    // window.alert('Ta metoda korelacji służy do obliczenia podobieństw rankingów, nie preferencji')
+                    enqueueSnackbar('Ta metoda korelacji służy do obliczenia podobieństw rankingów, nie preferencji', {variant: 'error', 'autoHideDuration': HIDE_DURATION});
                   } else {
                     dispatch(addConnection([clickedBlocks[0], clickedBlocks[1]]))
                   }
@@ -335,7 +342,8 @@ export default function DragStory() {
                 dispatch(addConnection([clickedBlocks[0], clickedBlocks[1]]))
               }
             } else {
-              window.alert('Nie można połączyć bloczków')
+              // window.alert('Nie można połączyć bloczków')
+              enqueueSnackbar('Nie można połączyc bloczków', {variant: 'error', 'autoHideDuration': HIDE_DURATION});
             }
         }
         dispatch(setClickedBlocks([]))

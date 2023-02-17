@@ -4,6 +4,7 @@ import {
   Route,
   Navigate
 } from 'react-router-dom';
+import { SnackbarProvider} from 'notistack';
 
 import Layout from '../Layout'
 
@@ -16,16 +17,18 @@ import Contact from '../ContactPage';
 function App() {
 return (
   <BrowserRouter>
-    <Layout>
-      <Routes>
-        <Route path='/home' element={<Home />}/>
-        <Route path='/calculation' element={<Calculation />}/>
-        <Route path='/methods' element={<Methods />}/>
-        <Route path='/about' element={<About />}/>
-        <Route path='/contact' element={<Contact />}/>
-        <Route path="*" element={<Navigate to='/home' replace={true} />} />
-      </Routes>
-    </Layout>
+    <SnackbarProvider maxSnack={4}>
+      <Layout>
+        <Routes>
+          <Route path='/home' element={<Home />}/>
+          <Route path='/calculation' element={<Calculation />}/>
+          <Route path='/methods' element={<Methods />}/>
+          <Route path='/about' element={<About />}/>
+          <Route path='/contact' element={<Contact />}/>
+          <Route path="*" element={<Navigate to='/home' replace={true} />} />
+        </Routes>
+      </Layout>
+    </SnackbarProvider>
   </BrowserRouter>
 );
 }
