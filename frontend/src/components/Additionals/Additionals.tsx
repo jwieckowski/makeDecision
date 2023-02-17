@@ -2,10 +2,11 @@ import React from 'react'
 import { useSelector } from 'react-redux';
 
 import { RootState, useAppDispatch } from '../../redux';
-import { Box, Typography } from '@mui/material'
+import { Box, Typography, Button } from '@mui/material'
 import { addMethodParameters } from '../../redux/slices/calculationSlice'
 
 import { getAdditionalParameters } from '../../utilities/filtering';
+import { setModalOpen } from '../../redux/slices/blocksSlice';
 
 import Extension from './Extension'
 import Metrics from './Metrics'
@@ -109,9 +110,10 @@ export default function Additionals() {
     // }
     // dispatch(addMethodParameters(body))
   }
+  
   return (
-    <Box sx={{width: '100%', margin: 'auto', border: '1px solid black', borderRadius: 2, p: 4}}>
-        <Box sx={{m: 1}}>
+    <Box sx={{width: '100%', margin: 'auto', border: '1px solid black', borderRadius: 2, p: 2}}>
+        <Box>
           <Typography textAlign='center' variant='h6'>
             {activeBlock?.name.toUpperCase()}
           </Typography>
@@ -124,18 +126,38 @@ export default function Additionals() {
         { (checkBlockType('matrix') && (checkBlockName('input') || checkBlockName('random'))) && <CriteriaAlternatives/>}
         { (checkBlockType('matrix') && checkBlockName('input')) && <InputMatrix extension='crisp'/>}
         { (checkBlockType('matrix') && (checkBlockName('input') || checkBlockName('random'))) && <CriteriaTypes/>}
+        { (checkBlockType('matrix') && (checkBlockName('input') || checkBlockName('random'))) && 
+          <Box sx={{width: '100%', display: 'flex', justifyContent:'end'}}>
+            <Button onClick={() => dispatch(setModalOpen(false))}>
+              <Typography color='black'>
+                Zapisz
+              </Typography>
+            </Button>
+          </Box>
+        } 
         { (checkBlockType('matrix') && checkBlockName('file')) && <UploadFile id={getNumberOfFileMatrix()}/>}
         
         {/* WEIGHTS TYPE */}
         { (checkBlockType('weights') && checkBlockName('input')) && 
           getWeightsConnectedBlocksExtensions().map(extension => {
-            return <Box>
-              <Typography>Matrix: {extension.index}</Typography>
-              <Typography>Extension: {extension.extension}</Typography>
-              <InputWeights extension={extension.extension}/>
-            </Box>
+            return (
+              <Box>
+                <Typography>Matrix: {extension.index}</Typography>
+                <Typography>Extension: {extension.extension}</Typography>
+                <InputWeights extension={extension.extension}/>
+              </Box>
+            )
           })
         }
+        { (checkBlockType('weights') && checkBlockName('input')) && 
+          <Box sx={{width: '100%', display: 'flex', justifyContent:'end'}}>
+            <Button onClick={() => dispatch(setModalOpen(false))}>
+              <Typography color='black'>
+                Zapisz
+              </Typography>
+            </Button>
+          </Box>
+        } 
 
         {/* METHOD TYPE */}
         { checkBlockType('method') &&

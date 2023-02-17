@@ -10,19 +10,33 @@ export default function CriteriaAlternatives() {
     const {alternatives, criteria} = useSelector((state: RootState) => state.calculation)
 
     function changeAlternatives(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) {
-        dispatch(setAlternatives(+e.target.value >= 0 ? +e.target.value : 0))
+        dispatch(setAlternatives(+e.target.value >= 0 ? +e.target.value > 20 ? 20 : +e.target.value: 0 ))
     }
 
     function changeCriteria(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) {
-        dispatch(setCriteria(+e.target.value >= 0 ? +e.target.value : 0))
+        dispatch(setCriteria(+e.target.value >= 0 ? +e.target.value > 15 ? 15 : +e.target.value: 0 ))
     }
 
     return (
         <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 10, m: 2}}>
-            <Typography>Alternatives</Typography>
-            <TextField value={alternatives} id="outlined-basic" label="Outlined" variant="outlined" type='number' onChange={(e) => changeAlternatives(e)} />
-            <Typography>Criteria</Typography>
-            <TextField value={criteria} id="outlined-basic" label="Outlined" variant="outlined" type='number' onChange={(e) => changeCriteria(e)}/>
+            <TextField 
+                style={{width: '100px'}}
+                value={alternatives} 
+                id="alternatives-input" 
+                label="Alternatives"
+                variant="outlined"
+                type='number'
+                onChange={(e) => changeAlternatives(e)}
+                />
+            <TextField 
+                style={{width: '100px'}}
+                value={criteria}
+                id="criteria-input"
+                label="Criteria"
+                variant="outlined"
+                type='number'
+                onChange={(e) => changeCriteria(e)}
+            />
         </Box>
     )
 }

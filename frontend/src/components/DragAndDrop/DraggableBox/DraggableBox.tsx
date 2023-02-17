@@ -102,7 +102,7 @@ export default function DraggableBox({id, type, method, handleClick}: BoxType) {
                 <Box style={{width: '100%', height: '20%', display: 'flex', justifyContent: 'end'}} id='settings'>
                     { (type.toLowerCase() === 'matrix' && method.toLowerCase() === 'file' && matrixFileNames.length > 0) &&
                         <Typography variant='body2' textAlign='start'>
-                            {matrixFileNames[getNumberOfFileMatrix()].split('.')[1]} file
+                            {matrixFileNames[getNumberOfFileMatrix()] !== undefined && matrixFileNames[getNumberOfFileMatrix()].split('.')[1]} file
                         </Typography>
                     }
                     { type.toLowerCase() === 'matrix' && 
@@ -110,7 +110,7 @@ export default function DraggableBox({id, type, method, handleClick}: BoxType) {
                             <SettingsIcon />
                         </IconButton>
                     }
-                    { (type.toLowerCase() === 'weights' && ((getBlockInputConnections().length > 1 && type.toLowerCase() !== 'input') || (getBlockInputConnections().length > 1 && method.toLowerCase() === 'input'))) && 
+                    { (type.toLowerCase() === 'weights' && ((getBlockInputConnections().length > 1 && type.toLowerCase() !== 'input') || (getBlockInputConnections().length > 0 && method.toLowerCase() === 'input'))) && 
                         <IconButton onClick={(e) => handleSettingsClick(e)}>
                             <SettingsIcon />
                         </IconButton>

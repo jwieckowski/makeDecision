@@ -58,21 +58,23 @@ export default function InputWeights({extension}: ParamType) {
 
   return (
     <Box sx={{m: 4}}>
-        <Typography textAlign='center' sx={{m:2}}>
+        <Typography textAlign='center' sx={{m: 2}}>
             Weights
         </Typography>
-        <Box>
+        <Box sx={{width: '100%', maxWidth: '50vw', overflow: 'auto'}}>
             <Grid container spacing={1} alignItems="center" justifyContent="center" sx={{mt: 4}}>
                 <Grid container item spacing={3}>
-                    <Box sx={{width: '100%', display: 'flex', flexDirection: 'row', gap:2, margin: '10px'}} >
+                    <Box sx={{width: '100%', display: 'flex', flexDirection: 'row', gap:4, margin: '10px'}} >
                         {(criteria < 12) && <Grid item xs={(12-criteria)/2}></Grid>}
                         {Array(criteria).fill(0).map((_, col) => {
                             return (
-                                <Grid key={`weight-${col}`} item xs={1}>
-                                    <TextField 
+                                <Grid key={`weight-${col}`} item xs={2}>
+                                    <TextField
+                                        style={{width: '80px'}}
                                         key={`${col}`} 
                                         value={userWeights.length === criteria ? userWeights[col]: '0'}
                                         onChange={(e) => handleInputChange(e, col)}
+                                        label={`C${col+1}`}
                                     />
                                 </Grid>
                             )

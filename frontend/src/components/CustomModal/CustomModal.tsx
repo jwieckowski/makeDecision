@@ -15,10 +15,12 @@ const style = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   minWidth: 400,
+  maxWidth: 700,
   bgcolor: 'background.paper',
   border: '2px solid #000',
+  borderRadius: 5,
   boxShadow: 24,
-  p: 4,
+  p: 2,
 };
 
 export default function CustomModal() {

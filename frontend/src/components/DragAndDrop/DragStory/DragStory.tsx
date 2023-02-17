@@ -268,11 +268,7 @@ export default function DragStory() {
   }
 
   const checkForWrongDataMethodConnection = () => {
-    // let indexes: [] | number[] = []
-    // let wrongConnections: [] | string[][] = []
-
     getBlocks('matrix').forEach((matrix, idx) => {
-      // let wrong: [] | string[] = []
       let weightsID: [] | string[] = []
       // save weights id
       connections.forEach(c => {
@@ -290,20 +286,12 @@ export default function DragStory() {
               if (!fuzzyMethods.map(m => m.name.toLowerCase()).includes(methodBlock.method.toLowerCase())) {
                 window.alert(`Metoda ${methodBlock.method.toUpperCase()} nie może byc połączona z danymi w formie fuzzy. Połączenie zostanie usunięte`)
                 dispatch(deleteConnection(c))
-                // wrong = [...wrong, methodBlock.method]
               }
             }
-            // indexes = indexes.includes(idx as never) ? indexes : [...indexes, idx] 
           } 
         })
-        // wrongConnections = [...wrongConnections, wrong]
       })
     })
-    
-    // console.log(calculationBody.extensions.map((e, idx) => {
-    //   return { extension: e, index: idx }
-    // }).filter(e => indexes.includes(e.index as never)))
-    // console.log(wrongConnections)
   }
 
   useEffect(() => {
