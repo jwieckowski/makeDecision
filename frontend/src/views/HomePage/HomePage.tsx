@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import { useSelector } from 'react-redux';
 import { fetchAllMethods} from '../../redux/slices/dictionarySlice'
+import { getHomeDescriptions } from '../../redux/slices/descriptionSlice'
 import { RootState, useAppDispatch } from '../../redux';
 
-import {Box} from '@mui/material'
-import MarkdownText from '../../components/MarkdownText';
+import {Box, Typography} from '@mui/material'
 
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -14,6 +14,7 @@ import Switch from '@mui/material/Switch';
 
 export default function HomePage() {
   const { allMethods } = useSelector((state: RootState) => ({ ...state.dictionary }));
+  const { home } = useSelector((state: RootState) => ({ ...state.description }));
   const dispatch = useAppDispatch()
 
   const [userWeights, setUserWeights] = useState<boolean>(false)
@@ -21,22 +22,20 @@ export default function HomePage() {
 
   useEffect(() => {
     if (allMethods.length === 0) dispatch(fetchAllMethods())
+    if (home.length === 0) dispatch(getHomeDescriptions())
   }, [])
-
-  const texts: string[] = [
-    `The **lift** coefficient ($C_L$) is a dimensionless coefficient.`,
-    `$$\\frac{1}{2} \\rho v^2 S C_L$$`,
-    `Hello`,
-    `$$ \\frac{\\partial \\rho}{\\partial t} + \\nabla \\cdot \\vec{j} = 0 \\,.$$`
-  ]
 
   return (
     <Box>
       Home Page
-      <Box>
-        {texts.map((text, idx) => {
+      <Box sx={{width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+        {home.map(t => {
           return (
-            <MarkdownText text={text} key={idx}/> 
+            <Box sx={{width: '60%', m: 2}}>
+              <Typography key={t.id}>
+                {t.text}
+              </Typography>
+            </Box>
           )
         })}
       </Box>

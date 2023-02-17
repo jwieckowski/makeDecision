@@ -1,12 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import { useSelector } from 'react-redux';
-import { fetchAllMethods} from '../../redux/slices/dictionarySlice'
+import { getMethodsDescriptions } from '../../redux/slices/descriptionSlice'
 import { RootState, useAppDispatch } from '../../redux';
 
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { Box} from '@mui/material'
 import Typography from '@mui/material/Typography';
+
+import MarkdownText from '../../components/MarkdownText';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -44,7 +46,7 @@ function a11yProps(index: number) {
 
 
 export default function MethodsPage() {
-  const { allMethods } = useSelector((state: RootState) => ({ ...state.dictionary }));
+  const { methods } = useSelector((state: RootState) => ({ ...state.description }));
   const dispatch = useAppDispatch()
   const [value, setValue] = React.useState(0);
 
@@ -52,12 +54,23 @@ export default function MethodsPage() {
     setValue(newValue);
   };
 
+  useEffect(() => {
+    if (methods.length === 0) dispatch(getMethodsDescriptions())
+  }, [])
+
 
   return (
     <Box>
       Methods Page
+      {methods.length > 0 && 
+        <Box sx={{width: '50%', margin: '1% 25%'}}>
+          {methods[0].data[0].description.map(d => {
+            return <MarkdownText text={d.text} key={d.id} />
+          })}
+        </Box>
+      }
 
-      <Box sx={{width: '80%', margin: '1% 10%'}}>
+      {/* <Box sx={{width: '80%', margin: '1% 10%'}}>
         <Box
           sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: 600 }}
         >
@@ -77,10 +90,10 @@ export default function MethodsPage() {
           </Tabs>
         
 
-          {/* <TabPanel value={value} >
+          <TabPanel value={value} >
             
-          // </TabPanel> */}
-          {/* <TabPanel value={value} index={1}>
+          // </TabPanel>
+          <TabPanel value={value} index={1}>
           //   Item Two
           // </TabPanel>
           // <TabPanel value={value} index={2}>
@@ -97,9 +110,9 @@ export default function MethodsPage() {
           // </TabPanel>
           // <TabPanel value={value} index={6}>
           //   Item Seven
-          // </TabPanel> */}
+          // </TabPanel>
         </Box>
-      </Box>
+      </Box> */}
     </Box>
   );
 }
