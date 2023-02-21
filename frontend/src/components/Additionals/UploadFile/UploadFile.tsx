@@ -4,26 +4,34 @@ import {Box, Typography} from '@mui/material'
 import IconButton from '@mui/material/IconButton';
 import CloudUpload from '@mui/icons-material/CloudUpload'
 
-
 import {useSelector} from 'react-redux'
 import { RootState, useAppDispatch } from '../../../redux';
-import { addMatrixFile, addMatrixFileName } from '../../../redux/slices/calculationSlice';
+import { useSnackbar } from 'notistack'
+import { addMatrixFile, addMatrixFileName, setCriteria } from '../../../redux/slices/calculationSlice';
+import { setBlockMatrixFile } from '../../../redux/slices/blocksSlice'
 
-type UploadFileProps = {
-  id: number
-}
-
-export default function UploadFile({id} : UploadFileProps) {
+export default function UploadFile() {
+  // const [nameId, setNameId] = useState<number>(0)
   const {matrixFileNames} = useSelector((state: RootState) => state.calculation)
+  const {activeBlock} = useSelector((state: RootState) => state.blocks)
   const dispatch = useAppDispatch()
+  const { enqueueSnackbar } = useSnackbar();
+  const HIDE_DURATION = 4000
   
+  // const getNumberOfFileMatrix = () => {
+  //   return blocks.filter(b => b.type.toLowerCase() === 'matrix' && b.method.toLowerCase() === 'file').map(b => b._id === id).indexOf(true)
+  // }
+
   const getMatrixFileName = () => {
-    return matrixFileNames.length < id+1 ? '' : matrixFileNames[id]
+    if (activeBlock?.id === undefined) return ''
+    // setNameactiveBlock?.Id(getNumberOfFileMatrix())
+    return matrixFileNames.length < activeBlock?.id+1 ? '' : matrixFileNames[activeBlock?.id]
   }
+
 
   const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      dispatch(addMatrixFileName({name: e.target.files[0].name, id: id}))
+      dispatch(addMatrixFileName({name: e.target.files[0].name, id: activeBlock?.id}))
 
       // FOR JSON FILES
       if (e.target.files[0].type.includes('json')) {
@@ -31,7 +39,23 @@ export default function UploadFile({id} : UploadFileProps) {
         fileReader.readAsText(e.target.files[0], "UTF-8");
         fileReader.onload = e => {
           if (e !== null && e.target !== null) {
+            const data = JSON.parse(e.target.result as string)
+            // verify if json has required keys
+            if (!Object.keys(data).includes('matrix')) {
+              enqueueSnackbar(`Uploaded JSON file does not contain "matrix" key`, {variant: 'error', 'autoHideDuration': HIDE_DURATION});
+              return
+            }
+            if (!Object.keys(data).includes('criteriaTypes')) {
+              enqueueSnackbar(`Uploaded JSON file does not contain "criteriaTypes" key`, {variant: 'error', 'autoHideDuration': HIDE_DURATION});
+              return
+            }
+            
+            if (data.matrix.length > 0) dispatch(setCriteria(data.matrix[0].length))
             dispatch(addMatrixFile(e.target.result))
+            dispatch(setBlockMatrixFile({
+              id: activeBlock?.id,
+              data: e.target.result
+            }))
           }
         };
       }
@@ -42,22 +66,47 @@ export default function UploadFile({id} : UploadFileProps) {
         reader.onload = function(e) {
           // Use reader.result
           // alert(reader.result)
+          if (reader.result?.toString() === undefined) return
+          if (reader.result?.toString().split('\r\n').length > 0) dispatch(setCriteria(reader.result?.toString().split('\r\n')[0].split(', ').length))
+          else {
+            enqueueSnackbar(`Uploaded CSV file is empty`, {variant: 'error', 'autoHideDuration': HIDE_DURATION});
+            return
+          }
+
           dispatch(addMatrixFile(reader.result))
+          dispatch(setBlockMatrixFile({
+            id: activeBlock?.id,
+            data: reader.result
+          }))
         }
         reader.readAsText(e.target.files[0]);
       }
-
+      
       // FOR XLSX FILES
       if (e.target.files[0].type.includes('sheet')) {
         const file = e.target.files[0];
         const data = await file.arrayBuffer();
         const workbook = XLSX.read(data);
         const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-        const jsonData = XLSX.utils.sheet_to_json(worksheet, {
+        const jsonData: number[][] = XLSX.utils.sheet_to_json(worksheet, {
           header: 1,
           defval: "",
         });
+        
+        if (jsonData.length > 0) {
+          if (jsonData[0].length > 0) {
+            dispatch(setCriteria(jsonData[0].length))
+          }
+        } else {
+          enqueueSnackbar(`Uploaded XLSX file is empty`, {variant: 'error', 'autoHideDuration': HIDE_DURATION});
+          return
+        }
+
         dispatch(addMatrixFile(jsonData))
+        dispatch(setBlockMatrixFile({
+          id: activeBlock?.id,
+          data: JSON.stringify(jsonData)
+        }))
       }
     }
   };

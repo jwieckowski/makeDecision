@@ -1,38 +1,45 @@
 import React, {useEffect, useState} from 'react'
 import { useSelector } from 'react-redux'
 
-import {RootState } from '../../../redux/index'
 import {Box, Grid, Typography, TextField } from '@mui/material'
+import {RootState, useAppDispatch } from '../../../redux/index'
+import {setBlockWeights} from '../../../redux/slices/blocksSlice'
 
 type ParamType = {
     extension: string
 }
 
 export default function InputWeights({extension}: ParamType) {
+    const dispatch = useAppDispatch()
     const {criteria} = useSelector((state: RootState) => state.calculation)
+    const {activeBlock, blocks} = useSelector((state: RootState) => state.blocks)
     const [userWeights, setUserWeights] = useState<string[]>([])
-    const [error, setError] = useState<null | string>(null)
 
     useEffect(() => {
         if (extension === 'crisp') setUserWeights(Array(criteria).fill('0'))
         if (extension === 'fuzzy') setUserWeights(Array(criteria).fill('0, 0, 0'))
     }, [criteria, extension])
 
+    useEffect(() => {
+        if (activeBlock?.id === undefined) return
+        const block = blocks.filter(b => b._id === activeBlock?.id)
+        if (block[0].data.weights.length === 0) return 
+
+        if (criteria > 0) {
+            
+            let copy = Array(criteria).fill('0')
+            copy = copy.map((r, idx) => {
+                return idx < block[0].data.weights.length ? block[0].data.weights[idx].toString() : r
+            })
+            setUserWeights([...copy])
+        }
+    }, [])
+
     function validateCrispInput (value: any) {
         if (extension === 'fuzzy') return true
 
         if (!isNaN(+value)) return true
         return false
-    }
-
-    function validateInput (arr: string[]) {
-        if (extension === 'fuzzy') return
-        const sum = arr.reduce((total, value) => Number(total) + Number(value), 0);
-
-        if (arr.some(w => +w === 0)) setError('None of weights should equal 0')
-        else if (arr.some(w => +w < 0)) setError('None of weights should equal less than 0')
-        else if (Math.round(sum * 100) / 100 !== 1)setError('Weights should sum up to 1')
-        else setError(null)
     }
 
     function convertCrispInput(value: string) {
@@ -47,13 +54,18 @@ export default function InputWeights({extension}: ParamType) {
         if (!validateCrispInput(e.target.value)) return 
         
         let copy = [...userWeights];
-        copy[col] = extension === 'crisp' ?
-            convertCrispInput(e.target.value)
-            :
-            e.target.value
-        // convertFuzzyInput(e.target.value)
+        copy = copy.map((w, idx) => {
+            return idx === col
+                ? extension === 'crisp' ?
+                    convertCrispInput(e.target.value)
+                    :
+                    e.target.value
+                : w
+        })
+
         setUserWeights(copy);
-        validateInput(copy)
+        console.log(copy)
+        dispatch(setBlockWeights({id: activeBlock?.id, data: copy}))
     }
 
   return (
@@ -85,7 +97,6 @@ export default function InputWeights({extension}: ParamType) {
                 </Grid>   
             </Grid>
         </Box>
-        {error && <Typography>{error}</Typography>}
     </Box>
   )
 }

@@ -1,15 +1,18 @@
 import React, {useEffect, useState} from 'react'
 import { useSelector } from 'react-redux'
 
-import {RootState } from '../../../redux/index'
+import {RootState, useAppDispatch } from '../../../redux/index'
 import {Box, Grid, TextField, Typography } from '@mui/material'
+import {setBlockMatrix} from '../../../redux/slices/blocksSlice'
 
 type ParamType = {
     extension: string
 }
 
 export default function InputMatrix({extension} : ParamType) {
+    const dispatch = useAppDispatch()
     const {alternatives, criteria} = useSelector((state: RootState) => state.calculation)
+    const {activeBlock, blocks} = useSelector((state: RootState) => state.blocks)
     const [matrix, setMatrix] = useState<string[][]>([])
 
     function validateCrispInput (value: any) {
@@ -36,26 +39,52 @@ export default function InputMatrix({extension} : ParamType) {
 
     function handleInputChange(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, row: number, col: number) {
         e.preventDefault()
-
         // validate input
         // if (!validateCrispInput(e.target.value) || !validateFuzzyInput(e.target.value)) return 
         if (!validateCrispInput(e.target.value)) return 
         
         let copy = [...matrix];
-        copy[row][col] = extension === 'crisp' ?
-            convertCrispInput(e.target.value)
-            :
-            e.target.value
-        // convertFuzzyInput(e.target.value)
-        setMatrix(copy);
+        copy = copy.map((r, idx) => {
+            return idx === row
+                ? r.map((c, idxx) => {
+                    return idxx === col
+                        ? extension === 'crisp' ?
+                            convertCrispInput(e.target.value)
+                            :
+                            e.target.value
+                        : c
+                })
+                : r
+        })
+        setMatrix([...copy]);
+        dispatch(setBlockMatrix({id: activeBlock?.id, data: [...copy.map(r => {
+            return r.map(c => +c)
+        })]}))
     }
-
 
     useEffect(() => {
         if (extension === 'crisp') setMatrix(Array(alternatives).fill(null).map(()=>Array(criteria).fill('0')))
         if (extension === 'fuzzy') setMatrix(Array(alternatives).fill(null).map(()=>Array(criteria).fill('0, 0, 0')))
+        
     }, [alternatives, criteria, extension])
-      
+    
+    useEffect(() => {
+        if (activeBlock?.id === undefined) return
+        const block = blocks.filter(b => b._id === activeBlock?.id)
+        if (block[0].data.matrix.length === 0) return 
+
+        if (alternatives > 0 && criteria > 0) {
+            
+            let copy = Array(alternatives).fill(null).map(()=>Array(criteria).fill('0'))
+            copy = copy.map((r, idx) => {
+                return r.map((c, idxx) => {
+                    return idx < block[0].data.matrix.length && idxx < block[0].data.matrix[0].length ? block[0].data.matrix[idx][idxx].toString() : c
+                })
+            })
+            setMatrix([...copy])
+        }
+    }, [])
+
     return (
         <Box sx={{minWidth: '100%', maxWidth: '50vw', maxHeight: '35vh', overflow: 'auto'}}>
             <Box>

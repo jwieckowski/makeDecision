@@ -1,23 +1,43 @@
 import React, {useEffect, useState} from 'react'
 import { useSelector } from 'react-redux'
 
-import {RootState } from '../../../redux/index'
 import {Box, Grid, Typography, FormControl, InputLabel, MenuItem } from '@mui/material'
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import {RootState, useAppDispatch } from '../../../redux/index'
+import { setBlockTypes } from '../../../redux/slices/blocksSlice';
 
 export default function CriteriaTypes() {
+    const dispatch = useAppDispatch()
     const {criteria} = useSelector((state: RootState) => state.calculation)
+    const {blocks, activeBlock} = useSelector((state: RootState) => state.blocks)
     const [criteriaTypes, setCriteriaTypes] = useState<string[]>([])
 
+    const block = blocks.filter(b => b._id === activeBlock?.id)
+
     useEffect(() => {
-        setCriteriaTypes(Array(criteria).fill('1'))
+        if (activeBlock?.id === undefined) return
+        if (block.length === 0) setCriteriaTypes(Array(criteria).fill('1'))
+        else dispatch(setBlockTypes({id: activeBlock?.id, data: block[0].data.types.filter((c, idx) => idx < criteria)}))
     }, [criteria])
 
+    useEffect(() => {
+        if (activeBlock?.id === undefined) return
+        if (block[0].data.types.length === 0) return 
+
+        if (criteria > 0) {            
+            let copy = Array(criteria).fill('1')
+            copy = copy.map((r, idx) => {
+                return idx < block[0].data.types.length ? block[0].data.types[idx] : r
+            })
+            setCriteriaTypes([...copy])
+        }
+    }, [])
 
     const handleTypeChange = (e: SelectChangeEvent, col: number) => {
         let copy = [...criteriaTypes];
         copy[col] = e.target.value as string
         setCriteriaTypes(copy);
+        dispatch(setBlockTypes({id: activeBlock?.id, data: copy}))
     };
 
   return (
@@ -38,7 +58,7 @@ export default function CriteriaTypes() {
                                         <Select
                                             labelId="demo-simple-select-label"
                                             id="demo-simple-select"
-                                            value={criteriaTypes[col]}
+                                            value={block[0].data.types[col]}
                                             label={`C${col+1}`}
                                             style={{width: '80px'}}
                                             onChange={(e) => handleTypeChange(e, col)}

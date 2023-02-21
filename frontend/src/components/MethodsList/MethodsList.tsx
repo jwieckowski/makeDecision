@@ -44,7 +44,15 @@ export default function MethodsList() {
       type: type.includes('matrix') ? type.split(' ')[1].toLowerCase() : type.toLowerCase(),
       method: method.toLowerCase(),
       inputConnections,
-      outputConnections
+      outputConnections,
+      data: {
+        matrix: [],
+        matrixFile: [],
+        randomMatrix: [],
+        types: [],
+        weights: [],
+        extension: 'crisp'
+      }
     }
     dispatch(addBlock(block))
 
@@ -110,7 +118,7 @@ export default function MethodsList() {
       })}
       {filteredData.length === 0 && 
         <ListItemButton sx={{ pl: 4 }}>
-            <ListItemText primary='No method found' />
+            <ListItemText primary='No methods found' />
         </ListItemButton>
       }
       </List>

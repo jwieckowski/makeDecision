@@ -65,6 +65,90 @@ const blocksSlice = createSlice({
     },
     setClickedBlockId: (state, action) => {
       state.clickedBlockId = action.payload
+    },
+    setBlockMatrix: (state, action) => {
+      state.blocks = state.blocks.map(b => {
+        return b._id === action.payload.id
+          ? 
+            {
+              ...b,
+              data: {
+                ...b.data,
+                matrix: action.payload.data
+              }
+            }
+          : b
+      })
+    },
+    setBlockMatrixFile: (state, action) => {
+      state.blocks = state.blocks.map(b => {
+        return b._id === action.payload.id
+          ? 
+            {
+              ...b,
+              data: {
+                ...b.data,
+                matrixFile: action.payload.data
+              }
+            }
+          : b
+      })
+    },
+    setBlockRandomMatrix: (state, action) => {
+      state.blocks = state.blocks.map(b => {
+        return b._id === action.payload.id
+          ? 
+            {
+              ...b,
+              data: {
+                ...b.data,
+                randomMatrix: action.payload.data
+              }
+            }
+          : b
+      })
+    },
+    setBlockTypes: (state, action) => {
+      state.blocks = state.blocks.map(b => {
+        return b._id === action.payload.id
+          ? 
+            {
+              ...b,
+              data: {
+                ...b.data,
+                types: action.payload.data
+              }
+            }
+          : b
+      })
+    },
+    setBlockWeights: (state, action) => {
+      state.blocks = state.blocks.map(b => {
+        return b._id === action.payload.id
+          ? 
+            {
+              ...b,
+              data: {
+                ...b.data,
+                weights: action.payload.data
+              }
+            }
+          : b
+      })
+    },
+    setBlockExtension: (state, action) => {
+      state.blocks = state.blocks.map(b => {
+        return b._id === action.payload.id
+          ? 
+            {
+              ...b,
+              data: {
+                ...b.data,
+                extension: action.payload.data
+              }
+            }
+          : b
+      })
     }
   },
   extraReducers: (builder) => {
@@ -86,6 +170,12 @@ export const {
   setModalType,
   setActiveBlock,
   setClickedBlockId,
-  setConnectionToDelete
+  setConnectionToDelete,
+  setBlockMatrix,
+  setBlockMatrixFile,
+  setBlockRandomMatrix,
+  setBlockTypes,
+  setBlockWeights,
+  setBlockExtension
 } = actions;
 export default reducer;

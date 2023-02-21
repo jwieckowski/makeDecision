@@ -37,10 +37,6 @@ export default function Additionals() {
     return connections.filter(c => +c[1] === activeBlock?.id)
   }
 
-  const getNumberOfFileMatrix = () => {
-    return blocks.filter(b => b.type.toLowerCase() === 'matrix' && b.method.toLowerCase() === 'file').map(b => b._id === activeBlock?.id).indexOf(true)
-  }
-
   const getWeightsConnectedBlocksExtensions = () => {
     const matrices = blocks.filter(b => b.type.toLowerCase() === 'matrix')
 
@@ -110,7 +106,7 @@ export default function Additionals() {
     // }
     // dispatch(addMethodParameters(body))
   }
-  
+
   return (
     <Box sx={{width: '100%', margin: 'auto', border: '1px solid black', borderRadius: 2, p: 2}}>
         <Box>
@@ -135,7 +131,7 @@ export default function Additionals() {
             </Button>
           </Box>
         } 
-        { (checkBlockType('matrix') && checkBlockName('file')) && <UploadFile id={getNumberOfFileMatrix()}/>}
+        { (checkBlockType('matrix') && checkBlockName('file')) && <UploadFile/>}
         
         {/* WEIGHTS TYPE */}
         { (checkBlockType('weights') && checkBlockName('input')) && 

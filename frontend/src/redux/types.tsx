@@ -227,6 +227,7 @@ export type ResultsRankingCorrelations = {
 }
 
 export type ResultsType = {
+    matrices: [] | any,
     method: [] | ResultsMethod[][],
     methodCorrelations: [] | ResultsMethodCorrelations[][],
     methodRankings: [] | ResultsMethodRankings[][][],
@@ -247,7 +248,7 @@ export type CorrelationType = {
 
 export type MethodType = {
     method: string,
-    weights: string
+    weights: string | number[]
 }
 
 export type MethodCorrelationType = {
@@ -274,7 +275,7 @@ export type CalculationBodyType = {
     matrixFiles: [] | File[],
     matrix: [] | any,
     extensions: [] | string[],
-    types: [] | string[][],
+    types: [] | number[][],
     method: [] | MethodType[][],
     methodCorrelations: [] | MethodCorrelationType[][],
     methodRankings: [] | MethodRankingType[][],
@@ -296,12 +297,23 @@ export type CalculationSliceState = {
 
 // BLOCKS TYPES --------------------------------------------------------------------------------
 
+export type BlockDataType = {
+    matrix: [] | any,
+    matrixFile: [] | File,
+    randomMatrix: [] | number[],
+    types: [] | string[],
+    weights: [] | number[],
+    extension: string,
+    // additionals: any
+}
+
 export type BlockType = {
     _id: number,
     type: string,
     method: string,
     inputConnections: [] | string[],
-    outputConnections: [] | string[]
+    outputConnections: [] | string[],
+    data: BlockDataType
 }
 
 

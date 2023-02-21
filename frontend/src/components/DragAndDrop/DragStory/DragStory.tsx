@@ -20,19 +20,18 @@ import {
 } from '../../../redux/slices/blocksSlice';
 import { 
   getResults,
-  addBodyMatrix,
-  addBodyExtension,
-  addBodyTypes,
-  addBodyMethod,
-  addBodyMethodCorrelations,
-  addBodyMethodRankings,
-  addBodyRankingCorrelations,
   clearBody,
   resetBody,
   resetResults
 } from '../../../redux/slices/calculationSlice';
 
-import {MethodType, MethodCorrelationType, MethodRankingType, RankingCorrelationType} from '../../../redux/types'
+import {
+  MethodType,
+  MethodCorrelationType, 
+  MethodRankingType, 
+  RankingCorrelationType,
+  CalculationBodyType
+} from '../../../redux/types'
 
 import { getMethodData, getSingleItemByName, getFilteredMethods } from '../../../utilities/filtering';
 import { getNotConnectedBlocks } from '../../../utilities/blocks';
@@ -51,11 +50,11 @@ export default function DragStory() {
   const dispatch = useAppDispatch()
   const { enqueueSnackbar } = useSnackbar();
 
-  const crispMethods = useMemo(() => getFilteredMethods(getMethodData(allMethods, 'method'), 'crisp'), [])
-  const fuzzyMethods = useMemo(() => getFilteredMethods(getMethodData(allMethods, 'method'), 'fuzzy'), [])
+  const crispMethods = useMemo(() => allMethods.length > 0 ? getFilteredMethods(getMethodData(allMethods, 'method'), 'crisp') : [], [])
+  const fuzzyMethods = useMemo(() => allMethods.length > 0 ? getFilteredMethods(getMethodData(allMethods, 'method'), 'fuzzy') : [], [])
   const HIDE_DURATION = 4000
 
-  // console.log(results)
+  console.log(results)
 
   const handleClick = (e: React.MouseEvent<HTMLElement>, id: string, type: string, method: string) => {
     // e.preventDefault()
@@ -84,8 +83,20 @@ export default function DragStory() {
     dispatch(resetBody())
   }
   
+  // Change to compose body in this function not in state
   const handleCalculateClick = () => {
     dispatch(clearBody())
+
+    let body: CalculationBodyType = {
+      matrixFiles: [],
+      matrix: [],
+      extensions: [],
+      types: [],
+      method: [],
+      methodCorrelations: [],
+      methodRankings: [],
+      rankingCorrelations: []
+    }
 
     // console.log(getNotConnectedBlocks(blocks, connections))
     
@@ -97,21 +108,12 @@ export default function DragStory() {
       enqueueSnackbar('No input data given', {variant: 'error', 'autoHideDuration': HIDE_DURATION});
       return
     }
-
+    
     // for each matrix in structure do calculations
-    matrices.forEach((matrix, matrixIdx) => {
-      const m = [
-        [78, 56, 1],
-        [4, 45, 97],
-        [18, 2, 63],
-        [9, 14, 92],
-        [85, 9, 29]
-      ]
-      
-      
+    matrices.forEach((matrix, matrixIdx) => {      
       let weightsItems: [] | BlockType[] = []
       let mcdaItems: [] | BlockType[][] = []
-      
+
       // add weights methods connected with given matrix
       connections.forEach(connection => {
         if (connection[0] === matrix._id.toString()) {
@@ -123,10 +125,57 @@ export default function DragStory() {
         matrixIndexes = [...matrixIndexes, matrixIdx]
         return
       }
-      
-      dispatch(addBodyMatrix(m))
-      dispatch(addBodyTypes([-1, 1, 1]))
 
+      // validate matrix
+      if (matrix.method === 'file' && Array.isArray(matrix.data.matrixFile) && matrix.data.matrixFile.length === 0) {
+        enqueueSnackbar(`Uploaded matrix file is empty`, {variant: 'error', 'autoHideDuration': HIDE_DURATION});
+        return  
+      }
+
+      if (matrix.method === 'input') {
+        //  no matrix defined
+        if (matrix.data.matrix.length === 0) {
+          enqueueSnackbar(`Input matrix was not defined`, {variant: 'error', 'autoHideDuration': HIDE_DURATION});
+          return
+        }
+        
+        // zero values in input matrix
+        if (matrix.data.matrix.map((r: number[]) => r.some(item => item === 0) === true).some((r: boolean) => r === true) === true) 
+        enqueueSnackbar(`Zero values in input matrix`, {variant: 'warning', 'autoHideDuration': HIDE_DURATION});
+        
+        // same values in column
+        for (let i = 0; i < matrix.data.matrix[0].length; i++) {
+          const colValue = [...matrix.data.matrix.map((r: number[]) => r[i])]
+          const unique = Array.from(new Set(colValue))
+          if (unique.length === 1) {
+            enqueueSnackbar(`Same values in column ${i+1}`, {variant: 'error', 'autoHideDuration': HIDE_DURATION});
+            return
+          }
+        }
+      }
+      
+      // validate types
+      if (['input', 'random'].includes(matrix.method)) {
+        //  no types given
+        if (matrix.data.types.length === 0) {
+          enqueueSnackbar(`Criteria types were not given`, {variant: 'error', 'autoHideDuration': HIDE_DURATION});
+          return
+        }
+        
+        let size = matrix.method === 'random' ? matrix.data.randomMatrix[1] : matrix.data.matrix[0].length
+        if (size !== matrix.data.types.length) {
+          enqueueSnackbar(`Not all criteria types were given`, {variant: 'error', 'autoHideDuration': HIDE_DURATION});
+          return  
+        }
+      }
+
+      body.extensions = [...body.extensions, matrix.data.extension]
+      if (matrix.method === 'input') body.matrix = [...body.matrix, matrix.data.matrix]
+      else if (matrix.method === 'random') body.matrix = [...body.matrix, matrix.data.randomMatrix]
+      else if (matrix.method === 'file') body.matrix = [...body.matrix, matrix.data.matrixFile]
+
+      if (['input', 'random'].includes(matrix.method)) body.types = [...body.types, matrix.data.types.map(t => +t)]
+      else body.types = [...body.types, []]
 
       // check mcda connections with weights
       weightsItems.map(w => {
@@ -146,20 +195,42 @@ export default function DragStory() {
           mcdaItems = [...mcdaItems, [...mcdaTempItems]]
         }
       })
-
+  
       if (mcdaItems.length === 0) return
+
+      //  validate weights
+      weightsItems.forEach(weights => {
+        if (weights.method === 'input' && matrix.data.extension === 'crisp') {
+
+          const sum = weights.data.weights.map(w => +w).reduce((total, value) => Number(total) + Number(value), 0);
+          console.log(sum)  
+          if (weights.data.weights.some(w => +w === 0)) {
+            enqueueSnackbar(`None of weights should equal 0`, {variant: 'error', 'autoHideDuration': HIDE_DURATION});
+            return
+          } 
+          else if (weights.data.weights.some(w => +w < 0)) {
+            enqueueSnackbar(`None of weights should equal less than 0`, {variant: 'error', 'autoHideDuration': HIDE_DURATION});
+            return
+          } 
+          else if (Math.round(sum * 100) / 100 !== 1) {
+            enqueueSnackbar(`Weights should sum up to 1`, {variant: 'error', 'autoHideDuration': HIDE_DURATION});
+            return
+          } 
+        }
+      })
+      
 
       let methodItem: MethodType[] = []
       weightsItems.map((item, index) => {
         mcdaItems[index].map(mcda => {
           methodItem = [...methodItem, {
             method: mcda.method,
-            weights: item.method
+            weights: item.method === 'input' ? item.data.weights.map(w => +w) :item.method
           }]
         })
       })
       if (methodItem.length > 0) {
-        dispatch(addBodyMethod(methodItem))
+        body.method = [...body.method, [...methodItem]]
       }
       
       const rankingBlocks = blocks.filter(block => block.type === 'ranking')
@@ -185,12 +256,12 @@ export default function DragStory() {
             })
           })
         })
-        if (methodCorrelation.data.length > 1) {
+        if (methodCorrelation.data.length > 0) {
           methodCorrelationItem = [...methodCorrelationItem, methodCorrelation]
         }
       })
       if (methodCorrelationItem.length > 0) {
-        dispatch(addBodyMethodCorrelations(methodCorrelationItem))
+        body.methodCorrelations = [...body.methodCorrelations, [...methodCorrelationItem]]
       }
 
       // ranking connections -> (method -> ranking)
@@ -245,17 +316,14 @@ export default function DragStory() {
         })
       })
       if (methodRankingItem.length > 0) {
-        dispatch(addBodyMethodRankings(methodRankingItem))
+        body.methodRankings = [...body.methodRankings, [...methodRankingItem]]
       }
       if (rankingCorrelationItem.length > 0) {
-        dispatch(addBodyRankingCorrelations(rankingCorrelationItem))
+        body.rankingCorrelations = [...body.rankingCorrelations, [...rankingCorrelationItem]]
       }
     })
-    
-    const body = {
-      ...calculationBody,
-      extensions: calculationBody.extensions.filter((e, idx) => !matrixIndexes.includes(idx as never))
-    }
+
+    console.log(body)
     dispatch(getResults(body))
   }
 
@@ -286,7 +354,6 @@ export default function DragStory() {
             const methodBlock = blocks.filter(b => b._id === +c[1])[0]
             if (calculationBody.extensions[idx] === 'fuzzy') {
               if (!fuzzyMethods.map(m => m.name.toLowerCase()).includes(methodBlock.method.toLowerCase())) {
-                // window.alert(`Metoda ${methodBlock.method.toUpperCase()} nie może byc połączona z danymi w formie fuzzy. Połączenie zostanie usunięte`)
                 enqueueSnackbar(`Metoda ${methodBlock.method.toUpperCase()} nie może byc połączona z danymi w formie fuzzy. Połączenie zostanie usunięte`, {variant: 'error', 'autoHideDuration': HIDE_DURATION});
                 dispatch(deleteConnection(c))
               }
@@ -314,7 +381,6 @@ export default function DragStory() {
                 if (outConnections.filter(c => rankingBlocks.map(b => b._id).includes(+c)).length === 0) {
                   dispatch(addConnection([clickedBlocks[0], clickedBlocks[1]]))
                 } else {
-                  // window.alert('Metodę można połączyć tylko z jednym rankingiem')
                   enqueueSnackbar('Metodę można połączyć tylko z jednym rankingiem', {variant: 'error', 'autoHideDuration': HIDE_DURATION});
                   
                 }
@@ -323,7 +389,6 @@ export default function DragStory() {
                 // method->correlation
                 if (requiredData.includes('preferences' as never)) {
                   if (inputBlock.type !== 'method') {
-                    // window.alert('Ta metoda korelacji służy do obliczenia podobieństw preferencji, nie rankingów')
                     enqueueSnackbar('Ta metoda korelacji służy do obliczenia podobieństw preferencji, nie rankingów', {variant: 'error', 'autoHideDuration': HIDE_DURATION});
                   } else {
                     dispatch(addConnection([clickedBlocks[0], clickedBlocks[1]]))
@@ -332,7 +397,6 @@ export default function DragStory() {
                 // ranking-> correlation
                 if (requiredData.includes('ranking' as never)) {
                   if (inputBlock.type !== 'ranking') {
-                    // window.alert('Ta metoda korelacji służy do obliczenia podobieństw rankingów, nie preferencji')
                     enqueueSnackbar('Ta metoda korelacji służy do obliczenia podobieństw rankingów, nie preferencji', {variant: 'error', 'autoHideDuration': HIDE_DURATION});
                   } else {
                     dispatch(addConnection([clickedBlocks[0], clickedBlocks[1]]))
@@ -342,7 +406,6 @@ export default function DragStory() {
                 dispatch(addConnection([clickedBlocks[0], clickedBlocks[1]]))
               }
             } else {
-              // window.alert('Nie można połączyć bloczków')
               enqueueSnackbar('Nie można połączyc bloczków', {variant: 'error', 'autoHideDuration': HIDE_DURATION});
             }
         }
