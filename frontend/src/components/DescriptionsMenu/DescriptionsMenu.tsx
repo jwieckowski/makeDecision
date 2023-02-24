@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { RootState} from '../../redux';
 import { useSelector } from 'react-redux';
 
@@ -27,7 +27,7 @@ function TabPanel(props: TabPanelProps) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3, width: '100%'}}>
+        <Box sx={{ p: 2, width: '100%', display: 'flex', justifyContent: 'center'}}>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -47,12 +47,6 @@ function MethodTabPanel(props: TabPanelProps) {
       {...other}
     >
       {value === index && (
-        // <Box sx={{backgroundColor: 'blue' }}>
-        // <Box sx={{width: '100%', backgroundColor: 'blue'}}>
-        //   {/* <Typography>{children}</Typography> */}
-        //   {/* {children} */}
-        //   hello
-        // </Box>
         <>
           {children}
         </>
@@ -72,6 +66,10 @@ export default function DescriptionsMenu() {
   const {methods} = useSelector((state: RootState) => state.description)
   const [typeIndex, setTypeIndex] = useState(0);
   const [methodIndex, setMethodIndex] = useState(0);
+
+  useEffect(() => {
+    setMethodIndex(0)
+  }, [typeIndex])
 
   const handleTypeChange = (event: React.SyntheticEvent, newValue: number) => {
     setTypeIndex(newValue);
@@ -98,27 +96,26 @@ export default function DescriptionsMenu() {
         methods.map((method, idx) => {
             return (
                 <TabPanel value={typeIndex} index={idx}>
-                    <Box
-                        sx={{ width: '90%', margin: 'auto', bgcolor: 'background.paper', display: 'flex', height: 600}}
-                    >
+                    <Box>
                         <Tabs
-                            orientation="vertical"
+                            // orientation="horizontal"
                             variant="scrollable"
                             value={methodIndex}
                             onChange={handleMethodChange}
                             aria-label="Menu of techniques from selected methods"
-                            sx={{borderRight: 1, borderColor: 'divider' }}
+                            centered
+                            sx={{width: '100%'}}
                         >
                             {
                                 method.data.map((data, id) => {
-                                    return <Tab sx={{width: '100%'}} label={data.name} {...a11yProps(id)} />
+                                    return <Tab label={data.name} {...a11yProps(id)} />
                                 })
                             }
                         </Tabs>
                             {method.data.map((data, id) => {
                                 return (
                                     <MethodTabPanel value={methodIndex} index={id}>
-                                        <Box sx={{width: '80%', maxWidth: '700px'}}>
+                                        <Box sx={{width: '60%', margin: '20px auto'}}>
                                             {data.description.map(d => {
                                                 return <MarkdownText text={d.text} key={`text${d.id}`}/>
                                             })}

@@ -5,18 +5,27 @@ import {RootState, useAppDispatch } from '../../../redux/index'
 import { setAlternatives, setCriteria } from '../../../redux/slices/calculationSlice'
 import { setBlockRandomMatrix } from '../../../redux/slices/blocksSlice'
 import {Box, TextField } from '@mui/material'
+import { MIN_ALTERNATIVES, MAX_ALTERNATIVES, MIN_CRITERIA, MAX_CRITERIA } from '../../../common/const'
 
 export default function CriteriaAlternatives() {
     const dispatch = useAppDispatch()
     const {alternatives, criteria} = useSelector((state: RootState) => state.calculation)
     const {activeBlock, blocks} = useSelector((state: RootState) => state.blocks)
 
-    function changeAlternatives(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) {
-        dispatch(setAlternatives(+e.target.value >= 2 ? +e.target.value > 20 ? 20 : +e.target.value: 2 ))
+    function validateInput(value: number, min: number, max: number, cb: Function) {
+        dispatch(cb(value >= min ? value > max ? max : +value: min ))
     }
 
+    function changeAlternatives(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) {
+        let value = e.target.value
+        if (isNaN(+value)) return
+        dispatch(setAlternatives(+value))
+    }
+    
     function changeCriteria(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) {
-        dispatch(setCriteria(+e.target.value >= 1 ? +e.target.value > 15 ? 15 : +e.target.value: 1 ))
+        let value = e.target.value
+        if (isNaN(+value)) return
+        dispatch(setCriteria(+value))
     }
 
     useEffect(() => {
@@ -43,8 +52,8 @@ export default function CriteriaAlternatives() {
                 id="alternatives-input" 
                 label="Alternatives"
                 variant="outlined"
-                type='number'
                 onChange={(e) => changeAlternatives(e)}
+                onBlur={() => validateInput(alternatives, MIN_ALTERNATIVES, MAX_ALTERNATIVES, setAlternatives)}
                 />
             <TextField 
                 style={{width: '100px'}}
@@ -52,8 +61,8 @@ export default function CriteriaAlternatives() {
                 id="criteria-input"
                 label="Criteria"
                 variant="outlined"
-                type='number'
                 onChange={(e) => changeCriteria(e)}
+                onBlur={() => validateInput(criteria, MIN_CRITERIA, MAX_CRITERIA, setCriteria)}
             />
         </Box>
     )

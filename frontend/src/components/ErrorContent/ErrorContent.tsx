@@ -5,21 +5,24 @@ import ReplayIcon from '@mui/icons-material/Replay';
 import {useAppDispatch} from '../../redux/'
 
 type ErrorContentProps = {
-  cb: Function
+  message?: string
+  cb?: Function
 }
 
-export default function ErrorContent({cb}: ErrorContentProps) {
+export default function ErrorContent({message, cb}: ErrorContentProps) {
   const dispatch = useAppDispatch()
 
   return (
     <Box sx={{height: '700px', display: 'flex', flexGrow: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
       <Typography variant='h3' textAlign='center'>
-        Error occured...
+        {message !== undefined ? message : "Error occurred..."}
       </Typography>
-      <Button sx={{margin: '20px 0'}} variant='contained' onClick={() => dispatch(cb())}>
+      {cb !== undefined &&
+        <Button sx={{margin: '20px 0'}} variant='contained' onClick={() => dispatch(cb())}>
           <ReplayIcon />
           Reload
         </Button>
+      }
     </Box>
   );
 }

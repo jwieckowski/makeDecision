@@ -1,16 +1,15 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios'
 import { DescriptionsSliceState, DescriptionType, MethodsDescriptionType } from '../types';
-
-const BASE_URL = 'http://127.0.0.1:5000'
+import { BASE_URL } from '../../common/const';
 
 export const getHomeDescriptions = createAsyncThunk('descriptions/getHomeDescriptions', async () => {
-  const data = await axios.get(`${BASE_URL}/api/v1/descriptions/home`,)
+  const data = await axios.get(`${BASE_URL}/api/v1/descriptions/home`)
   return data.data;
 });
 
 export const getMethodsDescriptions = createAsyncThunk('descriptions/getMethodsDescriptions', async () => {
-  const data = await axios.get(`${BASE_URL}/api/v1/descriptions/methods`,)
+  const data = await axios.get(`${BASE_URL}/api/v1/descriptions/methods`)
   return data.data;
 });
 
@@ -22,7 +21,7 @@ const initialState: DescriptionsSliceState = {
 }
 
 const descriptionsSlice = createSlice({
-  name: 'search',
+  name: 'descriptions',
   initialState: initialState,
   reducers: {
 
@@ -30,6 +29,7 @@ const descriptionsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getHomeDescriptions.pending, (state: DescriptionsSliceState) => {
+        state.error = null
         state.loading = true;
       })
       .addCase(getHomeDescriptions.fulfilled, (state: DescriptionsSliceState, action: PayloadAction<DescriptionType[]>) => {
@@ -37,10 +37,11 @@ const descriptionsSlice = createSlice({
         state.loading = false
       })
       .addCase(getHomeDescriptions.rejected, (state: DescriptionsSliceState) => {
-        state.error = 'Error get descriptions home'
+        state.error = 'Error occurred while getting data from server'
         state.loading = false
       })
       .addCase(getMethodsDescriptions.pending, (state: DescriptionsSliceState) => {
+        state.error = null
         state.loading = true;
       })
       .addCase(getMethodsDescriptions.fulfilled, (state: DescriptionsSliceState, action: PayloadAction<MethodsDescriptionType[]>) => {
@@ -48,10 +49,10 @@ const descriptionsSlice = createSlice({
         state.loading = false
       })
       .addCase(getMethodsDescriptions.rejected, (state: DescriptionsSliceState) => {
-        state.error = 'Error get descriptions methods'
+        state.error = 'Error occurred while getting data from server'
         state.loading = false
       })
-  }
-});
+    }
+  });
 const { actions, reducer } = descriptionsSlice
 export default reducer;

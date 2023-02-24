@@ -1,8 +1,9 @@
-import {ChangeEvent, useState} from 'react';
+import {ChangeEvent} from 'react';
 import * as XLSX from 'xlsx';
 import {Box, Typography} from '@mui/material'
 import IconButton from '@mui/material/IconButton';
 import CloudUpload from '@mui/icons-material/CloudUpload'
+import { HIDE_DURATION } from '../../../common/const';
 
 import {useSelector} from 'react-redux'
 import { RootState, useAppDispatch } from '../../../redux';
@@ -11,12 +12,10 @@ import { addMatrixFile, addMatrixFileName, setCriteria } from '../../../redux/sl
 import { setBlockMatrixFile } from '../../../redux/slices/blocksSlice'
 
 export default function UploadFile() {
-  // const [nameId, setNameId] = useState<number>(0)
   const {matrixFileNames} = useSelector((state: RootState) => state.calculation)
   const {activeBlock} = useSelector((state: RootState) => state.blocks)
   const dispatch = useAppDispatch()
   const { enqueueSnackbar } = useSnackbar();
-  const HIDE_DURATION = 4000
   
   // const getNumberOfFileMatrix = () => {
   //   return blocks.filter(b => b.type.toLowerCase() === 'matrix' && b.method.toLowerCase() === 'file').map(b => b._id === id).indexOf(true)

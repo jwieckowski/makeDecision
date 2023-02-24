@@ -1,5 +1,6 @@
-import React, {useEffect, useMemo} from 'react'
-import {Grid, Box, Button} from '@mui/material'
+import React, {useState, useEffect, useMemo, useRef} from 'react'
+import {Grid, Box, Button, Typography, TextField, FormControl, InputLabel, MenuItem, IconButton } from '@mui/material'
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Xarrow, {Xwrapper} from 'react-xarrows';
 import { useSnackbar } from 'notistack'
 import { useSelector } from 'react-redux'
@@ -32,36 +33,118 @@ import {
   RankingCorrelationType,
   CalculationBodyType
 } from '../../../redux/types'
+import { HIDE_DURATION, ZOOM_STEP } from '../../../common/const';
 
 import { getMethodData, getSingleItemByName, getFilteredMethods } from '../../../utilities/filtering';
 import { getNotConnectedBlocks } from '../../../utilities/blocks';
 import { BlockType } from '../../../redux/types';
 
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
+import ZoomInIcon from '@mui/icons-material/ZoomIn';
+import ZoomOutIcon from '@mui/icons-material/ZoomOut';
+import SaveAltIcon from '@mui/icons-material/SaveAlt';
 
 import DraggableBox from '../DraggableBox'
+
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 export default function DragStory() {
   // const { allMethods, methodItem, correlationItem, decisionMatrixItem, rankingItem, visualizationItem, weightItem } = useSelector((state: RootState) => state.dictionary)
   const { allMethods} = useSelector((state: RootState) => state.dictionary)
   const { blocks, clickedBlocks, connections, draggedItem, activeBlock} = useSelector((state: RootState) => state.blocks)
-  const { results, calculationBody} = useSelector((state: RootState) => state.calculation)
+  const { results, calculationBody, error} = useSelector((state: RootState) => state.calculation)
   const dispatch = useAppDispatch()
   const { enqueueSnackbar } = useSnackbar();
-
+  const gridRef = useRef(null)
+  
   const crispMethods = useMemo(() => allMethods.length > 0 ? getFilteredMethods(getMethodData(allMethods, 'method'), 'crisp') : [], [])
   const fuzzyMethods = useMemo(() => allMethods.length > 0 ? getFilteredMethods(getMethodData(allMethods, 'method'), 'fuzzy') : [], [])
-  const HIDE_DURATION = 4000
 
-  console.log(results)
+  // xarrows settings
+  const [size, setSize] = useState<number>(4)
+  const [headSize, setHeadSize] = useState<number>(8)
+  const [color, setColor] = useState<string>('CornflowerBlue')
+  const [curveness, setCurveness] = useState<number>(0.8)
+  const [path, setPath] = useState<any>('smooth')
+
+  // grid area settings
+  const [zoom, setZoom] = useState<number>(1)
+  const [gridOn, setGridOn] = useState<boolean>(false)
+  const [gridSize, setGridSize] = useState<number>(50)
+  
+  function handleSizeChange(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) {
+    e.preventDefault()
+    setSize(+e.target.value)
+  }
+  
+  function handleHeadSizeChange(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) {
+    e.preventDefault()
+    setHeadSize(+e.target.value)
+  }
+
+  function handleCurvenessChange(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) {
+    e.preventDefault()
+    setCurveness(+e.target.value)
+  }
+
+  const handleColorChange = (e: SelectChangeEvent) => {
+    setColor(e.target.value)
+  }
+
+  const handlePathChange = (e: SelectChangeEvent) => {
+    setPath(e.target.value)
+  }
+
+  const handleZoomClick = (value: number) => {
+    setZoom(prev => prev + value)
+  }
+
+  const handleGridChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setGridOn(e.target.checked)
+  };
+  
+  function handleGridSizeChange(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) {
+    e.preventDefault()
+    setGridSize(+e.target.value)
+  }
+
+  const printDocument = () => {
+    const input = document.getElementById('blockArea');
+    if (input === null) return
+
+    html2canvas(input)
+      .then((canvas) => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF({
+          format: 'a3',
+          unit: 'px',
+        });
+        pdf.addImage(imgData, 'PNG', 0, 0, 600, 0, undefined, undefined);
+        pdf.save("graph.pdf");
+      })
+    ;
+  }
+
+  // console.log(results)
+
+  useEffect(() => {
+    if (error === null) return
+    enqueueSnackbar(error, {variant: 'error', 'autoHideDuration': HIDE_DURATION});
+  }, [error])
 
   const handleClick = (e: React.MouseEvent<HTMLElement>, id: string, type: string, method: string) => {
     // e.preventDefault()
+    e.stopPropagation()
     if (draggedItem !== null) return
     if (clickedBlocks.includes(id as never)) return
     dispatch(addClickedBlock(id))
     dispatch(setClickedBlockId(+id))
+
 
     allMethods.map(methods => {
       if (methods.key.toLowerCase().includes(type.toLowerCase())) {
@@ -73,6 +156,7 @@ export default function DragStory() {
       }
     })
   }
+
 
   const handleClearClick = () => {
     dispatch(setClickedBlocks([]))
@@ -323,8 +407,13 @@ export default function DragStory() {
       }
     })
 
-    console.log(body)
     dispatch(getResults(body))
+  }
+
+  const handleGridClick = () => {
+    dispatch(setClickedBlockId(null))
+    dispatch(setClickedBlocks([]))
+    dispatch(setActiveBlock(null))
   }
 
   const handleArrowClick = (c: string[]) => {
@@ -409,7 +498,7 @@ export default function DragStory() {
               enqueueSnackbar('Nie można połączyc bloczków', {variant: 'error', 'autoHideDuration': HIDE_DURATION});
             }
         }
-        dispatch(setClickedBlocks([]))
+        dispatch(setClickedBlocks([clickedBlocks[1]]))
     }
 
     if (calculationBody.extensions.length === 0) return
@@ -448,11 +537,15 @@ export default function DragStory() {
 
   return (
     <Grid
-      style={{width: '100%', height: '100%'}}
+      style={{width: '100%', height: '60vh'}}
     >
       <Box
         sx={{width: '90%', margin: '1% 5%', display: 'flex', justifyContent: 'end', alignItems: 'center'}}
       >
+        <Button variant='contained' onClick={printDocument}>
+          <SaveAltIcon />
+          Save graph
+        </Button>
         <Button sx={{margin: '0 1%'}} variant='contained' onClick={handleClearClick}>
           <HighlightOffIcon />
           Clear
@@ -469,7 +562,18 @@ export default function DragStory() {
         justifyContent='start'
         alignItems='center'
         flexDirection='row'
-        style={{width: '90%', margin: '1% 5%', height: '100%', border: '3px solid black', backgroundColor: '#EEE'}}
+        style={{
+          width: '90%', 
+          margin: '1% 5%', 
+          height: '100%', 
+          border: '3px solid black', 
+          cursor: 'pointer',
+          zoom: zoom,
+          background: gridOn ? `conic-gradient(from 90deg at 1px 1px,#0000 90deg,grey 0) 0 0/${gridSize}px ${gridSize}px`: ''
+        }}
+        onClick={handleGridClick}
+        id='blockArea'
+        ref={gridRef}
       >
         <Xwrapper>
           {blocks.map(block => {
@@ -480,6 +584,7 @@ export default function DragStory() {
                   type={block.type}
                   method={block.method}
                   handleClick={handleClick}
+                  zoom={zoom}
               />
             )
           })}
@@ -489,8 +594,11 @@ export default function DragStory() {
                 <Xarrow 
                   start={c[0]} 
                   end={c[1]}
-                  // strokeWidth={8}
-                  headSize={8}
+                  strokeWidth={size}
+                  headSize={headSize}
+                  path={path}
+                  curveness={curveness}
+                  color={color}
                   passProps= {{cursor: "pointer", onClick: () => handleArrowClick(c)}}
                 />
               )
@@ -498,7 +606,155 @@ export default function DragStory() {
           }
         </Xwrapper>  
       </Grid>
-      
+      <Box sx={{width: '90%', margin: '0 5%', display: 'flex', justifyContent: 'end', alignItems: 'center'}}>
+        <Box sx={{mr: 1}}>
+          <FormControlLabel 
+            control={<Checkbox value={gridOn} onChange={handleGridChange}/>} 
+            label="Grid"
+            labelPlacement="start"
+          />
+        </Box>
+        {
+          gridOn && 
+            <TextField
+              style={{width: '80px', marginRight: 5}}
+              key='size-grid' 
+              value={gridSize}
+              label='Size'
+              type='number'
+              onChange={(e) => handleGridSizeChange(e)}
+              InputProps={{
+                inputProps: { 
+                  min: 10, max: 100, step: 1 
+                }
+              }}  
+            />
+        }
+        <Typography variant='body2'>
+          {Math.round(zoom*100)}%
+        </Typography>
+        <IconButton onClick={() => handleZoomClick(-ZOOM_STEP)}>
+          <ZoomOutIcon />
+        </IconButton>
+        <IconButton onClick={() => handleZoomClick(ZOOM_STEP)}>
+          <ZoomInIcon />
+        </IconButton>
+      </Box>
+      <Box sx={{width: '90%', margin: '1% 5%'}}>
+        <Box>
+          <Typography variant='body2'>
+            Arrows settings
+          </Typography>
+        </Box>
+        <Box sx={{mt:2, display: 'flex', gap: 2}}>
+          <TextField
+            style={{width: '80px'}}
+            key='size-arrow' 
+            value={size}
+            label='Size'
+            type='number'
+            onChange={(e) => handleSizeChange(e)}
+            InputProps={{
+              inputProps: { 
+                min: 1, max: 12 
+              }
+            }}  
+          />
+          <TextField
+            style={{width: '80px'}}
+            key='headSize-arrow' 
+            value={headSize}
+            label='Head size'
+            type='number'
+            onChange={(e) => handleHeadSizeChange(e)}
+            InputProps={{
+              inputProps: { 
+                min: 1, max: 12 
+              }
+            }}  
+          />
+          <TextField
+            style={{width: '80px'}}
+            key='curveness-arrow' 
+            value={curveness}
+            label='Curveness'
+            type='number'
+            onChange={(e) => handleCurvenessChange(e)}
+            InputProps={{
+              inputProps: { 
+                min: 0.1, max: 2, step: 0.1 
+              }
+            }}  
+          />
+          <FormControl sx={{width: '120px'}}>
+            <InputLabel id="color-input">Color</InputLabel>
+            <Select
+              labelId="color-input"
+              id="color"
+              value={color}
+              label="color"
+              onChange={handleColorChange}
+            >
+              <MenuItem value={'CornflowerBlue'}>
+                <Typography variant='body2'>
+                  Light Blue
+                </Typography>
+              </MenuItem>
+              <MenuItem value={'red'}>
+                <Typography variant='body2'>
+                  Red
+                </Typography>
+              </MenuItem>
+              <MenuItem value={'blue'}>
+                <Typography variant='body2'>
+                  Blue
+                </Typography>
+              </MenuItem>
+              <MenuItem value={'green'}>
+                <Typography variant='body2'>
+                  Green
+                </Typography>
+              </MenuItem>
+              <MenuItem value={'yellow'}>
+                <Typography variant='body2'>
+                  Yellow
+                </Typography>
+              </MenuItem>
+              <MenuItem value={'black'}>
+                <Typography variant='body2'>
+                  Black
+                </Typography>
+              </MenuItem>
+            </Select>
+          </FormControl>
+          <FormControl sx={{width: '120px'}}>
+            <InputLabel id="path-input">Path</InputLabel>
+            <Select
+              labelId="path-input"
+              id="path"
+              value={path}
+              label="path"
+              onChange={handlePathChange}
+            >
+              <MenuItem value={'smooth'}>
+                <Typography variant='body2'>
+                  Smooth
+                </Typography>
+              </MenuItem>
+              <MenuItem value={'grid'}>
+                <Typography variant='body2'>
+                  Grid
+                </Typography>
+              </MenuItem>
+              <MenuItem value={'straight'}>
+                <Typography variant='body2'>
+                  Straight
+                </Typography>
+              </MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
+      </Box>
     </Grid>
   )
 }

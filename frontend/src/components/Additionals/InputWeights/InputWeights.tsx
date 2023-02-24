@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 import {Box, Grid, Typography, TextField } from '@mui/material'
 import {RootState, useAppDispatch } from '../../../redux/index'
 import {setBlockWeights} from '../../../redux/slices/blocksSlice'
+import {MAX_CRITERIA} from '../../../common/const'
 
 type ParamType = {
     extension: string
@@ -16,8 +17,10 @@ export default function InputWeights({extension}: ParamType) {
     const [userWeights, setUserWeights] = useState<string[]>([])
 
     useEffect(() => {
-        if (extension === 'crisp') setUserWeights(Array(criteria).fill('0'))
-        if (extension === 'fuzzy') setUserWeights(Array(criteria).fill('0, 0, 0'))
+        let value = ''
+        if (extension === 'crisp') value = '0'
+        else if (extension === 'fuzzy') value = '0, 0, 0'
+        setUserWeights(Array(criteria <= MAX_CRITERIA ? criteria : MAX_CRITERIA).fill(value))
     }, [criteria, extension])
 
     useEffect(() => {
@@ -27,7 +30,7 @@ export default function InputWeights({extension}: ParamType) {
 
         if (criteria > 0) {
             
-            let copy = Array(criteria).fill('0')
+            let copy = Array(criteria <= MAX_CRITERIA ? criteria : MAX_CRITERIA).fill('0')
             copy = copy.map((r, idx) => {
                 return idx < block[0].data.weights.length ? block[0].data.weights[idx].toString() : r
             })
@@ -78,7 +81,7 @@ export default function InputWeights({extension}: ParamType) {
                 <Grid container item spacing={3}>
                     <Box sx={{width: '100%', display: 'flex', flexDirection: 'row', gap:4, margin: '10px'}} >
                         {(criteria < 12) && <Grid item xs={(12-criteria)/2}></Grid>}
-                        {Array(criteria).fill(0).map((_, col) => {
+                        {Array(criteria <= MAX_CRITERIA ? criteria : MAX_CRITERIA).fill(0).map((_, col) => {
                             return (
                                 <Grid key={`weight-${col}`} item xs={2}>
                                     <TextField

@@ -357,3 +357,18 @@ export type DescriptionsSliceState = {
     loading: boolean,
     error: null | string
 }
+
+//  ABOUT TYPES --------------------------------------------------------------------------------------
+
+export type AboutDescriptionType = {
+    format: string,
+    imgIndex: number,
+    description: [] | DescriptionType[]
+}
+
+export type AboutSliceState = {
+    about: [] | AboutDescriptionType[],
+    file: any,
+    loading: boolean,
+    error: null | string
+}

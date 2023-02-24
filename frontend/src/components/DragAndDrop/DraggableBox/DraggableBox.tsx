@@ -8,7 +8,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import blockStyles from './styles'
 
 import { RootState, useAppDispatch } from '../../../redux'
-import { deleteBlock, deleteClickedBlock, setModalOpen, setModalType, changeDraggedItemStatus } from '../../../redux/slices/blocksSlice'
+import { deleteBlock, deleteClickedBlock, setModalOpen, setModalType, changeDraggedItemStatus, setActiveBlock } from '../../../redux/slices/blocksSlice'
 import { deleteBodyExtension, deleteMatrixFileName } from '../../../redux/slices/calculationSlice';
 import { useSelector } from 'react-redux';
 
@@ -17,15 +17,17 @@ type BoxType = {
     id: string;
     type: string;
     method: string;
-    handleClick: Function
+    handleClick: Function,
+    zoom: number
 }
 
-export default function DraggableBox({id, type, method, handleClick}: BoxType) {
+export default function DraggableBox({id, type, method, handleClick, zoom}: BoxType) {
+    const { allMethods} = useSelector((state: RootState) => state.dictionary)
     const { clickedBlockId, activeBlock, blocks, connections } = useSelector((state: RootState) => ({ ...state.blocks }));
     const { matrixFileNames } = useSelector((state: RootState) => ({ ...state.calculation }));
     const dispatch = useAppDispatch()
     const updateXarrow = useXarrow();
-    
+
     const getNumberOfFileMatrix = () => {
         return blocks.filter(b => b.type.toLowerCase() === 'matrix' && b.method.toLowerCase() === 'file').map(b => b._id === activeBlock?.id).indexOf(true)
     }
@@ -40,13 +42,24 @@ export default function DraggableBox({id, type, method, handleClick}: BoxType) {
     }
 
     function handleSettingsClick (e: React.MouseEvent<HTMLElement>) {
-        e.preventDefault()
+        e.stopPropagation()
         dispatch(setModalType('additionals'))
         dispatch(setModalOpen(true))
+
+        allMethods.map(methods => {
+            if (methods.key.toLowerCase().includes(type.toLowerCase())) {
+              dispatch(setActiveBlock({
+                ...methods.data.filter(item => item.name.toLowerCase() === method.toLowerCase())[0],
+                id: +id
+              }
+              ))
+            }
+        })
     }
 
     function handleDeleteClick (e: React.MouseEvent<HTMLElement>, id: string) {
-        e.preventDefault()
+        // e.preventDefault()
+        e.stopPropagation()
         dispatch(deleteBlock(+id))
         dispatch(deleteClickedBlock(id))
 
@@ -73,14 +86,22 @@ export default function DraggableBox({id, type, method, handleClick}: BoxType) {
     
     function isActiveBlock() {
         if (activeBlock === null) return false
-        return activeBlock.name.toLowerCase() === method.toLowerCase() && clickedBlockId === +id
+        return clickedBlockId === +id
+        
     }
 
     return (
-        <Draggable onDrag={drag} onStop={stop} bounds="parent" grid={[25, 25]}>
+        <Draggable 
+            onDrag={drag} 
+            onStop={stop} 
+            bounds="parent" 
+            grid={[4, 4]}
+            scale={zoom}
+        >
             <Box 
                 id={id} 
                 style={{
+                    position: 'absolute',
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'center',

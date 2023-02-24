@@ -3,20 +3,27 @@ import { useSelector } from 'react-redux';
 import { fetchAllMethods} from '../../redux/slices/dictionarySlice'
 import { getHomeDescriptions } from '../../redux/slices/descriptionSlice'
 import { RootState, useAppDispatch } from '../../redux';
-
+import { useSnackbar } from 'notistack'
 import {Box, Typography} from '@mui/material'
 import Loader from '../../components/Loader';
 import ErrorContent from '../../components/ErrorContent';
+import { HIDE_DURATION } from '../../common/const';
 
 export default function HomePage() {
   const { allMethods } = useSelector((state: RootState) => ({ ...state.dictionary }));
   const { home, loading, error } = useSelector((state: RootState) => ({ ...state.description }));
   const dispatch = useAppDispatch()
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     if (allMethods.length === 0) dispatch(fetchAllMethods())
     if (home.length === 0) dispatch(getHomeDescriptions())
   }, [])
+
+  useEffect(() => {
+    if (error === null) return
+    enqueueSnackbar(error, {variant: 'error', 'autoHideDuration': HIDE_DURATION});
+  }, [error])
 
   let content = <Loader />
   if (!loading) {

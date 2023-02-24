@@ -5,6 +5,7 @@ import {Box, Grid, Typography, FormControl, InputLabel, MenuItem } from '@mui/ma
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import {RootState, useAppDispatch } from '../../../redux/index'
 import { setBlockTypes } from '../../../redux/slices/blocksSlice';
+import { MAX_CRITERIA } from '../../../common/const';
 
 export default function CriteriaTypes() {
     const dispatch = useAppDispatch()
@@ -16,16 +17,18 @@ export default function CriteriaTypes() {
 
     useEffect(() => {
         if (activeBlock?.id === undefined) return
+        if (criteria > MAX_CRITERIA) return
         if (block.length === 0) setCriteriaTypes(Array(criteria).fill('1'))
         else dispatch(setBlockTypes({id: activeBlock?.id, data: block[0].data.types.filter((c, idx) => idx < criteria)}))
     }, [criteria])
 
     useEffect(() => {
         if (activeBlock?.id === undefined) return
+        if (criteria > MAX_CRITERIA) return
         if (block[0].data.types.length === 0) return 
 
         if (criteria > 0) {            
-            let copy = Array(criteria).fill('1')
+            let copy = Array(criteria <= MAX_CRITERIA ? criteria : MAX_CRITERIA).fill('1')
             copy = copy.map((r, idx) => {
                 return idx < block[0].data.types.length ? block[0].data.types[idx] : r
             })
@@ -50,7 +53,7 @@ export default function CriteriaTypes() {
                 <Grid container item spacing={3}>
                     <Box sx={{width: '100%', display: 'flex', flexDirection: 'row', gap:4, margin: '10px'}} >
                         {(criteria < 12) && <Grid item xs={(12-criteria)/2}></Grid>}
-                        {Array(criteria).fill(0).map((_, col) => {
+                        {Array(criteria <= MAX_CRITERIA ? criteria : MAX_CRITERIA).fill(0).map((_, col) => {
                             return (
                                 <Grid key={`weight-${col}`} item xs={2}>
                                     <FormControl fullWidth>

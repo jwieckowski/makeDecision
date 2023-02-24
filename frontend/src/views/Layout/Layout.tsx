@@ -34,7 +34,7 @@ export default function Layout({children}: LayoutChildren) {
     if (!isOnline) {
       const key = enqueueSnackbar(`No internet connection`, {variant: 'info', 'persist': !isOnline});
       setSnackbarKey(key)
-    } else {
+    } else if(snackbarKey !== 0) {
       closeSnackbar(snackbarKey)
       enqueueSnackbar(`Back online`, {variant: 'success', 'autoHideDuration': HIDE_DURATION});
     }
@@ -44,8 +44,6 @@ export default function Layout({children}: LayoutChildren) {
       window.removeEventListener('offline', handleStatusChange);
     };
   }, [isOnline]);
-
-  console.log(!isOnline)
 
   return (
     <Box sx={{ display: 'flex', maxWidth: '100vw', minHeight: '100vh', height: '100%', flexDirection: 'column'}}>

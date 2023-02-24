@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 import {RootState, useAppDispatch } from '../../../redux/index'
 import {Box, Grid, TextField, Typography } from '@mui/material'
 import {setBlockMatrix} from '../../../redux/slices/blocksSlice'
+import {MAX_ALTERNATIVES, MAX_CRITERIA} from '../../../common/const'
 
 type ParamType = {
     extension: string
@@ -63,9 +64,10 @@ export default function InputMatrix({extension} : ParamType) {
     }
 
     useEffect(() => {
-        if (extension === 'crisp') setMatrix(Array(alternatives).fill(null).map(()=>Array(criteria).fill('0')))
-        if (extension === 'fuzzy') setMatrix(Array(alternatives).fill(null).map(()=>Array(criteria).fill('0, 0, 0')))
-        
+        let value = ''
+        if (extension === 'crisp') value = '0'
+        else if (extension === 'fuzzy') value = '0, 0, 0'
+        setMatrix(Array(alternatives <= MAX_ALTERNATIVES ? alternatives : MAX_ALTERNATIVES).fill(null).map(()=>Array(criteria <= MAX_CRITERIA ? criteria : MAX_CRITERIA).fill(value)))
     }, [alternatives, criteria, extension])
     
     useEffect(() => {
@@ -75,7 +77,7 @@ export default function InputMatrix({extension} : ParamType) {
 
         if (alternatives > 0 && criteria > 0) {
             
-            let copy = Array(alternatives).fill(null).map(()=>Array(criteria).fill('0'))
+            let copy = Array(alternatives <= MAX_ALTERNATIVES ? alternatives : MAX_ALTERNATIVES).fill(null).map(()=>Array(criteria <= MAX_CRITERIA ? criteria : MAX_CRITERIA).fill('0'))
             copy = copy.map((r, idx) => {
                 return r.map((c, idxx) => {
                     return idx < block[0].data.matrix.length && idxx < block[0].data.matrix[0].length ? block[0].data.matrix[idx][idxx].toString() : c
@@ -92,7 +94,7 @@ export default function InputMatrix({extension} : ParamType) {
                     <Grid container item spacing={3}>
                         <Box sx={{width: '100%', display: 'flex', flexDirection: 'row', gap: 2, margin: '10px'}} >
                             {(criteria < 12) && <Grid item xs={(12-criteria)/2}></Grid>}
-                                {(matrix.length > 0 && matrix[0].length > 0) && Array(criteria+1).fill(0).map((_, col) => {
+                                {(matrix.length > 0 && matrix[0].length > 0) && Array(criteria+1 <= MAX_CRITERIA+1 ? criteria+1 : MAX_CRITERIA+1).fill(0).map((_, col) => {
                                     return (
                                         <Grid key={`col-label-${col}`} item xs={2}>
                                             <Typography sx={{width: '80px'}} align='center'>
@@ -103,11 +105,11 @@ export default function InputMatrix({extension} : ParamType) {
                                 })}
                             {(criteria < 12) && <Grid item xs={(12-criteria)/2}></Grid>}
                         </Box>
-                        {(matrix.length > 0 && matrix[0].length > 0) && Array(alternatives).fill(0).map((_, row) => {
+                        {(matrix.length > 0 && matrix[0].length > 0) && Array(alternatives <= MAX_ALTERNATIVES ? alternatives : MAX_ALTERNATIVES).fill(0).map((_, row) => {
                             return (
                                 <Box sx={{width: '100%', display: 'flex', flexDirection: 'row', gap:2, margin: '10px'}} >
                                     {(criteria < 12) && <Grid item xs={(12-criteria)/2}></Grid>}
-                                    {Array(criteria+1).fill(0).map((_, col) => {
+                                    {Array(criteria+1 <= MAX_CRITERIA+1 ? criteria+1 : MAX_CRITERIA+1).fill(0).map((_, col) => {
                                         return (
                                             <Grid key={`row-${row}-${col}`} item xs={2}>
                                                 {
@@ -118,10 +120,10 @@ export default function InputMatrix({extension} : ParamType) {
                                                             </Typography>
                                                         :
                                                             <TextField
-                                                            style={{width: '80px'}}
-                                                            key={`${row}-${col}`} 
-                                                            value={matrix.length === alternatives ? matrix[row][col-1]: '0'}
-                                                            onChange={(e) => handleInputChange(e, row, col-1)}
+                                                                style={{width: '80px'}}
+                                                                key={`${row}-${col}`} 
+                                                                value={matrix.length === alternatives ? matrix[row][col-1]: '0'}
+                                                                onChange={(e) => handleInputChange(e, row, col-1)}
                                                             />
                                                 }
                                             </Grid>

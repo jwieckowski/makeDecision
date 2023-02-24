@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios'
 import { 
   CalculationSliceState,
-  ResultsBodyType,
   ResultsType, 
   RankingBodyType, 
   RankingType, 
@@ -10,11 +9,9 @@ import {
   CorrelationType, 
   CalculationBodyType
 } from '../types'
-
-const BASE_URL = 'http://127.0.0.1:5000'
+import { BASE_URL } from '../../common/const';
 
 export const getResults = createAsyncThunk('calculations/getResults', async (params: CalculationBodyType) => {
-// export const getResults = createAsyncThunk('calculations/getResults', async (params: ResultsBodyType) => {
   const data = await axios.post(`${BASE_URL}/api/v1/results`, params)
   return data.data;
 });
@@ -116,6 +113,7 @@ const calculationSlice = createSlice({
     },
     resetResults: (state) => {
       state.results = initialState.results
+      state.error = null
     },
     addMatrixFileName: (state, action) => {
       if (action.payload.id+1 > state.matrixFileNames.length) {
@@ -135,6 +133,7 @@ const calculationSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getResults.pending, (state: CalculationSliceState) => {
+        state.error = null
         state.loading = true;
       })
       .addCase(getResults.fulfilled, (state: CalculationSliceState, action: PayloadAction<ResultsType>) => {
@@ -142,10 +141,11 @@ const calculationSlice = createSlice({
         state.loading = false;
       })
       .addCase(getResults.rejected, (state: CalculationSliceState) => {
-        state.error = 'Error get results';
+        state.error = 'Error occurred while getting calculation results from server';
         state.loading = false;
       })
       .addCase(getCorrelations.pending, (state: CalculationSliceState) => {
+        state.error = null
         state.loading = true;
       })
       .addCase(getCorrelations.fulfilled, (state: CalculationSliceState, action: PayloadAction<CorrelationType[]>) => {
@@ -153,10 +153,11 @@ const calculationSlice = createSlice({
         state.loading = false;
       })
       .addCase(getCorrelations.rejected, (state: CalculationSliceState) => {
-        state.error = 'Error get correlation';
+        state.error = 'Error occurred while getting correlation results from server';
         state.loading = false;
       })
       .addCase(getRanking.pending, (state: CalculationSliceState) => {
+        state.error = null
         state.loading = true;
       })
       .addCase(getRanking.fulfilled, (state: CalculationSliceState, action: PayloadAction<RankingType[]>) => {
@@ -164,10 +165,10 @@ const calculationSlice = createSlice({
         state.loading = false;
       })
       .addCase(getRanking.rejected, (state: CalculationSliceState, action) => {
-        state.error = 'Error get ranking';
+        state.error = 'Error occurred while getting ranking results from server';
         state.loading = false;
       })
-  }
+    }
 });
 const { actions, reducer } = calculationSlice
 export const { 

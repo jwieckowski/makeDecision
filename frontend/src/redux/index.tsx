@@ -5,6 +5,7 @@ import dictionarySlice from './slices/dictionarySlice'
 import searchSlice from './slices/searchSlice'
 import blocksSlice from './slices/blocksSlice'
 import descriptionSlice from './slices/descriptionSlice'
+import aboutSlice from './slices/aboutSlice'
 
 const store = configureStore({
   reducer: {
@@ -12,7 +13,8 @@ const store = configureStore({
     calculation: calculationSlice,
     search: searchSlice,
     blocks: blocksSlice,
-    description: descriptionSlice
+    description: descriptionSlice,
+    about: aboutSlice
   },
 })
 export type RootState = ReturnType<typeof store.getState>
