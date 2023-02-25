@@ -7,7 +7,7 @@
             "crisp"
         ],
         "requiredData": [
-            "ranking"
+            "preferences"
         ],
         "hints": [
             
@@ -21,7 +21,7 @@
             "crisp"
         ],
         "requiredData": [
-            "ranking"
+            "preferences"
         ],
         "hints": [
 
@@ -35,7 +35,7 @@
             "crisp"
         ],
         "requiredData": [
-            "matrix"
+            "preferences"
         ],
         "hints": [
             

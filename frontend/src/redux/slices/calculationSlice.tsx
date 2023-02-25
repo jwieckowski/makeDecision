@@ -2,11 +2,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios'
 import { 
   CalculationSliceState,
-  ResultsType, 
-  RankingBodyType, 
-  RankingType, 
-  CorrelationBodyType, 
-  CorrelationType, 
+  ResultsType,
   CalculationBodyType
 } from '../types'
 import { BASE_URL } from '../../common/const';
@@ -16,15 +12,6 @@ export const getResults = createAsyncThunk('calculations/getResults', async (par
   return data.data;
 });
 
-export const getRanking = createAsyncThunk('calculations/getRanking', async (params: RankingBodyType) => {
-  const data = await axios.post(`${BASE_URL}/api/v1/ranking`, params)
-  return data.data;
-});
-
-export const getCorrelations = createAsyncThunk('calculations/getCorrelations', async (params: CorrelationBodyType) => {
-  const data = await axios.post(`${BASE_URL}/api/v1/correlation`, params)
-  return data.data;
-});
 
 const initialState: CalculationSliceState = {
   results: [],
@@ -142,30 +129,6 @@ const calculationSlice = createSlice({
       })
       .addCase(getResults.rejected, (state: CalculationSliceState) => {
         state.error = 'Error occurred while getting calculation results from server';
-        state.loading = false;
-      })
-      .addCase(getCorrelations.pending, (state: CalculationSliceState) => {
-        state.error = null
-        state.loading = true;
-      })
-      .addCase(getCorrelations.fulfilled, (state: CalculationSliceState, action: PayloadAction<CorrelationType[]>) => {
-        state.correlationResults = action.payload
-        state.loading = false;
-      })
-      .addCase(getCorrelations.rejected, (state: CalculationSliceState) => {
-        state.error = 'Error occurred while getting correlation results from server';
-        state.loading = false;
-      })
-      .addCase(getRanking.pending, (state: CalculationSliceState) => {
-        state.error = null
-        state.loading = true;
-      })
-      .addCase(getRanking.fulfilled, (state: CalculationSliceState, action: PayloadAction<RankingType[]>) => {
-        state.rankingResults = action.payload
-        state.loading = false;
-      })
-      .addCase(getRanking.rejected, (state: CalculationSliceState, action) => {
-        state.error = 'Error occurred while getting ranking results from server';
         state.loading = false;
       })
     }

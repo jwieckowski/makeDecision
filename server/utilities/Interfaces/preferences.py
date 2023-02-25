@@ -5,7 +5,7 @@ import pymcdm.methods as crisp_methods
 import pyfdm.methods as fuzzy_methods
 
 from .weights import Weights
-
+from ..validator import Validator
 class Preferences():
     def __init__(self, matrixes, extensions, types):
         self.matrixes = matrixes
@@ -163,18 +163,31 @@ class Preferences():
 
                 # GET METHODS FROM DICTIONARY
                 mcda_method = method['method'].upper()
-                weights_method = method['weights'].upper()
+                if isinstance(method['weights'], str):
+                    weights_method = method['weights'].upper()
 
-                error = False
-                calculate = True
+                    # WEIGHTS CALCULATION
+                    weights_object = Weights(extension, types)
+                    weights_data = weights_object.calculate_weights(matrix, weights_method)
+                    weights = np.array(weights_data['weights'])
 
-                # WEIGHTS CALCULATION
-                weights_object = Weights(extension, types)
-                weights_data = weights_object.calculate_weights(matrix, weights_method)
-                weights = np.array(weights_data['weights'])
-
-                if weights_data['error'] != False:
-                    calculate = False
+                    if weights_data['error'] != False:
+                        weights = np.array([])
+                        calculate = False
+                    else:
+                        error = False
+                        calculate = True
+                    
+                else:
+                    weights_method = 'input'
+                    weights = np.array(method['weights'])
+                    check = Validator.validate_user_weights(weights)
+                    if check != None:
+                        calculate = False
+                        error = check['error']
+                    else:
+                        error = False
+                        calculate = True
 
                 # FUZZY CALCULATIONS
                 if extension == 'fuzzy':

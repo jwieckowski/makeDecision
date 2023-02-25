@@ -1,11 +1,15 @@
-from flask import Flask, redirect, request, g, jsonify
+from flask import Flask, redirect, request, g, jsonify, send_file
 from flask_expects_json import expects_json
 from flask_cors import CORS
 import numpy as np
 import json
+import io
+from base64 import encodebytes
+from PIL import Image
 
 from utilities.interface import Calculations
 from utilities.validator import Validator 
+from utilities.files import Files
 
 app = Flask(__name__)
 app.config.from_object(__name__)
@@ -20,15 +24,13 @@ def home():
 # dictionaries
 @app.route('/api/v1/dictionary/all-methods', methods=['GET'])
 def dictionary_all_methods():
-    # with open('public/dictionary/all-methods.json') as file:
-    with open('public/dictionary/all-methods-complex.json') as file:
+    with open('public/dictionary/all-methods.json') as file:
         data = file.read()
     return data
 
 @app.route('/api/v1/dictionary/all-methods/primary', methods=['GET'])
 def dictionary_all_methods_primary():
-    # with open('public/dictionary/all-methods.json') as file:
-    with open('public/dictionary/all-methods-complex.json') as file:
+    with open('public/dictionary/all-methods.json') as file:
         data = json.load(file)
 
     primary = []
@@ -40,8 +42,7 @@ def dictionary_all_methods_primary():
 
 @app.route('/api/v1/dictionary/all-methods/additional', methods=['GET'])
 def dictionary_all_methods_additional():
-    # with open('public/dictionary/all-methods.json') as file:
-    with open('public/dictionary/all-methods-complex.json') as file:
+    with open('public/dictionary/all-methods.json') as file:
         data = json.load(file)
 
     additional = []
@@ -268,6 +269,45 @@ def dictionary_single_weight(id):
 
     return item
 
+@app.route('/api/v1/descriptions/home', methods=['GET'])
+def descriptions_home():
+    with open('public/descriptions/home.json', encoding='utf-8') as file:
+        data = file.read()
+    return data
+
+@app.route('/api/v1/descriptions/methods', methods=['GET'])
+def descriptions_methods():
+    with open('public/descriptions/methods.json', encoding='utf-8') as file:
+        data = file.read()
+    return data
+
+@app.route('/api/v1/descriptions/about', methods=['GET'])
+def about_description():
+    with open('public/descriptions/about.json', encoding='utf-8') as file:
+        data = file.read()
+    return data
+
+def get_response_image(image_path):
+    pil_img = Image.open(image_path, mode='r') # reads the PIL image
+    byte_arr = io.BytesIO()
+    pil_img.save(byte_arr, format='PNG') # convert the PIL image to byte array
+    encoded_img = encodebytes(byte_arr.getvalue()).decode('ascii') # encode as base64
+    return encoded_img
+
+@app.route('/api/v1/files/about', methods=['GET'])
+def about_files():
+    images = [
+        'public/files/json_data.png',
+        'public/files/xlsx_data.png',
+        'public/files/csv_data.png'
+    ]
+    encoded_images = []
+    for image_path in images:
+        encoded_images.append(get_response_image(image_path))
+    return jsonify({'result': encoded_images})
+
+    # return send_file('public/files/json_data.png')
+
 results_schema = {
     'type': 'object',
     'properties': {
@@ -434,14 +474,15 @@ ranking_schema = {
 
 # CALCULATIONS
 @app.route('/api/v1/results', methods=['POST'])
-@expects_json(results_schema)
+# @expects_json(results_schema)
 def calculation_results():
     # if payload is invalid, request will be aborted with error code 400
     # if payload is valid it is stored in g.data
 
-    # data = request.get_json()
-    data = g.data
-    matrixes = np.array(data['matrix'])
+    data = request.get_json()
+    # data = g.data
+    # matrixFiles =k np.array(data['matrixFiles'])
+    matrixes = np.array(data['matrix'], dtype='object')
     extensions = np.array(data['extensions'])
     types = np.array(data['types'])
     method = np.array(data['method'])
@@ -458,13 +499,34 @@ def calculation_results():
     print(rankingCorrelations)
     # print(data['params'])
 
+    calculationMatrixes = []
+    calculationTypes = []
+    # check if need to generate random matrix or process the data from file
+    for idx, (m, ext) in enumerate(zip(matrixes, extensions)):
+        # file
+        if isinstance(m, str): 
+            flag, a, b = Files.convert_file_to_matrix(m, ext)
+            if flag == True:
+                calculationMatrixes.append(a)
+                calculationTypes.append(b)
+            else:
+                return a, 400
+        # random
+        elif m.ndim == 1 and len(m) == 2:
+            calculationMatrixes.append(Calculations.generate_random_matrix(m[0], m[1], ext))
+            calculationTypes.append(types[idx])
+        # input
+        else:
+            calculationMatrixes.append(np.array(m, dtype=float))
+            calculationTypes.append(types[idx])
+
     # verification of input data
-    for m, ext in zip(matrixes, extensions):
+    for m, ext in zip(calculationMatrixes, extensions):
         matrix_error = Validator.validate_matrix(m, ext)
         if matrix_error:
             return matrix_error, 400
 
-    for m, t in zip(matrixes, types):
+    for m, t in zip(calculationMatrixes, calculationTypes):
         types_error = Validator.validate_types(t)
         if types_error:
             return types_error, 400
@@ -475,19 +537,27 @@ def calculation_results():
     except:
         params = None
 
-    for m, t in zip(matrixes, types):
+    for m, t in zip(calculationMatrixes, calculationTypes):
         dimension_error = Validator.validate_dimensions(m, t)
         if dimension_error:
             return dimension_error, 400
 
     results = {
+        'matrices': [], 
         'method': [],
         'methodCorrelations': [],
         'methodRankings': [],
         'rankingCorrelations': []
     }
+
+    if len(method) == 0:
+        return jsonify(results)
+        
+    # return matrices
+    results['matrices'] = [m.tolist() for m in calculationMatrixes]
+    
     # MCDA evaluation
-    results['method'] = Calculations.calculate_preferences(matrixes, extensions, types, method, params)
+    results['method'] = Calculations.calculate_preferences(calculationMatrixes, extensions, calculationTypes, method, params)
 
     # MCDA preferences correlation
     if len(methodCorrelations) > 0:
@@ -523,7 +593,8 @@ def calculation_correlation():
     if matrix_error:
         return matrix_error, 400
 
-    correlations = Calculations.calculate_correlations(matrix, method)
+    # correlations = Calculations.calculate_correlations(matrix, method)
+    correlations = []
 
     return jsonify(correlations)
 

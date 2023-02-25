@@ -36,8 +36,8 @@ class Correlation():
         correlations = []
         for idx, methods_set in enumerate(methods):
 
+            correlations_item = []
             for method in methods_set:
-                correlations_item = []
                 error = False
 
                 # retrieve correlation method
@@ -64,14 +64,15 @@ class Correlation():
                     correlation_matrix = np.array(correlation_matrix)
                     
                     # calculation of preferences correlation 
-                    correlations_item.append([[self.correlation_methods[correlation_method](a, b) for b in correlation_matrix] for a in correlation_matrix])
+                    res = [[self.correlation_methods[correlation_method](a, b) for b in correlation_matrix] for a in correlation_matrix]
+                    correlations_item.append({
+                        'correlation': correlation_method,
+                        'results': res,
+                        'methods': method['data'],
+                        'error': error
+                    })
 
-                correlations.append({
-                    'correlation': correlation_method,
-                    'results': correlations_item,
-                    'methods': method['data'],
-                    'error': error
-                })
+            correlations.append(correlations_item)
 
         return correlations
         

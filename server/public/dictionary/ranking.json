@@ -2,22 +2,7 @@
     {
         "id": 1,
         "type": "Ranking",
-        "name": "Ascending",
-        "extensions": [
-            "crisp",
-            "fuzzy"
-        ],
-        "requiredData": [
-            "matrix"
-        ],
-        "hints": [
-            "Kiedy użyć tą wersję (podać metody)"
-        ]
-    },
-    {
-        "id": 2,
-        "type": "Ranking",
-        "name": "Descending",
+        "name": "Rank",
         "extensions": [
             "crisp",
             "fuzzy"

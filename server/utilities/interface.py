@@ -2,7 +2,7 @@ from .Interfaces.weights import Weights
 from .Interfaces.correlations import Correlation
 from .Interfaces.preferences import Preferences
 from .Interfaces.ranking import Ranking
-
+from .Interfaces.additional import Additional
 class Calculations():
     def __init__(self):
         pass
@@ -25,6 +25,10 @@ class Calculations():
 
     #     return weights_data
 
+
+    @staticmethod
+    def generate_random_matrix(alternatives, criteria, extension):
+        return Additional.generate_random_matrix(alternatives, criteria, extension)
 
     @staticmethod
     def calculate_preference_correlations(methods, results):

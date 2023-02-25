@@ -15,6 +15,7 @@ export const getAboutFile = createAsyncThunk('about/aboutFile', async () => {
         .get(`${BASE_URL}/api/v1/files/about`)
         .then(response => {
           if (!Object.keys(response.data).includes('result')) return []
+          // prepend type file to data from request
           return response.data.result.map((data: any) => {
             return "data:;base64," + data
           })
@@ -64,5 +65,5 @@ const aboutSlice = createSlice({
       })
     }
   });
-const { actions, reducer } = aboutSlice
+const { reducer } = aboutSlice
 export default reducer;

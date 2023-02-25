@@ -54,5 +54,5 @@ const descriptionsSlice = createSlice({
       })
     }
   });
-const { actions, reducer } = descriptionsSlice
+const { reducer } = descriptionsSlice
 export default reducer;

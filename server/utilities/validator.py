@@ -9,11 +9,11 @@ class Validator():
         if weights == None:
             if len(np.unique([matrix.shape[1], types.shape[0]])) != 1:
                 # return {'error': f'Number of criteria should equals number of weights and types, not {matrix.shape[1]}, {weights.shape[0]}, {types.shape[0]}'}
-                return f'Number of criteria should equals number of types, not {matrix.shape[1]}, {types.shape[0]}'
+                return {'error': f'Number of criteria should equals number of types, not {matrix.shape[1]}, {types.shape[0]}'}
         else:
             if len(np.unique([matrix.shape[1], weights.shape[0], types.shape[0]])) != 1:
                 # return {'error': f'Number of criteria should equals number of weights and types, not {matrix.shape[1]}, {weights.shape[0]}, {types.shape[0]}'}
-                return f'Number of criteria should equals number of weights and types, not {matrix.shape[1]}, {weights.shape[0]}, {types.shape[0]}'
+                return {'error': f'Number of criteria should equals number of weights and types, not {matrix.shape[1]}, {weights.shape[0]}, {types.shape[0]}'}
     
     @staticmethod
     def validate_orders_dimensions(matrix, orders):
@@ -21,7 +21,7 @@ class Validator():
         # check dimensions match
         if len(np.unique([matrix.shape[0], orders.shape[0]])) != 1:
             # return {'error': f'Number of arrays and orders should be the same, not {matrix.shape[0]}, {orders.shape[0]}'}
-            return f'Number of arrays and orders should be the same, not {matrix.shape[0]}, {orders.shape[0]}'
+            return {'error': f'Number of arrays and orders should be the same, not {matrix.shape[0]}, {orders.shape[0]}'}
 
     @staticmethod
     def validate_matrix(matrix, extension):
@@ -35,7 +35,10 @@ class Validator():
             # dimension
             if matrix.ndim != 3 or matrix.shape[2] != 3:
                 return {'error': 'Fuzzy matrix bad formatted'}
-        
+        else:
+            return {'error': f'Extension "{extension}" not handled'}
+
+
         # numeric values
         if matrix.dtype not in [np.int32, np.int64, np.float32, np.float64]:
             return {'error': 'Not all elements in matrix are numeric'}
