@@ -5,19 +5,19 @@
         "description": [
             {
                 "id": 0,
-                "text": "Plik w formacie JavaScript Object Notation (JSON) powinien zawierać dwa klucze z wartościami w postaci tablic: 'matrix' - dwuwymiarowa tablica z danymi, które będą wykorzystane do obliczeń wielokryterialnych; 'criteriaTypes' - lista z typami kryteriów, gdzie -1 oznacza typ koszt, a 1 oznacza typ profit."
+                "text": "The JavaScript Object Notation (JSON) file should contain two keys with values in the form of arrays: 'matrix' - a two-dimensional array with the data that will be used for the multi-criteria calculation; 'criteriaTypes' - a list with the criteria types, where -1 means cost type and 1 means profit type."
             },
             {
                 "id": 1,
-                "text": "Poprawna tablica z macierzą nie powinna zawierać danych tekstowych, ani pustych pól. Wartości w każdej z kolumn nie powinny być jednakowe. Każdy wiersz reprezentuje wariant decyzyjny, a kolumna kryterium, które brane jest pod uwagę w problemie."
+                "text": "A valid array table should not contain text data or blank fields. The values in each column should not be the same. Each row represents a decision option and each column represents a criterion that is considered in the problem."
             },
             {
                 "id": 2,
-                "text": "W typach kryteriów nie powinna pojawić się wartość inna niż 1 lub -1. Liczba wartości w typach kryteriów powinna równać się liczbie kolumn w macierzy 'matrix'."
+                "text": "No value other than 1 or -1 should appear in the criteria types. The number of values in the criteria types should equal the number of columns in the 'matrix'."
             },
             {
                 "id": 3,
-                "text": "Formatowanie pliku w inny sposób niż wskazany powyżej może skutkować błędami w obliczeniach."
+                "text": "Formatting the file in any other way than indicated above may result in calculation errors."
             }
         ]
     },
@@ -27,19 +27,19 @@
         "description": [
             {
                 "id": 0,
-                "text": "Pliki w formacie XLSX (Microsoft Excel) powinny być sformatowane w sposób, by macierz i typy kryteriów były oddzielone nie wypełnionym wartościami wierszem."
+                "text": "XLSX (Microsoft Excel) files should be formatted so that the matrix and criteria types are separated by an unfilled line with values."
             },
             {
                 "id": 1,
-                "text": "W macierzy, wiersze reprezentują alternatywy, a kolumny kryteria w problemie. Każdy z wierszy powinien zawierać jednakową liczbę wartości."
+                "text": "In a matrix, the rows represent the alternatives and the columns represent the criteria in the problem. Each row should contain an equal number of values."
             },
             {
                 "id": 2,
-                "text": "Typy kryteriów reprezentują preferowany kierunek wartości. -1 oznacza typ koszt, a wartość 1 typ profit. Liczba wartości w ostatnim wierszu powinna równać się ilości kolumn w macierzy."
+                "text": "The criteria types represent the preferred value direction. -1 represents the cost type and a value of 1 represents the profit type. The number of values in the last row should equal the number of columns in the matrix."
             },
             {
                 "id": 3,
-                "text": "Formatowanie pliku w inny sposób niż wskazany powyżej może skutkować błędami w obliczeniach."
+                "text": "Formatting the file in any other way than indicated above may result in calculation errors."
             }
         ]
     },
@@ -49,19 +49,19 @@
         "description": [
             {
                 "id": 0,
-                "text": "Pliki w formacie Comma-Separated Values (CSV) i dane w nich zawarte powinny być podzielone na dwie sekcje. Pierwsza z nich powinna reprezentować macierz decyzyjną w problemie. Druga z nich, zapisana po pustej linijce oddzielającej sekcje, powinna reprezentować typy kryteriów."
+                "text": "Comma-Separated Values (CSV) format files and the data they contain should be divided into two sections. The first should represent the decision matrix in the problem. The second, written after a blank line separating the sections, should represent the criteria types."
             },
             {
                 "id": 1,
-                "text": "Macierz reprezentuje w wierszach warianty decyzyjne, a w kolumnach kryteria rozpatrywane w problemie. Wartości w macierzy w pojedynczym wierszu powinny być oddzielone przecinkami, a nowy wierszy macierzy decyzyjnej powinien być zapisany w nowej linijce. Macierz nie powinna zawierać pustych wartości, ani znaków tekstowych."
+                "text": "The matrix represents the decision options in the rows and the criteria considered in the problem in the columns. The values in the matrix in a single row should be separated by commas, and the new row of the decision matrix should be written on a new line. The matrix should not contain empty values or text characters."
             },
             {
                 "id": 2,
-                "text": "Liczba typów kryteriów powinna równać się ilości kolumn w macierzy. Typy kryteriów powinny być reprezentowane tylko przez wartości -1 dla typu koszt, oraz 1 dla typu profit. Wartości powinny być oddzielone przecinkami."
+                "text": "The number of criteria types should equal the number of columns in the matrix. The criterion types should only be represented by the values -1 for the cost type, and 1 for the profit type. Values should be separated by commas."
             },
             {
                 "id": 3,
-                "text": "Formatowanie pliku w inny sposób niż wskazany powyżej może skutkować błędami w obliczeniach."
+                "text": "Formatting the file in any other way than indicated above may result in calculation errors."
             }
         ]
     }

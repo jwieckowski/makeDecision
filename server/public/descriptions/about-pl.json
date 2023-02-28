@@ -1,0 +1,68 @@
+[
+    {
+        "format": "JSON",
+        "imgIndex": 0,
+        "description": [
+            {
+                "id": 0,
+                "text": "Plik w formacie JavaScript Object Notation (JSON) powinien zawierać dwa klucze z wartościami w postaci tablic: 'matrix' - dwuwymiarowa tablica z danymi, które będą wykorzystane do obliczeń wielokryterialnych; 'criteriaTypes' - lista z typami kryteriów, gdzie -1 oznacza typ koszt, a 1 oznacza typ profit."
+            },
+            {
+                "id": 1,
+                "text": "Poprawna tablica z macierzą nie powinna zawierać danych tekstowych, ani pustych pól. Wartości w każdej z kolumn nie powinny być jednakowe. Każdy wiersz reprezentuje wariant decyzyjny, a kolumna kryterium, które brane jest pod uwagę w problemie."
+            },
+            {
+                "id": 2,
+                "text": "W typach kryteriów nie powinna pojawić się wartość inna niż 1 lub -1. Liczba wartości w typach kryteriów powinna równać się liczbie kolumn w macierzy 'matrix'."
+            },
+            {
+                "id": 3,
+                "text": "Formatowanie pliku w inny sposób niż wskazany powyżej może skutkować błędami w obliczeniach."
+            }
+        ]
+    },
+    {
+        "format": "XLSX",
+        "imgIndex": 1,
+        "description": [
+            {
+                "id": 0,
+                "text": "Pliki w formacie XLSX (Microsoft Excel) powinny być sformatowane w sposób, by macierz i typy kryteriów były oddzielone nie wypełnionym wartościami wierszem."
+            },
+            {
+                "id": 1,
+                "text": "W macierzy, wiersze reprezentują alternatywy, a kolumny kryteria w problemie. Każdy z wierszy powinien zawierać jednakową liczbę wartości."
+            },
+            {
+                "id": 2,
+                "text": "Typy kryteriów reprezentują preferowany kierunek wartości. -1 oznacza typ koszt, a wartość 1 typ profit. Liczba wartości w ostatnim wierszu powinna równać się ilości kolumn w macierzy."
+            },
+            {
+                "id": 3,
+                "text": "Formatowanie pliku w inny sposób niż wskazany powyżej może skutkować błędami w obliczeniach."
+            }
+        ]
+    },
+    {
+        "format": "CSV",
+        "imgIndex": 2,
+        "description": [
+            {
+                "id": 0,
+                "text": "Pliki w formacie Comma-Separated Values (CSV) i dane w nich zawarte powinny być podzielone na dwie sekcje. Pierwsza z nich powinna reprezentować macierz decyzyjną w problemie. Druga z nich, zapisana po pustej linijce oddzielającej sekcje, powinna reprezentować typy kryteriów."
+            },
+            {
+                "id": 1,
+                "text": "Macierz reprezentuje w wierszach warianty decyzyjne, a w kolumnach kryteria rozpatrywane w problemie. Wartości w macierzy w pojedynczym wierszu powinny być oddzielone przecinkami, a nowy wierszy macierzy decyzyjnej powinien być zapisany w nowej linijce. Macierz nie powinna zawierać pustych wartości, ani znaków tekstowych."
+            },
+            {
+                "id": 2,
+                "text": "Liczba typów kryteriów powinna równać się ilości kolumn w macierzy. Typy kryteriów powinny być reprezentowane tylko przez wartości -1 dla typu koszt, oraz 1 dla typu profit. Wartości powinny być oddzielone przecinkami."
+            },
+            {
+                "id": 3,
+                "text": "Formatowanie pliku w inny sposób niż wskazany powyżej może skutkować błędami w obliczeniach."
+            }
+        ]
+    }
+]

@@ -4,11 +4,22 @@ import json
 import pandas as pd
 from .validator import Validator
 
-# should read files from json, csv, xlsx formats
+import io
+from base64 import encodebytes
+from PIL import Image
 
+# should read files from json, csv, xlsx formats
 class Files():
     def __init__(self):
         pass
+
+    @staticmethod
+    def get_response_image(image_path):
+        pil_img = Image.open(image_path, mode='r') # reads the PIL image
+        byte_arr = io.BytesIO()
+        pil_img.save(byte_arr, format='PNG') # convert the PIL image to byte array
+        encoded_img = encodebytes(byte_arr.getvalue()).decode('ascii') # encode as base64
+        return encoded_img
 
     @staticmethod
     def convert_file_to_matrix(data, extension):
@@ -210,8 +221,3 @@ class Files():
         elif extension == 'json':
             read_from_json(file)
         
-
-
-# Files.read_matrix_from_file('./files/crisp_data.json', 'json')
-# Files.read_matrix_from_file('./files/crisp_data.csv', 'csv')
-# Files.read_matrix_from_file('./files/crisp_data.xlsx', 'xlsx')

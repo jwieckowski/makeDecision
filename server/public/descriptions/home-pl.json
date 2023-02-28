@@ -1,0 +1,22 @@
+[
+    {
+        "id": 0,
+        "text": "Aplikacja służy do obliczenia ocen wielokryterialnych różnych wariantów decyzyjnych. W zakładce 'Calculations' dostępny jest obszar, w którym można za pomocą graficznej reprezentacji metod MCDA łączyć je ze sobą w celu obliczenia wyników."
+    },
+    {
+        "id": 1,
+        "text": "Na chwilę obecną działa łączenie bloczków, sprawdzanie typów bloczków które chcemy połączyć, usuwanie połączeń pomiędzy bloczkami, obliczanie wyników, wyszukiwanie metod po nazwie w searchbarze."
+    },
+    {
+        "id": 2,
+        "text": "Aplikacja jest w trakcie tworzenia, dlatego też mogą pojawić się błędy w jej funkcjonowaniu."
+    },
+    {
+        "id": 3,
+        "text": "Obecnie trwają pracę nad możliwością przesyłania plików i wykonywania obliczeń na danych w nich zawartych, dodawania parametrów takich jak metody normalizacji, miary odległości, czy metody defuzyfikacji."
+    },
+    {
+        "id": 4,
+        "text": "Wygląd strony również będzie zmieniony, lecz priorytetem jest działanie podstawowych funkcjonalności."
+    }
+]

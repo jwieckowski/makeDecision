@@ -7,25 +7,6 @@ class Calculations():
     def __init__(self):
         pass
 
-    # TODO change to current format
-    # @staticmethod
-    # def calculate_weights(matrix, weights_method, extension, types, weights=None):
-        
-    #     if weights == None and weights_method != '':
-    #         weights_obj = Weights(weights_method, extension, types)
-    #         weights_data = weights_obj.calculate_weights(matrix)
-    #     else:
-    #         # validate weights sum and extension
-    #         weights_data = {
-    #             'method': 'input',
-    #             'weights': weights,
-    #             'extension': extension,
-    #             'error': ''
-    #         }
-
-    #     return weights_data
-
-
     @staticmethod
     def generate_random_matrix(alternatives, criteria, extension):
         return Additional.generate_random_matrix(alternatives, criteria, extension)
@@ -61,12 +42,3 @@ class Calculations():
         ranking_data = ranking_obj.calculate_ranking(methods, results)
         
         return ranking_data
-
-    #  TODO change to current format
-    # @staticmethod
-    # def calculate_correlations(matrix, correlation_method):
-        
-    #     correlation_obj = Correlation(correlation_method)
-    #     correlation_data = correlation_obj.calculate_correlation(matrix)
-        
-    #     return correlation_data

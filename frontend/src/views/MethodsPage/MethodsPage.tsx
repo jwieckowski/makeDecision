@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {Box} from '@mui/material'
 
 import { useSelector } from 'react-redux';
@@ -12,9 +12,13 @@ import DescriptionsMenu from '../../components/DescriptionsMenu';
 
 export default function MethodsPage() {
   const { methods, loading, error } = useSelector((state: RootState) => ({ ...state.description }));
+  const dataFetchedRef = useRef(false);
   const dispatch = useAppDispatch()
 
   useEffect(() => {
+    if (dataFetchedRef.current) return;
+    dataFetchedRef.current = true;
+
     if (methods.length === 0) dispatch(getMethodsDescriptions())
   }, [])
 

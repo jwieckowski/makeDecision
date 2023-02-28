@@ -8,11 +8,9 @@ class Validator():
         # check dimensions match
         if weights == None:
             if len(np.unique([matrix.shape[1], types.shape[0]])) != 1:
-                # return {'error': f'Number of criteria should equals number of weights and types, not {matrix.shape[1]}, {weights.shape[0]}, {types.shape[0]}'}
                 return {'error': f'Number of criteria should equals number of types, not {matrix.shape[1]}, {types.shape[0]}'}
         else:
             if len(np.unique([matrix.shape[1], weights.shape[0], types.shape[0]])) != 1:
-                # return {'error': f'Number of criteria should equals number of weights and types, not {matrix.shape[1]}, {weights.shape[0]}, {types.shape[0]}'}
                 return {'error': f'Number of criteria should equals number of weights and types, not {matrix.shape[1]}, {weights.shape[0]}, {types.shape[0]}'}
     
     @staticmethod
@@ -20,7 +18,6 @@ class Validator():
 
         # check dimensions match
         if len(np.unique([matrix.shape[0], orders.shape[0]])) != 1:
-            # return {'error': f'Number of arrays and orders should be the same, not {matrix.shape[0]}, {orders.shape[0]}'}
             return {'error': f'Number of arrays and orders should be the same, not {matrix.shape[0]}, {orders.shape[0]}'}
 
     @staticmethod

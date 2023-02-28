@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef} from 'react';
 import { useSelector } from 'react-redux';
 import { fetchAllMethods} from '../../redux/slices/dictionarySlice'
 import { getHomeDescriptions } from '../../redux/slices/descriptionSlice'
@@ -12,10 +12,14 @@ import { HIDE_DURATION } from '../../common/const';
 export default function HomePage() {
   const { allMethods } = useSelector((state: RootState) => ({ ...state.dictionary }));
   const { home, loading, error } = useSelector((state: RootState) => ({ ...state.description }));
+  const dataFetchedRef = useRef(false);
   const dispatch = useAppDispatch()
   const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
+    if (dataFetchedRef.current) return;
+    dataFetchedRef.current = true;
+    
     if (allMethods.length === 0) dispatch(fetchAllMethods())
     if (home.length === 0) dispatch(getHomeDescriptions())
   }, [])

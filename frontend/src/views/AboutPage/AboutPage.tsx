@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef} from 'react';
 import { useSelector } from 'react-redux';
 import {Box, Typography} from '@mui/material'
 import { RootState, useAppDispatch } from '../../redux';
@@ -13,10 +13,14 @@ import ImageItem from '../../components/ImageItem';
 
 export default function AboutPage() {
   const { about, file, loading, error } = useSelector((state: RootState) => ({ ...state.about }));
+  const dataFetchedRef = useRef(false);
   const dispatch = useAppDispatch()
   const { enqueueSnackbar } = useSnackbar();
   
   useEffect(() => {
+    if (dataFetchedRef.current) return;
+    dataFetchedRef.current = true;
+
     if (about.length === 0) dispatch(getAboutDescription())
     if (file === null) dispatch(getAboutFile())
   }, [])

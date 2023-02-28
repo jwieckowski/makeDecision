@@ -46,20 +46,6 @@ class Weights():
 
     def validate_input_weights(self, matrix):
         pass
-        # if self.weights == None:
-        #     return 'Error'
-        
-        # if matrix.shape[1] != self.weights.shape[0]:
-        #     return "Different sizes"
-
-        # if self.extension == 'ifs':
-        #     return 'All weights should be represented as ifs'
-
-        # if self.extension == 'fuzzy':
-        #     return 'All weights should be represented as tfn'
-
-        # if np.round(np.sum(self.weights), 5) != 1:
-        #     return "Sum not equals 1"
 
     def calculate_weights(self, matrix, method):
 
