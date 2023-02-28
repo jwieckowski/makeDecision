@@ -5,8 +5,7 @@ import { RootState, useAppDispatch } from '../../redux';
 import { Box, Typography, Button } from '@mui/material'
 import { deleteConnection, setModalOpen } from '../../redux/slices/blocksSlice';
 
-
-export default function Connection() {
+export default function ConnectionInfo() {
   const dispatch = useAppDispatch()  
   const { connectionToDelete } = useSelector((state: RootState) => ({ ...state.blocks }));
 

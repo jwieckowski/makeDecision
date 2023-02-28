@@ -46,8 +46,8 @@ export default function HomePage() {
   }
     
     return (
-    <Box sx={{width: '100%'}}>
+      <Box sx={{width: '100%'}}>
         {content}
-    </Box>
+      </Box>
   );
 }

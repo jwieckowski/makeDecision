@@ -23,49 +23,48 @@ export default function RankingTable({results, idx}: RankingTableParams) {
         <TableHead>
           <TableRow>
             <TableCell>
-                <Typography variant='body1' textAlign='center'>
-                    RANKING
-                </Typography>
-                <Typography variant='body2' textAlign='center'>
-                    MATRIX {idx+1}
-                </Typography>
+              <Typography variant='body1' textAlign='center'>
+                RANKING
+              </Typography>
+              <Typography variant='body2' textAlign='center'>
+                MATRIX {idx+1}
+              </Typography>
             </TableCell>
             {results[0].ranking.map((_, idx) => {
-                return (
-                    <TableCell>
-                        <Typography variant='body1' textAlign='center'>
-                            A{idx+1}
-                        </Typography>
-                    </TableCell>
-                )
+              return (
+                <TableCell>
+                  <Typography variant='body1' textAlign='center'>
+                    A{idx+1}
+                  </Typography>
+                </TableCell>
+              )
             })}
           </TableRow>
         </TableHead>
         <TableBody>
           {results.map((res, index) => {
             return (
-                <TableRow key={index}>
+              <TableRow key={index}>
+                <TableCell>
+                  <Typography variant='body1' textAlign='center'>
+                    {res.methods.method.toUpperCase()}
+                  </Typography>
+                  <Typography variant='body2' textAlign='center'>
+                    {res.methods.weights.toUpperCase()}
+                  </Typography>
+                </TableCell>
+                {res.ranking.map(r => {
+                  return (
                     <TableCell>
-                        <Typography variant='body1' textAlign='center'>
-                            {res.methods.method.toUpperCase()}
-                        </Typography>
-                        <Typography variant='body2' textAlign='center'>
-                            {res.methods.weights.toUpperCase()}
-                        </Typography>
+                      <Typography variant='body2' textAlign='center'>
+                        {r}
+                      </Typography>
                     </TableCell>
-                    {res.ranking.map(r => {
-                        return (
-                            <TableCell>
-                                <Typography variant='body2' textAlign='center'>
-                                    {r}
-                                </Typography>
-                            </TableCell>
-                        )
-                    })}
-                </TableRow>
+                  )
+                })}
+              </TableRow>
             )
-            }
-          )}
+          })}
         </TableBody>
       </Table>
     </TableContainer>

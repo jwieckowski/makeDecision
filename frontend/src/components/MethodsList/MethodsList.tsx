@@ -12,8 +12,7 @@ import { RootState, useAppDispatch } from '../../redux';
 import { AllMethodsItem } from '../../redux/types'
 import { addBlock } from '../../redux/slices/blocksSlice'
 import { fetchAllMethods } from '../../redux/slices/dictionarySlice'
-import { queryChange } from '../../redux/slices/searchSlice';
-import { addBodyExtension } from '../../redux/slices/calculationSlice';
+import { filterMethodsType } from '../../utilities/filtering';
 
 export default function MethodsList() {
   const dispatch = useAppDispatch()
@@ -23,21 +22,17 @@ export default function MethodsList() {
   const initialState = [false, false, false, false, false, false]
   const [open, setOpen] = useState(initialState);
 
-  const filterMethodsType = (data: [] | AllMethodsItem[], type: string) => {
-    return data.filter(d => d.type === type)
-  }
 
   useEffect(() => {
     if (allMethods.length === 0) dispatch(fetchAllMethods())
-    dispatch(queryChange(''))
   }, [])
 
-  const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, index: number) => {
+  const handleItemClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, index: number) => {
     e.preventDefault()
     setOpen(prevState => prevState.map((s, idx)=> idx === index ? !s : s));
   };
 
-  function handleMethodClick(e: React.MouseEvent<HTMLDivElement, MouseEvent>, type: string, method: string, inputConnections: [] | string[], outputConnections: [] | string[]) {
+  function handleMethodItemClick(e: React.MouseEvent<HTMLDivElement, MouseEvent>, type: string, method: string, inputConnections: [] | string[], outputConnections: [] | string[]) {
     e.preventDefault()
 
     const block = {
@@ -48,6 +43,7 @@ export default function MethodsList() {
       data: {
         matrix: [],
         matrixFile: [],
+        fileName: null,
         randomMatrix: [],
         types: [],
         weights: [],
@@ -55,10 +51,6 @@ export default function MethodsList() {
       }
     }
     dispatch(addBlock(block))
-
-    if (type.includes('matrix')) {
-      dispatch(addBodyExtension({id: -1, extension: 'crisp'}))
-    }
   }
 
   const filteredData: [] | AllMethodsItem[] = useMemo(() => {
@@ -96,7 +88,7 @@ export default function MethodsList() {
       {filteredData.map((methods, index) => {
         return (
           <>
-          <ListItemButton key={`${methods.key}-key`} onClick={(e) => handleClick(e, index)}>
+          <ListItemButton key={`${methods.key}-key`} onClick={(e) => handleItemClick(e, index)}>
             <ListItemText primary={methods.key} />
             
             {query !== '' ? '' : open[index] ? <ExpandLess /> : <ExpandMore />}
@@ -106,7 +98,7 @@ export default function MethodsList() {
              <List key={`${index}-list`} component="div" disablePadding>
                {methods.data.map((method) => {
                   return (
-                    <ListItemButton key={`${method.name}-key`} sx={{ pl: 4 }} onClick={(e) => handleMethodClick(e, methods.key, method.name, methods.inputConnections, methods.outputConnections)}>
+                    <ListItemButton key={`${method.name}-key`} sx={{ pl: 4 }} onClick={(e) => handleMethodItemClick(e, methods.key, method.name, methods.inputConnections, methods.outputConnections)}>
                      <ListItemText secondary={method.name} />
                    </ListItemButton>
                   )

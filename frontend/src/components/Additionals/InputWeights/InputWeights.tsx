@@ -67,7 +67,6 @@ export default function InputWeights({extension}: ParamType) {
         })
 
         setUserWeights(copy);
-        console.log(copy)
         dispatch(setBlockWeights({id: activeBlock?.id, data: copy}))
     }
 

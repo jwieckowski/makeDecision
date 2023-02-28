@@ -12,17 +12,9 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 
 import { Link } from "react-router-dom";
+import {PAGES, URLS} from '../../common/const'
 
 export default function NavigationMenu() {
-  const pages = ['Home', 'Calculations', 'Methods', 'About', 'Contact'];
-  const urls = [
-    '/home',
-    '/calculation',
-    '/methods',
-    '/about',
-    '/contact'
-  ]
-  
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -60,8 +52,8 @@ export default function NavigationMenu() {
 
         {/* MENU ITEMS FOR BIG SCREEN */}
         <Box sx={{ flexGrow: 1, justifyContent: 'flex-end', marginRight: 10, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page, index) => (
-                <Link to={urls[index]} style={{color: 'inherit', textDecoration: 'none'}} key={`${page}-link`}>
+            {PAGES.map((page, index) => (
+                <Link to={URLS[index]} style={{color: 'inherit', textDecoration: 'none'}} key={`${page}-link`}>
                     <Button
                         key={`${page}-big`}
                         sx={{color: 'white', display: 'block' }}
@@ -76,7 +68,7 @@ export default function NavigationMenu() {
         <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
                 size="large"
-                aria-label="account of current user"
+                aria-label="application menu bar button for small screen"
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
                 onClick={handleOpenNavMenu}
@@ -102,7 +94,7 @@ export default function NavigationMenu() {
                 display: { xs: 'block', md: 'none' },
                 }}
             >
-                {pages.map((page) => (
+                {PAGES.map((page) => (
                 <MenuItem key={`${page}-small`} onClick={handleCloseNavMenu}>
                     <Typography textAlign="center">{page}</Typography>
                 </MenuItem>

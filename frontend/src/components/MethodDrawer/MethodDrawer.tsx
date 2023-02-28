@@ -7,17 +7,17 @@ import Typography from '@mui/material/Typography';
 import SearchBar from '../SearchBar';
 import MethodsList from '../MethodsList';
 
-export default function MethodsDrawer() {
-    const drawerWidth = 20;
+import { DRAWER_WIDTH } from '../../common/const';
 
+export default function MethodsDrawer() {
     return (
       <Drawer
         variant="permanent"
         anchor="right"
         sx={{
-          width: drawerWidth,
+          width: DRAWER_WIDTH,
           flexShrink: 0,
-          [`& .MuiDrawer-paper`]: { width: `${drawerWidth}%`, boxSizing: 'border-box' },
+          [`& .MuiDrawer-paper`]: { width: `${DRAWER_WIDTH}%`, boxSizing: 'border-box' },
         }}
       >
         <Toolbar />

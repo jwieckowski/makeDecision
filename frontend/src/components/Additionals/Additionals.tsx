@@ -21,8 +21,8 @@ import InputWeights from './InputWeights';
 export default function Additionals() {
   const dispatch = useAppDispatch()
   
-  const {extensions} = useSelector((state: RootState) => state.calculation.calculationBody)
-  const { allMethods, methodItem, loading, error } = useSelector((state: RootState) => ({ ...state.dictionary }));
+  // const {extensions} = useSelector((state: RootState) => state.calculation.calculationBody)
+  const { allMethods, loading, error } = useSelector((state: RootState) => ({ ...state.dictionary }));
   const { activeBlock, connections, blocks } = useSelector((state: RootState) => ({ ...state.blocks }));
   const { methodParameters } = useSelector((state: RootState) => ({ ...state.calculation }));
 
@@ -48,9 +48,9 @@ export default function Additionals() {
         indexes = [...indexes, idx]
       })
     })
-    return extensions.map((e, idx) => {
-      return { extension: e, index: idx }
-    }).filter(e => indexes.includes(e.index as never))
+    // return extensions.map((e, idx) => {
+    //   return { extension: e, index: idx }
+    // }).filter(e => indexes.includes(e.index as never))
   }
 
   const getMethodsConnectedBlocksExtensions = () => {
@@ -77,9 +77,9 @@ export default function Additionals() {
       })
     })
 
-    return extensions.map((e, idx) => {
-      return { extension: e, index: idx }
-    }).filter(e => indexes.includes(e.index as never))
+    // return extensions.map((e, idx) => {
+    //   return { extension: e, index: idx }
+    // }).filter(e => indexes.includes(e.index as never))
   }
 
   function addParameters() {
@@ -134,7 +134,7 @@ export default function Additionals() {
         { (checkBlockType('matrix') && checkBlockName('file')) && <UploadFile/>}
         
         {/* WEIGHTS TYPE */}
-        { (checkBlockType('weights') && checkBlockName('input')) && 
+        {/* { (checkBlockType('weights') && checkBlockName('input')) && 
           getWeightsConnectedBlocksExtensions().map(extension => {
             return (
               <Box>
@@ -144,7 +144,7 @@ export default function Additionals() {
               </Box>
             )
           })
-        }
+        } */}
         { (checkBlockType('weights') && checkBlockName('input')) && 
           <Box sx={{width: '100%', display: 'flex', justifyContent:'end'}}>
             <Button onClick={() => dispatch(setModalOpen(false))}>
@@ -156,7 +156,7 @@ export default function Additionals() {
         } 
 
         {/* METHOD TYPE */}
-        { checkBlockType('method') &&
+        {/* { checkBlockType('method') &&
           getMethodsConnectedBlocksExtensions().map(b => {
             return (
               <Box>
@@ -172,7 +172,7 @@ export default function Additionals() {
               </Box>
             )
           })
-        }
+        } */}
         {
           checkBlockType('method') && 
           <Typography onClick={addParameters} textAlign='center' sx={{mt: 2}}>

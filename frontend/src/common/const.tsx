@@ -8,3 +8,14 @@ export const MIN_CRITERIA = 1
 export const MAX_CRITERIA = 15
 
 export const ZOOM_STEP = 0.05
+
+export const PAGES = ['Home', 'Calculations', 'Methods', 'About', 'Contact']
+export const URLS = ['/home', '/calculation', '/methods', '/about', '/contact']
+
+export const DRAWER_WIDTH = 20
+
+export const MODAL_MIN_WIDTH = 400
+export const MODAL_MAX_WIDTH = 700
+
+export const COLORS = ['black', 'red', 'green', 'yellow', 'pink', 'orange', 'purple']
+export const PATHS = ['smooth', 'grid', 'straight']

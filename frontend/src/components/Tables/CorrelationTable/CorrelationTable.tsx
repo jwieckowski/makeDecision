@@ -24,52 +24,51 @@ export default function CorrelationTable({correlation, methods, results}: Correl
         <TableHead>
           <TableRow>
             <TableCell>
-                <Typography variant='body1' textAlign='center'>
-                    CORRELATION TABLE
-                </Typography>
-                <Typography variant='body2' textAlign='center'>
-                    {correlation.toUpperCase()}
-                </Typography>
+              <Typography variant='body1' textAlign='center'>
+                CORRELATION TABLE
+              </Typography>
+              <Typography variant='body2' textAlign='center'>
+                {correlation.toUpperCase()}
+              </Typography>
             </TableCell>
             {methods.map(method => {
-                return (
-                    <TableCell>
-                        <Typography variant='body1' textAlign='center'>
-                            {method.method.toUpperCase()}
-                        </Typography>
-                        <Typography variant='body2' textAlign='center'>
-                            {method.weights.toUpperCase()}
-                        </Typography>
-                    </TableCell>
-                )
+              return (
+                <TableCell>
+                  <Typography variant='body1' textAlign='center'>
+                    {method.method.toUpperCase()}
+                  </Typography>
+                  <Typography variant='body2' textAlign='center'>
+                    {method.weights.toUpperCase()}
+                  </Typography>
+                </TableCell>
+              )
             })}
           </TableRow>
         </TableHead>
         <TableBody>
           {results.map((res, index) => {
             return (
-                <TableRow key={index}>
+              <TableRow key={index}>
+                <TableCell>
+                  <Typography variant='body1' textAlign='center'>
+                    {methods[index].method.toUpperCase()}
+                  </Typography>
+                  <Typography variant='body2' textAlign='center'>
+                    {methods[index].weights.toUpperCase()}
+                  </Typography>
+                </TableCell>
+                {res.map(r => {
+                  return (
                     <TableCell>
-                        <Typography variant='body1' textAlign='center'>
-                            {methods[index].method.toUpperCase()}
-                        </Typography>
-                        <Typography variant='body2' textAlign='center'>
-                            {methods[index].weights.toUpperCase()}
-                        </Typography>
+                      <Typography variant='body2' textAlign='center'>
+                        {r.toFixed(4)}
+                      </Typography>
                     </TableCell>
-                    {res.map(r => {
-                        return (
-                            <TableCell>
-                                <Typography variant='body2' textAlign='center'>
-                                    {r.toFixed(4)}
-                                </Typography>
-                            </TableCell>
-                        )
-                    })}
-                </TableRow>
+                  )
+                })}
+              </TableRow>
             )
-            }
-          )}
+          })}
         </TableBody>
       </Table>
     </TableContainer>

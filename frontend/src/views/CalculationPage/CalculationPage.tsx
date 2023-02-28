@@ -1,20 +1,18 @@
 import React, {useEffect} from 'react'
 import {Box, Typography} from '@mui/material'
+import {useSelector} from 'react-redux'
+import {RootState} from '../../redux'
+import { areResultsAvailable } from '../../utilities/filtering'
 
 import DragStory from '../../components/DragAndDrop/DragStory'
 import CustomModal from '../../components/CustomModal'
-
-import {useSelector} from 'react-redux'
-import {RootState} from '../../redux'
-import { ResultsType } from '../../redux/types'
-
 import PreferencesResults from '../../components/Results/Preferences'
 import PreferencesCorrelationsResults from '../../components/Results/PreferencesCorrelations'
 import RankingResults from '../../components/Results/Ranking'
 import RankingCorrelationsResults from '../../components/Results/RankingCorrelations'
-
 import Loader from '../../components/Loader'
 import ErrorContent from '../../components/ErrorContent'
+
 
 export default function CalculationPage() {
   const {results, loading, error} = useSelector((state: RootState) => state.calculation)
@@ -26,17 +24,6 @@ export default function CalculationPage() {
       element.scrollIntoView({ behavior: 'smooth' });
     }
   }, [error])
-
-  const areResultsAvailable = (results: [] | ResultsType) => {
-    if (Array.isArray(results)) return false
-
-    const l1 = results.method.length === 0
-    const l2 = results.methodCorrelations.length === 0
-    const l3 = results.methodRankings.length === 0
-    const l4 = results.rankingCorrelations.length === 0
-
-    return [l1, l2, l3, l4].some(l => l === false)
-  } 
 
   let content = <Loader />
   if (!loading) {

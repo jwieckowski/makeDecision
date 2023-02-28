@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useMemo, useRef} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import {Grid, Box, Button, Typography, TextField, FormControl, InputLabel, MenuItem, IconButton } from '@mui/material'
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Xarrow, {Xwrapper} from 'react-xarrows';
@@ -9,8 +9,7 @@ import {
   setBlocks, 
   addClickedBlock, 
   deleteClickedBlock, 
-  setClickedBlocks, 
-  addConnection, 
+  setClickedBlocks,
   deleteConnection,
   setConnections, 
   setActiveBlock,
@@ -26,22 +25,12 @@ import {
   resetResults
 } from '../../../redux/slices/calculationSlice';
 
-import {
-  MethodType,
-  MethodCorrelationType, 
-  MethodRankingType, 
-  RankingCorrelationType,
-  CalculationBodyType
-} from '../../../redux/types'
-import { HIDE_DURATION, ZOOM_STEP } from '../../../common/const';
-
-import { getMethodData, getSingleItemByName, getFilteredMethods } from '../../../utilities/filtering';
-import { getNotConnectedBlocks } from '../../../utilities/blocks';
-import { BlockType } from '../../../redux/types';
+import {  CalculationBodyType } from '../../../redux/types'
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import ZoomInIcon from '@mui/icons-material/ZoomIn';
@@ -49,28 +38,65 @@ import ZoomOutIcon from '@mui/icons-material/ZoomOut';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
 
 import DraggableBox from '../DraggableBox'
+import { getNotConnectedBlocks } from '../../../utilities/blocks';
+import {
+  getMatrixWeightsConnections,
+  getWeightsMethodConnections,
+  createWeightMethodPair,
+  getMethodCorrelationConnections,
+  getMethodRankingConnections,
+  getRankingCorrelationConnections
+} from '../../../utilities/calculation'
+import { useBlocksConnection } from '../../../hooks';
 
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
+import { HIDE_DURATION, ZOOM_STEP, COLORS, PATHS } from '../../../common/const';
 
 export default function DragStory() {
   // const { allMethods, methodItem, correlationItem, decisionMatrixItem, rankingItem, visualizationItem, weightItem } = useSelector((state: RootState) => state.dictionary)
   const { allMethods} = useSelector((state: RootState) => state.dictionary)
   const { blocks, clickedBlocks, connections, draggedItem, activeBlock} = useSelector((state: RootState) => state.blocks)
-  const { results, calculationBody, error} = useSelector((state: RootState) => state.calculation)
+  const { error} = useSelector((state: RootState) => state.calculation)
+  const {addBlockConnection, checkForWrongExtensionMethodConnection} = useBlocksConnection()
+
   const dispatch = useAppDispatch()
   const { enqueueSnackbar } = useSnackbar();
   const gridRef = useRef(null)
   
-  const crispMethods = useMemo(() => allMethods.length > 0 ? getFilteredMethods(getMethodData(allMethods, 'method'), 'crisp') : [], [])
-  const fuzzyMethods = useMemo(() => allMethods.length > 0 ? getFilteredMethods(getMethodData(allMethods, 'method'), 'fuzzy') : [], [])
+  useEffect(() => {
+    addBlockConnection()
+    checkForWrongExtensionMethodConnection(connections)
+  }, [blocks, clickedBlocks])
+  
+  useEffect(() => {
+    const currentBlocks = blocks.map(b => b._id)
+
+    clickedBlocks.map(b => {
+        if (!currentBlocks.includes(+b)) {
+          dispatch(deleteClickedBlock(b))
+        }
+    })
+    connections.forEach(c => {
+      let blockId = null
+      if (!currentBlocks.includes(+c[0])) blockId = c[0]
+      else if (!currentBlocks.includes(+c[1])) blockId = c[1]
+
+      if (blockId !== null) {
+        dispatch(deleteConnection(c))
+      } 
+    })
+      
+    if (!currentBlocks.includes(activeBlock?.id as never)) {
+      dispatch(setActiveBlock(null))
+    }
+  }, [blocks])
+
 
   // xarrows settings
   const [size, setSize] = useState<number>(4)
   const [headSize, setHeadSize] = useState<number>(8)
-  const [color, setColor] = useState<string>('CornflowerBlue')
+  const [color, setColor] = useState<string>(COLORS[0])
   const [curveness, setCurveness] = useState<number>(0.8)
-  const [path, setPath] = useState<any>('smooth')
+  const [path, setPath] = useState<any>(PATHS[0])
 
   // grid area settings
   const [zoom, setZoom] = useState<number>(1)
@@ -130,23 +156,19 @@ export default function DragStory() {
     ;
   }
 
-  // console.log(results)
-
   useEffect(() => {
     if (error === null) return
     enqueueSnackbar(error, {variant: 'error', 'autoHideDuration': HIDE_DURATION});
   }, [error])
 
   const handleClick = (e: React.MouseEvent<HTMLElement>, id: string, type: string, method: string) => {
-    // e.preventDefault()
     e.stopPropagation()
     if (draggedItem !== null) return
     if (clickedBlocks.includes(id as never)) return
     dispatch(addClickedBlock(id))
     dispatch(setClickedBlockId(+id))
 
-
-    allMethods.map(methods => {
+    allMethods.forEach(methods => {
       if (methods.key.toLowerCase().includes(type.toLowerCase())) {
         dispatch(setActiveBlock({
           ...methods.data.filter(item => item.name.toLowerCase() === method.toLowerCase())[0],
@@ -167,10 +189,10 @@ export default function DragStory() {
     dispatch(resetBody())
   }
   
-  // Change to compose body in this function not in state
   const handleCalculateClick = () => {
     dispatch(clearBody())
 
+    let calculate = true
     let body: CalculationBodyType = {
       matrixFiles: [],
       matrix: [],
@@ -190,42 +212,42 @@ export default function DragStory() {
     const matrices = blocks.filter(block => block.type.includes('matrix'))
     if (matrices.length === 0) {
       enqueueSnackbar('No input data given', {variant: 'error', 'autoHideDuration': HIDE_DURATION});
+      calculate = false
       return
     }
     
     // for each matrix in structure do calculations
     matrices.forEach((matrix, matrixIdx) => {      
-      let weightsItems: [] | BlockType[] = []
-      let mcdaItems: [] | BlockType[][] = []
+      calculate = true
+      const weightsItems = getMatrixWeightsConnections(blocks, connections, matrix)
 
-      // add weights methods connected with given matrix
-      connections.forEach(connection => {
-        if (connection[0] === matrix._id.toString()) {
-          weightsItems = [...weightsItems, blocks.filter(block => block._id === +connection[1])[0]]
-        }
-      })
-      
       if (weightsItems.length === 0) {
         matrixIndexes = [...matrixIndexes, matrixIdx]
+        enqueueSnackbar(`Matrix not connected to any weights`, {variant: 'error', 'autoHideDuration': HIDE_DURATION});
+        calculate = false
         return
       }
 
       // validate matrix
       if (matrix.method === 'file' && Array.isArray(matrix.data.matrixFile) && matrix.data.matrixFile.length === 0) {
         enqueueSnackbar(`Uploaded matrix file is empty`, {variant: 'error', 'autoHideDuration': HIDE_DURATION});
+        calculate = false
         return  
       }
-
+      
       if (matrix.method === 'input') {
         //  no matrix defined
         if (matrix.data.matrix.length === 0) {
           enqueueSnackbar(`Input matrix was not defined`, {variant: 'error', 'autoHideDuration': HIDE_DURATION});
+          calculate = false
           return
         }
         
         // zero values in input matrix
-        if (matrix.data.matrix.map((r: number[]) => r.some(item => item === 0) === true).some((r: boolean) => r === true) === true) 
-        enqueueSnackbar(`Zero values in input matrix`, {variant: 'warning', 'autoHideDuration': HIDE_DURATION});
+        if (matrix.data.matrix.map((r: number[]) => r.some(item => item === 0) === true).some((r: boolean) => r === true) === true) {
+          enqueueSnackbar(`Zero values in input matrix`, {variant: 'warning', 'autoHideDuration': HIDE_DURATION});
+          calculate = false
+        }
         
         // same values in column
         for (let i = 0; i < matrix.data.matrix[0].length; i++) {
@@ -233,6 +255,7 @@ export default function DragStory() {
           const unique = Array.from(new Set(colValue))
           if (unique.length === 1) {
             enqueueSnackbar(`Same values in column ${i+1}`, {variant: 'error', 'autoHideDuration': HIDE_DURATION});
+            calculate = false
             return
           }
         }
@@ -243,16 +266,18 @@ export default function DragStory() {
         //  no types given
         if (matrix.data.types.length === 0) {
           enqueueSnackbar(`Criteria types were not given`, {variant: 'error', 'autoHideDuration': HIDE_DURATION});
+          calculate = false
           return
         }
         
         let size = matrix.method === 'random' ? matrix.data.randomMatrix[1] : matrix.data.matrix[0].length
         if (size !== matrix.data.types.length) {
           enqueueSnackbar(`Not all criteria types were given`, {variant: 'error', 'autoHideDuration': HIDE_DURATION});
+          calculate = false
           return  
         }
       }
-
+      
       body.extensions = [...body.extensions, matrix.data.extension]
       if (matrix.method === 'input') body.matrix = [...body.matrix, matrix.data.matrix]
       else if (matrix.method === 'random') body.matrix = [...body.matrix, matrix.data.randomMatrix]
@@ -260,155 +285,65 @@ export default function DragStory() {
 
       if (['input', 'random'].includes(matrix.method)) body.types = [...body.types, matrix.data.types.map(t => +t)]
       else body.types = [...body.types, []]
-
+      
       // check mcda connections with weights
-      weightsItems.map(w => {
-        let mcdaTempItems: [] | BlockType[] = []
-        connections.map(connection => {
-          if (connection[0] === w._id.toString()) {
-            mcdaTempItems = [...mcdaTempItems, blocks.filter(block => block._id === +connection[1])[0]]
-          }
-
-        })
-        // if no connection from weight then insert empty object
-        if (!connections.map(c => c[0]).includes(w._id.toString())) {
-          // mcdaTempItems = [...mcdaTempItems, { _id: -1, type: '', method: '', inputConnections: [], outputConnections: []}]
-          mcdaTempItems = []
-        }
-        if (mcdaTempItems.length > 0) {
-          mcdaItems = [...mcdaItems, [...mcdaTempItems]]
-        }
-      })
-  
-      if (mcdaItems.length === 0) return
+      const mcdaItems = getWeightsMethodConnections(weightsItems, blocks, connections)  
+      if (mcdaItems.length === 0) {
+        enqueueSnackbar(`No MCDA method was used`, {variant: 'error', 'autoHideDuration': HIDE_DURATION});
+        calculate = false
+        return
+      }
 
       //  validate weights
       weightsItems.forEach(weights => {
         if (weights.method === 'input' && matrix.data.extension === 'crisp') {
 
           const sum = weights.data.weights.map(w => +w).reduce((total, value) => Number(total) + Number(value), 0);
-          console.log(sum)  
           if (weights.data.weights.some(w => +w === 0)) {
             enqueueSnackbar(`None of weights should equal 0`, {variant: 'error', 'autoHideDuration': HIDE_DURATION});
+            calculate = false
             return
           } 
           else if (weights.data.weights.some(w => +w < 0)) {
             enqueueSnackbar(`None of weights should equal less than 0`, {variant: 'error', 'autoHideDuration': HIDE_DURATION});
+            calculate = false
             return
           } 
           else if (Math.round(sum * 100) / 100 !== 1) {
             enqueueSnackbar(`Weights should sum up to 1`, {variant: 'error', 'autoHideDuration': HIDE_DURATION});
+            calculate = false
             return
           } 
         }
       })
       
 
-      let methodItem: MethodType[] = []
-      weightsItems.map((item, index) => {
-        mcdaItems[index].map(mcda => {
-          methodItem = [...methodItem, {
-            method: mcda.method,
-            weights: item.method === 'input' ? item.data.weights.map(w => +w) :item.method
-          }]
-        })
-      })
+      const methodItem = createWeightMethodPair(weightsItems, mcdaItems)
       if (methodItem.length > 0) {
         body.method = [...body.method, [...methodItem]]
       }
       
-      const rankingBlocks = blocks.filter(block => block.type === 'ranking')
-      const correlationBlocks = blocks.filter(block => block.type === 'correlation')
-
       // correlations connections -> (method -> correlation)
-      let methodCorrelationItem: [] | MethodCorrelationType[] = []
-      correlationBlocks.map(block => {
-        const blockConnections = connections.filter(c => c[1] === block._id.toString() && mcdaItems.filter(items => items.filter(i => i._id === +c[0]).length > 0))
-        let methodCorrelation: MethodCorrelationType = {
-          correlation: block.method,
-          data: []
-        }
-        blockConnections.map(c => {
-          weightsItems.map((item, index) => {
-            mcdaItems[index].map(mcda => {
-              if (mcda._id === +c[0]) {
-                methodCorrelation.data = [...methodCorrelation.data, {
-                  method: mcda.method,
-                  weights: item.method
-                }]
-              }
-            })
-          })
-        })
-        if (methodCorrelation.data.length > 0) {
-          methodCorrelationItem = [...methodCorrelationItem, methodCorrelation]
-        }
-      })
+      const methodCorrelationItem = getMethodCorrelationConnections(blocks, connections, weightsItems, mcdaItems)
       if (methodCorrelationItem.length > 0) {
         body.methodCorrelations = [...body.methodCorrelations, [...methodCorrelationItem]]
       }
 
       // ranking connections -> (method -> ranking)
-      let methodRankingItem: [] | MethodRankingType[] = []
-      let rankingCorrelationItem: [] | RankingCorrelationType[] = []
-      rankingBlocks.map(block => {
-        const blockConnections = connections.filter(c => c[1] === block._id.toString() && mcdaItems.filter(items => items.filter(i => i._id === +c[0]).length > 0))
-        let methodRanking: MethodRankingType = {data: []}
-        blockConnections.map(c => {
-          weightsItems.map((item, index) => {
-            mcdaItems[index].map(mcda => {
-              if (mcda._id === +c[0]) {
-                const data = getSingleItemByName(getMethodData(allMethods, 'Method'), blocks.filter(block => block._id === +c[0])[0].method)
-                methodRanking.data = [...methodRanking.data, {
-                  method: mcda.method, 
-                  weights: item.method,
-                  order: data?.order ? data.order : ''
-                }]
-              }
-            })
-          })
-        })
-        if (methodRanking.data.length > 0 ) {
-          methodRankingItem = [...methodRankingItem, methodRanking]
-        }
-        
-        // correlations connections -> (ranking -> correlation)
-        const rankCorrConnections = connections.filter(c => c[0] === block._id.toString() && correlationBlocks.map(b => b._id).includes(+c[1]))
-        rankCorrConnections.map(c => {
-          const blockConnections = connections.filter(c => c[1] === block._id.toString() && mcdaItems.filter(items => items.filter(i => i._id === +c[0]).length > 0))
-          let rankingCorrelation: RankingCorrelationType = {
-            correlation: blocks.filter(b => b._id === +c[1])[0].method,
-            data: []
-          }
-          blockConnections.map(conn => {
-            weightsItems.map((item, index) => {
-              mcdaItems[index].map(mcda => {
-                if (mcda._id === +conn[0]) {
-                  const data = getSingleItemByName(getMethodData(allMethods, 'Method'), blocks.filter(block => block._id === +conn[0])[0].method)
-                  rankingCorrelation.data = [...rankingCorrelation.data, {
-                    method: mcda.method,
-                    weights: item.method,
-                    order: data?.order ? data.order : ''
-                  }]
-                }
-              })
-            })
-          })
-          if (rankingCorrelation.data.length > 0) {
-            rankingCorrelationItem = [...rankingCorrelationItem, rankingCorrelation]
-          }
-        })
-      })
+      const methodRankingItem = getMethodRankingConnections(blocks, connections, weightsItems, mcdaItems, allMethods)
       if (methodRankingItem.length > 0) {
         body.methodRankings = [...body.methodRankings, [...methodRankingItem]]
       }
+      // correlations connections -> (ranking -> correlation)
+      const rankingCorrelationItem = getRankingCorrelationConnections(blocks, connections, weightsItems, mcdaItems, allMethods)
       if (rankingCorrelationItem.length > 0) {
         body.rankingCorrelations = [...body.rankingCorrelations, [...rankingCorrelationItem]]
       }
     })
 
-    dispatch(getResults(body))
+    calculate && dispatch(getResults(body))
   }
+  
 
   const handleGridClick = () => {
     dispatch(setClickedBlockId(null))
@@ -421,119 +356,6 @@ export default function DragStory() {
     dispatch(setModalOpen(true))
     dispatch(setConnectionToDelete(c))
   }
-
-  const getBlocks = (type: string) => {
-    return blocks.filter(b => b.type.toLowerCase() === type)
-  }
-
-  const checkForWrongDataMethodConnection = () => {
-    getBlocks('matrix').forEach((matrix, idx) => {
-      let weightsID: [] | string[] = []
-      // save weights id
-      connections.forEach(c => {
-        if (c[0] === matrix._id.toString()) {
-          weightsID = [...weightsID, c[1]]
-        }
-      })
-
-      // check weights to method connection
-      weightsID.forEach(w => {
-        connections.forEach(c => {
-          if (c[0] === w) {
-            const methodBlock = blocks.filter(b => b._id === +c[1])[0]
-            if (calculationBody.extensions[idx] === 'fuzzy') {
-              if (!fuzzyMethods.map(m => m.name.toLowerCase()).includes(methodBlock.method.toLowerCase())) {
-                enqueueSnackbar(`Metoda ${methodBlock.method.toUpperCase()} nie może byc połączona z danymi w formie fuzzy. Połączenie zostanie usunięte`, {variant: 'error', 'autoHideDuration': HIDE_DURATION});
-                dispatch(deleteConnection(c))
-              }
-            }
-          } 
-        })
-      })
-    })
-  }
-
-  useEffect(() => {
-    if (clickedBlocks.length === 2) {
-        if (connections.filter(c => c[0] === clickedBlocks[0] && c[1] === clickedBlocks[1]).length === 0) {
-            const inputBlock = blocks.filter(b => b._id === +clickedBlocks[0])[0]
-            const outputBlock = blocks.filter(b => b._id === +clickedBlocks[1])[0]
-
-            if (inputBlock === undefined || outputBlock === undefined) return
-            
-            if (outputBlock.inputConnections.includes(inputBlock.type as never)) {
-              // check for only one ranking connection
-              if (outputBlock.type === 'ranking') {
-                const outConnections = connections.filter(c => c[0] === inputBlock._id.toString()).map(c => c[1])
-                const rankingBlocks = blocks.filter(block => block.type === 'ranking')
-                
-                if (outConnections.filter(c => rankingBlocks.map(b => b._id).includes(+c)).length === 0) {
-                  dispatch(addConnection([clickedBlocks[0], clickedBlocks[1]]))
-                } else {
-                  enqueueSnackbar('Metodę można połączyć tylko z jednym rankingiem', {variant: 'error', 'autoHideDuration': HIDE_DURATION});
-                  
-                }
-              } else if (outputBlock.type === 'correlation') {
-                const requiredData = getSingleItemByName(getMethodData(allMethods, 'correlation'), outputBlock.method).requiredData
-                // method->correlation
-                if (requiredData.includes('preferences' as never)) {
-                  if (inputBlock.type !== 'method') {
-                    enqueueSnackbar('Ta metoda korelacji służy do obliczenia podobieństw preferencji, nie rankingów', {variant: 'error', 'autoHideDuration': HIDE_DURATION});
-                  } else {
-                    dispatch(addConnection([clickedBlocks[0], clickedBlocks[1]]))
-                  }
-                }
-                // ranking-> correlation
-                if (requiredData.includes('ranking' as never)) {
-                  if (inputBlock.type !== 'ranking') {
-                    enqueueSnackbar('Ta metoda korelacji służy do obliczenia podobieństw rankingów, nie preferencji', {variant: 'error', 'autoHideDuration': HIDE_DURATION});
-                  } else {
-                    dispatch(addConnection([clickedBlocks[0], clickedBlocks[1]]))
-                  }
-                }
-              } else {
-                dispatch(addConnection([clickedBlocks[0], clickedBlocks[1]]))
-              }
-            } else {
-              enqueueSnackbar('Nie można połączyc bloczków', {variant: 'error', 'autoHideDuration': HIDE_DURATION});
-            }
-        }
-        dispatch(setClickedBlocks([clickedBlocks[1]]))
-    }
-
-    if (calculationBody.extensions.length === 0) return
-    checkForWrongDataMethodConnection()
-
-  }, [clickedBlocks])
-  
-  useEffect(() => {
-    const currentBlocks = blocks.map(b => b._id)
-
-    clickedBlocks.map(b => {
-        if (!currentBlocks.includes(+b)) {
-            dispatch(deleteClickedBlock(b))
-        }
-    })
-    connections.forEach(c => {
-      let blockId = null
-      if (!currentBlocks.includes(+c[0])) blockId = c[0]
-      else if (!currentBlocks.includes(+c[1])) blockId = c[1]
-
-      if (blockId !== null) {
-        dispatch(deleteConnection(c))
-      } 
-    })
-      
-    if (!currentBlocks.includes(activeBlock?.id as never)) {
-      dispatch(setActiveBlock(null))
-    }
-  }, [blocks])
-
-  useEffect(() => {
-    if (calculationBody.extensions.length === 0) return
-
-    checkForWrongDataMethodConnection()
-  }, [calculationBody.extensions])
 
   return (
     <Grid
@@ -579,12 +401,12 @@ export default function DragStory() {
           {blocks.map(block => {
             return (
               <DraggableBox
-                  key={block._id}
-                  id={block._id.toString()}
-                  type={block.type}
-                  method={block.method}
-                  handleClick={handleClick}
-                  zoom={zoom}
+                key={block._id}
+                id={block._id.toString()}
+                type={block.type}
+                method={block.method}
+                handleClick={handleClick}
+                zoom={zoom}
               />
             )
           })}
@@ -607,13 +429,6 @@ export default function DragStory() {
         </Xwrapper>  
       </Grid>
       <Box sx={{width: '90%', margin: '0 5%', display: 'flex', justifyContent: 'end', alignItems: 'center'}}>
-        <Box sx={{mr: 1}}>
-          <FormControlLabel 
-            control={<Checkbox value={gridOn} onChange={handleGridChange}/>} 
-            label="Grid"
-            labelPlacement="start"
-          />
-        </Box>
         {
           gridOn && 
             <TextField
@@ -630,6 +445,13 @@ export default function DragStory() {
               }}  
             />
         }
+        <Box sx={{mr: 1}}>
+          <FormControlLabel 
+            control={<Checkbox value={gridOn} onChange={handleGridChange}/>} 
+            label="Grid"
+            labelPlacement="start"
+          />
+        </Box>
         <Typography variant='body2'>
           {Math.round(zoom*100)}%
         </Typography>
@@ -695,36 +517,15 @@ export default function DragStory() {
               label="color"
               onChange={handleColorChange}
             >
-              <MenuItem value={'CornflowerBlue'}>
-                <Typography variant='body2'>
-                  Light Blue
-                </Typography>
-              </MenuItem>
-              <MenuItem value={'red'}>
-                <Typography variant='body2'>
-                  Red
-                </Typography>
-              </MenuItem>
-              <MenuItem value={'blue'}>
-                <Typography variant='body2'>
-                  Blue
-                </Typography>
-              </MenuItem>
-              <MenuItem value={'green'}>
-                <Typography variant='body2'>
-                  Green
-                </Typography>
-              </MenuItem>
-              <MenuItem value={'yellow'}>
-                <Typography variant='body2'>
-                  Yellow
-                </Typography>
-              </MenuItem>
-              <MenuItem value={'black'}>
-                <Typography variant='body2'>
-                  Black
-                </Typography>
-              </MenuItem>
+              { COLORS.map((color, idx) => {
+                return (
+                  <MenuItem value={color} key={idx}>
+                    <Typography variant='body2'>
+                      {color}
+                    </Typography>
+                  </MenuItem>
+                )
+              })}
             </Select>
           </FormControl>
           <FormControl sx={{width: '120px'}}>
@@ -736,21 +537,15 @@ export default function DragStory() {
               label="path"
               onChange={handlePathChange}
             >
-              <MenuItem value={'smooth'}>
-                <Typography variant='body2'>
-                  Smooth
-                </Typography>
-              </MenuItem>
-              <MenuItem value={'grid'}>
-                <Typography variant='body2'>
-                  Grid
-                </Typography>
-              </MenuItem>
-              <MenuItem value={'straight'}>
-                <Typography variant='body2'>
-                  Straight
-                </Typography>
-              </MenuItem>
+              { PATHS.map((path, idx) => {
+                return (
+                  <MenuItem value={path} key={idx}>
+                    <Typography variant='body2'>
+                      {path}
+                    </Typography>
+                  </MenuItem>
+                )
+              })}
             </Select>
           </FormControl>
         </Box>

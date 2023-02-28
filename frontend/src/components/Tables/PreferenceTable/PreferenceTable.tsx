@@ -23,49 +23,48 @@ export default function PreferenceTable({results, idx}: PreferenceTableParams) {
         <TableHead>
           <TableRow>
             <TableCell>
-                <Typography variant='body1' textAlign='center'>
-                    PREFERENCES
-                </Typography>
-                <Typography variant='body2' textAlign='center'>
-                    MATRIX {idx+1}
-                </Typography>
+              <Typography variant='body1' textAlign='center'>
+                PREFERENCES
+              </Typography>
+              <Typography variant='body2' textAlign='center'>
+                MATRIX {idx+1}
+              </Typography>
             </TableCell>
             {results[0].preference.map((_, idx) => {
-                return (
-                    <TableCell>
-                        <Typography variant='body1' textAlign='center'>
-                            A{idx+1}
-                        </Typography>
-                    </TableCell>
-                )
+              return (
+                <TableCell>
+                  <Typography variant='body1' textAlign='center'>
+                    A{idx+1}
+                  </Typography>
+                </TableCell>
+              )
             })}
           </TableRow>
         </TableHead>
         <TableBody>
           {results.map((res, index) => {
             return (
-                <TableRow key={index}>
+              <TableRow key={index}>
+                <TableCell>
+                  <Typography variant='body1' textAlign='center'>
+                    {res.method.toUpperCase()}
+                  </Typography>
+                  <Typography variant='body2' textAlign='center'>
+                    {res.weights.toUpperCase()}
+                  </Typography>
+                </TableCell>
+                {res.preference.map(r => {
+                  return (
                     <TableCell>
-                        <Typography variant='body1' textAlign='center'>
-                            {res.method.toUpperCase()}
-                        </Typography>
-                        <Typography variant='body2' textAlign='center'>
-                            {res.weights.toUpperCase()}
-                        </Typography>
+                      <Typography variant='body2' textAlign='center'>
+                        {r.toFixed(4)}
+                      </Typography>
                     </TableCell>
-                    {res.preference.map(r => {
-                        return (
-                            <TableCell>
-                                <Typography variant='body2' textAlign='center'>
-                                    {r.toFixed(4)}
-                                </Typography>
-                            </TableCell>
-                        )
-                    })}
-                </TableRow>
+                  )
+                })}
+              </TableRow>
             )
-            }
-          )}
+          })}
         </TableBody>
       </Table>
     </TableContainer>

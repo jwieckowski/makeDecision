@@ -7,15 +7,17 @@ import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from '../../redux'
 
 import Additionals from '../Additionals';
-import Connection from '../Connection';
+import ConnectionInfo from '../ConnectionInfo';
+
+import { MODAL_MIN_WIDTH, MODAL_MAX_WIDTH } from '../../common/const';
 
 const style = {
-  position: 'absolute' as 'absolute',
+  position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  minWidth: 400,
-  maxWidth: 700,
+  minWidth: MODAL_MIN_WIDTH,
+  maxWidth: MODAL_MAX_WIDTH,
   bgcolor: 'background.paper',
   border: '2px solid #000',
   borderRadius: 5,
@@ -26,6 +28,7 @@ const style = {
 export default function CustomModal() {
   const dispatch = useAppDispatch()
   const { modalOpen, modalType } = useSelector((state: RootState) => state.blocks)
+  
   const handleClose = () => {
     dispatch(setModalOpen(false));
     dispatch(setModalType(null))
@@ -36,12 +39,12 @@ export default function CustomModal() {
       <Modal
         open={modalOpen}
         onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
+        aria-labelledby="modal"
+        aria-describedby="modal with additional parameters for multi-criteria calculations"
       >
         <Box sx={style}>
           {modalType === 'additionals' && <Additionals/>}
-          {modalType === 'connection' && <Connection />}
+          {modalType === 'connection' && <ConnectionInfo />}
         </Box>
       </Modal>
     </div>

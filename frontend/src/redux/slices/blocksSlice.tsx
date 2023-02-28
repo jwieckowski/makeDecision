@@ -94,6 +94,21 @@ const blocksSlice = createSlice({
           : b
       })
     },
+    setBlockFileName: (state, action) => {
+      state.blocks = state.blocks.map(b => {
+        return b._id === action.payload.id
+          ? 
+            {
+              ...b,
+              data: {
+                ...b.data,
+                fileName: action.payload.data
+              }
+            }
+          : b
+      })
+      
+    },
     setBlockRandomMatrix: (state, action) => {
       state.blocks = state.blocks.map(b => {
         return b._id === action.payload.id
@@ -173,6 +188,7 @@ export const {
   setConnectionToDelete,
   setBlockMatrix,
   setBlockMatrixFile,
+  setBlockFileName,
   setBlockRandomMatrix,
   setBlockTypes,
   setBlockWeights,

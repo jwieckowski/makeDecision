@@ -9,13 +9,13 @@ import Box from '@mui/material/Box';
 
 import MarkdownText from '../MarkdownText'
 
-interface TabPanelProps {
+interface DescriptionProps {
   children?: React.ReactNode;
   index: number;
   value: number;
 }
 
-function TabPanel(props: TabPanelProps) {
+function DescriptionItem(props: DescriptionProps) {
   const { children, value, index, ...other } = props;
 
   return (
@@ -35,7 +35,7 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
-function MethodTabPanel(props: TabPanelProps) {
+function DescriptionMethodPanel(props: DescriptionProps) {
   const { children, value, index, ...other } = props;
 
   return (
@@ -47,18 +47,18 @@ function MethodTabPanel(props: TabPanelProps) {
       {...other}
     >
       {value === index && (
-        <>
+        <Box>
           {children}
-        </>
+        </Box>
       )}
     </div>
   );
 }
 
-function a11yProps(index: number) {
+function ariaProps(index: number) {
   return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
+    id: `panel-item-${index}`,
+    'aria-controls': `panel item ${index}`,
   };
 }
 
@@ -71,61 +71,56 @@ export default function DescriptionsMenu() {
     setMethodIndex(0)
   }, [typeIndex])
 
-  const handleTypeChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleTypeChange = (e: React.SyntheticEvent, newValue: number) => {
     setTypeIndex(newValue);
   };
 
-  const handleMethodChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleMethodChange = (e: React.SyntheticEvent, newValue: number) => {
     setMethodIndex(newValue);
   };
-
 
   return (
     <Box sx={{ width: '100%', mt: 3}}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={typeIndex} onChange={handleTypeChange} aria-label="Menu of methods with their mathematical descriptions" centered>
-          {
-            methods.map(method => {
-                return <Tab label={method.key} {...a11yProps(method.id)}/>
+          { methods.map(method => {
+              return <Tab label={method.key} {...ariaProps(method.id)}/>
             })
           }
         </Tabs>
       </Box>
-      {
-        methods.length > 0 && 
+      { methods.length > 0 && 
         methods.map((method, idx) => {
-            return (
-                <TabPanel value={typeIndex} index={idx}>
-                    <Box>
-                        <Tabs
-                            // orientation="horizontal"
-                            variant="scrollable"
-                            value={methodIndex}
-                            onChange={handleMethodChange}
-                            aria-label="Menu of techniques from selected methods"
-                            centered
-                            sx={{width: '100%'}}
-                        >
-                            {
-                                method.data.map((data, id) => {
-                                    return <Tab label={data.name} {...a11yProps(id)} />
-                                })
-                            }
-                        </Tabs>
-                            {method.data.map((data, id) => {
-                                return (
-                                    <MethodTabPanel value={methodIndex} index={id}>
-                                        <Box sx={{width: '60%', margin: '20px auto'}}>
-                                            {data.description.map(d => {
-                                                return <MarkdownText text={d.text} key={`text${d.id}`}/>
-                                            })}
-                                        </Box>
-                                    </MethodTabPanel>
-                                )
-                            })}
-                    </Box>
-                </TabPanel>
-            )
+          return (
+            <DescriptionItem value={typeIndex} index={idx}>
+              <Box>
+                <Tabs
+                  variant="scrollable"
+                  value={methodIndex}
+                  onChange={handleMethodChange}
+                  aria-label="Menu of techniques from selected methods"
+                  centered
+                  sx={{width: '100%'}}
+                >
+                  { method.data.map((data, id) => {
+                      return <Tab label={data.name} {...ariaProps(id)} />
+                    })
+                  }
+                </Tabs>
+                {method.data.map((data, id) => {
+                  return (
+                    <DescriptionMethodPanel value={methodIndex} index={id}>
+                      <Box sx={{width: '60%', margin: '20px auto'}}>
+                        {data.description.map(d => {
+                          return <MarkdownText text={d.text} key={`text${d.id}`}/>
+                        })}
+                      </Box>
+                    </DescriptionMethodPanel>
+                  )
+                })}
+              </Box>
+            </DescriptionItem>
+          )
         })
       }
     </Box>

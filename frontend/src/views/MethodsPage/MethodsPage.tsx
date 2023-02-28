@@ -21,8 +21,7 @@ export default function MethodsPage() {
   let content = <Loader />
   if (!loading) {
     if (!error) {
-      content = 
-        <DescriptionsMenu />
+      content = <DescriptionsMenu />
       } else {
         content = <ErrorContent cb={getMethodsDescriptions}/>
     }

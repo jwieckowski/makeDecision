@@ -134,26 +134,8 @@ export type WeightsItem = {
     additional?: null
 }
 
-type DictionarySliceState = {
+export type DictionarySliceState = {
     allMethods: [] | AllMethodsItem[],
-    methods: [] | MethodsItem[],
-    methodItem: null | MethodsItem,
-    correlations: [] | CorrelationsItem[],
-    correlationItem: null | CorrelationsItem,
-    decisionMatrix: [] | DecisionMatrixItem[],
-    decisionMatrixItem: null | DecisionMatrixItem,
-    defuzzifications: [] | DefuzzificationsItem[],
-    defuzzificationItem: null | DefuzzificationsItem,
-    distances: [] | DistancesItem[],
-    distanceItem: null | DistancesItem,
-    normalizations: [] | NormalizationsItem[],
-    normalizationItem: null | NormalizationsItem,
-    ranking: [] | RankingItem[],
-    rankingItem: null | RankingItem,
-    visualization: [] | VisualizationItem[],
-    visualizationItem: null | VisualizationItem,
-    weights: [] | WeightsItem[],
-    weightItem: null | WeightsItem,
     loading: boolean,
     error: null | string
 }
@@ -282,6 +264,10 @@ export type CalculationBodyType = {
     rankingCorrelations: [] | RankingCorrelationType[][]
 }
 
+export type TempBodyType = {
+    matrixFiles: [] | File[]
+}
+
 export type CalculationSliceState = {
     results: [] | ResultsType,
     rankingResults: [] | RankingType[],
@@ -289,8 +275,7 @@ export type CalculationSliceState = {
     methodParameters: [] | ParamsType[],
     alternatives: number,
     criteria: number,
-    calculationBody: CalculationBodyType,
-    matrixFileNames: [] | string[],
+    calculationBody: TempBodyType,
     loading: boolean,
     error: null | string
 }
@@ -300,11 +285,13 @@ export type CalculationSliceState = {
 export type BlockDataType = {
     matrix: [] | any,
     matrixFile: [] | File,
+    fileName: null | string,
     randomMatrix: [] | number[],
     types: [] | string[],
     weights: [] | number[],
     extension: string,
-    // additionals: any
+    // additionals: any,
+    // styles: any
 }
 
 export type BlockType = {
@@ -315,7 +302,6 @@ export type BlockType = {
     outputConnections: [] | string[],
     data: BlockDataType
 }
-
 
 export type BlocksSliceState = {
     blocks: [] | BlockType[],
@@ -328,9 +314,6 @@ export type BlocksSliceState = {
     modalType: null | string,
     connectionToDelete: null | string[]
 }
-
-export default DictionarySliceState
-
 
 // DESCRIPTIONS TYPES ----------------------------------------------------------------------------
 

@@ -1,4 +1,4 @@
-import {ChangeEvent} from 'react';
+import {useState, useEffect, ChangeEvent} from 'react';
 import * as XLSX from 'xlsx';
 import {Box, Typography} from '@mui/material'
 import IconButton from '@mui/material/IconButton';
@@ -8,29 +8,23 @@ import { HIDE_DURATION } from '../../../common/const';
 import {useSelector} from 'react-redux'
 import { RootState, useAppDispatch } from '../../../redux';
 import { useSnackbar } from 'notistack'
-import { addMatrixFile, addMatrixFileName, setCriteria } from '../../../redux/slices/calculationSlice';
-import { setBlockMatrixFile } from '../../../redux/slices/blocksSlice'
+import { addMatrixFile, setCriteria } from '../../../redux/slices/calculationSlice';
+import { setBlockMatrixFile, setBlockFileName } from '../../../redux/slices/blocksSlice'
+import { BlockType } from '../../../redux/types';
 
 export default function UploadFile() {
-  const {matrixFileNames} = useSelector((state: RootState) => state.calculation)
-  const {activeBlock} = useSelector((state: RootState) => state.blocks)
+  const {activeBlock, blocks} = useSelector((state: RootState) => state.blocks)
+  const [block, setBlock] = useState<BlockType | null>(null)
   const dispatch = useAppDispatch()
   const { enqueueSnackbar } = useSnackbar();
-  
-  // const getNumberOfFileMatrix = () => {
-  //   return blocks.filter(b => b.type.toLowerCase() === 'matrix' && b.method.toLowerCase() === 'file').map(b => b._id === id).indexOf(true)
-  // }
 
-  const getMatrixFileName = () => {
-    if (activeBlock?.id === undefined) return ''
-    // setNameactiveBlock?.Id(getNumberOfFileMatrix())
-    return matrixFileNames.length < activeBlock?.id+1 ? '' : matrixFileNames[activeBlock?.id]
-  }
-
+  useEffect(() => {
+    setBlock(blocks.filter(b => b._id === activeBlock?.id)[0])
+  }, [blocks])
 
   const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      dispatch(addMatrixFileName({name: e.target.files[0].name, id: activeBlock?.id}))
+      const name = e.target.files[0].name
 
       // FOR JSON FILES
       if (e.target.files[0].type.includes('json')) {
@@ -55,6 +49,10 @@ export default function UploadFile() {
               id: activeBlock?.id,
               data: e.target.result
             }))
+            dispatch(setBlockFileName({
+              id: activeBlock?.id,
+              data: name
+            }))
           }
         };
       }
@@ -64,7 +62,6 @@ export default function UploadFile() {
         let reader = new FileReader();
         reader.onload = function(e) {
           // Use reader.result
-          // alert(reader.result)
           if (reader.result?.toString() === undefined) return
           if (reader.result?.toString().split('\r\n').length > 0) dispatch(setCriteria(reader.result?.toString().split('\r\n')[0].split(', ').length))
           else {
@@ -76,6 +73,10 @@ export default function UploadFile() {
           dispatch(setBlockMatrixFile({
             id: activeBlock?.id,
             data: reader.result
+          }))
+          dispatch(setBlockFileName({
+            id: activeBlock?.id,
+            data: name
           }))
         }
         reader.readAsText(e.target.files[0]);
@@ -100,11 +101,15 @@ export default function UploadFile() {
           enqueueSnackbar(`Uploaded XLSX file is empty`, {variant: 'error', 'autoHideDuration': HIDE_DURATION});
           return
         }
-
+        
         dispatch(addMatrixFile(jsonData))
         dispatch(setBlockMatrixFile({
           id: activeBlock?.id,
           data: JSON.stringify(jsonData)
+        }))
+        dispatch(setBlockFileName({
+          id: activeBlock?.id,
+          data: name
         }))
       }
     }
@@ -126,10 +131,10 @@ export default function UploadFile() {
           </Typography>
         </IconButton>
       </Box>
-      { getMatrixFileName() !== '' &&
+      { (block !== null && block.data.fileName !== null) &&
         <Box sx={{maxWidth: '300px', overflow: 'auto'}}>
           <Typography sx={{mt: 2}} variant='body1'>
-            Załadowany plik: {getMatrixFileName()}
+            Załadowany plik: {block.data.fileName}
           </Typography>
         </Box>
       }
