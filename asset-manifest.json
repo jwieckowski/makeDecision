@@ -1,9 +1,9 @@
 {
   "files": {
     "main.css": "/jwieckowski.github.io/gui/static/css/main.d7910e39.css",
-    "main.js": "/jwieckowski.github.io/gui/static/js/main.30448ea9.js",
-    "static/js/703.0ecec08a.chunk.js": "/jwieckowski.github.io/gui/static/js/703.0ecec08a.chunk.js",
-    "static/js/598.8924f679.chunk.js": "/jwieckowski.github.io/gui/static/js/598.8924f679.chunk.js",
+    "main.js": "/jwieckowski.github.io/gui/static/js/main.11a0e02d.js",
+    "static/js/703.6932e2af.chunk.js": "/jwieckowski.github.io/gui/static/js/703.6932e2af.chunk.js",
+    "static/js/598.5570519b.chunk.js": "/jwieckowski.github.io/gui/static/js/598.5570519b.chunk.js",
     "static/media/KaTeX_AMS-Regular.ttf": "/jwieckowski.github.io/gui/static/media/KaTeX_AMS-Regular.853be92419a6c3766b9a.ttf",
     "static/media/KaTeX_Main-Regular.ttf": "/jwieckowski.github.io/gui/static/media/KaTeX_Main-Regular.9eba1d77abcf2aa6e94e.ttf",
     "static/media/KaTeX_Main-Bold.ttf": "/jwieckowski.github.io/gui/static/media/KaTeX_Main-Bold.8169508bf58f8bd92ad8.ttf",
@@ -66,12 +66,12 @@
     "static/media/KaTeX_Size3-Regular.woff2": "/jwieckowski.github.io/gui/static/media/KaTeX_Size3-Regular.e1951519f6f0596f7356.woff2",
     "index.html": "/jwieckowski.github.io/gui/index.html",
     "main.d7910e39.css.map": "/jwieckowski.github.io/gui/static/css/main.d7910e39.css.map",
-    "main.30448ea9.js.map": "/jwieckowski.github.io/gui/static/js/main.30448ea9.js.map",
-    "703.0ecec08a.chunk.js.map": "/jwieckowski.github.io/gui/static/js/703.0ecec08a.chunk.js.map",
-    "598.8924f679.chunk.js.map": "/jwieckowski.github.io/gui/static/js/598.8924f679.chunk.js.map"
+    "main.11a0e02d.js.map": "/jwieckowski.github.io/gui/static/js/main.11a0e02d.js.map",
+    "703.6932e2af.chunk.js.map": "/jwieckowski.github.io/gui/static/js/703.6932e2af.chunk.js.map",
+    "598.5570519b.chunk.js.map": "/jwieckowski.github.io/gui/static/js/598.5570519b.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.d7910e39.css",
-    "static/js/main.30448ea9.js"
+    "static/js/main.11a0e02d.js"
   ]
 }
