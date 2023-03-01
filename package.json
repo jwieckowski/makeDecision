@@ -1,6 +1,6 @@
 {
   "name": "gui",
-  "homepage": "https:/jwieckowski.github.io/gui",
+  "homepage": "https://jwieckowski.github.io/gui/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -67,6 +67,8 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^5.0.0"
+    "gh-pages": "^5.0.0",
+    "ts-loader": "^9.4.2",
+    "webpack": "^5.75.0"
   }
 }
