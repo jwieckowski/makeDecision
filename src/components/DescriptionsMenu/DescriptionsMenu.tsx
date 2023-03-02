@@ -47,7 +47,7 @@ function DescriptionMethodPanel(props: DescriptionProps) {
       {...other}
     >
       {value === index && (
-        <Box>
+        <Box sx={{width: '100%'}}>
           {children}
         </Box>
       )}
@@ -100,7 +100,7 @@ export default function DescriptionsMenu() {
                   onChange={handleMethodChange}
                   aria-label="Menu of techniques from selected methods"
                   centered
-                  sx={{width: '100%'}}
+                  sx={{width: '100%', display: 'flex', justifyContent: 'center', maxWidth: '100vw', overflow: 'auto'}}
                 >
                   { method.data.map((data, id) => {
                       return <Tab label={data.name} {...ariaProps(id)} />
@@ -109,7 +109,7 @@ export default function DescriptionsMenu() {
                 </Tabs>
                 {method.data.map((data, id) => {
                   return (
-                    <DescriptionMethodPanel value={methodIndex} index={id}>
+                    <DescriptionMethodPanel value={methodIndex} index={id}>                  
                       <Box sx={{width: '60%', margin: '20px auto'}}>
                         {data.description.map(d => {
                           return <MarkdownText text={d.text} key={`text${d.id}`}/>

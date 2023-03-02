@@ -12,7 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 
 import { Link } from "react-router-dom";
-import {PAGES, URLS} from '../../common/const'
+import {APP_NAME_PATH, PAGES, URLS} from '../../common/const'
 
 export default function NavigationMenu() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -52,7 +52,7 @@ export default function NavigationMenu() {
         {/* MENU ITEMS FOR BIG SCREEN */}
         <Box sx={{ flexGrow: 1, justifyContent: 'flex-end', marginRight: 10, display: { xs: 'none', md: 'flex' } }}>
             {PAGES.map((page, index) => (
-                <Link to={URLS[index]} style={{color: 'inherit', textDecoration: 'none'}} key={`${page}-link`}>
+                <Link to={`/${APP_NAME_PATH}${URLS[index]}`} style={{color: 'inherit', textDecoration: 'none'}} key={`${page}-link`}>
                     <Button
                         key={`${page}-big`}
                         sx={{color: 'white', display: 'block' }}
@@ -84,8 +84,8 @@ export default function NavigationMenu() {
                 }}
                 keepMounted
                 transformOrigin={{
-                    vertical: 'top',
-                horizontal: 'left',
+                  vertical: 'top',
+                  horizontal: 'left',
                 }}
                 open={Boolean(anchorElNav)}
                 onClose={handleCloseNavMenu}
@@ -93,10 +93,12 @@ export default function NavigationMenu() {
                 display: { xs: 'block', md: 'none' },
                 }}
             >
-                {PAGES.map((page) => (
-                <MenuItem key={`${page}-small`} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
+                {PAGES.map((page, index) => (
+                  <Link to={`/${APP_NAME_PATH}${URLS[index]}`} style={{color: 'inherit', textDecoration: 'none'}} key={`${page}-link`}>
+                    <MenuItem key={`${page}-small`} onClick={handleCloseNavMenu}>
+                        <Typography textAlign="center">{page}</Typography>
+                    </MenuItem>
+                  </Link>
                 ))}
             </Menu>
         </Box>

@@ -12,7 +12,7 @@ type MarkdownProps = {
 
 export default function MarkdownText({text}: MarkdownProps) {
     return (
-      <Box sx={{my: 2}}>
+      <Box sx={{maxWidth: '800px', my: 2, overflow: 'hidden'}}>
         <ReactMarkdown
           children={text}
           remarkPlugins={[remarkMath]}

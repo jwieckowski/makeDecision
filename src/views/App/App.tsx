@@ -14,18 +14,20 @@ import Methods from '../MethodsPage'
 import About from '../AboutPage';
 import Contact from '../ContactPage';
 
+import {APP_NAME_PATH} from '../../common/const'
+
 function App() {
 return (
   <BrowserRouter>
     <SnackbarProvider maxSnack={4}>
       <Layout>
         <Routes>
-          <Route path='/home' element={<Home />}/>
-          <Route path='/calculation' element={<Calculation />}/>
-          <Route path='/methods' element={<Methods />}/>
-          <Route path='/about' element={<About />}/>
-          <Route path='/contact' element={<Contact />}/>
-          <Route path="*" element={<Navigate to='/home' replace={true} />} />
+          <Route path={`/${APP_NAME_PATH}/home`} element={<Home />}/>
+          <Route path={`/${APP_NAME_PATH}/calculation`} element={<Calculation />}/>
+          <Route path={`/${APP_NAME_PATH}/methods`} element={<Methods />}/>
+          <Route path={`/${APP_NAME_PATH}/about`} element={<About />}/>
+          <Route path={`/${APP_NAME_PATH}/contact`} element={<Contact />}/>
+          <Route path="*" element={<Navigate to={`/${APP_NAME_PATH}/home`} replace={true} />} />
         </Routes>
       </Layout>
     </SnackbarProvider>
