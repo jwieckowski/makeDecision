@@ -31,7 +31,7 @@ export default function Layout({children}: LayoutChildren) {
       enqueueSnackbar(`Back online`, {variant: 'success', 'autoHideDuration': HIDE_DURATION});
     }
   }, [isOnline]);
-  console.log(location.pathname)
+
   return (
     <Box sx={{ display: 'flex', maxWidth: '100vw', minHeight: '100vh', height: '100%', flexDirection: 'column'}}>
       <NavigationMenu />

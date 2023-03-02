@@ -9,6 +9,7 @@ import { BASE_URL } from '../../common/const';
 
 export const getResults = createAsyncThunk('calculations/getResults', async (params: CalculationBodyType) => {
   const data = await axios.post(`${BASE_URL}/api/v1/results`, params)
+  console.log(data)
   return data.data;
 });
 
@@ -68,8 +69,7 @@ const calculationSlice = createSlice({
         state.results = action.payload
         state.loading = false;
       })
-      .addCase(getResults.rejected, (state: CalculationSliceState, action) => {
-        console.log(action.payload)
+      .addCase(getResults.rejected, (state: CalculationSliceState, action: PayloadAction<any>) => {
         state.error = 'Error occurred while getting calculation results from server';
         state.loading = false;
       })

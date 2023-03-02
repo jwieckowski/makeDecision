@@ -1,8 +1,9 @@
 import React, {useEffect} from 'react'
-import {Box, Typography} from '@mui/material'
+import {Box, Typography, Button} from '@mui/material'
 import {useSelector} from 'react-redux'
 import {RootState} from '../../redux'
 import { areResultsAvailable } from '../../utilities/filtering'
+import SaveAltIcon from '@mui/icons-material/SaveAlt';
 
 import DragStory from '../../components/DragAndDrop/DragStory'
 import CustomModal from '../../components/CustomModal'
@@ -25,6 +26,17 @@ export default function CalculationPage() {
     }
   }, [error])
 
+  const generateResultsFile = () => {
+    const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
+      JSON.stringify(results, null, 2)
+    )}`;
+    const link = document.createElement("a");
+    link.href = jsonString;
+    link.download = "results.json";
+
+    link.click();
+  }
+
   let content = <Loader />
   if (!loading) {
     if (!error) {
@@ -32,16 +44,25 @@ export default function CalculationPage() {
       <Box sx={{width: '90%', mx: 'auto', marginTop: '300px', backgroundColor: 'grey', borderRadius: 5}}>
         {areResultsAvailable(results) && 
         <Box sx={{p:4}}>
-          <Typography textAlign='center' variant='h6'>
-            Results
-          </Typography>
+          <Box sx={{}}>
+            <Typography textAlign='center' variant='h6'>
+              Results
+            </Typography>
+            <Box sx={{display: 'flex', justifyContent: 'end'}}>
+              <Button variant='contained' onClick={generateResultsFile}>
+                <SaveAltIcon />
+                Download results
+              </Button>
+            </Box>
+          </Box>
 
           <>
-          <PreferencesResults />
-          <PreferencesCorrelationsResults />
-          <RankingResults />
-          <RankingCorrelationsResults />
+            <PreferencesResults />
+            <PreferencesCorrelationsResults />
+            <RankingResults />
+            <RankingCorrelationsResults />
           </>
+
         </Box>
         }
       </Box>
