@@ -68,7 +68,8 @@ const calculationSlice = createSlice({
         state.results = action.payload
         state.loading = false;
       })
-      .addCase(getResults.rejected, (state: CalculationSliceState) => {
+      .addCase(getResults.rejected, (state: CalculationSliceState, action) => {
+        console.log(action.payload)
         state.error = 'Error occurred while getting calculation results from server';
         state.loading = false;
       })

@@ -47,7 +47,7 @@ import {
   getMethodRankingConnections,
   getRankingCorrelationConnections
 } from '../../../utilities/calculation'
-import { useBlocksConnection } from '../../../hooks';
+import useBlocksConnection from '../../../utilities/connections';
 
 import { HIDE_DURATION, ZOOM_STEP, COLORS, PATHS } from '../../../common/const';
 

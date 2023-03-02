@@ -7,8 +7,8 @@ import {
   getFilteredMethods, 
   getMethodData,
   getSingleItemByName
-} from '../utilities/filtering';
-import { getBlocksOfType } from '../utilities/blocks';
+} from './filtering';
+import { getBlocksOfType } from './blocks';
 import { 
   addConnection,
   deleteConnection,

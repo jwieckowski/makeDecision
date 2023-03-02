@@ -9,7 +9,7 @@ import NavigationMenu from '../../components/NavigationMenu'
 import MethodDrawer from '../../components/MethodDrawer'
 
 import { useOnlineStatus } from '../../hooks'
-
+import {APP_NAME_PATH} from '../../common/const'
 interface LayoutChildren {
     children: React.ReactNode | React.ReactFragment
 }
@@ -31,14 +31,14 @@ export default function Layout({children}: LayoutChildren) {
       enqueueSnackbar(`Back online`, {variant: 'success', 'autoHideDuration': HIDE_DURATION});
     }
   }, [isOnline]);
-
+  console.log(location.pathname)
   return (
     <Box sx={{ display: 'flex', maxWidth: '100vw', minHeight: '100vh', height: '100%', flexDirection: 'column'}}>
       <NavigationMenu />
       <CssBaseline />
       <NavigationMenu />
-      {location.pathname === '/calculation' && <MethodDrawer />}
-      <Box component="main" style={{width: location.pathname === '/calculation' ? '80%' : '100%'}}>
+      {location.pathname === `/${APP_NAME_PATH}/calculation` && <MethodDrawer />}
+      <Box component="main" style={{width: location.pathname === `/${APP_NAME_PATH}/calculation` ? '80%' : '100%'}}>
         <Toolbar />
         { children }
       </Box>
