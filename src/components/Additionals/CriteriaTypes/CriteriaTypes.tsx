@@ -19,13 +19,11 @@ export default function CriteriaTypes() {
     setBlock(blocks.filter(b => b._id === activeBlock?.id)[0])
   }, [blocks])
 
+
   useEffect(() => {
     if (activeBlock?.id === undefined) return
     if (criteria > MAX_CRITERIA) return
-    if (block === null) {
-      setCriteriaTypes(Array(criteria).fill('1'))
-      return
-    }
+    if (block === null) return
     else dispatch(setBlockTypes({id: activeBlock?.id, data: block.data.types.filter((c, idx) => idx < criteria)}))
   }, [criteria])
 
@@ -36,13 +34,13 @@ export default function CriteriaTypes() {
     if (block.data.types.length === 0) return 
 
     if (criteria > 0) {            
-      let copy = Array(criteria <= MAX_CRITERIA ? criteria : MAX_CRITERIA).fill('1')
+      let copy = Array(criteria <= MAX_CRITERIA ? criteria : MAX_CRITERIA).fill('')
       copy = copy.map((r, idx) => {
         return idx < block.data.types.length ? block.data.types[idx] : r
       })
       setCriteriaTypes([...copy])
     }
-  }, [])
+  }, [block])
 
   const handleTypeChange = (e: SelectChangeEvent, col: number) => {
     let copy = [...criteriaTypes];
@@ -69,7 +67,7 @@ export default function CriteriaTypes() {
                           <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
-                            value={block === null ? '1' : block.data.types[col]}
+                            value={block === null ? '' : block.data.types[col]}
                             label={`C${col+1}`}
                             style={{width: '80px'}}
                             onChange={(e) => handleTypeChange(e, col)}
