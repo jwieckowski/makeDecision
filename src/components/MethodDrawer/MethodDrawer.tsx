@@ -15,6 +15,10 @@ export default function MethodsDrawer() {
         variant="permanent"
         anchor="right"
         sx={{
+          display: {
+            xs: 'none',
+            md: "block"
+          },
           width: DRAWER_WIDTH,
           flexShrink: 0,
           [`& .MuiDrawer-paper`]: { width: `${DRAWER_WIDTH}%`, boxSizing: 'border-box' },

@@ -359,195 +359,210 @@ export default function DragStory() {
 
   return (
     <Grid
-      style={{width: '100%', height: '60vh'}}
+      sx={{width: '100%', height: '80vh'}}
     >
-      <Box
-        sx={{width: '90%', margin: '1% 5%', display: 'flex', justifyContent: 'end', alignItems: 'center'}}
-      >
-        <Button variant='contained' onClick={printDocument}>
-          <SaveAltIcon />
-          Save graph
-        </Button>
-        <Button sx={{margin: '0 1%'}} variant='contained' onClick={handleClearClick}>
-          <HighlightOffIcon />
-          Clear
-        </Button>
-        <Button variant='contained' onClick={handleCalculateClick}>
-          <PlayCircleOutlineIcon />
-          Calculate
-        </Button>
-      </Box>
-      <Grid
-        container
-        position='relative'
-        direction='column'
-        justifyContent='start'
-        alignItems='center'
-        flexDirection='row'
-        style={{
-          width: '90%', 
-          margin: '1% 5%', 
-          height: '100%', 
-          border: '3px solid black', 
-          cursor: 'pointer',
-          zoom: zoom,
-          background: gridOn ? `conic-gradient(from 90deg at 1px 1px,#0000 90deg,grey 0) 0 0/${gridSize}px ${gridSize}px`: ''
-        }}
-        onClick={handleGridClick}
-        id='blockArea'
-        ref={gridRef}
-      >
-        <Xwrapper>
-          {blocks.map(block => {
-            return (
-              <DraggableBox
-                key={block._id}
-                id={block._id.toString()}
-                type={block.type}
-                method={block.method}
-                handleClick={handleClick}
-                zoom={zoom}
-              />
-            )
-          })}
-          {
-          connections.map(c => {
+      {/* BIG SCREEN */}
+      <Box sx={{width: '100%', height: '100%', display: { xs: 'none', md: 'flex' }, flexDirection: 'column'}}>
+        <Box
+          sx={{width: '90%', margin: '1% 5%', display: 'flex', justifyContent: 'end', alignItems: 'center'}}
+        >
+          <Button variant='contained' onClick={printDocument}>
+            <SaveAltIcon />
+            Save graph
+          </Button>
+          <Button sx={{margin: '0 1%'}} variant='contained' onClick={handleClearClick}>
+            <HighlightOffIcon />
+            Clear
+          </Button>
+          <Button variant='contained' onClick={handleCalculateClick}>
+            <PlayCircleOutlineIcon />
+            Calculate
+          </Button>
+        </Box>
+        <Grid
+          container
+          position='relative'
+          direction='column'
+          justifyContent='start'
+          alignItems='center'
+          flexDirection='row'
+          style={{
+            width: '90%', 
+            margin: '1% 5%', 
+            height: '100%', 
+            border: '3px solid black', 
+            cursor: 'pointer',
+            zoom: zoom,
+            background: gridOn ? `conic-gradient(from 90deg at 1px 1px,#0000 90deg,grey 0) 0 0/${gridSize}px ${gridSize}px`: ''
+          }}
+          onClick={handleGridClick}
+          id='blockArea'
+          ref={gridRef}
+        >
+          <Xwrapper>
+            {blocks.map(block => {
               return (
-                <Xarrow 
-                  start={c[0]} 
-                  end={c[1]}
-                  strokeWidth={size}
-                  headSize={headSize}
-                  path={path}
-                  curveness={curveness}
-                  color={color}
-                  passProps= {{cursor: "pointer", onClick: () => handleArrowClick(c)}}
+                <DraggableBox
+                  key={block._id}
+                  id={block._id.toString()}
+                  type={block.type}
+                  method={block.method}
+                  handleClick={handleClick}
+                  zoom={zoom}
                 />
               )
-            })
+            })}
+            {
+            connections.map(c => {
+                return (
+                  <Xarrow 
+                    start={c[0]} 
+                    end={c[1]}
+                    strokeWidth={size}
+                    headSize={headSize}
+                    path={path}
+                    curveness={curveness}
+                    color={color}
+                    passProps= {{cursor: "pointer", onClick: () => handleArrowClick(c)}}
+                  />
+                )
+              })
+            }
+          </Xwrapper>  
+        </Grid>
+        <Box sx={{width: '90%', margin: '0 5%', display: 'flex', justifyContent: 'end', alignItems: 'center'}}>
+          {
+            gridOn && 
+              <TextField
+                style={{width: '80px', marginRight: 5}}
+                key='size-grid' 
+                value={gridSize}
+                label='Size'
+                type='number'
+                onChange={(e) => handleGridSizeChange(e)}
+                InputProps={{
+                  inputProps: { 
+                    min: 10, max: 100, step: 1 
+                  }
+                }}  
+              />
           }
-        </Xwrapper>  
-      </Grid>
-      <Box sx={{width: '90%', margin: '0 5%', display: 'flex', justifyContent: 'end', alignItems: 'center'}}>
-        {
-          gridOn && 
+          <Box sx={{mr: 1}}>
+            <FormControlLabel 
+              control={<Checkbox value={gridOn} onChange={handleGridChange}/>} 
+              label="Grid"
+              labelPlacement="start"
+            />
+          </Box>
+          <Typography variant='body2'>
+            {Math.round(zoom*100)}%
+          </Typography>
+          <IconButton onClick={() => handleZoomClick(-ZOOM_STEP)}>
+            <ZoomOutIcon />
+          </IconButton>
+          <IconButton onClick={() => handleZoomClick(ZOOM_STEP)}>
+            <ZoomInIcon />
+          </IconButton>
+        </Box>
+        <Box sx={{width: '90%', margin: '1% 5%'}}>
+          <Box>
+            <Typography variant='body2'>
+              Arrows settings
+            </Typography>
+          </Box>
+          <Box sx={{mt:2, display: 'flex', gap: 2}}>
             <TextField
-              style={{width: '80px', marginRight: 5}}
-              key='size-grid' 
-              value={gridSize}
+              style={{width: '80px'}}
+              key='size-arrow' 
+              value={size}
               label='Size'
               type='number'
-              onChange={(e) => handleGridSizeChange(e)}
+              onChange={(e) => handleSizeChange(e)}
               InputProps={{
                 inputProps: { 
-                  min: 10, max: 100, step: 1 
+                  min: 1, max: 12 
                 }
               }}  
             />
-        }
-        <Box sx={{mr: 1}}>
-          <FormControlLabel 
-            control={<Checkbox value={gridOn} onChange={handleGridChange}/>} 
-            label="Grid"
-            labelPlacement="start"
-          />
+            <TextField
+              style={{width: '80px'}}
+              key='headSize-arrow' 
+              value={headSize}
+              label='Head size'
+              type='number'
+              onChange={(e) => handleHeadSizeChange(e)}
+              InputProps={{
+                inputProps: { 
+                  min: 1, max: 12 
+                }
+              }}  
+            />
+            <TextField
+              style={{width: '80px'}}
+              key='curveness-arrow' 
+              value={curveness}
+              label='Curveness'
+              type='number'
+              onChange={(e) => handleCurvenessChange(e)}
+              InputProps={{
+                inputProps: { 
+                  min: 0.1, max: 2, step: 0.1 
+                }
+              }}  
+            />
+            <FormControl sx={{width: '120px'}}>
+              <InputLabel id="color-input">Color</InputLabel>
+              <Select
+                labelId="color-input"
+                id="color"
+                value={color}
+                label="color"
+                onChange={handleColorChange}
+              >
+                { COLORS.map((color, idx) => {
+                  return (
+                    <MenuItem value={color} key={idx}>
+                      <Typography variant='body2'>
+                        {color}
+                      </Typography>
+                    </MenuItem>
+                  )
+                })}
+              </Select>
+            </FormControl>
+            <FormControl sx={{width: '120px'}}>
+              <InputLabel id="path-input">Path</InputLabel>
+              <Select
+                labelId="path-input"
+                id="path"
+                value={path}
+                label="path"
+                onChange={handlePathChange}
+              >
+                { PATHS.map((path, idx) => {
+                  return (
+                    <MenuItem value={path} key={idx}>
+                      <Typography variant='body2'>
+                        {path}
+                      </Typography>
+                    </MenuItem>
+                  )
+                })}
+              </Select>
+            </FormControl>
+          </Box>
         </Box>
-        <Typography variant='body2'>
-          {Math.round(zoom*100)}%
-        </Typography>
-        <IconButton onClick={() => handleZoomClick(-ZOOM_STEP)}>
-          <ZoomOutIcon />
-        </IconButton>
-        <IconButton onClick={() => handleZoomClick(ZOOM_STEP)}>
-          <ZoomInIcon />
-        </IconButton>
       </Box>
-      <Box sx={{width: '90%', margin: '1% 5%'}}>
-        <Box>
-          <Typography variant='body2'>
-            Arrows settings
+
+      {/* SMALL SCREEN */}
+      <Box sx={{width: '100%', height: '100%', display: { xs: 'flex', md: 'none' }}}>
+        <Box sx={{width: '100%', height: '400px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
+          <Typography textAlign='center' variant='h5' sx={{p: 5}}>
+            Work area is to small
           </Typography>
-        </Box>
-        <Box sx={{mt:2, display: 'flex', gap: 2}}>
-          <TextField
-            style={{width: '80px'}}
-            key='size-arrow' 
-            value={size}
-            label='Size'
-            type='number'
-            onChange={(e) => handleSizeChange(e)}
-            InputProps={{
-              inputProps: { 
-                min: 1, max: 12 
-              }
-            }}  
-          />
-          <TextField
-            style={{width: '80px'}}
-            key='headSize-arrow' 
-            value={headSize}
-            label='Head size'
-            type='number'
-            onChange={(e) => handleHeadSizeChange(e)}
-            InputProps={{
-              inputProps: { 
-                min: 1, max: 12 
-              }
-            }}  
-          />
-          <TextField
-            style={{width: '80px'}}
-            key='curveness-arrow' 
-            value={curveness}
-            label='Curveness'
-            type='number'
-            onChange={(e) => handleCurvenessChange(e)}
-            InputProps={{
-              inputProps: { 
-                min: 0.1, max: 2, step: 0.1 
-              }
-            }}  
-          />
-          <FormControl sx={{width: '120px'}}>
-            <InputLabel id="color-input">Color</InputLabel>
-            <Select
-              labelId="color-input"
-              id="color"
-              value={color}
-              label="color"
-              onChange={handleColorChange}
-            >
-              { COLORS.map((color, idx) => {
-                return (
-                  <MenuItem value={color} key={idx}>
-                    <Typography variant='body2'>
-                      {color}
-                    </Typography>
-                  </MenuItem>
-                )
-              })}
-            </Select>
-          </FormControl>
-          <FormControl sx={{width: '120px'}}>
-            <InputLabel id="path-input">Path</InputLabel>
-            <Select
-              labelId="path-input"
-              id="path"
-              value={path}
-              label="path"
-              onChange={handlePathChange}
-            >
-              { PATHS.map((path, idx) => {
-                return (
-                  <MenuItem value={path} key={idx}>
-                    <Typography variant='body2'>
-                      {path}
-                    </Typography>
-                  </MenuItem>
-                )
-              })}
-            </Select>
-          </FormControl>
+          <Typography textAlign='center' variant='h5' sx={{p: 5}}>
+            To use the calculation, page run the application on the bigger screen
+          </Typography>
         </Box>
       </Box>
     </Grid>

@@ -38,12 +38,11 @@ export default function Layout({children}: LayoutChildren) {
       <CssBaseline />
       <NavigationMenu />
       {location.pathname === `/${APP_NAME_PATH}/calculation` && <MethodDrawer />}
-      <Box component="main" style={{width: location.pathname === `/${APP_NAME_PATH}/calculation` ? '80%' : '100%'}}>
+      <Box component='main' sx={{width: { xs: '100%', md: location.pathname === `/${APP_NAME_PATH}/calculation` ? '80%' : '100%'}}}>
         <Toolbar />
         { children }
       </Box>
     </Box>
   );
-}
-
+} 
 
