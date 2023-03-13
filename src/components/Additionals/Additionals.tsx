@@ -16,8 +16,7 @@ import UploadFile from "./UploadFile";
 import CriteriaAlternatives from "./CriteriaAlternatives";
 import InputWeights from "./InputWeights";
 
-// TODO add preference function for promethee
-// methods: normalization, distance, defuzzification
+// TODO methods: normalization, distance, defuzzification
 export default function Additionals() {
   const dispatch = useAppDispatch();
 
@@ -55,9 +54,15 @@ export default function Additionals() {
         if (+cm === m._id) indexes = [...indexes, idx];
       });
     });
-    // return extensions.map((e, idx) => {
-    //   return { extension: e, index: idx }
-    // }).filter(e => indexes.includes(e.index as never))
+
+    return blocks
+      .filter((b) => connectedMatrix.includes(b._id.toString()))
+      .map((b) => {
+        return {
+          id: b._id,
+          extension: b.data.extension,
+        };
+      });
   };
 
   const getMethodsConnectedBlocksExtensions = () => {
@@ -148,28 +153,28 @@ export default function Additionals() {
         (checkBlockName("input") || checkBlockName("random")) && (
           <Box sx={{ width: "100%", display: "flex", justifyContent: "end" }}>
             <Button onClick={() => dispatch(setModalOpen(false))}>
-              <Typography color="black">Zapisz</Typography>
+              <Typography color="black">SAVE</Typography>
             </Button>
           </Box>
         )}
       {checkBlockType("matrix") && checkBlockName("file") && <UploadFile />}
 
       {/* WEIGHTS TYPE */}
-      {/* { (checkBlockType('weights') && checkBlockName('input')) && 
-          getWeightsConnectedBlocksExtensions().map(extension => {
-            return (
-              <Box>
-                <Typography>Matrix: {extension.index}</Typography>
-                <Typography>Extension: {extension.extension}</Typography>
-                <InputWeights extension={extension.extension}/>
-              </Box>
-            )
-          })
-        } */}
+      {checkBlockType("weights") &&
+        checkBlockName("input") &&
+        getWeightsConnectedBlocksExtensions().map((extension) => {
+          return (
+            <Box>
+              <Typography>Matrix: {extension.id}</Typography>
+              <Typography>Extension: {extension.extension}</Typography>
+              <InputWeights extension={extension.extension} />
+            </Box>
+          );
+        })}
       {checkBlockType("weights") && checkBlockName("input") && (
         <Box sx={{ width: "100%", display: "flex", justifyContent: "end" }}>
           <Button onClick={() => dispatch(setModalOpen(false))}>
-            <Typography color="black">Zapisz</Typography>
+            <Typography color="black">Save</Typography>
           </Button>
         </Box>
       )}

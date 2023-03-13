@@ -1,357 +1,364 @@
 // DICTIONARIES TYPES ---------------------------------
 
 export type MethodAdditionalData = {
-    id: number,
-    method: string,
-    parameter: string
-}
+  id: number;
+  method: string;
+  parameter: string;
+};
 
 export type AllMethodsDataItem = {
-    id: number,
-    type: string,
-    name: string,
-    extensions: [] | string[],
-    requiredData: [] | string[],
-    hints: [] | string[],
-    order?: string,
-    additional?: [] | MethodAdditional[],
-    abbreviation?: string,
-    formats?: [] | string[],
-    functionName?: string
-}
+  id: number;
+  type: string;
+  name: string;
+  extensions: [] | string[];
+  requiredData: [] | string[];
+  hints: [] | string[];
+  order?: string;
+  additional?: [] | MethodAdditional[];
+  abbreviation?: string;
+  formats?: [] | string[];
+  functionName?: string;
+};
 
 export type AllMethodsItem = {
-    id: number,
-    key: string,
-    type: string,
-    data: [] | AllMethodsDataItem[],
-    inputConnections: [] | string[],
-    outputConnections: [] | string[],
-}
+  id: number;
+  key: string;
+  type: string;
+  data: [] | AllMethodsDataItem[];
+  inputConnections: [] | string[];
+  outputConnections: [] | string[];
+};
 
 export type MethodAdditional = {
-    extension: string,
-    data: [] | MethodAdditionalData[]
-}
+  extension: string;
+  data: [] | MethodAdditionalData[];
+};
 
 export type MethodsItem = {
-    id: number,
-    type: string,
-    name: string,
-    abbreviation: string,
-    extensions: [] | string[],
-    order: string,
-    requiredData: [] | string[],
-    additional: [] | MethodAdditional[],
-    inputConnections: [] | string[],
-    outputConnections: [] | string[],
-    hints: [] | string[]
-}
+  id: number;
+  type: string;
+  name: string;
+  abbreviation: string;
+  extensions: [] | string[];
+  order: string;
+  requiredData: [] | string[];
+  additional: [] | MethodAdditional[];
+  inputConnections: [] | string[];
+  outputConnections: [] | string[];
+  hints: [] | string[];
+};
 
 export type CorrelationsItem = {
-    id: number,
-    type: string,
-    name: string,
-    requiredData: [] | string[],
-    inputConnections: [] | string[],
-    outputConnections: [] | string[],
-    hints: [] | string[]
-    additional?: null
-}
+  id: number;
+  type: string;
+  name: string;
+  requiredData: [] | string[];
+  inputConnections: [] | string[];
+  outputConnections: [] | string[];
+  hints: [] | string[];
+  additional?: null;
+};
 
 export type DecisionMatrixItem = {
-    id: number,
-    type: string,
-    name: string,
-    extensions: [] | string[],
-    formats?: [] | string[], 
-    requiredData: [] | string[],
-    outputConnections: [] | string[],
-    hints: [] | string[]
-    additional?: null
-}
+  id: number;
+  type: string;
+  name: string;
+  extensions: [] | string[];
+  formats?: [] | string[];
+  requiredData: [] | string[];
+  outputConnections: [] | string[];
+  hints: [] | string[];
+  additional?: null;
+};
 
 export type DefuzzificationsItem = {
-    id: number,
-    type: string,
-    name: string,
-    functionName: string,
-    extensions: [] | string[],
-    inputConnections: [] | string[],
-    hints: [] | string[]
-}
+  id: number;
+  type: string;
+  name: string;
+  functionName: string;
+  extensions: [] | string[];
+  inputConnections: [] | string[];
+  hints: [] | string[];
+};
 
 export type DistancesItem = {
-    id: number,
-    type: string,
-    name: string,
-    functionName: string,
-    extensions: [] | string[],
-    inputConnections: [] | string[],
-    hints: [] | string[]
-}
+  id: number;
+  type: string;
+  name: string;
+  functionName: string;
+  extensions: [] | string[];
+  inputConnections: [] | string[];
+  hints: [] | string[];
+};
 
 export type NormalizationsItem = {
-    id: number,
-    type: string,
-    name: string,
-    functionName: string,
-    extensions: [] | string[],
-    requiredData: [] | string[],
-    inputConnections: [] | string[],
-    outputConnections: [] | string[],
-    hints: [] | string[]
-}
+  id: number;
+  type: string;
+  name: string;
+  functionName: string;
+  extensions: [] | string[];
+  requiredData: [] | string[];
+  inputConnections: [] | string[];
+  outputConnections: [] | string[];
+  hints: [] | string[];
+};
 
 export type RankingItem = {
-    id: number,
-    type: string,
-    name: string,
-    inputConnections: [] | string[],
-    outputConnections: [] | string[],
-    hints: [] | string[]
-    additional?: null
-}
+  id: number;
+  type: string;
+  name: string;
+  inputConnections: [] | string[];
+  outputConnections: [] | string[];
+  hints: [] | string[];
+  additional?: null;
+};
 
 export type VisualizationItem = {
-    id: number,
-    type: string,
-    name: string,
-    inputConnections: [] | string[],
-    hints: [] | string[]
-    additional?: null
-}
+  id: number;
+  type: string;
+  name: string;
+  inputConnections: [] | string[];
+  hints: [] | string[];
+  additional?: null;
+};
 
 export type WeightsItem = {
-    id: number,
-    type: string,
-    name: string,
-    extensions: [] | string[],
-    requiredData: [] | string[],
-    inputConnections: [] | string[],
-    outputConnections: [] | string[],
-    hints: [] | string[]
-    additional?: null
-}
+  id: number;
+  type: string;
+  name: string;
+  extensions: [] | string[];
+  requiredData: [] | string[];
+  inputConnections: [] | string[];
+  outputConnections: [] | string[];
+  hints: [] | string[];
+  additional?: null;
+};
 
 export type DictionarySliceState = {
-    allMethods: [] | AllMethodsItem[],
-    loading: boolean,
-    error: null | string
-}
+  allMethods: [] | AllMethodsItem[];
+  loading: boolean;
+  error: null | string;
+};
 
 //  SEARCH SLICE TYPES --------------------------------------------------------
 export type SearchSliceState = {
-    query: string
-}
+  query: string;
+};
 
 // RESULTS TYPES --------------------------------------------------------------
 
 export type AdditionalType = {
-    [key: string]: string
-}
+  [key: string]: string;
+};
 
 type ParamsType = {
-    method: string,
-    extension: string,
-    additional: AdditionalType
-}
+  method: string;
+  extension: string;
+  additional: AdditionalType;
+};
 
 export type ResultsBodyType = {
-    matrix: number[][] | number[][][],
-    mcda_methods: string[],
-    extension: string,
-    types: number[],
-    weights_method: string,
-    correlation_methods: string[],
-    ranking_order: string,
-    params?: ParamsType[]
-}
+  matrix: number[][] | number[][][];
+  mcda_methods: string[];
+  extension: string;
+  types: number[];
+  weights_method: string;
+  correlation_methods: string[];
+  ranking_order: string;
+  params?: ParamsType[];
+};
 
 export type RankingBodyType = {
-    matrix: number[] | number[][],
-    order: [] | string[]
-}
+  matrix: number[] | number[][];
+  order: [] | string[];
+};
 
 export type CorrelationBodyType = {
-    matrix: number[][],
-    correlationMethods: string[]
-}
+  matrix: number[][];
+  correlationMethods: string[];
+};
 
 export type ResultsMethod = {
-    method: string,
-    weights: string,
-    weights_value: [] | number[],
-    preference: [] | number[],
-    extension: string,
-    additional: [] | AdditionalType[],
-    error: boolean | string
-}
+  method: string;
+  weights: string;
+  weights_value: [] | number[];
+  preference: [] | number[];
+  extension: string;
+  additional: [] | AdditionalType[];
+  error: boolean | string;
+};
 
 export type ResultsMethodCorrelations = {
-    correlation: string,
-    results: [] | number[][],
-    methods: [] | AdditionalType[],
-    error: boolean | string
-}
+  correlation: string;
+  results: [] | number[][];
+  methods: [] | AdditionalType[];
+  error: boolean | string;
+};
 
 export type ResultsMethodRankings = {
-    ranking: [] | number[],
-    methods: AdditionalType,
-    error: boolean | string
-}
+  ranking: [] | number[];
+  methods: AdditionalType;
+  error: boolean | string;
+};
 
 export type ResultsRankingCorrelations = {
-    correlation: string,
-    results: [] | number[][],
-    methods: [] | AdditionalType[],
-    error: boolean | string
-}
+  correlation: string;
+  results: [] | number[][];
+  methods: [] | AdditionalType[];
+  error: boolean | string;
+};
 
 export type ResultsType = {
-    matrices: [] | any,
-    method: [] | ResultsMethod[][],
-    methodCorrelations: [] | ResultsMethodCorrelations[][],
-    methodRankings: [] | ResultsMethodRankings[][][],
-    rankingCorrelations: [] | ResultsRankingCorrelations[][]
-}
+  matrices: [] | any;
+  method: [] | ResultsMethod[][];
+  methodCorrelations: [] | ResultsMethodCorrelations[][];
+  methodRankings: [] | ResultsMethodRankings[][][];
+  rankingCorrelations: [] | ResultsRankingCorrelations[][];
+};
 
 export type RankingType = {
-    order: [] | string[],
-    ranking: [] | number[],
-    error: null | string
-}
+  order: [] | string[];
+  ranking: [] | number[];
+  error: null | string;
+};
 
 export type CorrelationType = {
-    method: string,
-    correlation: number[][],
-    error: null | string
-}
+  method: string;
+  correlation: number[][];
+  error: null | string;
+};
 
 export type MethodType = {
-    method: string,
-    weights: string | number[]
-}
+  method: string;
+  weights: string | number[] | string[];
+};
 
 export type MethodCorrelationType = {
-    correlation: string,
-    data: [] | MethodType[]
-}
+  correlation: string;
+  data: [] | MethodType[];
+};
 
 export type MethodRankingItem = {
-    method: string,
-    weights: string,
-    order: string
-}
+  method: string;
+  weights: string;
+  order: string;
+};
 
 export type MethodRankingType = {
-    data: [] | MethodRankingItem[]
-}
+  data: [] | MethodRankingItem[];
+};
 
 export type RankingCorrelationType = {
-    correlation: string,
-    data: [] | MethodRankingItem[]
-}
+  correlation: string;
+  data: [] | MethodRankingItem[];
+};
 
 export type CalculationBodyType = {
-    matrixFiles: [] | File[],
-    matrix: [] | any,
-    extensions: [] | string[],
-    types: [] | number[][],
-    method: [] | MethodType[][],
-    methodCorrelations: [] | MethodCorrelationType[][],
-    methodRankings: [] | MethodRankingType[][],
-    rankingCorrelations: [] | RankingCorrelationType[][]
-}
+  matrixFiles: [] | File[];
+  matrix: [] | any;
+  extensions: [] | string[];
+  types: [] | number[][];
+  method: [] | MethodType[][];
+  methodCorrelations: [] | MethodCorrelationType[][];
+  methodRankings: [] | MethodRankingType[][];
+  rankingCorrelations: [] | RankingCorrelationType[][];
+};
 
 export type TempBodyType = {
-    matrixFiles: [] | File[]
-}
+  matrixFiles: [] | File[];
+};
 
 export type CalculationSliceState = {
-    results: [] | ResultsType,
-    rankingResults: [] | RankingType[],
-    correlationResults: [] | CorrelationType[],
-    methodParameters: [] | ParamsType[],
-    alternatives: number,
-    criteria: number,
-    calculationBody: TempBodyType,
-    loading: boolean,
-    error: null | string
-}
+  results: [] | ResultsType;
+  rankingResults: [] | RankingType[];
+  correlationResults: [] | CorrelationType[];
+  methodParameters: [] | ParamsType[];
+  alternatives: number;
+  criteria: number;
+  calculationBody: TempBodyType;
+  loading: boolean;
+  error: null | string;
+};
 
 // BLOCKS TYPES --------------------------------------------------------------------------------
 
 export type BlockDataType = {
-    matrix: [] | any,
-    matrixFile: [] | File,
-    fileName: null | string,
-    randomMatrix: [] | number[],
-    types: [] | string[],
-    weights: [] | number[],
-    extension: string,
-    // additionals: any,
-    // styles: any
-}
+  matrix: [] | any;
+  matrixFile: [] | File;
+  fileName: null | string;
+  randomMatrix: [] | number[];
+  types: [] | string[];
+  weights: [] | string[];
+  extension: string;
+  // additionals: any,
+  // styles: any
+};
 
 export type BlockType = {
-    _id: number,
-    type: string,
-    method: string,
-    inputConnections: [] | string[],
-    outputConnections: [] | string[],
-    data: BlockDataType
-}
+  _id: number;
+  type: string;
+  method: string;
+  inputConnections: [] | string[];
+  outputConnections: [] | string[];
+  data: BlockDataType;
+};
 
 export type BlocksSliceState = {
-    blocks: [] | BlockType[],
-    clickedBlocks: [] | string[],
-    connections: [] | string[][],
-    activeBlock: null | MethodsItem | CorrelationsItem | DecisionMatrixItem | RankingItem | VisualizationItem | WeightsItem,
-    clickedBlockId: null | number,
-    draggedItem: null | string,
-    modalOpen: boolean,
-    modalType: null | string,
-    connectionToDelete: null | string[]
-}
+  blocks: [] | BlockType[];
+  clickedBlocks: [] | string[];
+  connections: [] | string[][];
+  activeBlock:
+    | null
+    | MethodsItem
+    | CorrelationsItem
+    | DecisionMatrixItem
+    | RankingItem
+    | VisualizationItem
+    | WeightsItem;
+  clickedBlockId: null | number;
+  draggedItem: null | string;
+  modalOpen: boolean;
+  modalType: null | string;
+  connectionToDelete: null | string[];
+};
 
 // DESCRIPTIONS TYPES ----------------------------------------------------------------------------
 
 export type DescriptionType = {
-    id: number,
-    text: string
-}
+  id: number;
+  text: string;
+};
 
 export type DataDescriptionType = {
-    id: number,
-    name: string,
-    description: [] | DescriptionType[]
-}
+  id: number;
+  name: string;
+  description: [] | DescriptionType[];
+};
 
 export type MethodsDescriptionType = {
-    id: number,
-    key: string,
-    data: [] | DataDescriptionType[]
-}
+  id: number;
+  key: string;
+  data: [] | DataDescriptionType[];
+};
 
 export type DescriptionsSliceState = {
-    home: [] | DescriptionType[],
-    methods: [] | MethodsDescriptionType[],
-    loading: boolean,
-    error: null | string
-}
+  home: [] | DescriptionType[];
+  methods: [] | MethodsDescriptionType[];
+  loading: boolean;
+  error: null | string;
+};
 
 //  ABOUT TYPES --------------------------------------------------------------------------------------
 
 export type AboutDescriptionType = {
-    format: string,
-    imgIndex: number,
-    description: [] | DescriptionType[]
-}
+  format: string;
+  imgIndex: number;
+  description: [] | DescriptionType[];
+};
 
 export type AboutSliceState = {
-    about: [] | AboutDescriptionType[],
-    file: any,
-    loading: boolean,
-    error: null | string
-}
+  about: [] | AboutDescriptionType[];
+  file: any;
+  loading: boolean;
+  error: null | string;
+};

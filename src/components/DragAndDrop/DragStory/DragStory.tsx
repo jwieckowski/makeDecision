@@ -292,28 +292,95 @@ export default function DragStory() {
           return;
         }
 
-        // zero values in input matrix
-        if (
-          matrix.data.matrix
-            .map((r: number[]) => r.some((item) => item === 0) === true)
-            .some((r: boolean) => r === true) === true
-        ) {
-          enqueueSnackbar(`Zero values in input matrix`, {
-            variant: "warning",
-            autoHideDuration: HIDE_DURATION,
-          });
-          calculate = false;
-        }
-
-        // same values in column
-        for (let i = 0; i < matrix.data.matrix[0].length; i++) {
-          const colValue = [...matrix.data.matrix.map((r: number[]) => r[i])];
-          const unique = Array.from(new Set(colValue));
-          if (unique.length === 1) {
-            enqueueSnackbar(`Same values in column ${i + 1}`, {
-              variant: "error",
+        // CRISP
+        if (matrix.data.extension === "crisp") {
+          // zero values in input matrix
+          if (
+            matrix.data.matrix
+              .map((r: number[]) => r.some((item) => item === 0) === true)
+              .some((r: boolean) => r === true) === true
+          ) {
+            enqueueSnackbar(`Zero values in input matrix`, {
+              variant: "warning",
               autoHideDuration: HIDE_DURATION,
             });
+            calculate = false;
+          }
+
+          // same values in column
+          for (let i = 0; i < matrix.data.matrix[0].length; i++) {
+            const colValue = [...matrix.data.matrix.map((r: number[]) => r[i])];
+            const unique = Array.from(new Set(colValue));
+            if (unique.length === 1) {
+              enqueueSnackbar(`Same values in column ${i + 1}`, {
+                variant: "error",
+                autoHideDuration: HIDE_DURATION,
+              });
+              calculate = false;
+              return;
+            }
+          }
+          // FUZZY
+        } else if (matrix.data.extension === "fuzzy") {
+          // zero values in input matrix
+          if (
+            matrix.data.matrix
+              .map(
+                (r: string[]) => r.some((item) => item === "0, 0, 0") === true
+              )
+              .some((r: boolean) => r === true) === true
+          ) {
+            enqueueSnackbar(`Zero values in fuzzy input matrix`, {
+              variant: "warning",
+              autoHideDuration: HIDE_DURATION,
+            });
+            calculate = false;
+            return;
+          }
+          // not three numbers given
+          if (
+            matrix.data.matrix
+              .map(
+                (r: string[]) =>
+                  r.some(
+                    (item) =>
+                      item.split(",").length !== 3 ||
+                      item.split(",").some((item: string) => item.trim() === "")
+                  ) === true
+              )
+              .some((r: boolean) => r === true) === true
+          ) {
+            enqueueSnackbar(
+              `Not all elements in fuzzy matrix has 3 values separated by comma`,
+              {
+                variant: "warning",
+                autoHideDuration: HIDE_DURATION,
+              }
+            );
+            calculate = false;
+            return;
+          }
+          // not ascending order of fuzzy numbers
+          if (
+            matrix.data.matrix
+              .map(
+                (r: string[]) =>
+                  r.some((item) => {
+                    const numbers = item.split(",").map((n) => +n);
+                    return !numbers.every(
+                      (v: number, i: number) => i === 0 || v >= numbers[i - 1]
+                    );
+                  }) === true
+              )
+              .some((r: boolean) => r === true) === true
+          ) {
+            enqueueSnackbar(
+              `Elements in the fuzzy matrix should in ascending order or equal`,
+              {
+                variant: "warning",
+                autoHideDuration: HIDE_DURATION,
+              }
+            );
             calculate = false;
             return;
           }
@@ -375,10 +442,21 @@ export default function DragStory() {
 
       //  validate weights
       weightsItems.forEach((weights) => {
+        if (weights.method === "input" && weights.data.weights.length === 0) {
+          enqueueSnackbar(`No weights given in weights block`, {
+            variant: "error",
+            autoHideDuration: HIDE_DURATION,
+          });
+          calculate = false;
+          return;
+        }
+
+        //  CRISP
         if (weights.method === "input" && matrix.data.extension === "crisp") {
           const sum = weights.data.weights
             .map((w) => +w)
             .reduce((total, value) => Number(total) + Number(value), 0);
+          // check if weights are greater than 0
           if (weights.data.weights.some((w) => +w === 0)) {
             enqueueSnackbar(`None of weights should equal 0`, {
               variant: "error",
@@ -386,6 +464,7 @@ export default function DragStory() {
             });
             calculate = false;
             return;
+            // check if any weight is less than 0
           } else if (weights.data.weights.some((w) => +w < 0)) {
             enqueueSnackbar(`None of weights should equal less than 0`, {
               variant: "error",
@@ -393,11 +472,66 @@ export default function DragStory() {
             });
             calculate = false;
             return;
+            // check if sum of weights equals 1
           } else if (Math.round(sum * 100) / 100 !== 1) {
             enqueueSnackbar(`Weights should sum up to 1`, {
               variant: "error",
               autoHideDuration: HIDE_DURATION,
             });
+            calculate = false;
+            return;
+          }
+          //  FUZZY
+        } else if (
+          weights.method === "input" &&
+          matrix.data.extension === "fuzzy"
+        ) {
+          // zero values in input matrix
+          if (
+            weights.data.weights.some((item: string) => item === "0, 0, 0") ===
+            true
+          ) {
+            enqueueSnackbar(`Zero values in fuzzy input weights`, {
+              variant: "warning",
+              autoHideDuration: HIDE_DURATION,
+            });
+            calculate = false;
+            return;
+          }
+          // not three numbers given
+          if (
+            weights.data.weights.some(
+              (item) =>
+                item.split(",").length !== 3 ||
+                item.split(",").some((item: string) => item.trim() === "")
+            ) === true
+          ) {
+            enqueueSnackbar(
+              `Not all elements in fuzzy weights has 3 values separated by comma`,
+              {
+                variant: "warning",
+                autoHideDuration: HIDE_DURATION,
+              }
+            );
+            calculate = false;
+            return;
+          }
+          // not ascending order of fuzzy numbers
+          if (
+            weights.data.weights.some((item) => {
+              const numbers = item.split(",").map((n) => +n);
+              return !numbers.every(
+                (v: number, i: number) => i === 0 || v >= numbers[i - 1]
+              );
+            }) === true
+          ) {
+            enqueueSnackbar(
+              `Elements in the fuzzy weights should in ascending order or equal`,
+              {
+                variant: "warning",
+                autoHideDuration: HIDE_DURATION,
+              }
+            );
             calculate = false;
             return;
           }
