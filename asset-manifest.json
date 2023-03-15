@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/gui/static/css/main.d4ac135c.css",
-    "main.js": "/gui/static/js/main.36ca077c.js",
+    "main.js": "/gui/static/js/main.bf3c2a0e.js",
     "static/js/703.6932e2af.chunk.js": "/gui/static/js/703.6932e2af.chunk.js",
     "static/js/598.5570519b.chunk.js": "/gui/static/js/598.5570519b.chunk.js",
     "static/media/KaTeX_AMS-Regular.ttf": "/gui/static/media/KaTeX_AMS-Regular.853be92419a6c3766b9a.ttf",
@@ -66,12 +66,12 @@
     "static/media/KaTeX_Size3-Regular.woff2": "/gui/static/media/KaTeX_Size3-Regular.e1951519f6f0596f7356.woff2",
     "index.html": "/gui/index.html",
     "main.d4ac135c.css.map": "/gui/static/css/main.d4ac135c.css.map",
-    "main.36ca077c.js.map": "/gui/static/js/main.36ca077c.js.map",
+    "main.bf3c2a0e.js.map": "/gui/static/js/main.bf3c2a0e.js.map",
     "703.6932e2af.chunk.js.map": "/gui/static/js/703.6932e2af.chunk.js.map",
     "598.5570519b.chunk.js.map": "/gui/static/js/598.5570519b.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.d4ac135c.css",
-    "static/js/main.36ca077c.js"
+    "static/js/main.bf3c2a0e.js"
   ]
 }
