@@ -67,7 +67,9 @@ export default function SmallMenu({
           <Select
             labelId="Method-input"
             id="Method"
-            value={methodIndex}
+            value={
+              methodIndex < methods[typeIndex].data.length ? methodIndex : 0
+            }
             label="Method"
             onChange={(e) => handleMethodChange(+e.target.value)}
           >
@@ -87,11 +89,17 @@ export default function SmallMenu({
           margin: "10% 20%",
         }}
       >
-        {methods[typeIndex].data[methodIndex].description.map((d) => {
+        {methods[typeIndex].data[
+          methodIndex < methods[typeIndex].data.length ? methodIndex : 0
+        ].description.map((d) => {
           return <MarkdownText text={d.text} key={`text${d.id}`} />;
         })}
-        {methods[typeIndex].data[methodIndex].description.length === 0 && (
-          <Typography>No description available yet</Typography>
+        {methods[typeIndex].data[
+          methodIndex < methods[typeIndex].data.length ? methodIndex : 0
+        ].description.length === 0 && (
+          <Typography justifyContent="center">
+            No description available yet
+          </Typography>
         )}
       </Box>
     </Box>

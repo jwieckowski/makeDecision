@@ -108,7 +108,7 @@ export default function BigMenu({
               <Box>
                 <Tabs
                   variant="scrollable"
-                  value={methodIndex}
+                  value={methodIndex < method.data.length ? methodIndex : 0}
                   onChange={handleMethodChange}
                   aria-label="Menu of techniques from selected methods"
                   // centered
@@ -126,7 +126,10 @@ export default function BigMenu({
                 </Tabs>
                 {method.data.map((data, id) => {
                   return (
-                    <DescriptionMethodPanel value={methodIndex} index={id}>
+                    <DescriptionMethodPanel
+                      value={methodIndex < method.data.length ? methodIndex : 0}
+                      index={id}
+                    >
                       <Box sx={{ width: "60%", margin: "20px auto" }}>
                         {data.description.map((d) => {
                           return (
@@ -134,7 +137,9 @@ export default function BigMenu({
                           );
                         })}
                         {data.description.length === 0 && (
-                          <Typography>No description available yet</Typography>
+                          <Typography justifyContent="center">
+                            No description available yet
+                          </Typography>
                         )}
                       </Box>
                     </DescriptionMethodPanel>
