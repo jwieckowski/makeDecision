@@ -1,69 +1,80 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import axios from 'axios'
-import { AboutSliceState, AboutDescriptionType } from '../types';
-import { BASE_URL } from '../../common/const';
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import axios from "axios";
+import { AboutSliceState, AboutDescriptionType } from "../types";
+import { BASE_URL } from "../../common/const";
 
-export const getAboutDescription = createAsyncThunk('about/description', async () => {
-  const data = await axios.get(`${BASE_URL}/api/v1/descriptions/about`)
-  return data.data;
+export const getAboutDescription = createAsyncThunk(
+  "about/description",
+  async (locale: string) => {
+    const data = await axios.get(`${BASE_URL}/api/v1/descriptions/about`, {
+      headers: {
+        locale: locale,
+      },
+    });
+    return data.data;
+  }
+);
+
+export const getAboutFile = createAsyncThunk("about/aboutFile", async () => {
+  const data = await axios
+    .get(`${BASE_URL}/api/v1/files/about`)
+    .then((response) => {
+      if (!Object.keys(response.data).includes("result")) return [];
+      // prepend type file to data from request
+      return response.data.result.map((data: any) => {
+        return "data:;base64," + data;
+      });
+    });
+  return data;
 });
-
-
-export const getAboutFile = createAsyncThunk('about/aboutFile', async () => {
-    const data = 
-    await axios
-        .get(`${BASE_URL}/api/v1/files/about`)
-        .then(response => {
-          if (!Object.keys(response.data).includes('result')) return []
-          // prepend type file to data from request
-          return response.data.result.map((data: any) => {
-            return "data:;base64," + data
-          })
-        })
-    return data
-});
-
 
 const initialState: AboutSliceState = {
   about: [],
   file: null,
   loading: false,
-  error: null
-}
+  error: null,
+};
 
 const aboutSlice = createSlice({
-  name: 'about',
+  name: "about",
   initialState: initialState,
-  reducers: {
-
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(getAboutDescription.pending, (state: AboutSliceState) => {
-        state.error = null
+        state.error = null;
         state.loading = true;
       })
-      .addCase(getAboutDescription.fulfilled, (state: AboutSliceState, action: PayloadAction<AboutDescriptionType[]>) => {
-        state.about = action.payload;
-        state.loading = false
-      })
+      .addCase(
+        getAboutDescription.fulfilled,
+        (
+          state: AboutSliceState,
+          action: PayloadAction<AboutDescriptionType[]>
+        ) => {
+          state.about = action.payload;
+          state.loading = false;
+        }
+      )
       .addCase(getAboutDescription.rejected, (state: AboutSliceState) => {
-        state.error = 'Error occurred while getting data from server'
-        state.loading = false
+        state.error = "Error occurred while getting data from server";
+        state.loading = false;
       })
       .addCase(getAboutFile.pending, (state: AboutSliceState) => {
-        state.error = null
+        state.error = null;
         state.loading = true;
       })
-      .addCase(getAboutFile.fulfilled, (state: AboutSliceState, action: PayloadAction<any>) => {
-        state.file = action.payload;
-        state.loading = false
-      })
+      .addCase(
+        getAboutFile.fulfilled,
+        (state: AboutSliceState, action: PayloadAction<any>) => {
+          state.file = action.payload;
+          state.loading = false;
+        }
+      )
       .addCase(getAboutFile.rejected, (state: AboutSliceState) => {
-        state.error = 'Error occurred while getting data from server'
-        state.loading = false
-      })
-    }
-  });
-const { reducer } = aboutSlice
+        state.error = "Error occurred while getting data from server";
+        state.loading = false;
+      });
+  },
+});
+const { reducer } = aboutSlice;
 export default reducer;

@@ -1,28 +1,31 @@
-import React from 'react'
-import {Box, Typography} from '@mui/material'
+import React from "react";
+import { Box, Typography } from "@mui/material";
 
-import {useSelector} from 'react-redux'
-import {RootState} from '../../../redux'
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux";
 
-import PreferenceTable from '../../Tables/PreferenceTable'
+import PreferenceTable from "../../Tables/PreferenceTable";
+
+import { useTranslation } from "react-i18next";
 
 export default function PreferencesResults() {
-  const {results} = useSelector((state: RootState) => state.calculation)
+  const { results } = useSelector((state: RootState) => state.calculation);
+  const { t } = useTranslation();
 
-  return !Array.isArray(results)
-    ? 
-      <Box>
-        {results.method.length > 0 && <Typography variant='h6'>PREFERENCES</Typography>}
-        {
-          results.method.map((result, idx)=> {
-            return (
-              <Box sx={{m: '5px 0'}}>
-                <PreferenceTable results={result} idx={idx}/>
-              </Box>
-            ) 
-          })
-        }
-      </Box>
-    :
-      <></>
+  return !Array.isArray(results) ? (
+    <Box>
+      {results.method.length > 0 && (
+        <Typography variant="h6">{t("results:preferences")}</Typography>
+      )}
+      {results.method.map((result, idx) => {
+        return (
+          <Box sx={{ m: "5px 0" }}>
+            <PreferenceTable results={result} idx={idx} />
+          </Box>
+        );
+      })}
+    </Box>
+  ) : (
+    <></>
+  );
 }

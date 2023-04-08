@@ -1,0 +1,28 @@
+{
+  "app": "DECISION MAKING APP",
+  "save": "Save",
+  "functionalities": "Functionalities",
+  "general-error": "Error occurred ...",
+  "reload": "Reload",
+  "search-placeholder": "Search...",
+
+  "yes": "Yes",
+  "no": "No",
+  "connection-delete": "Delete connection",
+  "connection-delete-confirm": "Are you sure you want to delete this connection?",
+
+  "no-description": "No description available yet",
+  "group-method": "Group of method",
+  "method": "Method",
+  "techniques": "Techniques",
+  "no-methods": "No methods found",
+
+  "upload-files": "Click to upload a file",
+  "uploaded-file": "Uploaded file: ",
+
+  "nav-page-1": "Home",
+  "nav-page-2": "Calculations",
+  "nav-page-3": "Methods",
+  "nav-page-4": "About",
+  "nav-page-5": "Contact"
+}

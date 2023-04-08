@@ -1,43 +1,67 @@
-import React, { useState, useMemo, useEffect } from 'react';
-import ListSubheader from '@mui/material/ListSubheader';
-import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
-import Collapse from '@mui/material/Collapse';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
+import React, { useState, useMemo, useEffect } from "react";
+import ListSubheader from "@mui/material/ListSubheader";
+import List from "@mui/material/List";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemText from "@mui/material/ListItemText";
+import Collapse from "@mui/material/Collapse";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
 
-import { useSelector } from 'react-redux';
-import { RootState, useAppDispatch } from '../../redux';
-import { AllMethodsItem } from '../../redux/types'
-import { addBlock } from '../../redux/slices/blocksSlice'
-import { fetchAllMethods } from '../../redux/slices/dictionarySlice'
-import { filterMethodsType } from '../../utilities/filtering';
+import { useSelector } from "react-redux";
+import { RootState, useAppDispatch } from "../../redux";
+import { AllMethodsItem } from "../../redux/types";
+import { addBlock } from "../../redux/slices/blocksSlice";
+import { fetchAllMethods } from "../../redux/slices/dictionarySlice";
+import { filterMethodsType } from "../../utilities/filtering";
+import { useLocale } from "../../hooks";
+
+import { useTranslation } from "react-i18next";
 
 export default function MethodsList() {
-  const dispatch = useAppDispatch()
-  const { query } = useSelector((state: RootState) => state.search)
-  const { allMethods} = useSelector((state: RootState) => state.dictionary)
+  const dispatch = useAppDispatch();
+  const { query } = useSelector((state: RootState) => state.search);
+  const { allMethods } = useSelector((state: RootState) => state.dictionary);
+  const { t } = useTranslation();
+  const { locale } = useLocale();
 
-  const initialState = [false, false, false, false, false, false]
+  console.log(locale);
+  console.log(allMethods);
+  const initialState = [false, false, false, false, false, false];
   const [open, setOpen] = useState(initialState);
 
-
   useEffect(() => {
-    if (allMethods.length === 0) dispatch(fetchAllMethods())
-  }, [])
+    if (locale === "") return;
+    if (allMethods.length === 0) dispatch(fetchAllMethods(locale));
+  }, []);
 
-  const handleItemClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, index: number) => {
-    e.preventDefault()
-    setOpen(prevState => prevState.map((s, idx)=> idx === index ? !s : s));
+  const handleItemClick = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    index: number
+  ) => {
+    e.preventDefault();
+    setOpen((prevState) => prevState.map((s, idx) => (idx === index ? !s : s)));
   };
 
-  function handleMethodItemClick(e: React.MouseEvent<HTMLDivElement, MouseEvent>, type: string, method: string, inputConnections: [] | string[], outputConnections: [] | string[]) {
-    e.preventDefault()
+  function handleMethodItemClick(
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    type: string,
+    typeLabel: string,
+    method: string,
+    label: string,
+    inputConnections: [] | string[],
+    outputConnections: [] | string[]
+  ) {
+    e.preventDefault();
+
+    console.log("click", type, method);
 
     const block = {
-      type: type.includes('matrix') ? type.split(' ')[1].toLowerCase() : type.toLowerCase(),
+      type: type.includes("matrix")
+        ? type.split(" ")[1].toLowerCase()
+        : type.toLowerCase(),
+      typeLabel: typeLabel.toLocaleLowerCase(),
       method: method.toLowerCase(),
+      label: label.toLowerCase(),
       inputConnections,
       outputConnections,
       data: {
@@ -47,72 +71,100 @@ export default function MethodsList() {
         randomMatrix: [],
         types: [],
         weights: [],
-        extension: 'crisp'
-      }
-    }
-    dispatch(addBlock(block))
+        extension: "crisp",
+      },
+    };
+    dispatch(addBlock(block));
   }
 
   const filteredData: [] | AllMethodsItem[] = useMemo(() => {
-    let temp: [] | AllMethodsItem[] = []
+    if (locale === "") return [];
 
-    filterMethodsType(allMethods, 'primary').map(methods => {
-        if (methods.key.toLowerCase().includes(query.toLowerCase())) {
-            temp = [...temp, methods]
-        } else {
-            const filteredMethods = { ...methods} 
-            filteredMethods.data = []
-            methods.data.map(method => {
-                if (method.name.toLowerCase().includes(query.toLowerCase())) {
-                    filteredMethods.data = [...filteredMethods.data, method] 
-                }
-            })
-            if (filteredMethods.data.length > 0 ) temp = [...temp, filteredMethods]
-        }  
-    })
+    let temp: [] | AllMethodsItem[] = [];
 
-    return temp
-  }, [allMethods, query])
+    filterMethodsType(allMethods, "primary").forEach((methods) => {
+      if (methods.key.toLowerCase().includes(query.toLowerCase())) {
+        temp = [...temp, methods];
+      } else {
+        const filteredMethods = { ...methods };
+        filteredMethods.data = [];
+        methods.data.forEach((method) => {
+          if (method.name.toLowerCase().includes(query.toLowerCase())) {
+            filteredMethods.data = [...filteredMethods.data, method];
+          }
+        });
+        if (filteredMethods.data.length > 0) temp = [...temp, filteredMethods];
+      }
+    });
+
+    return temp;
+  }, [allMethods, query, locale]);
 
   return (
     <List
-      sx={{ width: '100%', bgcolor: 'background.paper', overflowX: 'hidden' }}
+      sx={{ width: "100%", bgcolor: "background.paper", overflowX: "hidden" }}
       component="nav"
       aria-labelledby="nested-list-subheader"
       subheader={
         <ListSubheader component="div" id="nested-list-subheader">
-          Techniques
+          {t("common:techniques")}
         </ListSubheader>
       }
     >
       {filteredData.map((methods, index) => {
         return (
           <>
-          <ListItemButton key={`${methods.key}-key`} onClick={(e) => handleItemClick(e, index)}>
-            <ListItemText primary={methods.key} />
-            
-            {query !== '' ? '' : open[index] ? <ExpandLess /> : <ExpandMore />}
-            
-          </ListItemButton>
-          <Collapse in={query !== '' || open[index]} timeout="auto" unmountOnExit>
-             <List key={`${index}-list`} component="div" disablePadding>
-               {methods.data.map((method) => {
+            <ListItemButton
+              key={`${methods.key}-key`}
+              onClick={(e) => handleItemClick(e, index)}
+            >
+              <ListItemText primary={methods.label} />
+
+              {query !== "" ? (
+                ""
+              ) : open[index] ? (
+                <ExpandLess />
+              ) : (
+                <ExpandMore />
+              )}
+            </ListItemButton>
+            <Collapse
+              in={query !== "" || open[index]}
+              timeout="auto"
+              unmountOnExit
+            >
+              <List key={`${index}-list`} component="div" disablePadding>
+                {methods.data.map((method) => {
                   return (
-                    <ListItemButton key={`${method.name}-key`} sx={{ pl: 4 }} onClick={(e) => handleMethodItemClick(e, methods.key, method.name, methods.inputConnections, methods.outputConnections)}>
-                     <ListItemText secondary={method.name} />
-                   </ListItemButton>
-                  )
-               })}
-             </List>
-          </Collapse>
+                    <ListItemButton
+                      key={`${method.name}-key`}
+                      sx={{ pl: 4 }}
+                      onClick={(e) =>
+                        handleMethodItemClick(
+                          e,
+                          methods.key,
+                          methods.label,
+                          method.name,
+                          method.label,
+                          methods.inputConnections,
+                          methods.outputConnections
+                        )
+                      }
+                    >
+                      <ListItemText secondary={method.label} />
+                    </ListItemButton>
+                  );
+                })}
+              </List>
+            </Collapse>
           </>
-        )
+        );
       })}
-      {filteredData.length === 0 && 
+      {filteredData.length === 0 && (
         <ListItemButton sx={{ pl: 4 }}>
-            <ListItemText primary='No methods found' />
+          <ListItemText primary={`${t("common:no-methods")}`} />
         </ListItemButton>
-      }
-      </List>
+      )}
+    </List>
   );
 }

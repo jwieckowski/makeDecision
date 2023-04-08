@@ -1,5 +1,4 @@
-import useOnlineStatus from './onlineStatus'
+import useOnlineStatus from "./onlineStatus";
+import useLocale from "./useLocale";
 
-export {
-    useOnlineStatus,
-}
+export { useOnlineStatus, useLocale };

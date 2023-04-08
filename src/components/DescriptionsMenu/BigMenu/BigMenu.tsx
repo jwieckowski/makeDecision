@@ -7,6 +7,8 @@ import Box from "@mui/material/Box";
 import { MethodsDescriptionType } from "../../../redux/types";
 import MarkdownText from "../../MarkdownText";
 
+import { useTranslation } from "react-i18next";
+
 interface DescriptionProps {
   children?: React.ReactNode;
   index: number;
@@ -78,6 +80,7 @@ export default function BigMenu({
   handleTypeChange,
   handleMethodChange,
 }: BigMenuProps) {
+  const { t } = useTranslation();
   return (
     <>
       {/* BIG SCREEN items */}
@@ -138,7 +141,7 @@ export default function BigMenu({
                         })}
                         {data.description.length === 0 && (
                           <Typography justifyContent="center">
-                            No description available yet
+                            {t("common:no-description")}
                           </Typography>
                         )}
                       </Box>

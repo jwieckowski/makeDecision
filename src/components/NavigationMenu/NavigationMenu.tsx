@@ -11,13 +11,26 @@ import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 
+import LanguageSelection from "../LanguageSelection";
+
 import { Link } from "react-router-dom";
-import { APP_NAME_PATH, PAGES, URLS } from "../../common/const";
+import { APP_NAME_PATH, URLS } from "../../common/const";
+
+import { useTranslation } from "react-i18next";
 
 export default function NavigationMenu() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
+  const { t } = useTranslation();
+
+  const PAGES = [
+    t("common:nav-page-1"),
+    t("common:nav-page-2"),
+    t("common:nav-page-3"),
+    t("common:nav-page-4"),
+    t("common:nav-page-5"),
+  ];
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -50,7 +63,7 @@ export default function NavigationMenu() {
               textDecoration: "none",
             }}
           >
-            DECISION MAKING APP
+            {t("common:app")}
           </Typography>
 
           {/* MENU ITEMS FOR BIG SCREEN */}
@@ -58,6 +71,7 @@ export default function NavigationMenu() {
             sx={{
               flexGrow: 1,
               justifyContent: "flex-end",
+              alignItems: "center",
               marginRight: 10,
               display: { xs: "none", md: "flex" },
             }}
@@ -140,8 +154,10 @@ export default function NavigationMenu() {
             }}
             textAlign="center"
           >
-            DECISION MAKING APP
+            {t("common:app")}
           </Typography>
+
+          <LanguageSelection />
         </Toolbar>
       </Container>
     </AppBar>

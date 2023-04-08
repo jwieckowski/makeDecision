@@ -1,0 +1,26 @@
+{
+  "app": "PODEJMOWANIE DECYZJI",
+  "save": "Zapisz",
+  "functionalities": "Funkcjonalności",
+  "general-error": "Wystąpił błąd ...",
+  "reload": "Przeładuj",
+  "search-placeholder": "Szukaj...",
+
+  "yes": "Tak",
+  "no": "Nie",
+  "connection-delete": "Usuwanie połączenia",
+  "connection-delete-confirm": "Czy na pewno chcesz usunąć to połączenie?",
+
+  "no-description": "Brak dostępnego opisu",
+  "techniques": "Techniki",
+  "no-methods": "Nie znaleziono metod",
+
+  "upload-files": "Kliknij żeby przesłać plik",
+  "uploaded-file": "Przesłany plik: ",
+
+  "nav-page-1": "Główna",
+  "nav-page-2": "Obliczenia",
+  "nav-page-3": "Metody",
+  "nav-page-4": "O aplikacji",
+  "nav-page-5": "Kontakt"
+}

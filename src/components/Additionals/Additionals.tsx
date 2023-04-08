@@ -16,9 +16,12 @@ import UploadFile from "./UploadFile";
 import CriteriaAlternatives from "./CriteriaAlternatives";
 import InputWeights from "./InputWeights";
 
+import { useTranslation } from "react-i18next";
+
 // TODO methods: normalization, distance, defuzzification
 export default function Additionals() {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   // const {extensions} = useSelector((state: RootState) => state.calculation.calculationBody)
   const { allMethods, loading, error } = useSelector((state: RootState) => ({
@@ -153,7 +156,9 @@ export default function Additionals() {
         (checkBlockName("input") || checkBlockName("random")) && (
           <Box sx={{ width: "100%", display: "flex", justifyContent: "end" }}>
             <Button onClick={() => dispatch(setModalOpen(false))}>
-              <Typography color="black">SAVE</Typography>
+              <Typography color="black">
+                {t("common:save").toUpperCase()}
+              </Typography>
             </Button>
           </Box>
         )}
@@ -165,8 +170,12 @@ export default function Additionals() {
         getWeightsConnectedBlocksExtensions().map((extension) => {
           return (
             <Box>
-              <Typography>Matrix: {extension.id}</Typography>
-              <Typography>Extension: {extension.extension}</Typography>
+              <Typography>
+                {t("common:matrix").toUpperCase()}: {extension.id}
+              </Typography>
+              <Typography>
+                {t("common:extension").toUpperCase()}: {extension.extension}
+              </Typography>
               <InputWeights extension={extension.extension} />
             </Box>
           );
@@ -174,7 +183,7 @@ export default function Additionals() {
       {checkBlockType("weights") && checkBlockName("input") && (
         <Box sx={{ width: "100%", display: "flex", justifyContent: "end" }}>
           <Button onClick={() => dispatch(setModalOpen(false))}>
-            <Typography color="black">Save</Typography>
+            <Typography color="black">{t("common:save")}</Typography>
           </Button>
         </Box>
       )}
@@ -199,7 +208,7 @@ export default function Additionals() {
         } */}
       {checkBlockType("method") && (
         <Typography onClick={addParameters} textAlign="center" sx={{ mt: 2 }}>
-          Add parameters
+          {t("results:add-parameters")}
         </Typography>
       )}
     </Box>

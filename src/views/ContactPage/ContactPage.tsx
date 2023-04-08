@@ -1,7 +1,8 @@
-import React from 'react'
+import React from "react";
+import { useTranslation } from "react-i18next";
 
 export default function ContactPage() {
-  return (
-    <div>ContactPage</div>
-  )
+  const { t } = useTranslation();
+
+  return <div>{t("contact:contact")}</div>;
 }

@@ -1,0 +1,40 @@
+{
+  "results": "Wyniki",
+  "download-results": "Pobierz wyniki",
+  "preferences": "Preferencje",
+  "correlation-preferences": "Korelacja preferencji",
+  "rankings": "Rankingi",
+  "ranking": "Ranking",
+  "correlation-ranking": "Korelacja rankingów",
+
+  "correlation-table": "Macierz korelacji",
+  "matrix": "Macierz",
+
+  "add-parameters": "Dodaj parametry",
+  "extension": "Rozszerzenie",
+
+  "alternatives": "Alternatywy",
+  "criteria": "Kryteria",
+  "criteria-types": "Typy kryteriów",
+  "weights": "Wagi",
+
+  "profit": "Zysk",
+  "cost": "Koszt",
+
+  "crisp": "Ostre",
+  "fuzzy": "Rozmyte",
+
+  "save-graph": "Zapisz schemat",
+  "clear": "Wyczyść",
+  "calculate": "Oblicz",
+  "grid": "Siatka",
+  "arrow-settings": "Ustawienia strzałek",
+  "size": "Rozmiar",
+  "head-size": "Rozmiar strzałki",
+  "curveness": "Krzywość",
+  "color": "Kolor",
+  "path": "Typ",
+
+  "work-area": "Obszar roboczy jest za mały",
+  "bigger-screen": "By wykonać obliczenia, uruchom aplikację na większym urządzeniu"
+}

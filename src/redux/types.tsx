@@ -9,6 +9,7 @@ export type MethodAdditionalData = {
 export type AllMethodsDataItem = {
   id: number;
   type: string;
+  label: string;
   name: string;
   extensions: [] | string[];
   requiredData: [] | string[];
@@ -23,6 +24,7 @@ export type AllMethodsDataItem = {
 export type AllMethodsItem = {
   id: number;
   key: string;
+  label: string;
   type: string;
   data: [] | AllMethodsDataItem[];
   inputConnections: [] | string[];
@@ -297,7 +299,9 @@ export type BlockDataType = {
 export type BlockType = {
   _id: number;
   type: string;
+  typeLabel: string;
   method: string;
+  label: string;
   inputConnections: [] | string[];
   outputConnections: [] | string[];
   data: BlockDataType;
@@ -361,4 +365,10 @@ export type AboutSliceState = {
   file: any;
   loading: boolean;
   error: null | string;
+};
+
+// HEADERS TYPE ------------------------------------------------------------------------------------------
+
+export type HeadersType = {
+  locale: string;
 };

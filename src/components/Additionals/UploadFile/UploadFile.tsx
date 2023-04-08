@@ -18,6 +18,8 @@ import {
 } from "../../../redux/slices/blocksSlice";
 import { BlockType } from "../../../redux/types";
 
+import { useTranslation } from "react-i18next";
+
 export default function UploadFile() {
   const { activeBlock, blocks } = useSelector(
     (state: RootState) => state.blocks
@@ -25,6 +27,7 @@ export default function UploadFile() {
   const [block, setBlock] = useState<BlockType | null>(null);
   const dispatch = useAppDispatch();
   const { enqueueSnackbar } = useSnackbar();
+  const { t } = useTranslation();
 
   useEffect(() => {
     setBlock(blocks.filter((b) => b._id === activeBlock?.id)[0]);
@@ -306,13 +309,13 @@ export default function UploadFile() {
             onChange={handleFileChange}
           />
           <CloudUpload fontSize="large" />
-          <Typography>Click to upload a file</Typography>
+          <Typography>{t("common:upload-files")}</Typography>
         </IconButton>
       </Box>
       {block !== null && block.data.fileName !== null && (
         <Box sx={{ maxWidth: "300px", overflow: "auto" }}>
           <Typography sx={{ mt: 2 }} variant="body1">
-            Uploaded file: {block.data.fileName}
+            {t("common:uploaded-file")}: {block.data.fileName}
           </Typography>
         </Box>
       )}

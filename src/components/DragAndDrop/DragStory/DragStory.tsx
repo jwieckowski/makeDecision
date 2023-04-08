@@ -61,8 +61,9 @@ import useBlocksConnection from "../../../utilities/connections";
 
 import { HIDE_DURATION, ZOOM_STEP, COLORS, PATHS } from "../../../common/const";
 
+import { useTranslation } from "react-i18next";
+
 export default function DragStory() {
-  // const { allMethods, methodItem, correlationItem, decisionMatrixItem, rankingItem, visualizationItem, weightItem } = useSelector((state: RootState) => state.dictionary)
   const { allMethods } = useSelector((state: RootState) => state.dictionary);
   const { blocks, clickedBlocks, connections, draggedItem, activeBlock } =
     useSelector((state: RootState) => state.blocks);
@@ -73,6 +74,7 @@ export default function DragStory() {
   const dispatch = useAppDispatch();
   const { enqueueSnackbar } = useSnackbar();
   const gridRef = useRef(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     addBlockConnection();
@@ -621,7 +623,7 @@ export default function DragStory() {
         >
           <Button variant="contained" onClick={printDocument}>
             <SaveAltIcon />
-            Save graph
+            {t("results:save-graph")}
           </Button>
           <Button
             sx={{ margin: "0 1%" }}
@@ -629,11 +631,11 @@ export default function DragStory() {
             onClick={handleClearClick}
           >
             <HighlightOffIcon />
-            Clear
+            {t("results:clear")}
           </Button>
           <Button variant="contained" onClick={handleCalculateClick}>
             <PlayCircleOutlineIcon />
-            Calculate
+            {t("results:calculate")}
           </Button>
         </Box>
         <Grid
@@ -665,7 +667,9 @@ export default function DragStory() {
                   key={block._id}
                   id={block._id.toString()}
                   type={block.type}
+                  typeLabel={block.typeLabel}
                   method={block.method}
+                  label={block.label}
                   handleClick={handleClick}
                   zoom={zoom}
                 />
@@ -704,7 +708,7 @@ export default function DragStory() {
               style={{ width: "80px", marginRight: 5 }}
               key="size-grid"
               value={gridSize}
-              label="Size"
+              label={`${t("results:size")}`}
               type="number"
               onChange={(e) => handleGridSizeChange(e)}
               InputProps={{
@@ -719,7 +723,7 @@ export default function DragStory() {
           <Box sx={{ mr: 1 }}>
             <FormControlLabel
               control={<Checkbox value={gridOn} onChange={handleGridChange} />}
-              label="Grid"
+              label={`${t("results:grid")}`}
               labelPlacement="start"
             />
           </Box>
@@ -733,14 +737,16 @@ export default function DragStory() {
         </Box>
         <Box sx={{ width: "90%", margin: "1% 5%" }}>
           <Box>
-            <Typography variant="body2">Arrows settings</Typography>
+            <Typography variant="body2">
+              {t("results:arrow-settings")}
+            </Typography>
           </Box>
           <Box sx={{ mt: 2, display: "flex", gap: 2 }}>
             <TextField
               style={{ width: "80px" }}
               key="size-arrow"
               value={size}
-              label="Size"
+              label={`${t("results:size")}`}
               type="number"
               onChange={(e) => handleSizeChange(e)}
               InputProps={{
@@ -754,7 +760,7 @@ export default function DragStory() {
               style={{ width: "80px" }}
               key="headSize-arrow"
               value={headSize}
-              label="Head size"
+              label={`${t("results:head-size")}`}
               type="number"
               onChange={(e) => handleHeadSizeChange(e)}
               InputProps={{
@@ -768,7 +774,7 @@ export default function DragStory() {
               style={{ width: "80px" }}
               key="curveness-arrow"
               value={curveness}
-              label="Curveness"
+              label={`${t("results:curveness")}`}
               type="number"
               onChange={(e) => handleCurvenessChange(e)}
               InputProps={{
@@ -780,12 +786,12 @@ export default function DragStory() {
               }}
             />
             <FormControl sx={{ width: "120px" }}>
-              <InputLabel id="color-input">Color</InputLabel>
+              <InputLabel id="color-input">{t("results:color")}</InputLabel>
               <Select
                 labelId="color-input"
                 id="color"
                 value={color}
-                label="color"
+                label={`${t("results:color")}`}
                 onChange={handleColorChange}
               >
                 {COLORS.map((color, idx) => {
@@ -798,12 +804,12 @@ export default function DragStory() {
               </Select>
             </FormControl>
             <FormControl sx={{ width: "120px" }}>
-              <InputLabel id="path-input">Path</InputLabel>
+              <InputLabel id="path-input">{t("results:path")}</InputLabel>
               <Select
                 labelId="path-input"
                 id="path"
                 value={path}
-                label="path"
+                label={`${t("results:path")}`}
                 onChange={handlePathChange}
               >
                 {PATHS.map((path, idx) => {
@@ -838,11 +844,10 @@ export default function DragStory() {
           }}
         >
           <Typography textAlign="center" variant="h5" sx={{ p: 5 }}>
-            Work area is to small
+            {t("results:work-area")}
           </Typography>
           <Typography textAlign="center" variant="h5" sx={{ p: 5 }}>
-            To use the calculation, page run the application on the bigger
-            screen
+            {t("results:bigger-screen")}
           </Typography>
         </Box>
       </Box>

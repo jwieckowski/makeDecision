@@ -1,0 +1,32 @@
+{
+  "crisp-data": "Dane ostre",
+  "fuzzy-data": "Dane rozmyte",
+  "bad-formatting": "Formatowanie pliku w inny sposób niż wskazany powyżej może skutkować błędami w obliczeniach.",
+
+  "json": "JSON",
+  "json-crisp-text-1": "Plik w formacie JavaScript Object Notation (JSON) powinien zawierać dwa klucze z wartościami w postaci tablic: 'matrix' - dwuwymiarowa tablica z danymi, które będą wykorzystane do obliczeń wielokryterialnych; 'criteriaTypes' - lista z typami kryteriów, gdzie -1 oznacza typ koszt, a 1 oznacza typ profit.",
+  "json-crisp-text-2": "Poprawna tablica z macierzą nie powinna zawierać danych tekstowych, ani pustych pól. Wartości w każdej z kolumn nie powinny być jednakowe. Każdy wiersz reprezentuje wariant decyzyjny, a kolumna kryterium, które brane jest pod uwagę w problemie.",
+  "json-crisp-text-3": "W typach kryteriów nie powinna pojawić się wartość inna niż 1 lub -1. Liczba wartości w typach kryteriów powinna równać się liczbie kolumn w macierzy 'matrix'.",
+
+  "json-fuzzy-text-1": "Plik JavaScript Object Notation (JSON) powinien zawierać dwa klucze z wartościami w postaci tablic: 'matrix' - trójwymiarowa tablica z danymi reprezentowanymi jako Trójkątne Liczby Rozmyte (Triangular Fuzzy Numbers), które zostaną wykorzystane do obliczeń wielokryterialnych; 'criteriaTypes' - lista z typami kryteriów, gdzie -1 oznacza typ kosztu, a 1 typ zysku.",
+  "json-fuzzy-text-2": "Poprawna macierz nie powinna zawierać danych tekstowych ani pustych pól. Wartości w każdej kolumnie nie powinny być takie same. Każdy wiersz reprezentuje opcję decyzyjną, a każda kolumna reprezentuje kryterium, które jest rozważane w problemie. Każdy element powinien być reprezentowany jako Trójkątną Liczbę Rozmytą (Triangular Fuzzy Number - TFN) [a, m, b], gdzie a jest dolną wartością TFN, m jest środkową wartością TFN, a b jest górną wartością TFN. Wartości a, m, b powinny być uporządkowane rosnąco lub być równe.",
+  "json-fuzzy-text-3": "W typach kryteriów nie powinna pojawić się żadna wartość inna niż 1 lub -1. Liczba wartości w typach kryteriów powinna być równa liczbie kolumn w 'matrix'.",
+
+  "xlsx": "XLSX",
+  "xlsx-crisp-text-1": "Pliki w formacie XLSX (Microsoft Excel) powinny być sformatowane w sposób, by macierz i typy kryteriów były oddzielone nie wypełnionym wartościami wierszem.",
+  "xlsx-crisp-text-2": "W macierzy, wiersze reprezentują alternatywy, a kolumny kryteria w problemie. Każdy z wierszy powinien zawierać jednakową liczbę wartości.",
+  "xlsx-crisp-text-3": "Typy kryteriów reprezentują preferowany kierunek wartości. -1 oznacza typ koszt, a wartość 1 typ profit. Liczba wartości w ostatnim wierszu powinna równać się ilości kolumn w macierzy.",
+
+  "xlsx-fuzzy-text-1": "Pliki XLSX (Microsoft Excel) powinny być tak sformatowane, aby typy macierzy i kryteriów były oddzielone niewypełnionym wierszem z wartościami.",
+  "xlsx-fuzzy-text-2": "W macierzy wiersze reprezentują alternatywy, a kolumny kryteria w problemie. Każdy wiersz powinien zawierać równą liczbę wartości. W jednej komórce wartości powinny być reprezentowane przez Trójkątne Liczby Rozmyte (Triangular Fuzzy Number - TFN) [a, m, b], gdzie a jest dolną wartością TFN, m jest środkową wartością TFN, a b jest górną wartością TFN. Wartości a, m, b powinny być oddzielone spacją, a nie przecinkiem.",
+  "xlsx-fuzzy-text-3": "Typy kryteriów reprezentują preferowany kierunek wartości. -1 reprezentuje typ kosztu, a wartość 1 reprezentuje typ zysku. Liczba wartości w ostatnim wierszu powinna być równa liczbie kolumn w macierzy.",
+
+  "csv": "CSV",
+  "csv-crisp-text-1": "Pliki w formacie Comma-Separated Values (CSV) i dane w nich zawarte powinny być podzielone na dwie sekcje. Pierwsza z nich powinna reprezentować macierz decyzyjną w problemie. Druga z nich, zapisana po pustej linijce oddzielającej sekcje, powinna reprezentować typy kryteriów.",
+  "csv-crisp-text-2": "Macierz reprezentuje w wierszach warianty decyzyjne, a w kolumnach kryteria rozpatrywane w problemie. Wartości w macierzy w pojedynczym wierszu powinny być oddzielone przecinkami, a nowy wierszy macierzy decyzyjnej powinien być zapisany w nowej linijce. Macierz nie powinna zawierać pustych wartości, ani znaków tekstowych.",
+  "csv-crisp-text-3": "Liczba typów kryteriów powinna równać się ilości kolumn w macierzy. Typy kryteriów powinny być reprezentowane tylko przez wartości -1 dla typu koszt, oraz 1 dla typu profit. Wartości powinny być oddzielone przecinkami.",
+
+  "csv-fuzzy-text-1": "Pliki w formacie CSV (Comma-Separated Values) i zawarte w nich dane powinny być podzielone na dwie części. Pierwsza z nich powinna reprezentować macierz decyzyjną w problemie. Druga, zapisana po pustej linii oddzielającej sekcje, powinna reprezentować typy kryteriów.",
+  "csv-fuzzy-text-2": "Macierz reprezentuje w wierszach opcje decyzyjne, a w kolumnach kryteria rozpatrywane w problemie. Wartości w macierzy w jednym wierszu powinny być oddzielone przecinkami, a nowy wiersz macierzy decyzyjnej powinien być zapisany w nowej linii. Macierz nie powinna zawierać pustych wartości ani znaków tekstowych. Każdy element powinien być reprezentowany jako Trójkątne Liczby Rozmyte (Triangular Fuzzy Number - TFN) [a, m, b], gdzie a jest dolną wartością TFN, m jest środkową wartością TFN, a b jest górną wartością TFN. Wartości a, m, b powinny być oddzielone spacją, a nie przecinkiem. Przecinek powinien być użyty do oddzielenia TFN w jednym wierszu.",
+  "csv-fuzzy-text-3": "Liczba typów kryteriów powinna być równa liczbie kolumn w macierzy. Typy kryteriów powinny być reprezentowane wyłącznie przez wartości -1 dla typu koszt, oraz 1 dla typu zysk. Wartości powinny być oddzielone przecinkami."
+}

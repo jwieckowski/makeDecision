@@ -11,6 +11,8 @@ import {
 import { MethodsDescriptionType } from "../../../redux/types";
 import MarkdownText from "../../MarkdownText";
 
+import { useTranslation } from "react-i18next";
+
 type SmallMenuProps = {
   methods: [] | MethodsDescriptionType[];
   typeIndex: number;
@@ -26,6 +28,7 @@ export default function SmallMenu({
   handleTypeChange,
   handleMethodChange,
 }: SmallMenuProps) {
+  const { t } = useTranslation();
   return (
     <Box
       sx={{
@@ -45,12 +48,14 @@ export default function SmallMenu({
         }}
       >
         <FormControl fullWidth>
-          <InputLabel id="Group of method-input">Group of method</InputLabel>
+          <InputLabel id="Group of method-input">
+            {t("common:group-method")}
+          </InputLabel>
           <Select
             labelId="Group of method-input"
             id="Group of method"
             value={typeIndex}
-            label="Group of method"
+            label={`${t("common:group-method")}`}
             onChange={(e) => handleTypeChange(+e.target.value)}
           >
             {methods.map((method, index) => {
@@ -63,14 +68,14 @@ export default function SmallMenu({
           </Select>
         </FormControl>
         <FormControl fullWidth>
-          <InputLabel id="Method-input">Method</InputLabel>
+          <InputLabel id="Method-input">{t("common:method")}</InputLabel>
           <Select
             labelId="Method-input"
             id="Method"
             value={
               methodIndex < methods[typeIndex].data.length ? methodIndex : 0
             }
-            label="Method"
+            label={`${t("common:method")}`}
             onChange={(e) => handleMethodChange(+e.target.value)}
           >
             {methods[typeIndex].data.map((method, index) => {
@@ -98,7 +103,7 @@ export default function SmallMenu({
           methodIndex < methods[typeIndex].data.length ? methodIndex : 0
         ].description.length === 0 && (
           <Typography justifyContent="center">
-            No description available yet
+            {t("common:no-description")}
           </Typography>
         )}
       </Box>

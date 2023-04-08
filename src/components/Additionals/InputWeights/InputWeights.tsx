@@ -7,6 +7,8 @@ import { setBlockWeights } from "../../../redux/slices/blocksSlice";
 import { MAX_CRITERIA } from "../../../common/const";
 import { BlockType } from "../../../redux/types";
 
+import { useTranslation } from "react-i18next";
+
 type ParamType = {
   extension: string;
 };
@@ -19,6 +21,7 @@ export default function InputWeights({ extension }: ParamType) {
     (state: RootState) => state.blocks
   );
   const [userWeights, setUserWeights] = useState<string[]>([]);
+  const { t } = useTranslation();
 
   useEffect(() => {
     setBlock(blocks.filter((b) => b._id === activeBlock?.id)[0]);
@@ -140,7 +143,7 @@ export default function InputWeights({ extension }: ParamType) {
   return (
     <Box sx={{ m: 4 }}>
       <Typography textAlign="center" sx={{ m: 2 }}>
-        Weights
+        {t("results:weights").toUpperCase()}
       </Typography>
       <Box sx={{ width: "100%", maxWidth: "50vw", overflow: "auto" }}>
         <Grid

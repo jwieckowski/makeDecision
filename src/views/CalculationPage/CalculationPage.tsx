@@ -14,10 +14,14 @@ import RankingCorrelationsResults from "../../components/Results/RankingCorrelat
 import Loader from "../../components/Loader";
 import ErrorContent from "../../components/ErrorContent";
 
+import { useTranslation } from "react-i18next";
+
 export default function CalculationPage() {
   const { results, loading, error } = useSelector(
     (state: RootState) => state.calculation
   );
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (error === null) return;
@@ -55,12 +59,12 @@ export default function CalculationPage() {
             <Box sx={{ p: 4 }}>
               <Box sx={{}}>
                 <Typography textAlign="center" variant="h6">
-                  Results
+                  {t("results:results")}
                 </Typography>
                 <Box sx={{ display: "flex", justifyContent: "end" }}>
                   <Button variant="contained" onClick={generateResultsFile}>
                     <SaveAltIcon />
-                    Download results
+                    {t("results:download-results")}
                   </Button>
                 </Box>
               </Box>

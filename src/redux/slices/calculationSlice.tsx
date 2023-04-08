@@ -1,17 +1,19 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import axios from 'axios'
-import { 
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import axios from "axios";
+import {
   CalculationSliceState,
   ResultsType,
-  CalculationBodyType
-} from '../types'
-import { BASE_URL } from '../../common/const';
+  CalculationBodyType,
+} from "../types";
+import { BASE_URL } from "../../common/const";
 
-export const getResults = createAsyncThunk('calculations/getResults', async (params: CalculationBodyType) => {
-  const data = await axios.post(`${BASE_URL}/api/v1/results`, params)
-  console.log(data)
-  return data.data;
-});
+export const getResults = createAsyncThunk(
+  "calculations/getResults",
+  async (params: CalculationBodyType) => {
+    const data = await axios.post(`${BASE_URL}/api/v1/results`, params);
+    return data.data;
+  }
+);
 
 const initialState: CalculationSliceState = {
   results: [],
@@ -21,64 +23,74 @@ const initialState: CalculationSliceState = {
   alternatives: 3,
   criteria: 3,
   calculationBody: {
-    matrixFiles: []
+    matrixFiles: [],
   },
   loading: false,
-  error: null
-}
+  error: null,
+};
 
 const calculationSlice = createSlice({
-  name: 'calculations',
+  name: "calculations",
   initialState: initialState,
   reducers: {
     addMethodParameters: (state, action) => {
-      state.methodParameters = [action.payload, ...state.methodParameters]
+      state.methodParameters = [action.payload, ...state.methodParameters];
     },
     setAlternatives: (state, action) => {
-      state.alternatives = action.payload
+      state.alternatives = action.payload;
     },
     setCriteria: (state, action) => {
-      state.criteria = action.payload
+      state.criteria = action.payload;
     },
     addMatrixFile: (state, action) => {
-      state.calculationBody.matrixFiles = [...state.calculationBody.matrixFiles, action.payload]
+      state.calculationBody.matrixFiles = [
+        ...state.calculationBody.matrixFiles,
+        action.payload,
+      ];
     },
     clearMatrixFiles: (state, action) => {
-      state.calculationBody.matrixFiles = []
+      state.calculationBody.matrixFiles = [];
     },
     clearBody: (state) => {
       state.calculationBody = {
         ...initialState.calculationBody,
-      }
+      };
     },
     resetBody: (state) => {
-      state.calculationBody = initialState.calculationBody
+      state.calculationBody = initialState.calculationBody;
     },
     resetResults: (state) => {
-      state.results = initialState.results
-      state.error = null
-    }
+      state.results = initialState.results;
+      state.error = null;
+    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(getResults.pending, (state: CalculationSliceState) => {
-        state.error = null
+        state.error = null;
         state.loading = true;
       })
-      .addCase(getResults.fulfilled, (state: CalculationSliceState, action: PayloadAction<ResultsType>) => {
-        state.results = action.payload
-        state.loading = false;
-      })
-      .addCase(getResults.rejected, (state: CalculationSliceState, action: PayloadAction<any>) => {
-        state.error = 'Error occurred while getting calculation results from server';
-        state.loading = false;
-      })
-    }
+      .addCase(
+        getResults.fulfilled,
+        (state: CalculationSliceState, action: PayloadAction<ResultsType>) => {
+          state.results = action.payload;
+          state.loading = false;
+        }
+      )
+      .addCase(
+        getResults.rejected,
+        (state: CalculationSliceState, action: PayloadAction<any>) => {
+          state.error =
+            "Error occurred while getting calculation results from server";
+          state.loading = false;
+        }
+      );
+  },
 });
-const { actions, reducer } = calculationSlice
-export const { 
+const { actions, reducer } = calculationSlice;
+export const {
   addMethodParameters,
-  setAlternatives, 
+  setAlternatives,
   setCriteria,
   addMatrixFile,
   clearMatrixFiles,

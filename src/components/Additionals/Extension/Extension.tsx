@@ -19,12 +19,15 @@ import { BlockType } from "../../../redux/types";
 
 import { getMatrixWeightsConnections } from "../../../utilities/calculation";
 
+import { useTranslation } from "react-i18next";
+
 export default function Extension() {
   const { blocks, activeBlock, connections } = useSelector(
     (state: RootState) => state.blocks
   );
   const dispatch = useAppDispatch();
   const [block, setBlock] = useState<BlockType | null>(null);
+  const { t } = useTranslation();
 
   const handleExtensionChange = (event: SelectChangeEvent) => {
     dispatch(
@@ -52,19 +55,19 @@ export default function Extension() {
   return (
     <Box sx={{ margin: "10px 0" }}>
       <FormControl fullWidth>
-        <InputLabel id="extension-input">Extension</InputLabel>
+        <InputLabel id="extension-input">{t("results:extension")}</InputLabel>
         <Select
           labelId="extension-input"
           id="extension"
           value={block === null ? "crisp" : block.data.extension}
-          label="Extension"
+          label={`${t("results:extension")}`}
           onChange={handleExtensionChange}
         >
           <MenuItem value={"crisp"}>
-            <Typography>Crisp</Typography>
+            <Typography>{t("results:crisp")}</Typography>
           </MenuItem>
           <MenuItem value={"fuzzy"}>
-            <Typography>Fuzzy</Typography>
+            <Typography>{t("results:fuzzy")}</Typography>
           </MenuItem>
         </Select>
       </FormControl>
