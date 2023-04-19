@@ -15,15 +15,19 @@ export default function PreferencesResults() {
   return !Array.isArray(results) ? (
     <Box>
       {results.method.length > 0 && (
-        <Typography variant="h6">{t("results:preferences")}</Typography>
+        <>
+          <Typography variant="h6">{t("results:preferences")}</Typography>
+          {results.method.map((result, idx) => {
+            return result.length !== 0 ? (
+              <Box sx={{ m: "5px 0" }} key={`preferences-box-${idx}`}>
+                <PreferenceTable results={result} idx={idx} />
+              </Box>
+            ) : (
+              t("common:general-error")
+            );
+          })}
+        </>
       )}
-      {results.method.map((result, idx) => {
-        return (
-          <Box sx={{ m: "5px 0" }}>
-            <PreferenceTable results={result} idx={idx} />
-          </Box>
-        );
-      })}
     </Box>
   ) : (
     <></>

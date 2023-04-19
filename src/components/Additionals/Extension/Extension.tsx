@@ -12,12 +12,16 @@ import {
 import { RootState, useAppDispatch } from "../../../redux";
 import { useSelector } from "react-redux";
 import {
+  setBlockAdditionals,
   setBlockExtension,
   setBlockWeights,
 } from "../../../redux/slices/blocksSlice";
 import { BlockType } from "../../../redux/types";
 
-import { getMatrixWeightsConnections } from "../../../utilities/calculation";
+import {
+  getMatrixWeightsConnections,
+  getWeightsMethodConnections,
+} from "../../../utilities/calculation";
 
 import { useTranslation } from "react-i18next";
 
@@ -37,7 +41,12 @@ export default function Extension() {
       })
     );
     if (block !== null) {
-      getMatrixWeightsConnections(blocks, connections, block).forEach((b) => {
+      const weightsBlock = getMatrixWeightsConnections(
+        blocks,
+        connections,
+        block
+      );
+      weightsBlock.forEach((b) => {
         dispatch(
           setBlockWeights({
             id: b._id,
@@ -45,6 +54,19 @@ export default function Extension() {
           })
         );
       });
+
+      getWeightsMethodConnections(weightsBlock, blocks, connections).forEach(
+        (block) => {
+          block.forEach((b) => {
+            dispatch(
+              setBlockAdditionals({
+                id: b._id,
+                data: [],
+              })
+            );
+          });
+        }
+      );
     }
   };
 

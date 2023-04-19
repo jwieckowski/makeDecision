@@ -7,6 +7,7 @@ import SaveAltIcon from "@mui/icons-material/SaveAlt";
 
 import DragStory from "../../components/DragAndDrop/DragStory";
 import CustomModal from "../../components/CustomModal";
+import WeightsResults from "../../components/Results/Weights";
 import PreferencesResults from "../../components/Results/Preferences";
 import PreferencesCorrelationsResults from "../../components/Results/PreferencesCorrelations";
 import RankingResults from "../../components/Results/Ranking";
@@ -70,6 +71,7 @@ export default function CalculationPage() {
               </Box>
 
               <>
+                <WeightsResults />
                 <PreferencesResults />
                 <PreferencesCorrelationsResults />
                 <RankingResults />

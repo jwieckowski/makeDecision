@@ -15,24 +15,26 @@ export default function PreferencesCorrelationsResults() {
   return !Array.isArray(results) ? (
     <Box>
       {results.methodCorrelations.length > 0 && (
-        <Typography variant="h6">
-          {t("results:correlation-preferences")}
-        </Typography>
+        <>
+          <Typography variant="h6">
+            {t("results:correlation-preferences")}
+          </Typography>
+          {results.methodCorrelations.map((result, idx) => {
+            return result.map((r) => {
+              return (
+                <Box sx={{ m: "5px 0" }} key={`correlations-box-${idx}`}>
+                  <CorrelationTable
+                    correlation={r.correlation}
+                    methods={r.methods}
+                    results={r.results}
+                  />
+                  {!r.error && <Typography>{r.error}</Typography>}
+                </Box>
+              );
+            });
+          })}
+        </>
       )}
-      {results.methodCorrelations.map((result) => {
-        return result.map((r) => {
-          return (
-            <Box sx={{ m: "5px 0" }}>
-              <CorrelationTable
-                correlation={r.correlation}
-                methods={r.methods}
-                results={r.results}
-              />
-              {!r.error && <Typography>{r.error}</Typography>}
-            </Box>
-          );
-        });
-      })}
     </Box>
   ) : (
     <></>

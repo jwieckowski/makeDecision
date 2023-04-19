@@ -55,7 +55,7 @@ export default function HomePage() {
         >
           {home.map((t) => {
             return (
-              <Box sx={{ width: "60%", m: 2 }}>
+              <Box sx={{ width: "60%", m: 2 }} key={`textbox-${t.id}`}>
                 <Typography key={t.id}>{t.text}</Typography>
               </Box>
             );

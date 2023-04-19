@@ -57,6 +57,30 @@ export const getWeightsMethodConnections = (
   return mcdaItems;
 };
 
+export const getMethodsParams = (
+  mcdaItems: [] | BlockType[][],
+  matrixIdx: number,
+  extension: string
+) => {
+  let params: [] | any = [];
+  mcdaItems.forEach((items) => {
+    items.forEach((item) => {
+      params = [
+        ...params,
+        {
+          extension: extension,
+          additional:
+            item.data.additionals[matrixIdx] === undefined
+              ? {}
+              : item.data.additionals[matrixIdx],
+          method: item.method,
+        },
+      ];
+    });
+  });
+  return params;
+};
+
 export const createWeightMethodPair = (
   weightsItems: [] | BlockType[],
   mcdaItems: [] | BlockType[][]

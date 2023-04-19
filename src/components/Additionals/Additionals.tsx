@@ -1,13 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
 import { RootState, useAppDispatch } from "../../redux";
+import { BlockType, AdditionalType } from "../../redux/types";
 import { Box, Typography, Button } from "@mui/material";
-import { addMethodParameters } from "../../redux/slices/calculationSlice";
 
-import { getAdditionalParameters } from "../../utilities/filtering";
-import { setModalOpen } from "../../redux/slices/blocksSlice";
+import {
+  getMethodData,
+  getAdditionalParameters,
+} from "../../utilities/filtering";
+import {
+  setModalOpen,
+  setBlockAdditionals,
+} from "../../redux/slices/blocksSlice";
 
+import { SelectChangeEvent } from "@mui/material/Select";
 import Extension from "./Extension";
 import Metrics from "./Metrics";
 import InputMatrix from "./InputMatrix";
@@ -18,21 +25,95 @@ import InputWeights from "./InputWeights";
 
 import { useTranslation } from "react-i18next";
 
-// TODO methods: normalization, distance, defuzzification
+// TODO preference_function for PROMETHEE
 export default function Additionals() {
+  const [block, setBlock] = useState<BlockType | null>(null);
+  const [metricsValues, setMetricsValues] = useState<AdditionalType[] | []>([]);
+
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
-  // const {extensions} = useSelector((state: RootState) => state.calculation.calculationBody)
   const { allMethods, loading, error } = useSelector((state: RootState) => ({
     ...state.dictionary,
   }));
+
+  console.log(metricsValues);
+
   const { activeBlock, connections, blocks } = useSelector(
     (state: RootState) => ({ ...state.blocks })
   );
   const { methodParameters } = useSelector((state: RootState) => ({
     ...state.calculation,
   }));
+
+  useEffect(() => {
+    setBlock(blocks.filter((b) => b._id === activeBlock?.id)[0]);
+  }, [blocks]);
+
+  useEffect(() => {
+    if (block === null) return;
+    if (block.data.additionals.length === 0) return;
+
+    let metrics: [] | any = [];
+    getMethodsConnectedBlocksExtensions().forEach((b, index) => {
+      let tempMetric: [] | any = [];
+      getAdditionalParameters(
+        activeBlock?.additional,
+        b.extension
+      )[0].data.forEach((item) => {
+        console.log(item);
+        let value = getAdditionalValueFromBlock(
+          block?.data.additionals[index],
+          item.parameter
+        );
+        console.log(value);
+        tempMetric = [
+          ...tempMetric,
+          {
+            [item.parameter]: value,
+          },
+        ];
+      });
+      metrics = [...metrics, tempMetric];
+    });
+
+    setMetricsValues(metrics);
+  }, [block]);
+
+  const onMetricValueChange = (
+    event: SelectChangeEvent,
+    parameter: string,
+    index: number
+  ) => {
+    console.log(parameter, event.target.value);
+    if (metricsValues.length === 0) {
+      setMetricsValues([
+        {
+          [parameter]: event.target.value as string,
+        },
+      ]);
+    } else {
+      if (metricsValues.length < index + 1) {
+        setMetricsValues([
+          ...metricsValues,
+          {
+            [parameter]: event.target.value as string,
+          },
+        ]);
+      } else {
+        setMetricsValues(
+          metricsValues.map((metric, idx) => {
+            return idx !== index
+              ? metric
+              : {
+                  ...metric,
+                  [parameter]: event.target.value as string,
+                };
+          })
+        );
+      }
+    }
+  };
 
   const checkBlockType = (type: string) => {
     return activeBlock?.type.toLowerCase() === type;
@@ -43,6 +124,14 @@ export default function Additionals() {
 
   const getBlockInputConnections = () => {
     return connections.filter((c) => +c[1] === activeBlock?.id);
+  };
+
+  const getAdditionalValueFromBlock = (
+    additionals: {} | AdditionalType,
+    parameter: string
+  ) => {
+    if (Object.keys(additionals).length === 0) return "";
+    return additionals[parameter as keyof typeof additionals];
   };
 
   const getWeightsConnectedBlocksExtensions = () => {
@@ -93,34 +182,24 @@ export default function Additionals() {
       });
     });
 
-    // return extensions.map((e, idx) => {
-    //   return { extension: e, index: idx }
-    // }).filter(e => indexes.includes(e.index as never))
+    return matrices
+      .map((m) => m.data.extension)
+      .map((e, idx) => {
+        return { extension: e, index: idx };
+      })
+      .filter((e) => indexes.includes(e.index as never));
   };
 
   function addParameters() {
-    console.log("tu");
-    // type AdditionalType = {
-    //     [key: string] : string
-    // }
+    if (!block?.data.extension) return;
+    if (!metricsValues) return;
 
-    // const additionalTypes: AdditionalType = {
-    //     'normalization': normalization,
-    //     'distance': distance,
-    //     'defuzzification': defuzzification
-    // }
-
-    // const additional: AdditionalType = {}
-    // getAdditionalParameters().length !== 0 && getAdditionalParameters()[0].data.map(param => {
-    //     additional[param.parameter] = additionalTypes[param.method]
-    // })
-
-    // const body = {
-    //     'method': methodItem?.name,
-    //     'extension': extension,
-    //     'additional': additional
-    // }
-    // dispatch(addMethodParameters(body))
+    dispatch(
+      setBlockAdditionals({
+        id: activeBlock?.id,
+        data: metricsValues,
+      })
+    );
   }
 
   return (
@@ -135,10 +214,10 @@ export default function Additionals() {
     >
       <Box>
         <Typography textAlign="center" variant="h6">
-          {activeBlock?.name.toUpperCase()}
+          {block?.label.toUpperCase()}
         </Typography>
         <Typography textAlign="center" variant="body1">
-          {activeBlock?.type.toUpperCase()}
+          {block?.typeLabel.toUpperCase()}
         </Typography>
       </Box>
       {/* MATRIX TYPE */}
@@ -189,23 +268,38 @@ export default function Additionals() {
       )}
 
       {/* METHOD TYPE */}
-      {/* { checkBlockType('method') &&
-          getMethodsConnectedBlocksExtensions().map(b => {
-            return (
-              <Box>
-                <Typography>Matrix: {b.index}</Typography>
-                <Typography>Extension: {b.extension}</Typography>
+      {checkBlockType("method") &&
+        getMethodsConnectedBlocksExtensions().map((b, index) => {
+          return (
+            <Box key={`additional-box-${index}`}>
+              <Typography>Matrix: {b.index}</Typography>
+              <Typography>Extension: {b.extension}</Typography>
 
-                {getAdditionalParameters(activeBlock?.additional, b.extension)[0]?.data.map(item => {
-                  return (
-                    <Metrics extension={b.extension} method={item.method} parameter={item.parameter}/>
-                    )
-                  })
-                }
-              </Box>
-            )
-          })
-        } */}
+              {getAdditionalParameters(
+                activeBlock?.additional,
+                b.extension
+              )[0]?.data.map((item) => {
+                return (
+                  <Metrics
+                    value={
+                      block?.data.additionals[index]
+                        ? getAdditionalValueFromBlock(
+                            block?.data.additionals[index],
+                            item.parameter
+                          )
+                        : ""
+                    }
+                    extension={b.extension}
+                    method={item.method}
+                    parameter={item.parameter}
+                    index={index}
+                    onChange={onMetricValueChange}
+                  />
+                );
+              })}
+            </Box>
+          );
+        })}
       {checkBlockType("method") && (
         <Typography onClick={addParameters} textAlign="center" sx={{ mt: 2 }}>
           {t("results:add-parameters")}

@@ -15,22 +15,26 @@ export default function RankingCorrelationsResults() {
   return !Array.isArray(results) ? (
     <Box>
       {results.rankingCorrelations.length > 0 && (
-        <Typography variant="h6">{t("results:correlation-ranking")}</Typography>
+        <>
+          <Typography variant="h6">
+            {t("results:correlation-ranking")}
+          </Typography>
+          {results.rankingCorrelations.map((result, idx) => {
+            return result.map((r) => {
+              return (
+                <Box sx={{ m: "5px 0" }} key={`ranking-correlation-box-${idx}`}>
+                  <CorrelationTable
+                    correlation={r.correlation}
+                    methods={r.methods}
+                    results={r.results}
+                  />
+                  {!r.error && <Typography>{r.error}</Typography>}
+                </Box>
+              );
+            });
+          })}
+        </>
       )}
-      {results.rankingCorrelations.map((result) => {
-        return result.map((r) => {
-          return (
-            <Box sx={{ m: "5px 0" }}>
-              <CorrelationTable
-                correlation={r.correlation}
-                methods={r.methods}
-                results={r.results}
-              />
-              {!r.error && <Typography>{r.error}</Typography>}
-            </Box>
-          );
-        });
-      })}
     </Box>
   ) : (
     <></>

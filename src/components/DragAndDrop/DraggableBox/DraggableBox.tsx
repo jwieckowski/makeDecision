@@ -43,6 +43,8 @@ export default function DraggableBox({
   const dispatch = useAppDispatch();
   const updateXarrow = useXarrow();
 
+  const matrices = blocks.filter((block) => block.type.includes("matrix"));
+
   function handleSettingsClick(e: React.MouseEvent<HTMLElement>) {
     e.stopPropagation();
     dispatch(setModalType("additionals"));
@@ -133,7 +135,11 @@ export default function DraggableBox({
             alignItems: "center",
           }}
         >
-          <Typography variant="h5">{label.toUpperCase()}</Typography>
+          <Typography variant="h5">
+            {label.toUpperCase()}
+            {type.toLowerCase() === "matrix" &&
+              ` ${matrices.map((m) => m._id).indexOf(+id) + 1}`}
+          </Typography>
           <Typography variant="body2">{typeLabel.toUpperCase()}</Typography>
         </Box>
         <Box

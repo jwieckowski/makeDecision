@@ -173,6 +173,19 @@ const blocksSlice = createSlice({
           : b;
       });
     },
+    setBlockAdditionals: (state, action) => {
+      state.blocks = state.blocks.map((b) => {
+        return b._id === action.payload.id
+          ? {
+              ...b,
+              data: {
+                ...b.data,
+                additionals: action.payload.data,
+              },
+            }
+          : b;
+      });
+    },
   },
   extraReducers: (builder) => {},
 });
@@ -200,5 +213,6 @@ export const {
   setBlockTypes,
   setBlockWeights,
   setBlockExtension,
+  setBlockAdditionals,
 } = actions;
 export default reducer;

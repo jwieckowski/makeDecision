@@ -39,6 +39,7 @@ export type MethodAdditional = {
 export type MethodsItem = {
   id: number;
   type: string;
+  label: string;
   name: string;
   abbreviation: string;
   extensions: [] | string[];
@@ -53,6 +54,7 @@ export type MethodsItem = {
 export type CorrelationsItem = {
   id: number;
   type: string;
+  label: string;
   name: string;
   requiredData: [] | string[];
   inputConnections: [] | string[];
@@ -64,6 +66,7 @@ export type CorrelationsItem = {
 export type DecisionMatrixItem = {
   id: number;
   type: string;
+  label: string;
   name: string;
   extensions: [] | string[];
   formats?: [] | string[];
@@ -76,6 +79,7 @@ export type DecisionMatrixItem = {
 export type DefuzzificationsItem = {
   id: number;
   type: string;
+  label: string;
   name: string;
   functionName: string;
   extensions: [] | string[];
@@ -86,6 +90,7 @@ export type DefuzzificationsItem = {
 export type DistancesItem = {
   id: number;
   type: string;
+  label: string;
   name: string;
   functionName: string;
   extensions: [] | string[];
@@ -96,6 +101,7 @@ export type DistancesItem = {
 export type NormalizationsItem = {
   id: number;
   type: string;
+  label: string;
   name: string;
   functionName: string;
   extensions: [] | string[];
@@ -108,6 +114,7 @@ export type NormalizationsItem = {
 export type RankingItem = {
   id: number;
   type: string;
+  label: string;
   name: string;
   inputConnections: [] | string[];
   outputConnections: [] | string[];
@@ -118,6 +125,7 @@ export type RankingItem = {
 export type VisualizationItem = {
   id: number;
   type: string;
+  label: string;
   name: string;
   inputConnections: [] | string[];
   hints: [] | string[];
@@ -127,6 +135,7 @@ export type VisualizationItem = {
 export type WeightsItem = {
   id: number;
   type: string;
+  label: string;
   name: string;
   extensions: [] | string[];
   requiredData: [] | string[];
@@ -264,6 +273,7 @@ export type CalculationBodyType = {
   methodCorrelations: [] | MethodCorrelationType[][];
   methodRankings: [] | MethodRankingType[][];
   rankingCorrelations: [] | RankingCorrelationType[][];
+  params: [] | any; // TODO - define params type
 };
 
 export type TempBodyType = {
@@ -292,7 +302,7 @@ export type BlockDataType = {
   types: [] | string[];
   weights: [] | string[];
   extension: string;
-  // additionals: any,
+  additionals: [] | AdditionalType[];
   // styles: any
 };
 

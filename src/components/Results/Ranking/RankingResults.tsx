@@ -14,17 +14,19 @@ export default function RankingResults() {
   return !Array.isArray(results) ? (
     <Box>
       {results.methodRankings.length > 0 && (
-        <Typography variant="h6">{t("results:rankings")}</Typography>
+        <>
+          <Typography variant="h6">{t("results:rankings")}</Typography>
+          {results.methodRankings.map((result, idx) => {
+            return result.map((res) => {
+              return (
+                <Box sx={{ m: "5px 0" }} key={`rankings-box-${idx}`}>
+                  <RankingTable results={res} idx={idx} />
+                </Box>
+              );
+            });
+          })}
+        </>
       )}
-      {results.methodRankings.map((result, idx) => {
-        return result.map((res) => {
-          return (
-            <Box sx={{ m: "5px 0" }}>
-              <RankingTable results={res} idx={idx} />
-            </Box>
-          );
-        });
-      })}
     </Box>
   ) : (
     <></>

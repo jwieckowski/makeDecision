@@ -24,8 +24,6 @@ export default function MethodsList() {
   const { t } = useTranslation();
   const { locale } = useLocale();
 
-  console.log(locale);
-  console.log(allMethods);
   const initialState = [false, false, false, false, false, false];
   const [open, setOpen] = useState(initialState);
 
@@ -53,7 +51,7 @@ export default function MethodsList() {
   ) {
     e.preventDefault();
 
-    console.log("click", type, method);
+    // console.log("click", type, method);
 
     const block = {
       type: type.includes("matrix")
@@ -72,6 +70,7 @@ export default function MethodsList() {
         types: [],
         weights: [],
         extension: "crisp",
+        additionals: [],
       },
     };
     dispatch(addBlock(block));
@@ -115,20 +114,24 @@ export default function MethodsList() {
         return (
           <>
             <ListItemButton
-              key={`${methods.key}-key`}
+              key={`${index}-key`}
               onClick={(e) => handleItemClick(e, index)}
             >
-              <ListItemText primary={methods.label} />
+              <ListItemText
+                key={`${index}-text-primary`}
+                primary={methods.label}
+              />
 
               {query !== "" ? (
                 ""
               ) : open[index] ? (
-                <ExpandLess />
+                <ExpandLess key={`${index}-expand-less`} />
               ) : (
-                <ExpandMore />
+                <ExpandMore key={`${index}-expand-more`} />
               )}
             </ListItemButton>
             <Collapse
+              key={`${index}-collapse`}
               in={query !== "" || open[index]}
               timeout="auto"
               unmountOnExit
@@ -151,7 +154,10 @@ export default function MethodsList() {
                         )
                       }
                     >
-                      <ListItemText secondary={method.label} />
+                      <ListItemText
+                        key={`${index}-list-text`}
+                        secondary={method.label}
+                      />
                     </ListItemButton>
                   );
                 })}
@@ -161,7 +167,7 @@ export default function MethodsList() {
         );
       })}
       {filteredData.length === 0 && (
-        <ListItemButton sx={{ pl: 4 }}>
+        <ListItemButton sx={{ pl: 4 }} key="no-methods">
           <ListItemText primary={`${t("common:no-methods")}`} />
         </ListItemButton>
       )}

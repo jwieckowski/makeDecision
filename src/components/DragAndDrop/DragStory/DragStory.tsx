@@ -52,6 +52,7 @@ import { getNotConnectedBlocks } from "../../../utilities/blocks";
 import {
   getMatrixWeightsConnections,
   getWeightsMethodConnections,
+  getMethodsParams,
   createWeightMethodPair,
   getMethodCorrelationConnections,
   getMethodRankingConnections,
@@ -218,7 +219,7 @@ export default function DragStory() {
     dispatch(resetBody());
   };
 
-  const handleCalculateClick = () => {
+  const handleCalculateClick = async () => {
     dispatch(clearBody());
 
     let calculate = true;
@@ -231,6 +232,7 @@ export default function DragStory() {
       methodCorrelations: [],
       methodRankings: [],
       rankingCorrelations: [],
+      params: [],
     };
 
     // console.log(getNotConnectedBlocks(blocks, connections))
@@ -250,7 +252,7 @@ export default function DragStory() {
 
     // for each matrix in structure do calculations
     matrices.forEach((matrix, matrixIdx) => {
-      console.log(matrix.data.matrix);
+      // console.log(matrix.data.matrix);
 
       calculate = true;
       const weightsItems = getMatrixWeightsConnections(
@@ -540,6 +542,14 @@ export default function DragStory() {
         }
       });
 
+      // append params for the methods
+      const params = getMethodsParams(
+        mcdaItems,
+        matrixIdx,
+        matrix.data.extension
+      );
+      body.params = [...body.params, [...params]];
+
       const methodItem = createWeightMethodPair(weightsItems, mcdaItems);
       if (methodItem.length > 0) {
         body.method = [...body.method, [...methodItem]];
@@ -586,7 +596,8 @@ export default function DragStory() {
       }
     });
 
-    calculate && dispatch(getResults(body));
+    console.log(body);
+    calculate && (await dispatch(getResults(body)));
   };
 
   const handleGridClick = () => {
@@ -675,9 +686,10 @@ export default function DragStory() {
                 />
               );
             })}
-            {connections.map((c) => {
+            {connections.map((c, cIdx) => {
               return (
                 <Xarrow
+                  key={cIdx}
                   start={c[0]}
                   end={c[1]}
                   strokeWidth={size}
