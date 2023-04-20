@@ -57,6 +57,14 @@ export default function PreferenceTable({
                   <Typography variant="body2" textAlign="center">
                     {res.weights.toUpperCase()}
                   </Typography>
+                  {Object.values(res.additional).length !== 0 &&
+                    Object.values(res.additional).map((val: string) => {
+                      return (
+                        <Typography variant="body2" textAlign="center">
+                          {val.split("_").join(" ").toUpperCase()}
+                        </Typography>
+                      );
+                    })}
                 </TableCell>
                 {res.preference.map((r) => {
                   return (

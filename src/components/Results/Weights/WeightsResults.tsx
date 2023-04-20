@@ -12,8 +12,6 @@ export default function WeightsResults() {
   const { results } = useSelector((state: RootState) => state.calculation);
   const { t } = useTranslation();
 
-  console.log(results);
-
   type Weights = {
     id: number;
     method: string;

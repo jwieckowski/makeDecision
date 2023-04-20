@@ -596,7 +596,6 @@ export default function DragStory() {
       }
     });
 
-    console.log(body);
     calculate && (await dispatch(getResults(body)));
   };
 

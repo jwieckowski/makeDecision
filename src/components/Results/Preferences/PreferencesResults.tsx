@@ -12,6 +12,8 @@ export default function PreferencesResults() {
   const { results } = useSelector((state: RootState) => state.calculation);
   const { t } = useTranslation();
 
+  console.log(results);
+
   return !Array.isArray(results) ? (
     <Box>
       {results.method.length > 0 && (

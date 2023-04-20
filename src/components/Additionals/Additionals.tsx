@@ -36,9 +36,6 @@ export default function Additionals() {
   const { allMethods, loading, error } = useSelector((state: RootState) => ({
     ...state.dictionary,
   }));
-
-  console.log(metricsValues);
-
   const { activeBlock, connections, blocks } = useSelector(
     (state: RootState) => ({ ...state.blocks })
   );
@@ -54,25 +51,23 @@ export default function Additionals() {
     if (block === null) return;
     if (block.data.additionals.length === 0) return;
 
-    let metrics: [] | any = [];
+    let metrics: [] | AdditionalType[] = [];
     getMethodsConnectedBlocksExtensions().forEach((b, index) => {
-      let tempMetric: [] | any = [];
+      let tempMetric: {} | any = {};
       getAdditionalParameters(
         activeBlock?.additional,
         b.extension
-      )[0].data.forEach((item) => {
-        console.log(item);
-        let value = getAdditionalValueFromBlock(
-          block?.data.additionals[index],
-          item.parameter
-        );
-        console.log(value);
-        tempMetric = [
-          ...tempMetric,
-          {
-            [item.parameter]: value,
-          },
-        ];
+      )[0].data.forEach((item, idx) => {
+        if (
+          block.data.additionals.length <= index + 1 &&
+          block.data.additionals[index] !== undefined
+        ) {
+          let value = getAdditionalValueFromBlock(
+            block?.data.additionals[index],
+            item.parameter
+          );
+          tempMetric[item.parameter] = value;
+        }
       });
       metrics = [...metrics, tempMetric];
     });
@@ -85,13 +80,10 @@ export default function Additionals() {
     parameter: string,
     index: number
   ) => {
-    console.log(parameter, event.target.value);
     if (metricsValues.length === 0) {
-      setMetricsValues([
-        {
-          [parameter]: event.target.value as string,
-        },
-      ]);
+      let tempMetrics: AdditionalType = {};
+      tempMetrics[parameter] = event.target.value as string;
+      setMetricsValues([tempMetrics]);
     } else {
       if (metricsValues.length < index + 1) {
         setMetricsValues([
@@ -101,16 +93,9 @@ export default function Additionals() {
           },
         ]);
       } else {
-        setMetricsValues(
-          metricsValues.map((metric, idx) => {
-            return idx !== index
-              ? metric
-              : {
-                  ...metric,
-                  [parameter]: event.target.value as string,
-                };
-          })
-        );
+        let tempMetric = metricsValues;
+        tempMetric[index][parameter] = event.target.value as string;
+        setMetricsValues(tempMetric);
       }
     }
   };
@@ -131,6 +116,7 @@ export default function Additionals() {
     parameter: string
   ) => {
     if (Object.keys(additionals).length === 0) return "";
+    console.log(additionals);
     return additionals[parameter as keyof typeof additionals];
   };
 
@@ -149,9 +135,9 @@ export default function Additionals() {
 
     return blocks
       .filter((b) => connectedMatrix.includes(b._id.toString()))
-      .map((b) => {
+      .map((b, id) => {
         return {
-          id: b._id,
+          id: id + 1,
           extension: b.data.extension,
         };
       });
@@ -246,16 +232,16 @@ export default function Additionals() {
       {/* WEIGHTS TYPE */}
       {checkBlockType("weights") &&
         checkBlockName("input") &&
-        getWeightsConnectedBlocksExtensions().map((extension) => {
+        getWeightsConnectedBlocksExtensions().map((data, idx) => {
           return (
-            <Box>
+            <Box key={idx}>
               <Typography>
-                {t("common:matrix").toUpperCase()}: {extension.id}
+                {t("common:matrix").toUpperCase()}: {data.id}
               </Typography>
               <Typography>
-                {t("common:extension").toUpperCase()}: {extension.extension}
+                {t("common:extension").toUpperCase()}: {data.extension}
               </Typography>
-              <InputWeights extension={extension.extension} />
+              <InputWeights extension={data.extension} />
             </Box>
           );
         })}
@@ -272,13 +258,17 @@ export default function Additionals() {
         getMethodsConnectedBlocksExtensions().map((b, index) => {
           return (
             <Box key={`additional-box-${index}`}>
-              <Typography>Matrix: {b.index}</Typography>
-              <Typography>Extension: {b.extension}</Typography>
+              <Typography>
+                {t("results:matrix")}: {b.index}
+              </Typography>
+              <Typography>
+                {t("results:extension")}: {b.extension}
+              </Typography>
 
               {getAdditionalParameters(
                 activeBlock?.additional,
                 b.extension
-              )[0]?.data.map((item) => {
+              )[0]?.data.map((item, idx) => {
                 return (
                   <Metrics
                     value={

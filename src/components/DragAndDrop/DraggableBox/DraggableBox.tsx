@@ -161,7 +161,6 @@ export default function DraggableBox({
                     .filter((b) => b._id === +id)[0]
                     .data.fileName?.split(".")[1]
                 }{" "}
-                file
               </Typography>
             )}
           {type.toLowerCase() === "matrix" && (

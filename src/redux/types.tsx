@@ -195,7 +195,7 @@ export type ResultsMethod = {
   weights_value: [] | number[];
   preference: [] | number[];
   extension: string;
-  additional: [] | AdditionalType[];
+  additional: {} | AdditionalType;
   error: boolean | string;
 };
 
