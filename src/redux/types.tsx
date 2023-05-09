@@ -264,6 +264,11 @@ export type RankingCorrelationType = {
   data: [] | MethodRankingItem[];
 };
 
+export type MatrixBodyType = {
+  matrix: File;
+  extension: string;
+};
+
 export type CalculationBodyType = {
   matrixFiles: [] | File[];
   matrix: [] | any;
@@ -273,7 +278,7 @@ export type CalculationBodyType = {
   methodCorrelations: [] | MethodCorrelationType[][];
   methodRankings: [] | MethodRankingType[][];
   rankingCorrelations: [] | RankingCorrelationType[][];
-  params: [] | any; // TODO - define params type
+  params: [] | AdditionalType[][];
 };
 
 export type TempBodyType = {
@@ -290,6 +295,7 @@ export type CalculationSliceState = {
   calculationBody: TempBodyType;
   loading: boolean;
   error: null | string;
+  convertedMatrix: [] | any;
 };
 
 // BLOCKS TYPES --------------------------------------------------------------------------------
@@ -303,7 +309,7 @@ export type BlockDataType = {
   weights: [] | string[];
   extension: string;
   additionals: [] | AdditionalType[];
-  // styles: any
+  styles: null | React.CSSProperties;
 };
 
 export type BlockType = {

@@ -175,44 +175,45 @@ export default function useBlocksConnection() {
     });
 
     // TODO - AFTER LOADING MATRIX FROM FILE AS ARRAY IN APP
-    // const getCriteriaSize = (data: BlockDataType) => {
-    //   if (data.randomMatrix.length > 0) return data.randomMatrix[1];
-    //   else if (data.matrixFile) return 3; // TODO
-    //   else if (data.matrix)
-    //     return data.matrix.length > 0 ? data.matrix[0].length : 1;
-    //   return 0;
-    // };
+    const getCriteriaSize = (data: BlockDataType) => {
+      if (data.randomMatrix.length > 0) return data.randomMatrix[1];
+      else if (data.matrix)
+        return data.matrix.length > 0 ? data.matrix[0].length : 1;
+      return 0;
+    };
 
-    // // check connections starting from the weights input blocks - TODO
-    // getBlocksOfType(blocks, "weights").forEach((weights, idx) => {
-    //   let matrixID: [] | number[] = [];
-    //   let matrixConnections: [] | string[][] = [];
-    //   connections.forEach((c) => {
-    //     if (weights.method === "input" && c[1] === weights._id.toString()) {
-    //       matrixID = [...matrixID, +c[0]];
-    //       matrixConnections = [...matrixConnections, c];
-    //     }
-    //   });
-    //   let criteriaSizes = blocks
-    //     .filter((b) => matrixID.includes(b._id as never))
-    //     .map((b) => getCriteriaSize(b.data));
-    //   console.log(criteriaSizes);
-    //   if (Array.from(new Set(criteriaSizes)).length === 1) return;
-    //   else {
-    //     criteriaSizes.forEach((item, index) => {
-    //       console.log(item, index, matrixConnections[index]);
-    //       if (item !== criteriaSizes[0]) {
-    //         console.log("usuwamy", index);
-    //         enqueueSnackbar(
-    //           `Połączone macierze do jednego bloku wag muszą mieć jednakową ilość kryteriów. Połączenie zostanie usunięte`,
-    //           { variant: "error", autoHideDuration: HIDE_DURATION }
-    //         );
-    //         dispatch(deleteConnection(matrixConnections[index]));
-    //         criteriaSizes = criteriaSizes.filter((c, i) => i !== index);
-    //       }
-    //     });
-    //   }
-    // });
+    getBlocksOfType(blocks, "weights").forEach((weights, idx) => {
+      let matrixID: [] | number[] = [];
+      let matrixConnections: [] | string[][] = [];
+      connections.forEach((c) => {
+        if (weights.method === "input" && c[1] === weights._id.toString()) {
+          matrixID = [...matrixID, +c[0]];
+          matrixConnections = [...matrixConnections, c];
+        }
+      });
+      matrixID = matrixID.sort((a, b) => a - b);
+      matrixConnections = matrixConnections.sort((a, b) => +a[0] - +b[0]);
+      let criteriaSizes = blocks
+        .filter((b) => matrixID.includes(b._id as never))
+        .map((b) => getCriteriaSize(b.data));
+      if (Array.from(new Set(criteriaSizes)).length === 1) return;
+      else {
+        criteriaSizes.forEach((item, index) => {
+          if (item !== criteriaSizes[0]) {
+            enqueueSnackbar(
+              `Połączone macierze do jednego bloku wag muszą mieć jednakową ilość kryteriów. Połączenie zostanie usunięte`,
+              { variant: "error", autoHideDuration: HIDE_DURATION }
+            );
+            dispatch(
+              deleteConnection(
+                matrixConnections.filter((c) => +c[0] === matrixID[index])[0]
+              )
+            );
+            criteriaSizes = criteriaSizes.filter((c, i) => i !== index);
+          }
+        });
+      }
+    });
   };
 
   return {

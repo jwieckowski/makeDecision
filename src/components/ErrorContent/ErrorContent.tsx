@@ -5,6 +5,7 @@ import ReplayIcon from "@mui/icons-material/Replay";
 import { useAppDispatch } from "../../redux/";
 
 import { useTranslation } from "react-i18next";
+import { useLocale } from "../../hooks";
 
 type ErrorContentProps = {
   message?: string;
@@ -14,6 +15,7 @@ type ErrorContentProps = {
 export default function ErrorContent({ message, cb }: ErrorContentProps) {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
+  const { locale } = useLocale();
 
   return (
     <Box
@@ -33,7 +35,7 @@ export default function ErrorContent({ message, cb }: ErrorContentProps) {
         <Button
           sx={{ margin: "20px 0" }}
           variant="contained"
-          onClick={() => dispatch(cb())}
+          onClick={() => dispatch(cb(locale))}
         >
           <ReplayIcon />
           {t("common:reload")}

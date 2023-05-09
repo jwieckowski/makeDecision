@@ -25,6 +25,7 @@ type BoxType = {
   label: string;
   handleClick: Function;
   zoom: number;
+  styles: null | React.CSSProperties;
 };
 
 export default function DraggableBox({
@@ -35,6 +36,7 @@ export default function DraggableBox({
   label,
   handleClick,
   zoom,
+  styles,
 }: BoxType) {
   const { allMethods } = useSelector((state: RootState) => state.dictionary);
   const { clickedBlockId, activeBlock, blocks, connections } = useSelector(
@@ -109,6 +111,7 @@ export default function DraggableBox({
           alignItems: "center",
           borderRadius: 10,
           ...blockStyles(type, isActiveBlock()),
+          ...styles,
         }}
         onClick={(e) => handleClick(e, id, type, method)}
       >

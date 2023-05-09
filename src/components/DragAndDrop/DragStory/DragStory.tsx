@@ -48,6 +48,7 @@ import ZoomOutIcon from "@mui/icons-material/ZoomOut";
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
 
 import DraggableBox from "../DraggableBox";
+import { setBlockStyles } from "../../../redux/slices/blocksSlice";
 import { getNotConnectedBlocks } from "../../../utilities/blocks";
 import {
   getMatrixWeightsConnections,
@@ -163,15 +164,22 @@ export default function DragStory() {
 
   const printDocument = () => {
     const input = document.getElementById("blockArea");
+
     if (input === null) return;
 
-    html2canvas(input).then((canvas) => {
+    html2canvas(input, {
+      scrollX: 0,
+      scrollY: 0,
+      allowTaint: true,
+      useCORS: true,
+    }).then((canvas) => {
       const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF({
-        format: "a3",
-        unit: "px",
+        orientation: "l",
+        unit: "pt",
+        format: [canvas.width, canvas.height],
       });
-      pdf.addImage(imgData, "PNG", 0, 0, 600, 0, undefined, undefined);
+      pdf.addImage(imgData, "PNG", 0, 0, canvas.width, canvas.height);
       pdf.save("graph.pdf");
     });
   };
@@ -195,6 +203,13 @@ export default function DragStory() {
     if (clickedBlocks.includes(id as never)) return;
     dispatch(addClickedBlock(id));
     dispatch(setClickedBlockId(+id));
+
+    dispatch(
+      setBlockStyles({
+        id: +id,
+        data: null,
+      })
+    );
 
     allMethods.forEach((methods) => {
       if (methods.key.toLowerCase().includes(type.toLowerCase())) {
@@ -235,7 +250,23 @@ export default function DragStory() {
       params: [],
     };
 
-    // console.log(getNotConnectedBlocks(blocks, connections))
+    if (getNotConnectedBlocks(blocks, connections).length > 0) {
+      getNotConnectedBlocks(blocks, connections).forEach((b) => {
+        dispatch(
+          setBlockStyles({
+            id: b._id,
+            data: {
+              border: "3px solid red",
+            },
+          })
+        );
+      });
+      // confirm that not all boxes are connected
+      if (!window.confirm(`${t("results:not-connected")}`)) {
+        calculate = false;
+        return;
+      }
+    }
 
     let matrixIndexes: [] | number[] = [];
 
@@ -274,8 +305,8 @@ export default function DragStory() {
       // validate matrix
       if (
         matrix.method === "file" &&
-        Array.isArray(matrix.data.matrixFile) &&
-        matrix.data.matrixFile.length === 0
+        Array.isArray(matrix.data.matrix) &&
+        matrix.data.matrix.length === 0
       ) {
         enqueueSnackbar(`Uploaded matrix file is empty`, {
           variant: "error",
@@ -417,17 +448,15 @@ export default function DragStory() {
         }
       }
 
+      // matrix
       body.extensions = [...body.extensions, matrix.data.extension];
-      if (matrix.method === "input")
+      if (["input", "file"].includes(matrix.method))
         body.matrix = [...body.matrix, matrix.data.matrix];
       else if (matrix.method === "random")
         body.matrix = [...body.matrix, matrix.data.randomMatrix];
-      else if (matrix.method === "file")
-        body.matrix = [...body.matrix, matrix.data.matrixFile];
 
-      if (["input", "random"].includes(matrix.method))
-        body.types = [...body.types, matrix.data.types.map((t) => +t)];
-      else body.types = [...body.types, []];
+      // types
+      body.types = [...body.types, matrix.data.types.map((t) => +t)];
 
       // check mcda connections with weights
       const mcdaItems = getWeightsMethodConnections(
@@ -596,6 +625,7 @@ export default function DragStory() {
       }
     });
 
+    console.log(body);
     calculate && (await dispatch(getResults(body)));
   };
 
@@ -682,6 +712,7 @@ export default function DragStory() {
                   label={block.label}
                   handleClick={handleClick}
                   zoom={zoom}
+                  styles={block.data.styles}
                 />
               );
             })}

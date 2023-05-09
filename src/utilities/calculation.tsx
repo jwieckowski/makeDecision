@@ -88,7 +88,7 @@ export const createWeightMethodPair = (
   let methodItem: MethodType[] = [];
 
   weightsItems.forEach((item, index) => {
-    mcdaItems[index].forEach((mcda) => {
+    mcdaItems[index]?.forEach((mcda) => {
       methodItem = [
         ...methodItem,
         {

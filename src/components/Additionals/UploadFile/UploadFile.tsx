@@ -4,6 +4,9 @@ import { Box, Typography } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import CloudUpload from "@mui/icons-material/CloudUpload";
 import { HIDE_DURATION } from "../../../common/const";
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../../redux";
@@ -11,20 +14,31 @@ import { useSnackbar } from "notistack";
 import {
   addMatrixFile,
   setCriteria,
+  getMatrix,
 } from "../../../redux/slices/calculationSlice";
 import {
   setBlockMatrixFile,
   setBlockFileName,
+  setBlockMatrix,
+  setBlockTypes,
 } from "../../../redux/slices/blocksSlice";
 import { BlockType } from "../../../redux/types";
 
 import { useTranslation } from "react-i18next";
 
+import InputMatrix from "../InputMatrix";
+
 export default function UploadFile() {
   const { activeBlock, blocks } = useSelector(
     (state: RootState) => state.blocks
   );
+  const { convertedMatrix } = useSelector(
+    (state: RootState) => state.calculation
+  );
+  const [name, setName] = useState<string>("");
   const [block, setBlock] = useState<BlockType | null>(null);
+  const [checked, setChecked] = useState<boolean>(false);
+
   const dispatch = useAppDispatch();
   const { enqueueSnackbar } = useSnackbar();
   const { t } = useTranslation();
@@ -33,249 +47,53 @@ export default function UploadFile() {
     setBlock(blocks.filter((b) => b._id === activeBlock?.id)[0]);
   }, [blocks]);
 
+  useEffect(() => {
+    if (
+      convertedMatrix.length !== 0 &&
+      Object.keys(convertedMatrix).length !== 0
+    ) {
+      dispatch(
+        setBlockMatrix({
+          id: activeBlock?.id,
+          data: convertedMatrix["matrix"],
+        })
+      );
+      dispatch(
+        setBlockFileName({
+          id: activeBlock?.id,
+          data: name,
+        })
+      );
+      dispatch(
+        setBlockTypes({
+          id: activeBlock?.id,
+          data: convertedMatrix["criteriaTypes"],
+        })
+      );
+      dispatch(setCriteria(convertedMatrix["criteriaTypes"]?.length));
+    }
+  }, [convertedMatrix]);
+
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked(event.target.checked);
+  };
+
   const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
+      if (block?.data.extension) {
+        const formData = new FormData();
+        formData.append(
+          "matrix",
+          new Blob([e.target.files[0]], { type: e.target.files[0].type }),
+          e.target.files[0].name
+        );
+        formData.append("extension", block?.data.extension);
+        await dispatch(getMatrix(formData));
+      }
+
       const name = e.target.files[0].name;
-
-      // FOR JSON FILES
-      if (e.target.files[0].type.includes("json")) {
-        const fileReader = new FileReader();
-        fileReader.readAsText(e.target.files[0], "UTF-8");
-
-        fileReader.onload = (e) => {
-          if (e !== null && e.target !== null) {
-            const data = JSON.parse(e.target.result as string);
-            // verify if json has required keys
-            if (!Object.keys(data).includes("matrix")) {
-              enqueueSnackbar(
-                `Uploaded JSON file does not contain "matrix" key`,
-                { variant: "error", autoHideDuration: HIDE_DURATION }
-              );
-              return;
-            }
-            if (!Object.keys(data).includes("criteriaTypes")) {
-              enqueueSnackbar(
-                `Uploaded JSON file does not contain "criteriaTypes" key`,
-                { variant: "error", autoHideDuration: HIDE_DURATION }
-              );
-              return;
-            }
-
-            // check if crisp and uploaded fuzzy matrix
-            if (
-              block?.data.extension === "crisp" &&
-              Array.isArray(data.matrix[0][0])
-            ) {
-              enqueueSnackbar(
-                `Crisp matrix should contain numbers in matrix, not arrays`,
-                {
-                  variant: "error",
-                  autoHideDuration: HIDE_DURATION,
-                }
-              );
-              return;
-            }
-
-            // check if fuzzy and uploaded crisp matrix
-            if (
-              block?.data.extension === "fuzzy" &&
-              !Array.isArray(data.matrix[0][0])
-            ) {
-              enqueueSnackbar(
-                `Fuzzy matrix should contain fuzzy sets in matrix, not crisp numbers`,
-                {
-                  variant: "error",
-                  autoHideDuration: HIDE_DURATION,
-                }
-              );
-              return;
-            }
-
-            // crisp check if all elements are numbers
-            if (
-              block?.data.extension === "crisp" &&
-              data.matrix
-                .map((r: string[]) => r.some((item) => isNaN(+item)) === true)
-                .some((r: boolean) => r === true) === true
-            ) {
-              enqueueSnackbar(`Not all elements in matrix are numbers`, {
-                variant: "error",
-                autoHideDuration: HIDE_DURATION,
-              });
-              return;
-            }
-
-            // fuzzy check if all elements are numbers
-            if (
-              block?.data.extension === "fuzzy" &&
-              data.matrix
-                .map(
-                  (r: string[][]) =>
-                    r
-                      .map((c) => c.some((i) => isNaN(+i) || i === "") === true)
-                      .some((r: boolean) => r === true) === true
-                )
-                .some((r: boolean) => r === true) === true
-            ) {
-              enqueueSnackbar(`Not all elements in fuzzy matrix are numbers`, {
-                variant: "error",
-                autoHideDuration: HIDE_DURATION,
-              });
-              return;
-            }
-
-            if (data.matrix.length > 0)
-              dispatch(setCriteria(data.matrix[0].length));
-            dispatch(addMatrixFile(e.target.result));
-            dispatch(
-              setBlockMatrixFile({
-                id: activeBlock?.id,
-                data: e.target.result,
-              })
-            );
-            dispatch(
-              setBlockFileName({
-                id: activeBlock?.id,
-                data: name,
-              })
-            );
-          }
-        };
-      }
-
-      // FOR CSV FILES
-      if (e.target.files[0].type.includes("csv")) {
-        let reader = new FileReader();
-
-        reader.onload = function (e) {
-          // Use reader.result
-          if (reader.result?.toString() === undefined) return;
-          if (reader.result?.toString().split("\r\n").length > 0)
-            dispatch(
-              setCriteria(
-                reader.result?.toString().split("\r\n")[0].split(", ").length
-              )
-            );
-          else {
-            enqueueSnackbar(`Uploaded CSV file is empty`, {
-              variant: "error",
-              autoHideDuration: HIDE_DURATION,
-            });
-            return;
-          }
-
-          const row = reader.result?.toString().split("\r\n")[0].split(", ");
-          // crisp check if all elements are crisp numbers
-          if (
-            block?.data.extension === "crisp" &&
-            row[0].split(" ").length > 1
-          ) {
-            enqueueSnackbar(
-              `Uploaded matrix should not contain many values in single matrix element`,
-              {
-                variant: "error",
-                autoHideDuration: HIDE_DURATION,
-              }
-            );
-            return;
-          }
-          // fuzzy check if all elements are fuzzy numbers
-          if (
-            block?.data.extension === "fuzzy" &&
-            row[0].split(" ").length === 1
-          ) {
-            enqueueSnackbar(
-              `Uploaded matrix should not contain crisp values in single matrix element`,
-              {
-                variant: "error",
-                autoHideDuration: HIDE_DURATION,
-              }
-            );
-            return;
-          }
-
-          dispatch(addMatrixFile(reader.result));
-          dispatch(
-            setBlockMatrixFile({
-              id: activeBlock?.id,
-              data: reader.result,
-            })
-          );
-          dispatch(
-            setBlockFileName({
-              id: activeBlock?.id,
-              data: name,
-            })
-          );
-        };
-
-        reader.readAsText(e.target.files[0]);
-      }
-
-      // FOR XLSX FILES
-      if (e.target.files[0].type.includes("sheet")) {
-        const file = e.target.files[0];
-        const data = await file.arrayBuffer();
-        const workbook = XLSX.read(data);
-        const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-
-        const jsonData: number[][] = XLSX.utils.sheet_to_json(worksheet, {
-          header: 1,
-          defval: "",
-        });
-
-        if (jsonData.length > 0) {
-          if (jsonData[0].length > 0) {
-            dispatch(setCriteria(jsonData[0].length));
-          }
-        } else {
-          enqueueSnackbar(`Uploaded XLSX file is empty`, {
-            variant: "error",
-            autoHideDuration: HIDE_DURATION,
-          });
-          return;
-        }
-
-        console.log(jsonData);
-
-        // check if crisp and uploaded fuzzy matrix
-        if (block?.data.extension === "crisp" && isNaN(jsonData[0][0])) {
-          enqueueSnackbar(
-            `Crisp matrix should contain numbers in matrix, not arrays`,
-            {
-              variant: "error",
-              autoHideDuration: HIDE_DURATION,
-            }
-          );
-          return;
-        }
-
-        // check if fuzzy and uploaded crisp matrix
-        if (block?.data.extension === "fuzzy" && !isNaN(jsonData[0][0])) {
-          enqueueSnackbar(
-            `Fuzzy matrix should contain fuzzy sets in matrix, not crisp numbers`,
-            {
-              variant: "error",
-              autoHideDuration: HIDE_DURATION,
-            }
-          );
-          return;
-        }
-
-        dispatch(addMatrixFile(jsonData));
-        dispatch(
-          setBlockMatrixFile({
-            id: activeBlock?.id,
-            data: JSON.stringify(jsonData),
-          })
-        );
-        dispatch(
-          setBlockFileName({
-            id: activeBlock?.id,
-            data: name,
-          })
-        );
-      }
+      // TODO save file name in block
+      setName(name);
     }
   };
 
@@ -319,6 +137,17 @@ export default function UploadFile() {
           </Typography>
         </Box>
       )}
+      {block !== null && block.data.matrix.length !== 0 && (
+        <FormGroup>
+          <FormControlLabel
+            control={
+              <Checkbox checked={checked} onChange={handleCheckboxChange} />
+            }
+            label={t("results:show-matrix")}
+          />
+        </FormGroup>
+      )}
+      {checked && <InputMatrix />}
     </Box>
   );
 }

@@ -4,8 +4,21 @@ import {
   CalculationSliceState,
   ResultsType,
   CalculationBodyType,
+  MatrixBodyType,
 } from "../types";
 import { BASE_URL } from "../../common/const";
+
+export const getMatrix = createAsyncThunk(
+  "calculations/getMatrix",
+  async (body: any) => {
+    const data = await axios.post(`${BASE_URL}/api/v1/matrix`, body, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return data.data;
+  }
+);
 
 export const getResults = createAsyncThunk(
   "calculations/getResults",
@@ -25,6 +38,7 @@ const initialState: CalculationSliceState = {
   calculationBody: {
     matrixFiles: [],
   },
+  convertedMatrix: [],
   loading: false,
   error: null,
 };
@@ -82,6 +96,24 @@ const calculationSlice = createSlice({
         (state: CalculationSliceState, action: PayloadAction<any>) => {
           state.error =
             "Error occurred while getting calculation results from server";
+          state.loading = false;
+        }
+      )
+      .addCase(getMatrix.pending, (state: CalculationSliceState) => {
+        state.error = null;
+        state.loading = true;
+      })
+      .addCase(
+        getMatrix.fulfilled,
+        (state: CalculationSliceState, action: PayloadAction<any>) => {
+          state.convertedMatrix = action.payload;
+          state.loading = false;
+        }
+      )
+      .addCase(
+        getMatrix.rejected,
+        (state: CalculationSliceState, action: PayloadAction<any>) => {
+          state.error = "Error occurred while getting matrix from server";
           state.loading = false;
         }
       );

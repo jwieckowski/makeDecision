@@ -51,8 +51,6 @@ export default function MethodsList() {
   ) {
     e.preventDefault();
 
-    // console.log("click", type, method);
-
     const block = {
       type: type.includes("matrix")
         ? type.split(" ")[1].toLowerCase()
@@ -71,6 +69,7 @@ export default function MethodsList() {
         weights: [],
         extension: "crisp",
         additionals: [],
+        styles: null,
       },
     };
     dispatch(addBlock(block));

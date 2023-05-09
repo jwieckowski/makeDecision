@@ -35,6 +35,8 @@
   "color": "Kolor",
   "path": "Typ",
 
+  "not-connected": "Nie wszystkie elementy zostały połączone. Czy chcesz kontynuować obliczenia?",
   "work-area": "Obszar roboczy jest za mały",
-  "bigger-screen": "By wykonać obliczenia, uruchom aplikację na większym urządzeniu"
+  "bigger-screen": "By wykonać obliczenia, uruchom aplikację na większym urządzeniu",
+  "show-matrix": "Pokaż załadowaną macierz"
 }
