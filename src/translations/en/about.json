@@ -1,32 +1,67 @@
 {
-  "crisp-data": "CRISP data",
-  "fuzzy-data": "FUZZY data",
-  "bad-formatting": "Formatting the file in any other way than indicated above may result in calculation errors.",
+  "tab-1": "Decision making",
+  "tab-2": "Instructions",
+  "tab-3": "File format",
+  "tab-4": "Technology",
 
-  "json": "JSON",
-  "json-crisp-text-1": "The JavaScript Object Notation (JSON) file should contain two keys with values in the form of arrays: 'matrix' - a two-dimensional array with the data that will be used for the multi-criteria calculation; 'criteriaTypes' - a list with the criteria types, where -1 means cost type and 1 means profit type.",
-  "json-crisp-text-2": "A valid matrix should not contain text data or blank fields. The values in each column should not be the same. Each row represents a decision option and each column represents a criterion that is considered in the problem.",
-  "json-crisp-text-3": "No value other than 1 or -1 should appear in the criteria types. The number of values in the criteria types should equal the number of columns in the 'matrix'.",
+  "api-docs": "Server documentation",
+  "server": "Server",
+  "server-description-text-1": "Built on the REST (Representational State Transfer) convention API (Application Programming Interface)",
+  "server-description-text-2": "Written in Python and based on the Flask-RESTX framework. Its functionalities provide support for multi-criteria calculations based on the structure created in the graphical interface.",
+  "server-description-text-3": "Multi-criteria computational logic is built on two Python language programming libraries focused on multi-criteria decision-making in an crisp and fuzzy environment. These libraries provide access to the most commonly used multi-criteria techniques, with related methods providing the capabilities to determine the weights of criteria or metrics used in decision-making methods.",
 
-  "json-fuzzy-text-1": "The JavaScript Object Notation (JSON) file should contain two keys with values in the form of arrays: 'matrix' - a three-dimensional array with the data represented as Triangular Fuzzy Numbers that will be used for the multi-criteria calculation; 'criteriaTypes' - a list with the criteria types, where -1 means cost type and 1 means profit type.",
-  "json-fuzzy-text-2": "A valid matrix should not contain text data or blank fields. The values in each column should not be the same. Each row represents a decision option and each column represents a criterion that is considered in the problem. Each element should be represented as Triangular Fuzzy Number (TFN) [a, m, b], where a is a lower value of TFN, m is a middle value of TFN, and b is an upper value of TFN. The a, m, b values should be ordered ascending or be equal.",
-  "json-fuzzy-text-3": "No value other than 1 or -1 should appear in the criteria types. The number of values in the criteria types should equal the number of columns in the 'matrix'.",
+  "application": "Web application",
+  "app-description-text-1": "Built on the React framework, one of the most popular and developed technologies for creating web applications.",
+  "app-description-text-2": "Application state managed using the Redux Toolkit, allowing changes to the application to be controlled simply and efficiently, thus allowing productive use of server resources.",
+  "app-description-text-3": "The React-Draggable package was used to create the structures of the decision models, which allows elements to be moved around on the page and enables a highly configurable operation.",
+  "app-description-text-4": "The React-Xarrows package was used as a complementary package to create decision system structures and connections between them, which allows blocks to be linked to individual functionalities.",
 
-  "xlsx": "XLSX",
-  "xlsx-crisp-text-1": "XLSX (Microsoft Excel) files should be formatted so that the matrix and criteria types are separated by an unfilled line with values.",
-  "xlsx-crisp-text-2": "In a matrix, the rows represent the alternatives and the columns represent the criteria in the problem. Each row should contain an equal number of values.",
-  "xlsx-crisp-text-3": "The criteria types represent the preferred value direction. -1 represents the cost type and a value of 1 represents the profit type. The number of values in the last row should equal the number of columns in the matrix.",
+  "mcda-problems": "MULTI-CRITERIA DECISION ANALYSIS",
+  "app-mcda": "DECISION-MAKING TECHNIQUES IN THE APPLICATION",
 
-  "xlsx-fuzzy-text-1": "XLSX (Microsoft Excel) files should be formatted so that the matrix and criteria types are separated by an unfilled line with values.",
-  "xlsx-fuzzy-text-2": "In a matrix, the rows represent the alternatives and the columns represent the criteria in the problem. Each row should contain an equal number of values. Each element should be represented as Triangular Fuzzy Number (TFN) [a, m, b], where a is a lower value of TFN, m is a middle value of TFN, and b is an upper value of TFN. The values a, m, b should be separated by space, not a comma.",
-  "xlsx-fuzzy-text-3": "The criteria types represent the preferred value direction. -1 represents the cost type and a value of 1 represents the profit type. The number of values in the last row should equal the number of columns in the matrix.",
+  "mcda-description-text-1": "We are constantly confronted with problems that require us to decide between options. This can relate to personal problems, such as the choice of clothes, accessories or electronic equipment, as well as more complex issues at a professional level, such as the choice of a company to work with or the choice of materials and resources for manufacturing products. In these situations, we base our decisions on a set of criteria that allow us to assess the attractiveness of the available options. However, as the number of criteria in a problem increases, our analytical capabilities decrease and our decisions may not take into account all the relevant factors. Decision Support Systems (DSS) come to the rescue, allowing us to assess the available decision options in a structured and comprehensive manner.",
+  "mcda-description-text-2": "Such systems are usually based on Multi-Criteria Decision Making / Multi-Criteria Decision Analysis methods. The operation of these methods allows multiple decision factors to be taken into account, based on which the evaluation of the options under consideration is carried out. The main aspects that are taken into account in the evaluation carried out by these systems are the set of decision criteria, their relevance and the decision matrix, which quantifies the performance of each option against each criterion. This data allows us to carry out the analysis and obtain information on the attractiveness of each of the available decision options.",
+  "mcda-description-text-3": "However, the design of such systems raises a number of challenges that need to be addressed in order to obtain the most reliable results. One problem is the availability of multiple evaluation methods, which makes it a difficult task to identify which methods guarantee more reliable results than others. In addition, how to determine the relevance of the criteria in a problem is also a challenge, as they may have different importance depending on our preferences, feelings, or uncertainty about the problem. This makes it necessary to base one's decisions by taking into account the propositions from different evaluation methods.",
+  "app-functions-text-1": "The application for the graphical design of decision models allows the rapid and efficient prototyping of structures based on which a multi-criteria evaluation is carried out and potential solutions are proposed. In the classical approach, the development of decision support systems and decision models is a process that requires complex implementations of individual methods and combining them into a sequence of operations to produce an evaluation. With the proposed interface, the complex implementation process can be avoided and ready-to-use tools for performing multi-criteria calculations can be used.",
+  "app-functions-text-2": "The designed solution is based on popular techniques from the area of multi-criteria decision-making. The user has access to various ways of defining input data, the way of determining the relevance of criteria weights, a number of techniques used for evaluating decision-making options, or comparing their results among each other. By making the above-mentioned functionalities available in one place and providing quick access to their use, it is possible to reduce the time required to implement decision-making systems dedicated to different problems.",
+  "app-functions-text-3": "Using the application allows rapid prototyping, the creation of visual structures representing the decision-making process and connections between the techniques used, making it easier to understand how the assessment of the attractiveness of the options analysed is carried out. Giving up the need to implement the individual methods used for multi-criteria evaluation provides a lower entry level for the design of decision models and widens the potential audience.",
 
-  "csv": "CSV",
-  "csv-crisp-text-1": "Comma-Separated Values (CSV) format files and the data they contain should be divided into two sections. The first should represent the decision matrix in the problem. The second, written after a blank line separating the sections, should represent the criteria types.",
-  "csv-crisp-text-2": "The matrix represents the decision options in the rows and the criteria considered in the problem in the columns. The values in the matrix in a single row should be separated by commas, and the new row of the decision matrix should be written on a new line. The matrix should not contain empty values or text characters.",
-  "csv-crisp-text-3": "The number of criteria types should equal the number of columns in the matrix. The criterion types should only be represented by the values -1 for the cost type, and 1 for the profit type. Values should be separated by commas.",
+  "crisp-json": "JSON: Crisp data",
+  "crisp-json-description-text-1": "The JavaScript Object Notation (JSON) file should contain two keys with values in the form of arrays: 'matrix' - a two-dimensional array with the data that will be used for the multi-criteria calculation; 'criteriaTypes' - a list with the criteria types, where -1 means cost type and 1 means profit type.",
+  "crisp-json-description-text-2": "A valid array table should not contain text data or blank fields. The values in each column should not be the same. Each row represents a decision option and each column represents a criterion that is considered in the problem.",
+  "crisp-json-description-text-3": "No value other than 1 or -1 should appear in the criteria types. The number of values in the criteria types should equal the number of columns in the 'matrix'.",
 
-  "csv-fuzzy-text-1": "Comma-Separated Values (CSV) format files and the data they contain should be divided into two sections. The first should represent the decision matrix in the problem. The second, written after a blank line separating the sections, should represent the criteria types.",
-  "csv-fuzzy-text-2": "The matrix represents the decision options in the rows and the criteria considered in the problem in the columns. The values in the matrix in a single row should be separated by commas, and the new row of the decision matrix should be written on a new line. The matrix should not contain empty values or text characters. Each element should be represented as Triangular Fuzzy Number [a, m, b], where a is a lower value of TFN, m is a middle value of TFN, and b is an upper value of TFN. The values of a, m, b should be separated by a space, not a comma. Comma should be used to separate the TFN in a single row.",
-  "csv-fuzzy-text-3": "The number of criteria types should equal the number of columns in the matrix. The criterion types should only be represented by the values -1 for the cost type, and 1 for the profit type. Values should be separated by commas."
+  "fuzzy-json": "JSON: Fuzzy data",
+
+  "fuzzy-json-description-text-1": "The JavaScript Object Notation (JSON) file should contain two keys with values in the form of arrays: 'matrix' - a three-dimensional array with the data represented as Triangular Fuzzy Numbers that will be used for the multi-criteria calculation; 'criteriaTypes' - a list with the criteria types, where -1 means cost type and 1 means profit type.",
+  "fuzzy-json-description-text-2": "A valid array table should not contain text data or blank fields. The values in each column should not be the same. Each row represents a decision option and each column represents a criterion that is considered in the problem. Each element should be represented as Triangular Fuzzy Number [a, m, b], where a is a lower value of TFN, m is a middle value of TFN, and b is an upper value of TFN. The a, m, b values should be ordered ascending or be equal.",
+  "fuzzy-json-description-text-3": "No value other than 1 or -1 should appear in the criteria types. The number of values in the criteria types should equal the number of columns in the 'matrix'.",
+
+  "crisp-csv": "CSV: Crisp data",
+
+  "crisp-csv-description-text-1": "Comma-Separated Values (CSV) format files and the data they contain should be divided into two sections. The first should represent the decision matrix in the problem. The second, written after a blank line separating the sections, should represent the criteria types.",
+  "crisp-csv-description-text-2": "The matrix represents the decision options in the rows and the criteria considered in the problem in the columns. The values in the matrix in a single row should be separated by commas, and the new row of the decision matrix should be written on a new line. The matrix should not contain empty values or text characters.",
+  "crisp-csv-description-text-3": "The number of criteria types should equal the number of columns in the matrix. The criterion types should only be represented by the values -1 for the cost type, and 1 for the profit type. Values should be separated by commas.",
+
+  "fuzzy-csv": "CSV: Fuzzy data",
+
+  "fuzzy-csv-description-text-1": "Comma-Separated Values (CSV) format files and the data they contain should be divided into two sections. The first should represent the decision matrix in the problem. The second, written after a blank line separating the sections, should represent the criteria types.",
+  "fuzzy-csv-description-text-2": "The matrix represents the decision options in the rows and the criteria considered in the problem in the columns. The values in the matrix in a single row should be separated by commas, and the new row of the decision matrix should be written on a new line. The matrix should not contain empty values or text characters. Each element should be represented as Triangular Fuzzy Number [a, m, b], where a is a lower value of TFN, m is a middle value of TFN, and b is an upper value of TFN. The values of a, m, b should be separated by a space, not a comma. Comma should be used to separate the TFN in a single row.",
+  "fuzzy-csv-description-text-3": "The number of criteria types should equal the number of columns in the matrix. The criterion types should only be represented by the values -1 for the cost type, and 1 for the profit type. Values should be separated by commas.",
+
+  "crisp-xlsx": "XLSX: Crisp data",
+
+  "crisp-xlsx-description-text-1": "XLSX (Microsoft Excel) files should be formatted so that the matrix and criteria types are separated by an unfilled line with values.",
+  "crisp-xlsx-description-text-2": "In a matrix, the rows represent the alternatives and the columns represent the criteria in the problem. Each row should contain an equal number of values.",
+  "crisp-xlsx-description-text-3": "The criteria types represent the preferred value direction. -1 represents the cost type and a value of 1 represents the profit type. The number of values in the last row should equal the number of columns in the matrix.",
+
+  "fuzzy-xlsx": "XLSX: Fuzzy data",
+
+  "fuzzy-xlsx-description-text-1": "XLSX (Microsoft Excel) files should be formatted so that the matrix and criteria types are separated by an unfilled line with values.",
+  "fuzzy-xlsx-description-text-2": "In a matrix, the rows represent the alternatives and the columns represent the criteria in the problem. Each row should contain an equal number of values. In one cell, the values should be represented by Triangular Fuzzy Number. Each element should be represented as Triangular Fuzzy Number [a, m, b], where a is a lower value of TFN, m is a middle value of TFN, and b is an upper value of TFN. The values a, m, b should be separated by space, not a comma.",
+  "fuzzy-xlsx-description-text-3": "The criteria types represent the preferred value direction. -1 represents the cost type and a value of 1 represents the profit type. The number of values in the last row should equal the number of columns in the matrix.",
+
+  "file-bad-format": "Formatting the file in any other way than indicated above may result in calculation errors.",
+
+  "download-example-file": "Example file"
 }

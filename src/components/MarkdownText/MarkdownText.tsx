@@ -1,23 +1,30 @@
-import React from 'react';
-import ReactMarkdown from 'react-markdown';
-import remarkMath from 'remark-math'
-import rehypeKatex from 'rehype-katex'
-import {Box} from '@mui/material'
+import React from "react";
+import ReactMarkdown from "react-markdown";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+import Container from "react-bootstrap/Container";
 
-import 'katex/dist/katex.min.css' // `rehype-katex` does not import the CSS for you
+import "katex/dist/katex.min.css"; // `rehype-katex` does not import the CSS for you
 
 type MarkdownProps = {
-  text: string
-}
+  text: string;
+};
 
-export default function MarkdownText({text}: MarkdownProps) {
-    return (
-      <Box sx={{maxWidth: '800px', my: 2, overflow: 'hidden'}}>
-        <ReactMarkdown
-          children={text}
-          remarkPlugins={[remarkMath]}
-          rehypePlugins={[rehypeKatex]}
-        />
-      </Box>
-    )
+export default function MarkdownText({ text }: MarkdownProps) {
+  return (
+    <Container
+      style={{
+        maxWidth: "800px",
+        margin: "0 5px",
+        overflow: "hidden",
+        textAlign: "justify",
+      }}
+    >
+      <ReactMarkdown
+        children={text}
+        remarkPlugins={[remarkMath]}
+        rehypePlugins={[rehypeKatex]}
+      />
+    </Container>
+  );
 }

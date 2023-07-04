@@ -1,101 +1,93 @@
-import React, { useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Box, Typography } from "@mui/material";
+import { useTranslation } from "react-i18next";
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+
+// REDUX
 import { RootState, useAppDispatch } from "../../redux";
-import Loader from "../../components/Loader";
-import ErrorContent from "../../components/ErrorContent";
-import {
-  getAboutFile,
-  getAboutDescription,
-} from "../../redux/slices/aboutSlice";
-import { useSnackbar } from "notistack";
-import { HIDE_DURATION } from "../../common/const";
+
+// HOOKS
 import { useLocale } from "../../hooks";
 
-import ImageItem from "../../components/ImageItem";
+// COMPONENTS
+import Image from "../../components/Image";
+import { Files, Instruction, MCDA, Technology } from "./AboutContent";
+
+// STYLES
+import { colors } from "../../common/globalStyles";
 
 export default function AboutPage() {
   const { about, file, loading, error } = useSelector((state: RootState) => ({
     ...state.about,
   }));
-  const dataFetchedRef = useRef(false);
-  const dispatch = useAppDispatch();
-  const { enqueueSnackbar } = useSnackbar();
-  const { locale } = useLocale();
+  const [groupIndex, setGroupIndex] = useState<number>(0);
 
-  useEffect(() => {
-    if (locale === "") return;
-    if (dataFetchedRef.current) return;
-    dataFetchedRef.current = true;
+  const { t } = useTranslation();
 
-    if (about.length === 0) dispatch(getAboutDescription(locale));
-    if (file === null) dispatch(getAboutFile());
-  }, [locale]);
+  const content = [<MCDA />, <Instruction />, <Files />, <Technology />];
 
-  useEffect(() => {
-    if (error === null) return;
-    enqueueSnackbar(error, {
-      variant: "error",
-      autoHideDuration: HIDE_DURATION,
-    });
-  }, [error]);
+  const TABS = [
+    t("about:tab-1"),
+    t("about:tab-2"),
+    t("about:tab-3"),
+    t("about:tab-4"),
+  ];
 
-  let content = <Loader />;
-  if (!loading) {
-    if (!error) {
-      content = (
-        <Box
-          sx={{
-            width: "100%",
-            mt: 3,
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          {about.map((item) => {
-            return (
-              <Box sx={{ width: "60%", my: 2 }}>
-                <Typography variant="h5" textAlign="center">
-                  {item.format}
-                </Typography>
-                {file !== null && (
-                  <Box
-                    sx={{
-                      width: "100%",
-                      display: "flex",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <ImageItem
-                      src={file[item.imgIndex]}
-                      alt="text"
-                      key={`${item.format} file with example data`}
-                    />
-                  </Box>
-                )}
-                {item.description.map((d) => {
-                  return (
-                    <Typography
-                      key={d.id}
-                      variant="body1"
-                      sx={{ my: 2 }}
-                      align="justify"
-                    >
-                      {d.text}
-                    </Typography>
-                  );
-                })}
-              </Box>
-            );
-          })}
-        </Box>
-      );
-    } else {
-      content = <ErrorContent />;
-    }
-  }
-
-  return <Box sx={{ width: "100%" }}>{content}</Box>;
+  return (
+    <Container
+      fluid
+      style={{
+        margin: 0,
+        padding: 0,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "start",
+        alignItems: "center",
+      }}
+    >
+      {/* APP DESCRIPTION GROUPS ITEMS */}
+      <Nav
+        fill
+        justify
+        variant="tabs"
+        activeKey={groupIndex}
+        onSelect={(eventKey) => setGroupIndex(eventKey ? +eventKey : 0)}
+        style={{ height: "70px", marginTop: "50px" }}
+      >
+        {TABS.map((method, idx) => {
+          return (
+            <Nav.Item
+              key={idx}
+              style={{
+                height: "100%",
+                width: "150px",
+              }}
+            >
+              <Nav.Link
+                eventKey={idx}
+                style={{
+                  height: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  backgroundColor:
+                    idx === groupIndex ? colors.darkBackground : "",
+                  color: idx === groupIndex ? colors.light : colors.dark,
+                }}
+              >
+                {method}
+              </Nav.Link>
+            </Nav.Item>
+          );
+        })}
+      </Nav>
+      <Container
+        fluid
+        className="d-flex flex-column align-items-center mt-3 mb-5 w-75"
+      >
+        {content[groupIndex] ? content[groupIndex] : null}
+      </Container>
+    </Container>
+  );
 }

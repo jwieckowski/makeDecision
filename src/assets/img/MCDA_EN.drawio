@@ -1,0 +1,43 @@
+<mxfile host="app.diagrams.net" modified="2023-06-28T13:05:38.516Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36" etag="-yWuZqYe0X-e0KmEc4WS" version="21.4.0" type="device">
+  <diagram name="Strona-1" id="I-Ov_eOiWM3szXmUA1NP">
+    <mxGraphModel dx="2074" dy="1148" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="TSB9GbJPxOdBksykzxfQ-12" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;" parent="1" source="TSB9GbJPxOdBksykzxfQ-3" target="TSB9GbJPxOdBksykzxfQ-4" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="TSB9GbJPxOdBksykzxfQ-3" value="&lt;font style=&quot;&quot; color=&quot;#000000&quot;&gt;&lt;font size=&quot;1&quot; style=&quot;&quot;&gt;&lt;b style=&quot;font-size: 15px;&quot;&gt;DEFINE MULTI-CRITERIA PROBLEM&lt;/b&gt;&lt;/font&gt;&lt;br&gt;&lt;font style=&quot;&quot;&gt;&lt;br&gt;&lt;font size=&quot;1&quot; style=&quot;&quot;&gt;&lt;b style=&quot;font-size: 11px;&quot;&gt;IDENTIFY DECISION VARIANTS AND DECISION CRITERIA BASED ON &lt;br&gt;WHICH THE ASSESSMENT WILL BE PERFORMED&lt;/b&gt;&lt;/font&gt;&lt;/font&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Georgia;fillColor=#76608A;strokeColor=#432D57;fontColor=#ffffff;strokeWidth=2;opacity=70;" parent="1" vertex="1">
+          <mxGeometry x="40" y="80" width="720" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="TSB9GbJPxOdBksykzxfQ-17" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;" parent="1" source="TSB9GbJPxOdBksykzxfQ-4" target="TSB9GbJPxOdBksykzxfQ-5" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="TSB9GbJPxOdBksykzxfQ-4" value="&lt;font color=&quot;#000000&quot;&gt;&lt;b style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;SELECT MULTI-CRITERIA ASSESSMENT TECHNIQUES&lt;/font&gt;&lt;/b&gt;&lt;br&gt;&lt;/font&gt;&lt;font style=&quot;&quot;&gt;&lt;font style=&quot;&quot; color=&quot;#000000&quot;&gt;&lt;br&gt;&lt;b style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;CHOOSE METHODS AND METRICS MEASURES THAT WILL BE USED TO &lt;br&gt;EVALUATE DECISION VARIANTS&lt;/font&gt;&lt;/b&gt;&lt;/font&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Georgia;fillColor=#647687;fontColor=#ffffff;strokeColor=#314354;strokeWidth=2;opacity=70;" parent="1" vertex="1">
+          <mxGeometry x="40" y="200" width="720" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="TSB9GbJPxOdBksykzxfQ-18" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;" parent="1" source="TSB9GbJPxOdBksykzxfQ-5" target="TSB9GbJPxOdBksykzxfQ-6" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="TSB9GbJPxOdBksykzxfQ-5" value="&lt;font color=&quot;#000000&quot;&gt;&lt;b style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;ESTABLISH POSITIONAL RANKING&lt;/font&gt;&lt;/b&gt;&lt;br&gt;&lt;/font&gt;&lt;font style=&quot;&quot;&gt;&lt;font style=&quot;&quot; color=&quot;#000000&quot;&gt;&lt;br&gt;&lt;b style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;CALCULATE THE FINAL RANKING BASED ON THE OBTAINED PREFERENCE VALUES&lt;br&gt;&amp;nbsp;FROM&amp;nbsp;MCDA METHODS&lt;/font&gt;&lt;/b&gt;&lt;/font&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Georgia;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;strokeWidth=2;opacity=70;" parent="1" vertex="1">
+          <mxGeometry x="40" y="320" width="720" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="TSB9GbJPxOdBksykzxfQ-6" value="&lt;b style=&quot;font-size: 15px;&quot;&gt;&lt;font style=&quot;font-size: 15px;&quot; color=&quot;#000000&quot;&gt;IDENTIFY THE MOST RATIONAL SOLUTIONS&lt;br&gt;&lt;/font&gt;&lt;/b&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;&lt;font style=&quot;font-size: 15px;&quot; color=&quot;#000000&quot;&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;span style=&quot;font-size: 10px;&quot;&gt;&lt;b&gt;MAKE YOUR CHOICE BASED ON THE MOST ATTRACTIVE DECISION VARIANTS &lt;br&gt;ASSESSED BY THE MULTI-CRITERIA DECISION MODEL&lt;/b&gt;&lt;/span&gt;&lt;/font&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Georgia;fillColor=#60a917;fontColor=#ffffff;strokeColor=#2D7600;opacity=70;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="40" y="440" width="720" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="TSB9GbJPxOdBksykzxfQ-7" value="STEP 1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;rotation=-90;fontFamily=Georgia;fontColor=#33293d;fontSize=14;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="30" y="105" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="TSB9GbJPxOdBksykzxfQ-8" value="STEP 2" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;rotation=-90;fontFamily=Georgia;fontColor=#2f3841;fontSize=14;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="30" y="225" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="TSB9GbJPxOdBksykzxfQ-10" value="STEP 3&lt;br style=&quot;font-size: 14px;&quot;&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;rotation=-90;fontFamily=Georgia;fontColor=#2f4450;fontSize=14;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="30" y="345" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="TSB9GbJPxOdBksykzxfQ-11" value="STEP 4&lt;br style=&quot;font-size: 14px;&quot;&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;rotation=-90;fontFamily=Georgia;fontColor=#1e4903;fontSize=14;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="30" y="465" width="60" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

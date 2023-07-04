@@ -1,7 +1,25 @@
 {
-  "text1": "The application is used to calculate multi-criteria evaluations of various decision options. In the 'Calculations' tab, there is an area where MCDA methods can be combined using a graphical representation to calculate the results.",
-  "text2": "At the moment, it works to connect blocks, check the types of blocks we want to connect, remove connections between blocks, calculate results, search for methods by name in the search bar.",
-  "text3": "The application is under development and therefore errors may occur in its functioning.",
-  "text4": "The work is currently underway on the ability to upload files and perform calculations on the data they contain, adding parameters such as normalization methods, distance measures or defuzzification methods.",
-  "text5": "The appearance of the site will also be changed, but the priority is to get the core functionality working."
+  "home-heading-1": "MULTI-CRITERIA DECISION-MAKING",
+  "home-text-mcda-1": "Decision-making is an essential part of many processes in everyday life. Both simple everyday problems and complex situations consisting of many factors require the consideration of available decision options in search of the most rational solution.",
+  "home-text-mcda-2": "To support the decision-making process, techniques from the field of Multi-Criteria Decision Analysis (MCDA) are used to process the decision-making process in a structured way and propose the most favourable choices. The flow of the main stages of multi-criteria decision analysis can be divided into 4 steps:",
+
+  "home-text-mcda-item-1": "Defining a multi-criteria decision-making problem",
+  "home-text-mcda-item-2": "Selecting the methods by which the evaluation will be performed",
+  "home-text-mcda-item-3": "Calculation of the positional ranking based on the results from methods",
+  "home-text-mcda-item-4": "Identification of the most rational choice among the analyzed options",
+
+  "home-text-mcda-3": "MCDA methods can be used for everyday problems. The example can be the selection of electronic equipment (mobile phone, or laptop), where we can indicate the parameters to be considered in the evaluation, and the set of options we want to compare. Then, we specify the preferred direction of the parameter values (when choosing the evaluation criterion 'Price', we may want it to be as low as possible - this means a criterion of the 'Cost' type; when choosing the evaluation criterion 'Memory', we may indicate the criterion type as 'Profit', which will specify the highest possible value). It is also important to indicate the relevance of each parameter in the evaluation, as some parameters may be more important to us than others.",
+  "home-text-mcda-4": "Based on this data and the selected methods from the application, we can evaluate the options we have chosen and get information on which options are more preferred than others. Multi-criteria Decision-Making methods can also be used in more complicated and complex problems, such as the selection of material suppliers, the creation of recommender systems, the evaluation of development quality, the selection of rational means of transport and many others. Due to their flexibility and configurable operation, these methods can be applied in many areas where the final choice is influenced by multiple decision criteria.",
+
+  "home-heading-2": "APPLICATION FOR THE DESIGN OF DECISION-MAKING MODELS",
+
+  "home-text-app-1": "The application enables the use of selected techniques from the field of multi-criteria decision-making. Operations can be performed on both crisp data and fuzzy sets, represented using Triangular Fuzzy Numbers (TFNs). The user has three ways of inputting data, 11 ways of determining the relevance of criteria, or 15 methods for making decisions. It is also possible to rank or compare results in terms of correlations. In addition to the main functionalities, data normalization methods, distance metrics or selected techniques for calculating crisp values from fuzzy sets are also available.",
+  "home-text-app-2": "The 'About' section contains descriptions and examples of how to structure decision-making models. It shows how to arrange the individual elements in a structure, from less to more advanced structures, thus demonstrating the capabilities of the application. Based on the examples shown, you can start designing your own decision-making models.",
+  "home-text-app-3": "In the 'Calculation' section, the workspace is available in which it is possible to design the structure of the decision model, which will be used to calculate and determine the most attractive option among the analyzed alternatives.",
+
+  "home-button-instruction": "Go to instructions",
+  "home-button-calculation": "Go to calculations",
+
+  "fig-alt-mcda-flow": "Multi-Criteria Decision Analysis process flow",
+  "fig-alt-app-flow": "Application structure and functionalities"
 }

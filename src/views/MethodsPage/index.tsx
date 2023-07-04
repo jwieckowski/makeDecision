@@ -1,3 +1,3 @@
-import MethodsPage from './MethodsPage'
+import MethodsPage from "./MethodsPage";
 
-export default MethodsPage
+export default MethodsPage;

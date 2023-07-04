@@ -1,3 +1,3 @@
-import MarkdownText from './MarkdownText'
+import MarkdownText from "./MarkdownText";
 
-export default MarkdownText
+export default MarkdownText;

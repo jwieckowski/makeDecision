@@ -1,21 +1,23 @@
 import React, { useEffect } from "react";
-import { Box, Typography, Button } from "@mui/material";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux";
-import { areResultsAvailable } from "../../utilities/filtering";
-import SaveAltIcon from "@mui/icons-material/SaveAlt";
-
-import DragStory from "../../components/DragAndDrop/DragStory";
-import CustomModal from "../../components/CustomModal";
-import WeightsResults from "../../components/Results/Weights";
-import PreferencesResults from "../../components/Results/Preferences";
-import PreferencesCorrelationsResults from "../../components/Results/PreferencesCorrelations";
-import RankingResults from "../../components/Results/Ranking";
-import RankingCorrelationsResults from "../../components/Results/RankingCorrelations";
-import Loader from "../../components/Loader";
-import ErrorContent from "../../components/ErrorContent";
-
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
+
+import Container from "react-bootstrap/Container";
+
+// REDUX
+import { RootState } from "../../redux";
+
+// COMPONENTS
+import Loader from "../../components/Loader";
+import DragStory from "./DragStory";
+import Results from "./Results";
+import MethodDrawer from "./MethodDrawer";
+
+// CONST
+import { NAV_HEIGHT } from "../../common/const";
+
+// STYLES
+import globalStyles, { colors } from "../../common/globalStyles";
 
 export default function CalculationPage() {
   const { results, loading, error } = useSelector(
@@ -25,76 +27,103 @@ export default function CalculationPage() {
   const { t } = useTranslation();
 
   useEffect(() => {
-    if (error === null) return;
-    const element = document.getElementById("calculation-error");
+    if (results === null) return;
+    const element = document.getElementById("resultsContainer");
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
     }
-  }, [error]);
+  }, [results]);
 
-  const generateResultsFile = () => {
-    const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
-      JSON.stringify(results, null, 2)
-    )}`;
-    const link = document.createElement("a");
-    link.href = jsonString;
-    link.download = "results.json";
-
-    link.click();
-  };
-
-  let content = <Loader />;
-  if (!loading) {
-    if (!error) {
-      content = (
-        <Box
-          sx={{
-            width: "90%",
-            mx: "auto",
-            marginTop: "300px",
-            backgroundColor: "grey",
-            borderRadius: 5,
-          }}
-        >
-          {areResultsAvailable(results) && (
-            <Box sx={{ p: 4 }}>
-              <Box sx={{}}>
-                <Typography textAlign="center" variant="h6">
-                  {t("results:results")}
-                </Typography>
-                <Box sx={{ display: "flex", justifyContent: "end" }}>
-                  <Button variant="contained" onClick={generateResultsFile}>
-                    <SaveAltIcon />
-                    {t("results:download-results")}
-                  </Button>
-                </Box>
-              </Box>
-
-              <>
-                <WeightsResults />
-                <PreferencesResults />
-                <PreferencesCorrelationsResults />
-                <RankingResults />
-                <RankingCorrelationsResults />
-              </>
-            </Box>
-          )}
-        </Box>
-      );
-    } else {
-      content = (
-        <Box sx={{ width: "80%", margin: "0px 10%" }} id="calculation-error">
-          <ErrorContent message={error} />
-        </Box>
-      );
-    }
-  }
+  // let content = (
+  //   <Container
+  //     fluid
+  //     className="d-flex justify-content-center align-items-center"
+  //     style={{ height: `calc(100vh - ${NAV_HEIGHT}px)` }}
+  //   >
+  //     <Loader />
+  //   </Container>
+  // );
 
   return (
-    <Box sx={{ minHeight: "90%", height: "60vh" }}>
-      <DragStory />
-      <CustomModal />
-      {content}
-    </Box>
+    <Container
+      fluid
+      style={{
+        padding: 0,
+        margin: 0,
+        width: "100%",
+        maxWidth: "100vw",
+        marginBottom: "200px",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      {/* BIG SCREEN CONTAINER */}
+      <div className="d-none d-md-flex flex-column">
+        <Container
+          fluid
+          style={{
+            padding: 0,
+            margin: 0,
+            width: "100%",
+            maxWidth: "100vw",
+            display: "flex",
+            justifyContent: "start",
+            alignItems: "start",
+          }}
+          id="dragArea"
+        >
+          <DragStory />
+          <MethodDrawer />
+        </Container>
+        {results !== null ? <Results /> : null}
+      </div>
+      {/* SMALL SCREEN CONTAINER */}
+      <Container
+        fluid
+        className="d-flex justify-content-center align-items-center d-md-none"
+        style={{
+          height: `calc(100vh - ${NAV_HEIGHT}px)`,
+        }}
+      >
+        <div
+          style={{
+            height: "70%",
+            width: "70%",
+            backgroundColor: colors.light,
+            borderRadius: 10,
+            boxShadow: "0px 5px 5px 3px rgba(66, 68, 90, 1)",
+          }}
+          className="d-flex flex-column justify-content-center align-items-center gap-5"
+        >
+          <div
+            style={{
+              ...globalStyles.heading,
+              width: "70%",
+              textAlign: "center",
+            }}
+          >
+            {t("results:work-area")}
+          </div>
+          <div
+            style={{
+              ...globalStyles.subheading,
+              width: "50%",
+              textAlign: "center",
+            }}
+          >
+            {t("results:work-area-size")}
+          </div>
+          <div
+            style={{
+              ...globalStyles.subheading,
+              width: "50%",
+              textAlign: "center",
+            }}
+          >
+            {t("results:bigger-screen")}
+          </div>
+        </div>
+      </Container>
+    </Container>
   );
 }

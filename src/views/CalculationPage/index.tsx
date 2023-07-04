@@ -1,3 +1,3 @@
-import Calculation from './CalculationPage'
+import CalculationPage from "./CalculationPage";
 
-export default Calculation
+export default CalculationPage;

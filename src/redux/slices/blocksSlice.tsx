@@ -186,6 +186,32 @@ const blocksSlice = createSlice({
           : b;
       });
     },
+    setBlockAlternatives: (state, action) => {
+      state.blocks = state.blocks.map((b) => {
+        return b._id === action.payload.id
+          ? {
+              ...b,
+              data: {
+                ...b.data,
+                alternatives: action.payload.data,
+              },
+            }
+          : b;
+      });
+    },
+    setBlockCriteria: (state, action) => {
+      state.blocks = state.blocks.map((b) => {
+        return b._id === action.payload.id
+          ? {
+              ...b,
+              data: {
+                ...b.data,
+                criteria: action.payload.data,
+              },
+            }
+          : b;
+      });
+    },
     setBlockStyles: (state, action) => {
       state.blocks = state.blocks.map((b) => {
         return b._id === action.payload.id
@@ -194,6 +220,23 @@ const blocksSlice = createSlice({
               data: {
                 ...b.data,
                 styles: action.payload.data,
+              },
+            }
+          : b;
+      });
+    },
+    blockFileDelete: (state, action) => {
+      state.blocks = state.blocks.map((b) => {
+        return b._id === action.payload.id
+          ? {
+              ...b,
+              data: {
+                ...b.data,
+                fileName: null,
+                matrix: [],
+                types: [],
+                criteria: 3,
+                alternatives: 3,
               },
             }
           : b;
@@ -227,6 +270,9 @@ export const {
   setBlockWeights,
   setBlockExtension,
   setBlockAdditionals,
+  setBlockAlternatives,
+  setBlockCriteria,
   setBlockStyles,
+  blockFileDelete,
 } = actions;
 export default reducer;

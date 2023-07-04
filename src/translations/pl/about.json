@@ -1,0 +1,67 @@
+{
+  "tab-1": "Podejmowanie decyzji",
+  "tab-2": "Instrukcja działania",
+  "tab-3": "Format plików",
+  "tab-4": "Technologia",
+
+  "api-docs": "Dokumentacja serwera",
+  "server": "Serwer",
+  "server-description-text-1": "Zbudowany w oparciu o konwencję REST (z ang. REpresentational State Transfer) API (z ang. Application Programming Interface)",
+  "server-description-text-2": "Napisany w języku Python i oparty o framework Flask-RESTX. Jego funkcjonalności zapewniają obsługę obliczeń wielokryterialnych na podstawie struktury tworzonej w interfejsie graficznym.",
+  "server-description-text-3": "Logika obliczeń wielokryterialnych jest zbudowana na dwóch bibliotekach programistycznych języka Python, skupionych na wielokryterialnym podejmowaniu decyzji w środowisku ostrym i rozmytym. Biblioteki te zapewniają dostęp do najczęściej wykorzystywanych technik wielokryterialnych, wraz z metodami towarzyszącymi, zapewniającymi możliwości wyznaczania wag kryteriów czy metryk stosowanych w metodach podejmowania decyzji.",
+
+  "application": "Aplikacja webowa",
+  "app-description-text-1": "Zbudowana na bazie frameworka React, jednego z najpopularniejszych i najbardziej rozwijanych technologii do tworzenia aplikacji webowych.",
+  "app-description-text-2": "Stan aplikacji zarządzany za pomocą Redux Toolkit, pozwalającego na proste i efektywne kontrolowanie zmian w aplikacji, pozwalając tym samym na wydajne korzystanie z zasobów serwera.",
+  "app-description-text-3": "Do tworzenia struktur modeli decyzyjnych użyty został pakiet React-Draggable, który pozwala na przesuwanie elementów na stronie i umożliwia wysoką konfigurowalność działania.",
+  "app-description-text-4": "Jako pakiet uzupełniający tworzenie struktur systemów decyzyjnych i połączeń między nimi, użyty został pakiet React-Xarrows, który pozwala na łączenie bloków z poszczególnymi funkcjonalnościami.",
+
+  "mcda-problems": "WIELOKRYTERIALNA ANALIZA DECYZYJNA",
+  "app-mcda": "TECHNIKI PODEJMOWANIA DECYZJI W APLIKACJI",
+
+  "mcda-description-text-1": "Na codzień spotykamy się z problemami, które wymagają od nas wyboru opcji z dostepnych wariantów. Może to dotyczyć problemów osobistych, takich jak wybór ubrań, zakup akcesoriów czy sprzętu elektronicznego, jak i bardziej złożonych zagadnień na płaszczyźnie zawodowej jak wybór firmy z którą należy podjąć współpracę, czy wybór materiałów i surowców do wyrobu produktów. W tych sytuacjach swoje decyzje opieramy o zestaw kryteriów, które pozwalają na ocenę atrakcyjności dostępnych opcji. Jednak, gdy ilość kryteriów w problemie rośnie, nasze możliwości analityczne maleją, a podejmowane przez nas decyzje mogą być nietrafione i nie uwzględniać wszystkich istotnych czynników. Z pomocą przychodzą systemy wspomagania decyzji (z ang. Decision Support Systems), które umożliwiają ocenę dostępnych wariantów decyzyjnych w sposób ustrukturyzowany i kompleksowy.",
+  "mcda-description-text-2": "Systemy takie oparte są najczęściej o wielokryterialne metody podejmowania decyzji (z ang. Multi Criteria Decision Making / Multi-Criteria Decision Analysis). Działanie tych metod pozwala na uwzględnienie wielu czynników decyzyjnych, na podstawie których przeprowadzana jest ocena rozpatrywanych opcji. Głównymi aspektami, jakie brane są pod uwagę w ocenie prowadzonej przez te systemy to zestaw kryteriów decyzyjnych, ich istotność oraz macierz decyzyjna, która przedstawia liczbowo parametry poszczególnych opcji względem poszczególnych kryteriów. Dane te pozwalają na przeprowadzenie analizy i uzyskanie informacji na temat atrakcyjności każdego z wariantów decyzyjnych, które są dla nas dostępne.",
+  "mcda-description-text-3": "Projektowanie takich systemów stawia jednak wiele wyzwań, z jakimi należy się zmierzyć, by uzyskać jak najbardziej wiarygodne wyniki. Jednym z problemów jest dostępność wielu metod oceniających, co sprawia, że trudnym zadaniem jest wskazanie, które metody gwarantują bardziej wiarygodne wyniki od innych. Dodatkowo, sposób wyznaczania istotności kryteriów w problemie również stanowi wyzwanie, gdyż mogą one mieć różne znaczenie w zależności od naszych preferencji, nastroju, czy niepewności co do danego problemu. To sprawia, że swoje decyzje należy opierać biorąc pod uwagę propozycje pochodzące z różnych metod oceniających.",
+  "app-functions-text-1": "Aplikacja do graficznego projektowania modeli decyzyjnych pozwala na szybkie i efektywne prototypowanie struktur, na podstawie których przeprowadzona jest ocena wielokryterialna, a na jej podstawie proponowane są potencjalne rozwiazania. W klasycznym podejściu, tworzenie systemów wspomagania decyzji i modeli decyzyjnych jest procesem wymagającym złożonych implementacji poszczególnych metod i łączeniem ich w ciąg operacji pozwalających na uzyskanie oceny. Za pomocą zaproponowanego interfejsu można uniknąć długotrwałego procesu implementacji i korzystać z gotowych narzędzi do wykonywania obliczeń wielokryterialnych.",
+  "app-functions-text-2": "Zaprojektowane rozwiązanie bazuje na popularnych technikach z obszaru wielokryterialnego podejmowania decyzji. Użytkownik ma dostęp do różnych sposobów definiowania danych wejściowych, sposobu ustalania istotności wag kryteriów, wielu technik wykorzystywanych do oceny wariantów decyzyjnych, czy porównywania ich wyników pomiędzy sobą. Udostępnienie wymienionych funkcjonalności w jednym miejscu i zapewnienie szybkiego dostępu do ich użycia pozwala na skrócenie czasu niezbędnego do realizacji systemów decyzyjnych poświęconych różnym problemom.",
+  "app-functions-text-3": "Korzystanie z aplikacji pozwala na szybkie prototypowanie, tworzenie wizualnych struktur reprezentujących proces decyzyjny i połączenia między wykorzystywanymi technikami, dzięki czemu łatwiej zrozumieć jak przebiega ocena atrakcyności analizowanych opcji. Rezygnacja z konieczności implementacji poszczególnych metod wykorzystywanych do oceny wielokryterialnej zapewnia niższy poziom wejścia do projektowania modeli decyzyjnych i poszerza potencjalne grono odbiorców.",
+
+  "crisp-json": "JSON: Dane ostre",
+  "crisp-json-description-text-1": "Plik w formacie JavaScript Object Notation (JSON) powinien zawierać dwa klucze z wartościami w postaci tablic: 'matrix' - dwuwymiarowa tablica z danymi, które będą wykorzystane do obliczeń wielokryterialnych; 'criteriaTypes' - lista z typami kryteriów, gdzie -1 oznacza typ koszt, a 1 oznacza typ profit.",
+  "crisp-json-description-text-2": "Poprawna tablica z macierzą nie powinna zawierać danych tekstowych, ani pustych pól. Wartości w każdej z kolumn nie powinny być jednakowe. Każdy wiersz reprezentuje wariant decyzyjny, a kolumna kryterium, które brane jest pod uwagę w problemie.",
+  "crisp-json-description-text-3": "W typach kryteriów nie powinna pojawić się wartość inna niż 1 lub -1. Liczba wartości w typach kryteriów powinna równać się liczbie kolumn w macierzy 'matrix'.",
+
+  "fuzzy-json": "JSON: Dane rozmyte",
+
+  "fuzzy-json-description-text-1": "Plik w formacie JavaScript Object Notation (JSON) powinien zawierać dwa klucze z wartościami w postaci tablic: 'matrix' - trójwymiarowa tablica z danymi reprezentowanymi jako Trójkątne Liczby Rozmyte (Triangular Fuzzy Numbers), które zostaną wykorzystane do obliczeń wielokryterialnych; 'criteriaTypes' - lista z typami kryteriów, gdzie -1 oznacza typ kosztu, a 1 typ zysku.",
+  "fuzzy-json-description-text-2": "Poprawna tabela tablicowa nie powinna zawierać danych tekstowych ani pustych pól. Wartości w każdej kolumnie nie powinny być takie same. Każdy wiersz reprezentuje opcję decyzyjną, a każda kolumna reprezentuje kryterium, które jest brane pod uwagę w problemie. Każdy element powinien być reprezentowany jako Trójkątna Liczba Rozmyta (Triangular Fuzzy Number) [a, m, b], gdzie a jest dolną wartością TFN, m jest środkową wartością TFN, a b jest górną wartością TFN. Wartości a, m, b powinny być uporządkowane rosnąco lub być równe.",
+  "fuzzy-json-description-text-3": "W typach kryteriów nie powinny pojawiać się wartości inne niż 1 lub -1. Liczba wartości w typach kryteriów powinna być równa liczbie kolumn w polu 'matrix'.",
+
+  "crisp-csv": "CSV: Dane ostre",
+
+  "crisp-csv-description-text-1": "Pliki w formacie CSV (Comma-Separated Values) i dane w nich zawarte powinny być podzielone na dwie sekcje. Pierwsza z nich powinna reprezentować macierz decyzyjną w problemie. Druga z nich, zapisana po pustej linijce oddzielającej sekcje, powinna reprezentować typy kryteriów.",
+  "crisp-csv-description-text-2": "Macierz reprezentuje w wierszach warianty decyzyjne, a w kolumnach kryteria rozpatrywane w problemie. Wartości w macierzy w pojedynczym wierszu powinny być oddzielone przecinkami, a nowy wierszy macierzy decyzyjnej powinien być zapisany w nowej linijce. Macierz nie powinna zawierać pustych wartości, ani znaków tekstowych.",
+  "crisp-csv-description-text-3": "Liczba typów kryteriów powinna równać się ilości kolumn w macierzy. Typy kryteriów powinny być reprezentowane tylko przez wartości -1 dla typu koszt, oraz 1 dla typu profit. Wartości powinny być oddzielone przecinkami.",
+
+  "fuzzy-csv": "CSV: Dane rozmyte",
+
+  "fuzzy-csv-description-text-1": "Pliki w formacie CSV (Comma-Separated Values) i zawarte w nich dane powinny być podzielone na dwie części. Pierwsza z nich powinna reprezentować macierz decyzyjną w problemie. Druga, zapisana po pustej linii oddzielającej sekcje, powinna reprezentować typy kryteriów.",
+  "fuzzy-csv-description-text-2": "Macierz przedstawia w wierszach warianty decyzyjne, a w kolumnach kryteria rozpatrywane w problemie. Wartości w macierzy w jednym wierszu powinny być oddzielone przecinkami, a nowy wiersz macierzy decyzyjnej powinien być zapisany w nowym wierszu. Macierz nie powinna zawierać pustych wartości ani znaków tekstowych. Każdy element powinien być reprezentowany jako Trójkątna Liczba Rozmyta (Triangular Fuzzy Number) [a, m, b], gdzie a jest dolną wartością TFN, m jest środkową wartością TFN, a b jest górną wartością TFN. Wartości a, m, b powinny być oddzielone spacją, a nie przecinkiem. Przecinek powinien być użyty do oddzielenia TFN w jednym wierszu.",
+  "fuzzy-csv-description-text-3": "Liczba typów kryteriów powinna być równa liczbie kolumn w macierzy. Typy kryteriów powinny być reprezentowane wyłącznie przez wartości -1 dla typu koszt, oraz 1 dla typu zysk. Wartości powinny być oddzielone przecinkami.",
+
+  "crisp-xlsx": "XLSX: Dane ostre",
+
+  "crisp-xlsx-description-text-1": "Pliki w formacie XLSX (Microsoft Excel) powinny być sformatowane w sposób, by macierz i typy kryteriów były oddzielone nie wypełnionym wartościami wierszem.",
+  "crisp-xlsx-description-text-2": "W macierzy, wiersze reprezentują alternatywy, a kolumny kryteria w problemie. Każdy z wierszy powinien zawierać jednakową liczbę wartości.",
+  "crisp-xlsx-description-text-3": "Typy kryteriów reprezentują preferowany kierunek wartości. -1 oznacza typ koszt, a wartość 1 typ profit. Liczba wartości w ostatnim wierszu powinna równać się ilości kolumn w macierzy.",
+
+  "fuzzy-xlsx": "XLSX: Dane rozmyte",
+
+  "fuzzy-xlsx-description-text-1": "Pliki XLSX (Microsoft Excel) powinny być tak sformatowane, aby typy macierzy i kryteriów były oddzielone niewypełnionym wierszem z wartościami.",
+  "fuzzy-xlsx-description-text-2": "W macierzy wiersze reprezentują alternatywy, a kolumny kryteria w problemie. Każdy rząd powinien zawierać równą liczbę wartości. W jednej komórce wartości powinny być reprezentowane przez Trójkątne Liczby Rozmyte (Triangular Fuzzy Number). Każdy element powinien być reprezentowany jako TFN [a, m, b], gdzie a jest dolną wartością TFN, m jest środkową wartością TFN, a b jest górną wartością TFN. Wartości a, m, b powinny być oddzielone spacją, a nie przecinkiem.",
+  "fuzzy-xlsx-description-text-3": "Typy kryteriów reprezentują preferowany kierunek wartości. -1 reprezentuje typ kosztów, a wartość 1 reprezentuje typ zysku. Liczba wartości w ostatnim wierszu powinna być równa liczbie kolumn w macierzy.",
+
+  "file-bad-format": "Formatowanie pliku w inny sposób niż wskazany powyżej może skutkować błędami w obliczeniach.",
+
+  "download-example-file": "Przykładowy plik"
+}

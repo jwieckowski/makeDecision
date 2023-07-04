@@ -11,6 +11,14 @@ export default function useLocale() {
     );
   }, []);
 
+  useEffect(() => {
+    setLocale(
+      window.localStorage.getItem("locale")
+        ? (window.localStorage.getItem("locale") as string)
+        : "en"
+    );
+  }, [window.localStorage.getItem("locale")]);
+
   return {
     locale,
   };

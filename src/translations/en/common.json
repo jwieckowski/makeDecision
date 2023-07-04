@@ -1,10 +1,21 @@
 {
   "app": "DECISION MAKING APP",
   "save": "Save",
+  "cancel": "Cancel",
   "functionalities": "Functionalities",
   "general-error": "Error occurred ...",
   "reload": "Reload",
+  "loading": "Loading...",
   "search-placeholder": "Search...",
+  "research-team": "Research team",
+  "research-team-1": "National Institute of Telecommunications, Warsaw, Poland",
+  "research-team-2": "West Pomeranian University of Technology in Szczecin, Poland",
+  "affiliation": "Affiliation",
+  "contact-us": "Contact with us through: ",
+  "recommended-sites": "We also recommend to see: ",
+  "packages": "Programming packages",
+  "websites": "Websites",
+  "report-bugs": "Bugs and improvements",
 
   "yes": "Yes",
   "no": "No",
@@ -16,13 +27,34 @@
   "method": "Method",
   "techniques": "Techniques",
   "no-methods": "No methods found",
+  "none": "None",
+  "go-up": "Scroll up",
+  "go-to-filters": "To results",
 
   "upload-files": "Click to upload a file",
   "uploaded-file": "Uploaded file: ",
+  "file-not-selected": "File not selected",
+  "file-select": "Select file",
+  "edit-uploaded-matrix": "Edit matrix",
+  "accepted-file-format-csv": "Accepted file format - CSV",
+  "accepted-file-format-json": "Accepted file format - JSON",
+  "accepted-file-format-xlsx": "Accepted file format - XLSX",
+  "file-formatting-guide": "Check the guide on how to format data files in About page",
 
+  "menu": "Menu",
   "nav-page-1": "Home",
   "nav-page-2": "Calculations",
   "nav-page-3": "Methods",
   "nav-page-4": "About",
-  "nav-page-5": "Contact"
+  "nav-page-5": "Contact",
+
+  "no-internet": "No internet connection",
+  "back-online": "Back online",
+
+  "tooltip-graph": "Generate the designed model to a pdf file",
+  "tooltip-results": "Download results from the model",
+  "tooltip-results-disabled": "No results available for download",
+  "tooltip-clear": "Clear the workspace",
+  "tooltip-calculate": "Calculate results for the designed model",
+  "example": "Example"
 }

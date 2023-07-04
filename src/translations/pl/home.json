@@ -1,7 +1,25 @@
 {
-  "text1": "Aplikacja służy do obliczenia ocen wielokryterialnych różnych wariantów decyzyjnych. W zakładce 'Calculations' dostępny jest obszar, w którym można za pomocą graficznej reprezentacji metod MCDA łączyć je ze sobą w celu obliczenia wyników.",
-  "text2": "Na chwilę obecną działa łączenie bloczków, sprawdzanie typów bloczków które chcemy połączyć, usuwanie połączeń pomiędzy bloczkami, obliczanie wyników, wyszukiwanie metod po nazwie w searchbarze.",
-  "text3": "Aplikacja jest w trakcie tworzenia, dlatego też mogą pojawić się błędy w jej funkcjonowaniu.",
-  "text4": "Obecnie trwają pracę nad możliwością przesyłania plików i wykonywania obliczeń na danych w nich zawartych, dodawania parametrów takich jak metody normalizacji, miary odległości, czy metody defuzyfikacji.",
-  "text5": "Wygląd strony również będzie zmieniony, lecz priorytetem jest działanie podstawowych funkcjonalności."
+  "home-heading-1": "WIELOKRYTERIALNE PODEJMOWANIE DECYZJI",
+  "home-text-mcda-1": "Podejmowanie decyzji stanowi istotną część wielu procesów w życiu codziennym. Zarówno proste problemy życia codziennego, jak i skomplikowane sytuacje składające się z wielu czynników wymagają rozpatrzenia dostępnych wariantów decyzyjnych w poszukiwaniu najbardziej racjonalnego rozwiązania.",
+  "home-text-mcda-2": " W celu zapewnienia wsparcia w procesie decyzyjnym, wykorzystywane są techniki z zakresu Wielokryterialne Metody Podejmowania Decyzji (z ang. Multi-Criteria Decision Analysis - MCDA), które w sposób ustrukturyzowany pozwalają na przetwarzanie procesu decyzyjnego i zaproponowanie najbardziej korzystnych wyborów. Przebieg głównych etapów wielokryterialnej analizy decyzyjnej można podzielić na 4 kroki:",
+
+  "home-text-mcda-item-1": "Zdefiniowanie wielokryterialnego problemu decyzyjnego",
+  "home-text-mcda-item-2": "Wybranie metod, za pomocą których przeprowadzona będzie ocena",
+  "home-text-mcda-item-3": "Obliczenie rankingu pozycyjnego na podstawie wyników z tych metod",
+  "home-text-mcda-item-4": "Wskazanie najbardziej racjonalnego wyboru spośród analizowanych opcji",
+
+  "home-text-mcda-3": "Metody MCDA mogą być wykorzystywane do codziennych problemów. Przykładem może być wybór sprzętu elektronicznego (telefonu komórkowego, czy laptopa), gdzie możemy wskazać parametry jakie mają zostać wzięte pod uwagę w ocenie, oraz zbiór opcji, które chcemy porównać. Następnie, określamy preferowany kierunek wartości parametrów (wybierając kryterium oceny 'Cena', możemy chcieć, by była ona jak najniższa - oznacza to kryterium typu 'Koszt'; wybierając kryterium oceny 'Pamięć' możemy wskazać typ kryterium jako 'Profit', co będzie określać jak największą wartość). Należy też wskazać istotność poszczególnych parametrów w ocenie, gdyż niektóre parametry mogą być dla nas bardziej istotne niż pozostałe.",
+  "home-text-mcda-4": "Na podstawie tych danych i wybranych metod z aplikacji, możemy ocenić wybrane przez nas opcje i uzyskać informacje na temat tego które z opcji są bardziej preferowane od innych. Wielokryterialne Metody Podejmowania Decyzji pozwalają na wykorzystanie ich również w bardziej skomplikowanych i złożonych problemach, taki jak wybór dostawców materiałów, tworzenie systemów rekomendujących, ocena jakości rozwoju, wybór racjonalnych środków transportu i wielu innych. Ze względu na elastyczność i możliwość konfiguracji działania metody te mogą być stosowane w wielu obszarach, w których na końcowy wybór wpływa wiele kryteriów decyzyjnych.",
+
+  "home-heading-2": "APLIKACJA DO PROJEKTOWANIA MODELI DECYZYJNYCH",
+
+  "home-text-app-1": "Aplikacja umożliwia wykorzystanie wybranych technik z obszaru wielokryterialnego podejmowania decyzji. Działania mogą być przeprowadzane na danych ostrych jak i na zbiorach rozmytych, reprezentowanych za pomocą Trójkątnych Liczb Rozmytych (z ang. Triangular Fuzzy Numbers - TFNs). Do dyspozycji użytkownika dostępne są 3 sposoby wprowadzania danych wejściowych, 11 sposobów wyznaczania istotności kryteriów, czy 15 metod podejmowania decyzji. Możliwe jest również wyznaczanie rankingów czy porównywanie wyników pod względem występujących korelacji. Jako dodatkowe elementy poza głównymi funkcjonalnościami, dostępne są również metody standaryzacji danych, metryki odległości, czy wybrane techniki obliczania wartości ostrych ze zbiorów rozmytych.",
+  "home-text-app-2": "Zakładka 'O aplikacji' zawiera opis i przykłady tworzenia stuktur modeli decyzyjnych. Przedstawione są tam sposoby układania poszczególnych elementów w strukturze, od mniej do bardziej zaawansowanych układów, pokazując tym samym możliwości aplikacji. Na podstawie pokazanych przykładów możesz rozpocząć projektowanie własnych modeli decyzyjnych.",
+  "home-text-app-3": "W zakładce 'Obliczenia' dostępny jest obszar roboczy, w którym możliwe jest zaprojektowanie struktury modelu decyzyjnego, który posłuży do obliczeń i wyznaczenia najbardziej atrakcyjnej opcji spośród analizowanych wariantów.",
+
+  "home-button-instruction": "Przejdź do instrukcji",
+  "home-button-calculation": "Przejdź do obliczeń",
+
+  "fig-alt-mcda-flow": "Przebieg procesu wielokryterialnej analizy decyzyjnej",
+  "fig-alt-app-flow": "Struktura i funkcjonalności aplikacji"
 }

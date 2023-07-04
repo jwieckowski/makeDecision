@@ -1,11 +1,17 @@
-import * as React from 'react';
-import CircularProgress from '@mui/material/CircularProgress';
-import Box from '@mui/material/Box';
+import React from "react";
+import { useTranslation } from "react-i18next";
+
+import Spinner from "react-bootstrap/Spinner";
 
 export default function Loader() {
+  const { t } = useTranslation();
   return (
-    <Box sx={{height: '700px', display: 'flex', flexGrow: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <CircularProgress size='80px'/>
-    </Box>
+    <Spinner
+      animation="border"
+      role="status"
+      style={{ width: "100px", height: "100px" }}
+    >
+      <span className="visually-hidden">{t("common:loading")}.</span>
+    </Spinner>
   );
 }

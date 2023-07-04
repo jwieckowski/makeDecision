@@ -13,7 +13,7 @@ export type AllMethodsDataItem = {
   name: string;
   extensions: [] | string[];
   requiredData: [] | string[];
-  hints: [] | string[];
+  hints: string;
   order?: string;
   additional?: [] | MethodAdditional[];
   abbreviation?: string;
@@ -156,6 +156,30 @@ export type SearchSliceState = {
   query: string;
 };
 
+//  SETTINGS SLICE TYPES --------------------------------------------------------
+export type SettingsSliceState = {
+  scale: number;
+  gridOn: boolean;
+  gridSize: number;
+  size: number;
+  headSize: number;
+  color: string;
+  curveness: number;
+  path: any;
+};
+
+//  FILTER SLICE TYPES --------------------------------------------------------
+export type FilteringSliceState = {
+  matrixFilter: string;
+  methodFilter: string;
+  correlationFilter: string;
+};
+
+export type FilterItem = {
+  value: string;
+  label: string;
+};
+
 // RESULTS TYPES --------------------------------------------------------------
 
 export type AdditionalType = {
@@ -192,7 +216,7 @@ export type CorrelationBodyType = {
 export type ResultsMethod = {
   method: string;
   weights: string;
-  weights_value: [] | number[];
+  weights_value: [] | number[] | number[][];
   preference: [] | number[];
   extension: string;
   additional: {} | AdditionalType;
@@ -270,7 +294,6 @@ export type MatrixBodyType = {
 };
 
 export type CalculationBodyType = {
-  matrixFiles: [] | File[];
   matrix: [] | any;
   extensions: [] | string[];
   types: [] | number[][];
@@ -286,7 +309,8 @@ export type TempBodyType = {
 };
 
 export type CalculationSliceState = {
-  results: [] | ResultsType;
+  results: null | ResultsType;
+  filteredResults: null | ResultsType;
   rankingResults: [] | RankingType[];
   correlationResults: [] | CorrelationType[];
   methodParameters: [] | ParamsType[];
@@ -296,6 +320,7 @@ export type CalculationSliceState = {
   loading: boolean;
   error: null | string;
   convertedMatrix: [] | any;
+  matrixId: [] | number[];
 };
 
 // BLOCKS TYPES --------------------------------------------------------------------------------
@@ -308,7 +333,9 @@ export type BlockDataType = {
   types: [] | string[];
   weights: [] | string[];
   extension: string;
-  additionals: [] | AdditionalType[];
+  additionals: [] | AdditionalType[][];
+  alternatives: number;
+  criteria: number;
   styles: null | React.CSSProperties;
 };
 

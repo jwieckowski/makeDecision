@@ -6,9 +6,13 @@
   "rankings": "Rankingi",
   "ranking": "Ranking",
   "correlation-ranking": "Korelacja rankingów",
+  "correlation": "Korelacja",
 
   "correlation-table": "Macierz korelacji",
   "matrix": "Macierz",
+  "method": "Metoda",
+  "connection": "Połączenie",
+  "metrics": "Metryki",
 
   "add-parameters": "Dodaj parametry",
   "extension": "Rozszerzenie",
@@ -24,19 +28,22 @@
   "crisp": "Ostre",
   "fuzzy": "Rozmyte",
 
-  "save-graph": "Zapisz schemat",
+  "save-graph": "Schemat",
   "clear": "Wyczyść",
   "calculate": "Oblicz",
   "grid": "Siatka",
   "arrow-settings": "Ustawienia strzałek",
   "size": "Rozmiar",
-  "head-size": "Rozmiar strzałki",
+  "head-size": "Strzałka",
   "curveness": "Krzywość",
   "color": "Kolor",
   "path": "Typ",
+  "reset": "Reset",
 
   "not-connected": "Nie wszystkie elementy zostały połączone. Czy chcesz kontynuować obliczenia?",
   "work-area": "Obszar roboczy jest za mały",
+  "work-area-size": "Wymagany rozmiar okna większy niż 766 px",
   "bigger-screen": "By wykonać obliczenia, uruchom aplikację na większym urządzeniu",
-  "show-matrix": "Pokaż załadowaną macierz"
+  "show-matrix": "Pokaż załadowaną macierz",
+  "filter": "Filtruj"
 }

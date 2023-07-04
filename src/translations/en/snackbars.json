@@ -1,1 +1,35 @@
-{}
+{
+  "not-connected-blocks": "Not all added blocks were connected. They are highlighted with red border. Connect or remove them to calculate the results.",
+
+  "matrix-upload-error": "Error during uploading matrix",
+  "matrix-upload-success": "Matrix uploaded successfully",
+
+  "no-input-data": "No input data given",
+  "matrix-weights-not-connected": "Matrix (ID {{id}}) not connected to any weights",
+  "empty-uploaded-matrix": "Uploaded matrix (ID {{id}}) file is empty",
+  "empty-input-matrix": "Input matrix (ID {{id}}) was not defined",
+  "zeros-in-matrix": "Zero values in input matrix (ID {{id}})",
+  "same-values-in-column": "Same values in column {{column}} in matrix (ID {{id}})",
+  "fuzzy-matrix-comma": "Not all elements in the Triangular Fuzzy Numbers in matrix (ID {{id}}) has 3 values separated by comma",
+  "fuzzy-matrix-ascending": "Elements in the Triangular Fuzzy Numbers in matrix (ID {{id}}) should in ascending order or equal",
+
+  "none-criteria-types": "Criteria types were not given (Matrix ID {{id}})",
+  "missing-criteria-types": "Not all criteria types were given (Matrix ID {{id}})",
+
+  "no-mcda-method": "No MCDA method was used (Matrix ID {{id}})",
+
+  "no-input-weights": "No weights given in input weights block (ID {{id}})",
+  "zero-in-weights": "Zero values in input weights (ID {{id}})",
+  "minus-in-weights": "None of weights should equal less than 0 (ID {{id}})",
+  "sum-weights": "Weights should sum up to 1 (ID {{id}})",
+  "fuzzy-weights-comma": "Not all elements in the Triangular Fuzzy Numbers in weights has 3 values separated by comma (ID {{id}})",
+  "fuzzy-weights-ascending": "Elements in the Triangular Fuzzy Numbers in weights should in ascending order or equal (ID {{id}})",
+
+  "method-ranking": "The MCDA method can be connected to only one ranking",
+  "correlation-connection-1": "This correlation method is used to calculate preference similarities, not rankings",
+  "correlation-connection-2": "This correlation method is used to calculate ranking similarities, not preferences",
+  "cannot-connect": "Blocks cannot be connected",
+  "weights-extension": "The weighting method {{method}} cannot be connected to fuzzy data. The link will be deleted",
+  "mcda-extension": "The MCDA method {{method}} cannot be connected to fuzzy data. The link will be deleted",
+  "matrix-size": "The matrices connected to one weighting block must have an equal number of criteria. The link will be deleted"
+}

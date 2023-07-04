@@ -8,28 +8,52 @@ import {
 } from "../types";
 import { BASE_URL } from "../../common/const";
 
+type GetMatrixProps = {
+  locale: string;
+  body: any;
+};
+
+type GetResultsProps = {
+  locale: string;
+  params: CalculationBodyType;
+};
+
 export const getMatrix = createAsyncThunk(
   "calculations/getMatrix",
-  async (body: any) => {
-    const data = await axios.post(`${BASE_URL}/api/v1/matrix`, body, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    return data.data;
+  async ({ locale, body }: GetMatrixProps, { rejectWithValue }) => {
+    try {
+      const data = await axios.post(`${BASE_URL}/api/v1/matrix`, body, {
+        headers: {
+          locale: locale,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      return data.data;
+    } catch (e) {
+      throw rejectWithValue(e);
+    }
   }
 );
 
 export const getResults = createAsyncThunk(
   "calculations/getResults",
-  async (params: CalculationBodyType) => {
-    const data = await axios.post(`${BASE_URL}/api/v1/results`, params);
-    return data.data;
+  async ({ locale, params }: GetResultsProps, { rejectWithValue }) => {
+    try {
+      const data = await axios.post(`${BASE_URL}/api/v1/results`, params, {
+        headers: {
+          locale: locale,
+        },
+      });
+      return data.data;
+    } catch (e) {
+      throw rejectWithValue(e);
+    }
   }
 );
 
 const initialState: CalculationSliceState = {
-  results: [],
+  results: null,
+  filteredResults: null,
   rankingResults: [],
   correlationResults: [],
   methodParameters: [],
@@ -41,6 +65,7 @@ const initialState: CalculationSliceState = {
   convertedMatrix: [],
   loading: false,
   error: null,
+  matrixId: [],
 };
 
 const calculationSlice = createSlice({
@@ -55,6 +80,9 @@ const calculationSlice = createSlice({
     },
     setCriteria: (state, action) => {
       state.criteria = action.payload;
+    },
+    resetConvertedMatrix: (state) => {
+      state.convertedMatrix = [];
     },
     addMatrixFile: (state, action) => {
       state.calculationBody.matrixFiles = [
@@ -77,6 +105,12 @@ const calculationSlice = createSlice({
       state.results = initialState.results;
       state.error = null;
     },
+    setCalculationMatrixId: (state, action) => {
+      state.matrixId = action.payload;
+    },
+    setFilteredResults: (state, action) => {
+      state.filteredResults = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -88,14 +122,14 @@ const calculationSlice = createSlice({
         getResults.fulfilled,
         (state: CalculationSliceState, action: PayloadAction<ResultsType>) => {
           state.results = action.payload;
+          state.filteredResults = action.payload;
           state.loading = false;
         }
       )
       .addCase(
         getResults.rejected,
         (state: CalculationSliceState, action: PayloadAction<any>) => {
-          state.error =
-            "Error occurred while getting calculation results from server";
+          state.error = action.payload.response.data.message;
           state.loading = false;
         }
       )
@@ -113,7 +147,7 @@ const calculationSlice = createSlice({
       .addCase(
         getMatrix.rejected,
         (state: CalculationSliceState, action: PayloadAction<any>) => {
-          state.error = "Error occurred while getting matrix from server";
+          state.error = action.payload.response.data.message;
           state.loading = false;
         }
       );
@@ -129,5 +163,8 @@ export const {
   clearBody,
   resetBody,
   resetResults,
+  resetConvertedMatrix,
+  setCalculationMatrixId,
+  setFilteredResults,
 } = actions;
 export default reducer;

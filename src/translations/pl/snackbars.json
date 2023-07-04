@@ -1,0 +1,35 @@
+{
+  "not-connected-blocks": "Nie wszystkie bloki zostały połączone. Są zaznaczone czerwoną ramką. Połącz je lub usuń, by obliczyć wyniki.",
+
+  "matrix-upload-error": "Błąd przy wczytywaniu macierzy",
+  "matrix-upload-success": "Macierz wczytana poprawnie",
+  "no-input-data": "Brak danych wejściowych",
+
+  "matrix-weights-not-connected": "Macierz (ID {{id}}) nie jest połączona z żadnymi wagami",
+  "empty-uploaded-matrix": "Przesłana macierz (ID {{id}}) z pliku jest pusta",
+  "empty-input-matrix": "Macierz (ID {{id}}) nie została podana",
+  "zeros-in-matrix": "Wartości 0 w macierzy (ID {{id}})",
+  "same-values-in-column": "Jednakowe wartości w kolumnie {{column}} w macierzy (ID {{id}})",
+  "fuzzy-matrix-comma": "Nie wszystkie elementy w Trójkątnych Liczbach Rozmytych w macierzy (ID {{id}}) mają 3 wartości oddzielone przecinkami",
+  "fuzzy-matrix-ascending": "Liczby w Trójkątnych Liczbach Rozmytych w macierzy (ID {{id}}) powinny być ułożone w kolejności niemalejącej",
+
+  "none-criteria-types": "Typy kryteriów nie zostały podane (Macierz ID {{id}})",
+  "missing-criteria-types": "Nie wszystkie typy kryteriów zostały podane (Macierz ID {{id}})",
+
+  "no-mcda-method": "Metoda MCDA nie została użyta (Macierz ID {{id}})",
+
+  "no-input-weights": "Nie podano wartości wag wejściowych od użytkownika (ID {{id}})",
+  "zero-in-weights": "Wartości 0 w wartościach wag od użytkownika (ID {{id}})",
+  "minus-in-weights": "Wartości wag od użytkownika powinny być większe od 0 (ID {{id}})",
+  "sum-weights": "Suma wartości wag od użytkownika powinna wynosić 1 (ID {{id}})",
+  "fuzzy-weights-comma": "Nie wszystkie elementy w Trójkątnych Liczbach Rozmytych w wagac mają 3 wartości oddzielone przecinkami (ID {{id}})",
+  "fuzzy-weights-ascending": "Liczby w Trójkątnych Liczbach Rozmytych w wagach powinny być ułożone w kolejności niemalejącej (ID {{id}})",
+
+  "method-ranking": "Metodę MCDA można połączyć tylko z jednym rankingiem",
+  "correlation-connection-1": "Ta metoda korelacji służy do obliczenia podobieństw preferencji, nie rankingów",
+  "correlation-connection-2": "Ta metoda korelacji służy do obliczenia podobieństw rankingów, nie preferencji",
+  "cannot-connect": "Nie można połączyć bloków",
+  "weights-extension": "Metoda ważenia {{method}} nie może byc połączona z danymi w formie rozmytej. Połączenie zostanie usunięte",
+  "mcda-extension": "Metoda {{method}} nie może byc połączona z danymi w formie rozmytej. Połączenie zostanie usunięte",
+  "matrix-size": "Połączone macierze do jednego bloku wag muszą mieć jednakową ilość kryteriów. Połączenie zostanie usunięte"
+}

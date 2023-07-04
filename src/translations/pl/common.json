@@ -1,10 +1,21 @@
 {
   "app": "PODEJMOWANIE DECYZJI",
   "save": "Zapisz",
+  "cancel": "Anuluj",
   "functionalities": "Funkcjonalności",
   "general-error": "Wystąpił błąd ...",
   "reload": "Przeładuj",
+  "loading": "Ładowanie...",
   "search-placeholder": "Szukaj...",
+  "research-team": "Zespół badawczy",
+  "research-team-1": "Instytut Łączności - Państwowy Instytut Badawczy, Warszawa, Polska",
+  "research-team-2": "Zachodniopomorski Uniwersytet Technologiczny, Szczecin, Polska",
+  "affiliation": "Afiliacja",
+  "contact-us": "Skontaktuj się z nami za pomocą: ",
+  "recommended-sites": "Rekomendujemy również zapoznanie się z: ",
+  "packages": "Biblioteki programistyczne",
+  "websites": "Strony internetowe",
+  "report-bugs": "Błędy i ulepszenia",
 
   "yes": "Tak",
   "no": "Nie",
@@ -14,13 +25,34 @@
   "no-description": "Brak dostępnego opisu",
   "techniques": "Techniki",
   "no-methods": "Nie znaleziono metod",
+  "none": "Brak",
+  "go-up": "Do góry",
+  "go-to-filters": "Do wyników",
 
   "upload-files": "Kliknij żeby przesłać plik",
   "uploaded-file": "Przesłany plik: ",
+  "file-not-selected": "Nie wybrano pliku",
+  "file-select": "Wybierz plik",
+  "edit-uploaded-matrix": "Edytuj macierz",
+  "accepted-file-format-csv": "Akceptowalny format pliku - CSV",
+  "accepted-file-format-json": "Akceptowalny format pliku - JSON",
+  "accepted-file-format-xlsx": "Akceptowalny format pliku - XLSX",
+  "file-formatting-guide": "Sprawdź jak poprawnie formatować plik danych w zakładce O Aplikacji",
 
+  "menu": "Menu",
   "nav-page-1": "Główna",
   "nav-page-2": "Obliczenia",
   "nav-page-3": "Metody",
   "nav-page-4": "O aplikacji",
-  "nav-page-5": "Kontakt"
+  "nav-page-5": "Kontakt",
+
+  "no-internet": "Brak połączenia z internetem",
+  "back-online": "Nawiązano połączenie z internetem",
+
+  "tooltip-graph": "Wygeneruj zaprojektowany model do pliku pdf",
+  "tooltip-results": "Pobierz wyniki z modelu",
+  "tooltip-results-disabled": "Brak wyników do pobrania",
+  "tooltip-clear": "Wyczyść obszar roboczy",
+  "tooltip-calculate": "Oblicz wyniki dla zaprojektowanego modelu",
+  "example": "Przykład"
 }
