@@ -28,16 +28,6 @@ export default function HomePage() {
   const navigate = useNavigate();
   const { locale } = useLocale();
 
-  {
-    /* <Container
-    fluid
-    className="d-flex justify-content-center align-items-center"
-    style={{ height: `calc(100vh - ${NAV_HEIGHT}px)` }}
-    >
-    <Loader />
-  </Container> */
-  }
-
   return (
     <Container
       fluid
