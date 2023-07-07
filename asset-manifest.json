@@ -1,12 +1,23 @@
 {
   "files": {
-    "main.css": "/gui/static/css/main.d4ac135c.css",
-    "main.js": "/gui/static/js/main.a67e3066.js",
-    "static/js/703.6932e2af.chunk.js": "/gui/static/js/703.6932e2af.chunk.js",
-    "static/js/598.5570519b.chunk.js": "/gui/static/js/598.5570519b.chunk.js",
+    "main.css": "/gui/static/css/main.c5507557.css",
+    "main.js": "/gui/static/js/main.3de9f1e7.js",
+    "static/js/513.cde79159.chunk.js": "/gui/static/js/513.cde79159.chunk.js",
+    "static/media/APP_FLOW_PL.png": "/gui/static/media/APP_FLOW_PL.694c5a9c2773f563d39e.png",
+    "static/media/APP_FLOW_EN.png": "/gui/static/media/APP_FLOW_EN.71c29a7224100616d121.png",
+    "static/media/STRUCTURE_4_PL.png": "/gui/static/media/STRUCTURE_4_PL.197c50a1f18c72e87551.png",
+    "static/media/STRUCTURE_4_EN.png": "/gui/static/media/STRUCTURE_4_EN.f46aed2e361888579406.png",
+    "static/media/STRUCTURE_3_EN.png": "/gui/static/media/STRUCTURE_3_EN.693ba77e3b4e799f0abd.png",
+    "static/media/STRUCTURE_3_PL.png": "/gui/static/media/STRUCTURE_3_PL.bd8c487adb74a87a2c61.png",
     "static/media/KaTeX_AMS-Regular.ttf": "/gui/static/media/KaTeX_AMS-Regular.853be92419a6c3766b9a.ttf",
     "static/media/KaTeX_Main-Regular.ttf": "/gui/static/media/KaTeX_Main-Regular.9eba1d77abcf2aa6e94e.ttf",
     "static/media/KaTeX_Main-Bold.ttf": "/gui/static/media/KaTeX_Main-Bold.8169508bf58f8bd92ad8.ttf",
+    "static/media/MCDA_PL.png": "/gui/static/media/MCDA_PL.8ed527fe05e959c1d5b5.png",
+    "static/media/STRUCTURE_2_PL.png": "/gui/static/media/STRUCTURE_2_PL.50845ef95874514f6cef.png",
+    "static/media/STRUCTURE_2_EN.png": "/gui/static/media/STRUCTURE_2_EN.063e1f0ef0f1eb4f8ced.png",
+    "static/media/MCDA_EN.png": "/gui/static/media/MCDA_EN.de5c28fb8efff33875a2.png",
+    "static/media/APP_BLOCKS_PL.png": "/gui/static/media/APP_BLOCKS_PL.6bc640a5745633c9cc5c.png",
+    "static/media/APP_BLOCKS_EN.png": "/gui/static/media/APP_BLOCKS_EN.c8a886c29405cc6b3877.png",
     "static/media/KaTeX_Main-Italic.ttf": "/gui/static/media/KaTeX_Main-Italic.fa675e5e4bec9eb250b6.ttf",
     "static/media/KaTeX_AMS-Regular.woff": "/gui/static/media/KaTeX_AMS-Regular.d562e886c52f12660a41.woff",
     "static/media/KaTeX_Main-BoldItalic.ttf": "/gui/static/media/KaTeX_Main-BoldItalic.828abcb200061cffbaae.ttf",
@@ -14,6 +25,8 @@
     "static/media/KaTeX_Math-BoldItalic.ttf": "/gui/static/media/KaTeX_Math-BoldItalic.bf2d440b3a42ea78a998.ttf",
     "static/media/KaTeX_Main-Regular.woff": "/gui/static/media/KaTeX_Main-Regular.4f35fbcc9ee8614c2bcc.woff",
     "static/media/KaTeX_Main-Bold.woff": "/gui/static/media/KaTeX_Main-Bold.0c3b8929d377c0e9b2f3.woff",
+    "static/media/STRUCTURE_1_PL.png": "/gui/static/media/STRUCTURE_1_PL.44fb10c8443b91eb2d92.png",
+    "static/media/STRUCTURE_1_EN.png": "/gui/static/media/STRUCTURE_1_EN.1123c18b9e47291ee285.png",
     "static/media/KaTeX_AMS-Regular.woff2": "/gui/static/media/KaTeX_AMS-Regular.73ea273a72f4aca30ca5.woff2",
     "static/media/KaTeX_Typewriter-Regular.ttf": "/gui/static/media/KaTeX_Typewriter-Regular.c5c02d763c89380dcb4e.ttf",
     "static/media/KaTeX_Main-Regular.woff2": "/gui/static/media/KaTeX_Main-Regular.f650f111a3b890d116f1.woff2",
@@ -65,13 +78,12 @@
     "static/media/KaTeX_Size3-Regular.woff": "/gui/static/media/KaTeX_Size3-Regular.7947224e8a9914fa332b.woff",
     "static/media/KaTeX_Size3-Regular.woff2": "/gui/static/media/KaTeX_Size3-Regular.e1951519f6f0596f7356.woff2",
     "index.html": "/gui/index.html",
-    "main.d4ac135c.css.map": "/gui/static/css/main.d4ac135c.css.map",
-    "main.a67e3066.js.map": "/gui/static/js/main.a67e3066.js.map",
-    "703.6932e2af.chunk.js.map": "/gui/static/js/703.6932e2af.chunk.js.map",
-    "598.5570519b.chunk.js.map": "/gui/static/js/598.5570519b.chunk.js.map"
+    "main.c5507557.css.map": "/gui/static/css/main.c5507557.css.map",
+    "main.3de9f1e7.js.map": "/gui/static/js/main.3de9f1e7.js.map",
+    "513.cde79159.chunk.js.map": "/gui/static/js/513.cde79159.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.d4ac135c.css",
-    "static/js/main.a67e3066.js"
+    "static/css/main.c5507557.css",
+    "static/js/main.3de9f1e7.js"
   ]
 }
