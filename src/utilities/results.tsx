@@ -11,8 +11,14 @@ export const getTableAlternativesHeaders = (methods: ResultsMethod[]) => {
 };
 
 export const getTableMethodsLabels = (methods: ResultsMethod[]) => {
-  return methods.map(
-    (res) => `${res.method.toUpperCase()} \n ${res.weights.toUpperCase()}`
+  return methods.map((res) =>
+    [
+      res.method.toUpperCase(),
+      res.weights.toUpperCase(),
+      ...Object.values(res.additional).map(
+        (item) => `| ${item.split("_").join(" ").toUpperCase()}`
+      ),
+    ].join(" ")
   );
 };
 
@@ -94,6 +100,7 @@ export const getTableRankingHeaders = (rankings: ResultsMethodRankings[]) => {
 };
 
 export const getTableRankingLabels = (rankings: ResultsMethodRankings[]) => {
+  console.log(rankings);
   return rankings.map((rank, idx) => {
     return `${rank.methods.method.toUpperCase()} ${rank.methods.weights.toUpperCase()}`;
   });
@@ -113,9 +120,19 @@ export const getTablePreferenceCorrelationData = (
 export const getTablePreferenceCorrelationLabels = (
   corr: ResultsMethodCorrelations
 ) => {
+  console.log(corr);
   return corr.methods.map(
     (m) => `${m.method.toUpperCase()} ${m.weights.toUpperCase()}`
   );
+  // return corr.methods.map((res) =>
+  //   [
+  //     res.method.toUpperCase(),
+  //     res.weights.toUpperCase(),
+  //     ...Object.values(res.additional).map(
+  //       (item) => `| ${item.split("_").join(" ").toUpperCase()}`
+  //     ),
+  //   ].join(" ")
+  // );
 };
 
 export const getTableCorrelationTitle = (corr: ResultsMethodCorrelations) => {

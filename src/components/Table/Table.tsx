@@ -32,25 +32,50 @@ export default function MyTable({
         <thead>
           <tr>
             <th style={{ fontWeight: "bold" }}>{title ? title : null}</th>
-            {Array.from({ length: data[0].length }).map((_, index) => (
-              <th key={index} style={{ textAlign: "center" }}>
-                {headers[index]}
-              </th>
-            ))}
+            {Array.from({ length: data[0]?.length ? data[0].length : 0 }).map(
+              (_, index) => (
+                <th key={index} style={{ textAlign: "center" }}>
+                  {headers[index].split(" | ").map((item, idx) => {
+                    return (
+                      <div style={{ fontSize: idx === 0 ? 16 : 12 }}>
+                        {item}
+                      </div>
+                    );
+                  })}
+                </th>
+              )
+            )}
           </tr>
         </thead>
         <tbody>
           {data.map((row, colIdx) => {
             return (
               <tr>
-                <td style={{ fontWeight: "bold" }}>{labels[colIdx]}</td>
-                {Array.from({ length: row.length }).map((_, rowIdx) => (
-                  <td key={rowIdx} style={{ textAlign: "center" }}>
-                    {precision
-                      ? parseFloat(`${data[colIdx][rowIdx]}`).toFixed(precision)
-                      : data[colIdx][rowIdx]}
-                  </td>
-                ))}
+                <td style={{ fontWeight: "bold" }}>
+                  {labels[colIdx].split(" | ").map((item, idx) => {
+                    return (
+                      <div style={{ fontSize: idx === 0 ? 16 : 12 }}>
+                        {item}
+                      </div>
+                    );
+                  })}
+                </td>
+                {Array.from({ length: row?.length ? row.length : 0 }).map(
+                  (_, rowIdx) => (
+                    <td
+                      key={rowIdx}
+                      style={{
+                        textAlign: "center",
+                      }}
+                    >
+                      {precision
+                        ? parseFloat(`${data[colIdx][rowIdx]}`).toFixed(
+                            precision
+                          )
+                        : data[colIdx][rowIdx]}
+                    </td>
+                  )
+                )}
               </tr>
             );
           })}

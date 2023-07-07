@@ -329,7 +329,6 @@ const useCalculation = () => {
     // FOR EACH MATRIX CREATE A CALCULATION MODEL CONNECTION
     matrices.forEach((matrix, matrixIdx) => {
       calculate = true;
-
       // GET WEIGHTS BLOCKS CONNECTED TO CURRENT MATRIX
       const weightsItems = getMatrixWeightsConnections(
         blocks,

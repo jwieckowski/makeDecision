@@ -47,6 +47,7 @@ export default function MCDA() {
         <Image
           src={locale === "en" ? fc1_EN : fc1_PL}
           alt={t("home:fig-alt-mcda-flow")}
+          height={400}
         />
 
         <div style={{ textAlign: "justify" }}>
@@ -73,7 +74,7 @@ export default function MCDA() {
         <Image
           src={locale === "en" ? fc2_EN : fc2_PL}
           alt={t("home:fig-alt-app-flow")}
-          width={1000}
+          height={400}
         />
 
         <div style={{ textAlign: "justify" }}>

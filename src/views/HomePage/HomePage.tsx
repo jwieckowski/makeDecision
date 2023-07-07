@@ -62,6 +62,7 @@ export default function HomePage() {
         >
           {t("home:home-heading-1")}
         </div>
+
         <Stack
           gap={3}
           style={{
@@ -73,9 +74,10 @@ export default function HomePage() {
           <div style={{ textAlign: "justify" }}>
             {t("home:home-text-mcda-1")}
           </div>
+
           <div style={{ textAlign: "justify" }}>
             {t("home:home-text-mcda-2")}
-            <ul>
+            <ul style={{ lineHeight: "30px", marginTop: "20px" }}>
               <li>{t("home:home-text-mcda-item-1")}</li>
               <li>{t("home:home-text-mcda-item-2")}</li>
               <li>{t("home:home-text-mcda-item-3")}</li>
@@ -83,10 +85,13 @@ export default function HomePage() {
             </ul>
           </div>
 
-          <Image
-            src={locale === "en" ? fc1_EN : fc1_PL}
-            alt={t("home:fig-alt-mcda-flow")}
-          />
+          <div style={{ position: "relative" }}>
+            <Image
+              src={locale === "en" ? fc1_EN : fc1_PL}
+              alt={t("home:fig-alt-mcda-flow")}
+              height={400}
+            />
+          </div>
 
           <div style={{ textAlign: "justify", marginTop: 20 }}>
             {t("home:home-text-mcda-3")}
@@ -127,7 +132,7 @@ export default function HomePage() {
           <Image
             src={locale === "en" ? fc2_EN : fc2_PL}
             alt={t("home:fig-alt-app-flow")}
-            width={1000}
+            height={400}
           />
           <div style={{ textAlign: "justify" }}>
             {t("home:home-text-app-2")}

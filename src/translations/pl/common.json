@@ -54,5 +54,7 @@
   "tooltip-results-disabled": "Brak wyników do pobrania",
   "tooltip-clear": "Wyczyść obszar roboczy",
   "tooltip-calculate": "Oblicz wyniki dla zaprojektowanego modelu",
-  "example": "Przykład"
+  "example": "Przykład",
+  "methods-loading-error": "Wystąpił błąd przy pobieraniu opisów metod",
+  "try-again-later": "Spróbuj ponownie później"
 }

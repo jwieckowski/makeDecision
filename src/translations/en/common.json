@@ -56,5 +56,7 @@
   "tooltip-results-disabled": "No results available for download",
   "tooltip-clear": "Clear the workspace",
   "tooltip-calculate": "Calculate results for the designed model",
-  "example": "Example"
+  "example": "Example",
+  "methods-loading-error": "Error occurs when downloading method descriptions",
+  "try-again-later": "Try again later"
 }

@@ -15,9 +15,13 @@ import { useLocale } from "../../hooks";
 
 // COMPONENTS
 import MarkdownText from "../../components/MarkdownText";
+import Loader from "../../components/Loader";
+
+// CONST
+import { NAV_HEIGHT } from "../../common/const";
 
 // STYLES
-import { colors } from "../../common/globalStyles";
+import globalStyles, { colors } from "../../common/globalStyles";
 
 export default function MethodsPage() {
   const { methods, loading, error } = useSelector((state: RootState) => ({
@@ -42,6 +46,17 @@ export default function MethodsPage() {
   useEffect(() => {
     setMethodIndex(0);
   }, [groupIndex]);
+
+  if (loading)
+    return (
+      <Container
+        fluid
+        className="d-flex justify-content-center align-items-center"
+        style={{ height: `calc(100vh - ${NAV_HEIGHT}px)` }}
+      >
+        <Loader />
+      </Container>
+    );
 
   return methods.length > 0 ? (
     <Container
@@ -153,5 +168,18 @@ export default function MethodsPage() {
         </Container>
       ) : null}
     </Container>
-  ) : null;
+  ) : (
+    <Container
+      fluid
+      className="d-flex flex-column justify-content-center align-items-center gap-5"
+      style={{
+        height: `calc(100vh - ${NAV_HEIGHT}px)`,
+      }}
+    >
+      <div style={globalStyles.heading}>
+        {t("common:methods-loading-error")}
+      </div>
+      <div>{t("common:try-again-later")}</div>
+    </Container>
+  );
 }
