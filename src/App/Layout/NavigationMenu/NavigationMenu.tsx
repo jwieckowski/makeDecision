@@ -1,6 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
@@ -65,25 +66,28 @@ export default function NavigationMenu() {
           <Offcanvas.Body className="align-items-center pe-3">
             <Nav className="justify-content-end flex-grow-1">
               {PAGES.map((page, index) => (
-                <Nav.Link
-                  href={`/${APP_NAME_PATH}${URLS[index]}`}
+                <Link
+                  to={`/${APP_NAME_PATH}${URLS[index]}`}
                   key={index}
                   style={{
                     width: `${MENU_ITEM_WIDTH}px`,
                     textAlign: "center",
+                    textDecoration: "none",
                   }}
                 >
                   <div
                     className="text-uppercase"
                     style={
                       location.pathname === `/${APP_NAME_PATH}${URLS[index]}`
-                        ? { ...globalStyles.menuItemActive }
+                        ? {
+                            ...globalStyles.menuItemActive,
+                          }
                         : { ...globalStyles.menuItem }
                     }
                   >
                     {page}
                   </div>
-                </Nav.Link>
+                </Link>
               ))}
             </Nav>
             <Language />
