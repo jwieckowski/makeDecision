@@ -77,7 +77,13 @@ export default function Files() {
           <Codes type="json" data={showJSON(JSON_CRISP_DATA)} />
 
           <div className="w-100 d-flex justify-content-between">
-            <div style={{ width: "100%", textAlign: "justify" }}>
+            <div
+              style={{
+                width: "100%",
+                textAlign: "justify",
+                paddingRight: "15px",
+              }}
+            >
               {t("about:file-bad-format")}
             </div>
             <Link
@@ -120,7 +126,13 @@ export default function Files() {
           <Codes type="json" data={showJSON(JSON_FUZZY_DATA)} />
 
           <div className="w-100 d-flex justify-content-between">
-            <div style={{ width: "100%", textAlign: "justify" }}>
+            <div
+              style={{
+                width: "100%",
+                textAlign: "justify",
+                paddingRight: "15px",
+              }}
+            >
               {t("about:file-bad-format")}
             </div>
             <Link
@@ -164,7 +176,13 @@ export default function Files() {
           <Codes type="csv" data={showCSV(CSV_CRISP_DATA)} />
 
           <div className="w-100 d-flex justify-content-between">
-            <div style={{ width: "100%", textAlign: "justify" }}>
+            <div
+              style={{
+                width: "100%",
+                textAlign: "justify",
+                paddingRight: "15px",
+              }}
+            >
               {t("about:file-bad-format")}
             </div>
             <Link
@@ -207,7 +225,13 @@ export default function Files() {
           <Codes type="csv" data={showCSV(CSV_FUZZY_DATA)} />
 
           <div className="w-100 d-flex justify-content-between">
-            <div style={{ width: "100%", textAlign: "justify" }}>
+            <div
+              style={{
+                width: "100%",
+                textAlign: "justify",
+                paddingRight: "15px",
+              }}
+            >
               {t("about:file-bad-format")}
             </div>
             <Link
@@ -251,7 +275,13 @@ export default function Files() {
           <Codes type="xlsx" data={XLSX_CRISP_DATA} />
 
           <div className="w-100 d-flex justify-content-between">
-            <div style={{ width: "100%", textAlign: "justify" }}>
+            <div
+              style={{
+                width: "100%",
+                textAlign: "justify",
+                paddingRight: "15px",
+              }}
+            >
               {t("about:file-bad-format")}
             </div>
             <Link
@@ -294,7 +324,13 @@ export default function Files() {
           <Codes type="xlsx" data={XLSX_FUZZY_DATA} />
 
           <div className="w-100 d-flex justify-content-between">
-            <div style={{ width: "100%", textAlign: "justify" }}>
+            <div
+              style={{
+                width: "100%",
+                textAlign: "justify",
+                paddingRight: "15px",
+              }}
+            >
               {t("about:file-bad-format")}
             </div>
             <Link
