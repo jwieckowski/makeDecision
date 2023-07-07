@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/gui/static/css/main.c5507557.css",
-    "main.js": "/gui/static/js/main.3de9f1e7.js",
+    "main.js": "/gui/static/js/main.78e38358.js",
     "static/js/513.cde79159.chunk.js": "/gui/static/js/513.cde79159.chunk.js",
     "static/media/APP_FLOW_PL.png": "/gui/static/media/APP_FLOW_PL.694c5a9c2773f563d39e.png",
     "static/media/APP_FLOW_EN.png": "/gui/static/media/APP_FLOW_EN.71c29a7224100616d121.png",
@@ -79,11 +79,11 @@
     "static/media/KaTeX_Size3-Regular.woff2": "/gui/static/media/KaTeX_Size3-Regular.e1951519f6f0596f7356.woff2",
     "index.html": "/gui/index.html",
     "main.c5507557.css.map": "/gui/static/css/main.c5507557.css.map",
-    "main.3de9f1e7.js.map": "/gui/static/js/main.3de9f1e7.js.map",
+    "main.78e38358.js.map": "/gui/static/js/main.78e38358.js.map",
     "513.cde79159.chunk.js.map": "/gui/static/js/513.cde79159.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.c5507557.css",
-    "static/js/main.3de9f1e7.js"
+    "static/js/main.78e38358.js"
   ]
 }
