@@ -30,7 +30,7 @@ export default function Language() {
     setLang(event.target.value as string);
     window.localStorage.setItem("locale", event.target.value as string);
     // window.location.reload();
-    window.location.replace(APP_URL);
+    window.location.href = APP_URL;
 
     // reload application
     await dispatch(getMethodsDescriptions(event.target.value as string));
