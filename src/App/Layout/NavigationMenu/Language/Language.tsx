@@ -1,5 +1,6 @@
 import React, { useState, ChangeEvent } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 // REDUX
@@ -17,20 +18,23 @@ import Select from "../../../../components/Select";
 import { getUpdatedBlocksLanguage } from "../../../../utilities/blocks";
 
 // CONST
-import { APP_URL, LANGUAGES } from "../../../../common/const";
+import { APP_NAME_PATH, LANGUAGES } from "../../../../common/const";
 
 export default function Language() {
   const { blocks } = useSelector((state: RootState) => state.blocks);
   const { i18n } = useTranslation();
   const [lang, setLang] = useState(i18n.language);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const handleChange = async (event: ChangeEvent<HTMLInputElement>) => {
     i18n.changeLanguage(event.target.value);
     setLang(event.target.value as string);
     window.localStorage.setItem("locale", event.target.value as string);
-    // window.location.reload();
-    window.location.href = APP_URL;
+
+    if (window.location.pathname === `/${APP_NAME_PATH}/calculation`) {
+      navigate(0);
+    }
 
     // reload application
     await dispatch(getMethodsDescriptions(event.target.value as string));
