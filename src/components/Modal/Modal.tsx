@@ -94,6 +94,7 @@ export default function MyModal({
               text={textSave ? textSave : t("common:save")}
               onClick={handleSave}
               style={globalStyles.buttonSuccess}
+              classes="tour-step-twelve"
             />
           ) : null}
         </Modal.Footer>

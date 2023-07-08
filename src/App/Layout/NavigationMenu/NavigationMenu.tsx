@@ -76,7 +76,9 @@ export default function NavigationMenu() {
                   }}
                 >
                   <div
-                    className="text-uppercase"
+                    className={`text-uppercase ${
+                      index === 3 ? "tour-step-thirteen" : ""
+                    }`}
                     style={
                       location.pathname === `/${APP_NAME_PATH}${URLS[index]}`
                         ? {

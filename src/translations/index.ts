@@ -58,3 +58,5 @@ i18n.use(initReactI18next).init({
   ns: namespaces,
   defaultNS: "common",
 });
+
+export default i18n;

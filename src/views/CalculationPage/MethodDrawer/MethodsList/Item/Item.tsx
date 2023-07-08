@@ -68,7 +68,9 @@ export default function Item({ index, methods, onClick }: ItemProps) {
                   element={
                     <Container
                       fluid
-                      className="p-0 m-0 d-flex justify-content-between"
+                      className={`p-0 m-0 d-flex justify-content-between ${
+                        index === 0 && idx === 0 ? "tour-step-six" : ""
+                      } ${index === 1 && idx === 0 ? "tour-step-eight" : ""}`}
                     >
                       <div>{method.label}</div>
                       {index === 1 || index === 2 ? (

@@ -81,7 +81,6 @@ export default function Files() {
               style={{
                 width: "100%",
                 textAlign: "justify",
-                paddingRight: "15px",
               }}
             >
               {t("about:file-bad-format")}
@@ -92,6 +91,7 @@ export default function Files() {
               download
               style={{
                 textDecoration: "none",
+                paddingLeft: "15px",
               }}
             >
               <Button
@@ -130,7 +130,6 @@ export default function Files() {
               style={{
                 width: "100%",
                 textAlign: "justify",
-                paddingRight: "15px",
               }}
             >
               {t("about:file-bad-format")}
@@ -141,6 +140,7 @@ export default function Files() {
               download
               style={{
                 textDecoration: "none",
+                paddingLeft: "15px",
               }}
             >
               <Button
@@ -180,7 +180,6 @@ export default function Files() {
               style={{
                 width: "100%",
                 textAlign: "justify",
-                paddingRight: "15px",
               }}
             >
               {t("about:file-bad-format")}
@@ -191,6 +190,7 @@ export default function Files() {
               download
               style={{
                 textDecoration: "none",
+                paddingLeft: "15px",
               }}
             >
               <Button
@@ -229,7 +229,6 @@ export default function Files() {
               style={{
                 width: "100%",
                 textAlign: "justify",
-                paddingRight: "15px",
               }}
             >
               {t("about:file-bad-format")}
@@ -240,6 +239,7 @@ export default function Files() {
               download
               style={{
                 textDecoration: "none",
+                paddingLeft: "15px",
               }}
             >
               <Button
@@ -279,7 +279,6 @@ export default function Files() {
               style={{
                 width: "100%",
                 textAlign: "justify",
-                paddingRight: "15px",
               }}
             >
               {t("about:file-bad-format")}
@@ -290,6 +289,7 @@ export default function Files() {
               download
               style={{
                 textDecoration: "none",
+                paddingLeft: "15px",
               }}
             >
               <Button
@@ -328,7 +328,6 @@ export default function Files() {
               style={{
                 width: "100%",
                 textAlign: "justify",
-                paddingRight: "15px",
               }}
             >
               {t("about:file-bad-format")}
@@ -339,6 +338,7 @@ export default function Files() {
               download
               style={{
                 textDecoration: "none",
+                paddingLeft: "15px",
               }}
             >
               <Button

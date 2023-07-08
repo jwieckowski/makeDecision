@@ -17,7 +17,7 @@ const Image = ({ src, alt, width, height }: ImageProps) => {
   const onLoaded = () => {
     setTimeout(() => {
       setLoading(false);
-    }, 1000);
+    }, 250);
   };
   return (
     <div>

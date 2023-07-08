@@ -11,6 +11,7 @@ type ButtonProps = {
   style?: any;
   textStyle?: any;
   disabled?: boolean;
+  classes?: string;
 };
 
 export default function MyButton({
@@ -20,12 +21,15 @@ export default function MyButton({
   style,
   textStyle,
   disabled,
+  classes,
 }: ButtonProps) {
   return (
     <Button
       size="lg"
       onClick={onClick}
-      className="d-flex justify-content-center align-items-center"
+      className={`d-flex justify-content-center align-items-center ${
+        classes ? classes : ""
+      }`}
       style={style ? { ...style } : { ...globalStyles.buttonPrimary }}
       disabled={disabled ? disabled : false}
     >

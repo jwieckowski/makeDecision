@@ -56,5 +56,22 @@
   "tooltip-calculate": "Oblicz wyniki dla zaprojektowanego modelu",
   "example": "Przykład",
   "methods-loading-error": "Wystąpił błąd przy pobieraniu opisów metod",
-  "try-again-later": "Spróbuj ponownie później"
+  "try-again-later": "Spróbuj ponownie później",
+
+  "tutorial": "Samouczek",
+  "tutorial-step-1": "Witamy w samouczku. To jest obszar roboczy, który umożliwia tworzenie struktur modeli decyzyjnych",
+  "tutorial-step-2": "Panel boczny zawiera funkcjonalności, które można użyć przy prototypowaniu",
+  "tutorial-step-3": "Ten obszar pozwala na wywoływanie dostępnych akcji",
+  "tutorial-step-4": "Ustawienia parametrów strzałek umożliwiają modyfikacje ich wyglądu",
+  "tutorial-step-5": "Lista zawiera funkcjonalności dostępne przy projektowaniu modeli decyzyjnych",
+  "tutorial-step-6": "Kliknij na element z listy, by dodać go do obszaru roboczego",
+  "tutorial-step-7": "Nowo dodane elementy będą pojawiać się w tym miejscu w postaci bloków",
+  "tutorial-step-8": "Kliknij na kolejny element z listy, by dodać go do obszaru roboczego",
+  "tutorial-step-9": "Naciśnij na blok, żeby go zaznaczyć",
+  "tutorial-step-10": "Naciśnij na blok, żeby stworzyć połączenie",
+  "tutorial-step-11": "Naciśnij na strzałkę, żeby usunąć połączenie",
+  "tutorial-step-12": "Potwierdź usunięcie",
+  "tutorial-step-13": "Po utworzeniu struktury modelu decyzyjnego, obliczenia zostaną wykonane zgodnie z użytymi funkcjonalnościami",
+  "tutorial-step-14": "Przykłady pokazujące wybrane możliwości tworzenia połączeń są pokazane w zakładce 'O aplikacji' w karcie 'Instrukcja działania' ",
+  "tutorial-step-15": "Życzymy udanego projektowania i efektywnego korzystania z aplikacji 😊"
 }

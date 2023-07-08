@@ -2,6 +2,7 @@ import React, { useState, useMemo } from "react";
 import { useSelector } from "react-redux";
 import Draggable from "react-draggable";
 import Container from "react-bootstrap/Container";
+import { useTour } from "@reactour/tour";
 
 import { XCircleFill, GearFill } from "react-bootstrap-icons";
 
@@ -26,7 +27,6 @@ import useBlocksConnection from "../../../../utilities/connections";
 // STYLES
 import blockStyles from "./Draggable.styles";
 import globalStyles from "../../../../common/globalStyles";
-import { getBlocksOfType } from "../../../../utilities/blocks";
 
 type DraggableProps = {
   id: string;
@@ -64,6 +64,7 @@ export default function MyDraggable({
   const [hoverSettings, setHoverSettings] = useState<boolean>(false);
   const [hoverDelete, setHoverDelete] = useState<boolean>(false);
 
+  const { isOpen, currentStep } = useTour();
   const dispatch = useAppDispatch();
   const { getMethodsConnectedBlocksExtensions } = useBlocksConnection();
 
@@ -148,7 +149,12 @@ export default function MyDraggable({
   };
 
   return (
-    <Draggable onDrag={drag} onStop={stop} scale={scale}>
+    <Draggable
+      onDrag={drag}
+      onStop={stop}
+      scale={scale}
+      defaultPosition={id === "2" && isOpen ? { x: 240, y: 0 } : { x: 0, y: 0 }}
+    >
       <Container
         id={id}
         style={{
@@ -159,6 +165,13 @@ export default function MyDraggable({
           ...styles,
         }}
         onClick={(e) => handleClick(e, id, type, method)}
+        className={`${
+          id === "1"
+            ? currentStep === 6
+              ? "tour-step-seven"
+              : "tour-step-nine"
+            : ""
+        } ${id === "2" ? "tour-step-ten" : ""}`}
       >
         <Container
           fluid

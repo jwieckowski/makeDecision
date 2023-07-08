@@ -1,14 +1,13 @@
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
-
+import { useTour } from "@reactour/tour";
 import Container from "react-bootstrap/Container";
 
 // REDUX
 import { RootState } from "../../redux";
 
 // COMPONENTS
-import Loader from "../../components/Loader";
 import DragStory from "./DragStory";
 import Results from "./Results";
 import MethodDrawer from "./MethodDrawer";
@@ -20,11 +19,16 @@ import { NAV_HEIGHT } from "../../common/const";
 import globalStyles, { colors } from "../../common/globalStyles";
 
 export default function CalculationPage() {
-  const { results, loading, error } = useSelector(
-    (state: RootState) => state.calculation
-  );
+  const { results } = useSelector((state: RootState) => state.calculation);
+
+  const { setIsOpen } = useTour();
 
   const { t } = useTranslation();
+
+  useEffect(() => {
+    if (window.localStorage.getItem("tour")) return;
+    setIsOpen(true);
+  }, []);
 
   useEffect(() => {
     if (results === null) return;
@@ -33,16 +37,6 @@ export default function CalculationPage() {
       element.scrollIntoView({ behavior: "smooth" });
     }
   }, [results]);
-
-  // let content = (
-  //   <Container
-  //     fluid
-  //     className="d-flex justify-content-center align-items-center"
-  //     style={{ height: `calc(100vh - ${NAV_HEIGHT}px)` }}
-  //   >
-  //     <Loader />
-  //   </Container>
-  // );
 
   return (
     <Container
@@ -56,6 +50,7 @@ export default function CalculationPage() {
         display: "flex",
         flexDirection: "column",
       }}
+      className="tour-step-fourteen"
     >
       {/* BIG SCREEN CONTAINER */}
       <div className="d-none d-md-flex flex-column">

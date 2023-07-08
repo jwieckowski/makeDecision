@@ -58,5 +58,22 @@
   "tooltip-calculate": "Calculate results for the designed model",
   "example": "Example",
   "methods-loading-error": "Error occurs when downloading method descriptions",
-  "try-again-later": "Try again later"
+  "try-again-later": "Try again later",
+
+  "tutorial": "Guide",
+  "tutorial-step-1": "Welcome to the guide. This is the workspace that enables you to structure your decision-making models",
+  "tutorial-step-2": "The side panel contains functionalities that can be used for prototyping",
+  "tutorial-step-3": "This area allows you to invoke the available actions",
+  "tutorial-step-4": "The arrow parameter settings allow you to modify their appearance",
+  "tutorial-step-5": "The list includes functionalities available for the design of decision-making models",
+  "tutorial-step-6": "Click on an item in the list to add it to the workspace",
+  "tutorial-step-7": "Newly added elements will appear here as blocks",
+  "tutorial-step-8": "Click on the next item in the list to add it to the workspace",
+  "tutorial-step-9": "Tap a block to select it",
+  "tutorial-step-10": "Tap the block to create a connection",
+  "tutorial-step-11": "Press the arrow to delete the connection",
+  "tutorial-step-12": "Confirm delete",
+  "tutorial-step-13": "Once the structure of the decision model has been created, calculations will be performed according to the functionalities used",
+  "tutorial-step-14": "Examples showing selected possibilities for creating structures are shown in the 'About' tab in section 'Instructions'. ",
+  "tutorial-step-15": "We wish you a successful design and efficient use of the application 😊"
 }

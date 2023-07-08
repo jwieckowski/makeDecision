@@ -38,7 +38,7 @@ export default function DragSettings() {
 
   return (
     <Container
-      className="d-flex flex-column gap-1"
+      className="d-flex flex-column gap-1 tour-step-four"
       style={{ ...globalStyles.settingsWrapper }}
     >
       <Container className="d-flex gap-1 p-0 m-0">

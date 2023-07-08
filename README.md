@@ -71,4 +71,5 @@ Based on `pymcdm` and `pyfdm` packages which handles the calculations, the GUI c
 ### Get started
 
 [GUI application](https://jwieckowski.github.io/gui/)
+
 [Server documentation](https://jwieckowski.pythonanywhere.com/api/v1/documentation)

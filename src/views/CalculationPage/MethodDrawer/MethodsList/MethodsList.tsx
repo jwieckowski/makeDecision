@@ -2,6 +2,7 @@ import React, { useMemo, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import ListGroup from "react-bootstrap/ListGroup";
+import { useTour } from "@reactour/tour";
 
 // REDUX
 import { RootState, useAppDispatch } from "../../../../redux";
@@ -32,15 +33,60 @@ import globalStyles from "../../../../common/globalStyles";
 
 export default function MethodsList() {
   const dispatch = useAppDispatch();
+  const { blocks } = useSelector((state: RootState) => state.blocks);
   const { query } = useSelector((state: RootState) => state.search);
   const { allMethods } = useSelector((state: RootState) => state.dictionary);
   const { t } = useTranslation();
   const { locale } = useLocale();
+  const { isOpen, currentStep, setCurrentStep } = useTour();
+
+  const fetchData = async () => {
+    await dispatch(fetchAllMethods(locale));
+  };
 
   useEffect(() => {
     if (locale === "") return;
-    if (allMethods.length === 0) dispatch(fetchAllMethods(locale));
+    if (allMethods.length === 0) fetchData();
   }, [locale]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    if (currentStep !== 6 && currentStep !== 8) return;
+    if (
+      (currentStep === 6 && blocks.length > 0) ||
+      (currentStep === 8 && blocks.length > 1)
+    )
+      return;
+
+    const index = currentStep === 6 ? 0 : 1;
+    const { key, label, inputConnections, outputConnections } =
+      allMethods[index];
+    const { name, label: methodLabel } = allMethods[index].data[0];
+    const block = {
+      type: key.includes("matrix")
+        ? key.split(" ")[1].toLowerCase()
+        : key.toLowerCase(),
+      typeLabel: label.toLocaleLowerCase(),
+      method: name.toLowerCase(),
+      label: methodLabel.toLowerCase(),
+      inputConnections,
+      outputConnections,
+      data: {
+        matrix: [],
+        matrixFile: [],
+        fileName: null,
+        randomMatrix: [],
+        types: [],
+        weights: [],
+        extension: "crisp",
+        additionals: [],
+        alternatives: DEFAULT_ALTERNATIVES,
+        criteria: DEFAULT_CRITERIA,
+        styles: null,
+      },
+    };
+    dispatch(addBlock(block));
+  }, [currentStep]);
 
   function handleMethodItemClick(
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -77,6 +123,8 @@ export default function MethodsList() {
       },
     };
     dispatch(addBlock(block));
+
+    if (isOpen) setCurrentStep((prev) => prev + 1);
   }
 
   const filteredData: [] | AllMethodsItem[] = useMemo(() => {
@@ -109,6 +157,7 @@ export default function MethodsList() {
         height: `${METHODS_LIST_HEIGHT}px`,
         overflowY: "scroll",
       }}
+      className="tour-step-five"
     >
       {filteredData.map((methods, index) => {
         return (

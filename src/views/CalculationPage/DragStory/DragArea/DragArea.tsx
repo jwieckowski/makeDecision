@@ -4,6 +4,8 @@ import { useSnackbar } from "notistack";
 import Xarrow, { useXarrow } from "react-xarrows";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import { Container } from "react-bootstrap";
+import { useTour } from "@reactour/tour";
+import { QuestionCircle } from "react-bootstrap-icons";
 
 // REDUX
 import { RootState, useAppDispatch } from "../../../../redux";
@@ -18,12 +20,14 @@ import {
   setConnectionToDelete,
   deleteClickedBlock,
   deleteConnection,
+  setBlocks,
 } from "../../../../redux/slices/blocksSlice";
 
 // COMPONENTS
 import Draggable from "../Draggable";
 import ScaleSettings from "./ScaleSettings";
 import Modal from "../../../../components/Modal";
+import IconButton from "../../../../components/IconButton";
 
 // CONST
 import {
@@ -57,6 +61,7 @@ export default function DragArea() {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [modalType, setModalType] = useState<string>("");
 
+  const { isOpen, currentStep, setCurrentStep, setIsOpen } = useTour();
   const { addBlockConnection, checkForWrongExtensionMethodConnection } =
     useBlocksConnection();
   const updateXarrow = useXarrow();
@@ -109,6 +114,32 @@ export default function DragArea() {
     });
   }, [error]);
 
+  useEffect(() => {
+    if (!isOpen) return;
+    if (currentStep === 10 && connections.length === 0) {
+      dispatch(setClickedBlocks(["1", "2"]));
+      addBlockConnection();
+    }
+    if (currentStep === 11) {
+      setModalOpen(true);
+      setModalType("connection");
+      dispatch(setConnectionToDelete(["1", "2"]));
+    }
+
+    if (currentStep === 12 && connections.length > 0) {
+      dispatch(deleteConnection(["1", "2"]));
+      handleModalClose();
+    } else if (currentStep === 12) {
+      handleModalClose();
+    }
+  }, [currentStep]);
+
+  useEffect(() => {
+    if (!isOpen && blocks.length > 0) {
+      dispatch(setBlocks([]));
+    }
+  }, [isOpen]);
+
   const handleModalClose = () => {
     setModalOpen(false);
   };
@@ -123,11 +154,18 @@ export default function DragArea() {
     setModalOpen(true);
     setModalType("connection");
     dispatch(setConnectionToDelete(c));
+
+    if (isOpen)
+      setTimeout(() => {
+        setCurrentStep((prev) => prev + 1);
+      }, 300);
   };
 
   const deleteBlockConnection = () => {
     dispatch(deleteConnection(connectionToDelete));
     handleModalClose();
+
+    if (isOpen) setCurrentStep((prev) => prev + 1);
   };
 
   const handleDraggableClick = (
@@ -162,6 +200,8 @@ export default function DragArea() {
         );
       }
     });
+
+    if (isOpen) setCurrentStep((prev) => prev + 1);
   };
 
   const onDrag = () => {
@@ -176,7 +216,7 @@ export default function DragArea() {
   return (
     <Container
       fluid
-      className="d-flex flex-column justify-content-center align-items-center m-0 p-0"
+      className="d-flex flex-column justify-content-center align-items-center m-0 p-0 tour-step-one"
       style={{
         position: "relative",
         cursor: "pointer",
@@ -242,6 +282,7 @@ export default function DragArea() {
                 passProps={{
                   cursor: "pointer",
                   onClick: () => handleArrowClick(c),
+                  className: `${cIdx === 0 ? "tour-step-eleven" : ""}`,
                 }}
                 zIndex={-1}
                 animateDrawing={0.3}
@@ -250,6 +291,15 @@ export default function DragArea() {
           })}
         </TransformComponent>
       </TransformWrapper>
+      <div
+        style={{ width: "100%", textAlign: "end" }}
+        onClick={() => {
+          setCurrentStep(0);
+          setIsOpen(true);
+        }}
+      >
+        {t("common:tutorial")}
+      </div>
       <Modal
         show={modalOpen}
         content={modalType}

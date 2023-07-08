@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import Container from "react-bootstrap/Container";
 import { Save, Trash3, PlayCircleFill } from "react-bootstrap-icons";
+import { useTour } from "@reactour/tour";
 
 // REDUX
 import { RootState, useAppDispatch } from "../../../../redux";
@@ -94,7 +95,7 @@ export default function ActionButtons() {
 
   return (
     <Container
-      className="d-flex flex-column p-0 m-0"
+      className="d-flex flex-column p-0 m-0 tour-step-three"
       style={{
         ...globalStyles.actionButtonsWrapper,
       }}

@@ -29,6 +29,7 @@ export default function Language() {
     i18n.changeLanguage(event.target.value);
     setLang(event.target.value as string);
     window.localStorage.setItem("locale", event.target.value as string);
+    window.location.reload();
 
     // reload application
     await dispatch(getMethodsDescriptions(event.target.value as string));
