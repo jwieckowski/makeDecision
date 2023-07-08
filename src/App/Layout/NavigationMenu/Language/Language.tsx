@@ -17,7 +17,7 @@ import Select from "../../../../components/Select";
 import { getUpdatedBlocksLanguage } from "../../../../utilities/blocks";
 
 // CONST
-import { LANGUAGES } from "../../../../common/const";
+import { APP_URL, LANGUAGES } from "../../../../common/const";
 
 export default function Language() {
   const { blocks } = useSelector((state: RootState) => state.blocks);
@@ -29,7 +29,8 @@ export default function Language() {
     i18n.changeLanguage(event.target.value);
     setLang(event.target.value as string);
     window.localStorage.setItem("locale", event.target.value as string);
-    window.location.reload();
+    // window.location.reload();
+    window.location.replace(APP_URL);
 
     // reload application
     await dispatch(getMethodsDescriptions(event.target.value as string));
