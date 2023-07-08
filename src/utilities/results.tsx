@@ -96,11 +96,10 @@ export const getTableRankingsData = (rankings: ResultsMethodRankings[]) => {
 export const getTableRankingHeaders = (rankings: ResultsMethodRankings[]) => {
   return rankings.map((rank, idx) => {
     return rank.ranking.map((r, i) => `A${i + 1}`);
-  });
+  })[0];
 };
 
 export const getTableRankingLabels = (rankings: ResultsMethodRankings[]) => {
-  console.log(rankings);
   return rankings.map((rank, idx) => {
     return `${rank.methods.method.toUpperCase()} ${rank.methods.weights.toUpperCase()}`;
   });
@@ -120,7 +119,6 @@ export const getTablePreferenceCorrelationData = (
 export const getTablePreferenceCorrelationLabels = (
   corr: ResultsMethodCorrelations
 ) => {
-  console.log(corr);
   return corr.methods.map(
     (m) => `${m.method.toUpperCase()} ${m.weights.toUpperCase()}`
   );

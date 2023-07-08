@@ -35,9 +35,9 @@ export default function NavigationMenu() {
   ];
   return (
     <Navbar
-      key="md"
+      key="lg"
       // bg="secondary"
-      expand="md"
+      expand="lg"
       className="w-100"
       style={{ height: `${NAV_HEIGHT}px`, ...globalStyles.navbar }}
     >

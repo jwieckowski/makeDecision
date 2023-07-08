@@ -19,6 +19,9 @@ import { NAV_HEIGHT } from "../../common/const";
 import globalStyles, { colors } from "../../common/globalStyles";
 
 export default function CalculationPage() {
+  const { allMethods, loading } = useSelector(
+    (state: RootState) => state.dictionary
+  );
   const { results } = useSelector((state: RootState) => state.calculation);
 
   const { setIsOpen } = useTour();
@@ -26,9 +29,14 @@ export default function CalculationPage() {
   const { t } = useTranslation();
 
   useEffect(() => {
-    if (window.localStorage.getItem("tour")) return;
+    if (
+      window.localStorage.getItem("tour") ||
+      loading ||
+      allMethods.length === 0
+    )
+      return;
     setIsOpen(true);
-  }, []);
+  }, [allMethods]);
 
   useEffect(() => {
     if (results === null) return;

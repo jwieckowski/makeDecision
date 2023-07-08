@@ -1,4 +1,5 @@
 export const BASE_URL = "https://jwieckowski.pythonanywhere.com";
+export const APP_URL = "https://jwieckowski.github.io/gui";
 
 export const APP_NAME_PATH = "gui";
 

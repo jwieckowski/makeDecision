@@ -30,7 +30,6 @@ export default function Matrix({
   extension,
   onChange,
 }: MatrixProps) {
-  console.log(matrix);
   return (
     <Container
       fluid

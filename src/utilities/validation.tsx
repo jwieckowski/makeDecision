@@ -58,10 +58,12 @@ const useValidation = () => {
   };
 
   const validateUploadedMatrix = (block: BlockType, id: number) => {
+    if (block.method !== "file") return true;
     if (
-      block.method === "file" &&
-      Array.isArray(block.data.matrix) &&
-      block.data.matrix.length === 0
+      (Array.isArray(block.data.matrix) && block.data.matrix.length === 0) ||
+      block.data.matrix
+        .map((r: number[]) => r.some((item) => item === 0) === true)
+        .some((r: boolean) => r === true) === true
     ) {
       showSnackbar(t("snackbar:empty-uploaded-matrix", { id }), "error");
       return false;

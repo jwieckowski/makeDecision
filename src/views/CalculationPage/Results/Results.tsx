@@ -150,7 +150,7 @@ export default function Results() {
                 <Table
                   key={`ranking-table-${idx}-${i}`}
                   data={getTableRankingsData(ranking)}
-                  headers={getTableRankingHeaders(ranking)[i]}
+                  headers={getTableRankingHeaders(ranking)}
                   labels={getTableRankingLabels(ranking)}
                   style={globalStyles.resultsTableWrapper}
                   title={getTableTitle(

@@ -23,6 +23,7 @@ import {
   FUZZY_JSON_FILE,
   CRISP_XLSX_FILE,
   FUZZY_XLSX_FILE,
+  APP_URL,
 } from "../../../common/const";
 
 // STYLES
@@ -86,7 +87,7 @@ export default function Files() {
               {t("about:file-bad-format")}
             </div>
             <Link
-              to={`/examples/${CRISP_JSON_FILE}`}
+              to={`${APP_URL}/examples/${CRISP_JSON_FILE}`}
               target="_blank"
               download
               style={{
@@ -135,7 +136,7 @@ export default function Files() {
               {t("about:file-bad-format")}
             </div>
             <Link
-              to={`/examples/${FUZZY_JSON_FILE}`}
+              to={`${APP_URL}/examples/${FUZZY_JSON_FILE}`}
               target="_blank"
               download
               style={{
@@ -185,7 +186,7 @@ export default function Files() {
               {t("about:file-bad-format")}
             </div>
             <Link
-              to={`/examples/${CRISP_CSV_FILE}`}
+              to={`${APP_URL}/examples/${CRISP_CSV_FILE}`}
               target="_blank"
               download
               style={{
@@ -234,7 +235,7 @@ export default function Files() {
               {t("about:file-bad-format")}
             </div>
             <Link
-              to={`/examples/${FUZZY_CSV_FILE}`}
+              to={`${APP_URL}/examples/${FUZZY_CSV_FILE}`}
               target="_blank"
               download
               style={{
@@ -284,7 +285,7 @@ export default function Files() {
               {t("about:file-bad-format")}
             </div>
             <Link
-              to={`/examples/${CRISP_XLSX_FILE}`}
+              to={`${APP_URL}/examples/${CRISP_XLSX_FILE}`}
               target="_blank"
               download
               style={{
@@ -333,7 +334,7 @@ export default function Files() {
               {t("about:file-bad-format")}
             </div>
             <Link
-              to={`/examples/${FUZZY_XLSX_FILE}`}
+              to={`${APP_URL}/examples/${FUZZY_XLSX_FILE}`}
               target="_blank"
               download
               style={{
