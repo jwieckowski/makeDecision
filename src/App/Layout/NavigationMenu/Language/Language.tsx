@@ -33,6 +33,7 @@ export default function Language() {
     window.localStorage.setItem("locale", event.target.value as string);
 
     if (window.location.pathname === `/${APP_NAME_PATH}/calculation`) {
+      navigate(`/${APP_NAME_PATH}/`);
       navigate(0);
     }
 
