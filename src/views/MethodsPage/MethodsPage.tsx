@@ -22,6 +22,7 @@ import { NAV_HEIGHT } from "../../common/const";
 
 // STYLES
 import globalStyles, { colors } from "../../common/globalStyles";
+import styles from "./MethodsPage.styles";
 
 export default function MethodsPage() {
   const { methods, loading, error } = useSelector((state: RootState) => ({
@@ -61,15 +62,8 @@ export default function MethodsPage() {
   return methods.length > 0 ? (
     <Container
       fluid
-      style={{
-        margin: 0,
-        padding: 0,
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "start",
-        alignItems: "center",
-        minWidth: "800px",
-      }}
+      className="d-flex flex-column justify-content-start align-items-center m-0 p-0"
+      style={styles.minWidthWrapper}
     >
       {/* GROUP NAV ITEMS */}
       <Nav
@@ -78,23 +72,16 @@ export default function MethodsPage() {
         variant="tabs"
         activeKey={groupIndex}
         onSelect={(eventKey) => setGroupIndex(eventKey ? +eventKey : 0)}
-        style={{ height: "70px", marginTop: "50px" }}
+        style={{ ...globalStyles.mt50, ...globalStyles.tabHeight }}
       >
         {methods.map((method, idx) => {
           return (
-            <Nav.Item
-              key={method.id}
-              style={{
-                height: "100%",
-              }}
-            >
+            <Nav.Item key={method.id} style={globalStyles.h100}>
               <Nav.Link
                 eventKey={idx}
+                className="d-flex justify-content-center align-items-center"
                 style={{
-                  height: "100%",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
+                  ...globalStyles.h100,
                   backgroundColor:
                     idx === groupIndex ? colors.darkBackground : "",
                   color: idx === groupIndex ? colors.light : colors.dark,
@@ -113,24 +100,16 @@ export default function MethodsPage() {
         variant="tabs"
         activeKey={methodIndex}
         onSelect={(eventKey) => setMethodIndex(eventKey ? +eventKey : 0)}
-        style={{ height: "70px" }}
+        style={globalStyles.tabHeight}
       >
         {methods[groupIndex].data.map((method, idx) => {
           return (
-            <Nav.Item
-              key={method.id}
-              style={{
-                height: "100%",
-                width: "100%",
-              }}
-            >
+            <Nav.Item key={method.id} style={styles.tabItem}>
               <Nav.Link
                 eventKey={idx}
+                className="d-flex justify-content-center align-items-center"
                 style={{
-                  height: "100%",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
+                  ...globalStyles.h100,
                   backgroundColor:
                     idx === methodIndex ? colors.darkBackground : "",
                   color: idx === methodIndex ? colors.light : colors.dark,
@@ -150,14 +129,8 @@ export default function MethodsPage() {
         >
           {methods[groupIndex].data[methodIndex].description.map((text) => {
             return (
-              <div style={{ width: "100%", margin: "5px 0", display: "flex" }}>
-                <div
-                  style={{
-                    width: "5px",
-                    height: "100%",
-                    backgroundColor: "yellow",
-                  }}
-                ></div>
+              <div style={styles.textItemWrapper}>
+                <div style={styles.textItemBorder}></div>
                 <MarkdownText text={text.text} key={`text-${text.id}`} />
               </div>
             );

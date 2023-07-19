@@ -50,30 +50,31 @@ export default function Instruction() {
           gap={3}
           className="w-100 d-flex justify-content-center align-items-center pb-5"
         >
-          <div style={{ width: "100%", textAlign: "justify" }}>
+          <div style={{ ...globalStyles.w100, textAlign: "justify" }}>
             {t("about:instructions-text-1")}
           </div>
 
-          <div style={{ ...globalStyles.subheading, width: "100%" }}>
+          <div style={{ ...globalStyles.subheading, ...globalStyles.w100 }}>
             {t("about:connections-structure").toUpperCase()}
           </div>
 
-          <div style={{ width: "100%", textAlign: "justify" }}>
+          <div style={{ ...globalStyles.w100, textAlign: "justify" }}>
             {t("about:connections-structure-text-1")}
           </div>
 
-          <div style={{ width: "100%", textAlign: "justify" }}>
+          <div style={{ ...globalStyles.w100, textAlign: "justify" }}>
             {t("about:connections-structure-text-2")}
           </div>
 
-          <div style={{ width: "100%", textAlign: "justify" }}>
+          <div style={{ ...globalStyles.w100, textAlign: "justify" }}>
             {t("about:connections-structure-text-3")}
           </div>
 
           <Image
             src={locale === "en" ? fc1_EN : fc1_PL}
             alt={t("home:fig-alt-app-flow")}
-            height={500}
+            width={500}
+            maxWidth={"100%"}
           />
         </Stack>
 
@@ -82,22 +83,23 @@ export default function Instruction() {
           gap={3}
           className="w-100 d-flex justify-content-center align-items-center pb-5"
         >
-          <div style={{ ...globalStyles.subheading, width: "100%" }}>
+          <div style={{ ...globalStyles.subheading, ...globalStyles.w100 }}>
             {t("about:basic-structure").toUpperCase()}
           </div>
 
-          <div style={{ width: "100%", textAlign: "justify" }}>
+          <div style={{ ...globalStyles.w100, textAlign: "justify" }}>
             {t("about:basic-structure-text-1")}
           </div>
 
-          <div style={{ width: "100%", textAlign: "justify" }}>
+          <div style={{ ...globalStyles.w100, textAlign: "justify" }}>
             {t("about:basic-structure-text-2")}
           </div>
 
           <Image
             src={locale === "en" ? structure1_EN : structure1_PL}
             alt={t("home:fig-alt-app-flow")}
-            height={500}
+            width={800}
+            maxWidth={"100%"}
           />
         </Stack>
 
@@ -106,18 +108,19 @@ export default function Instruction() {
           gap={3}
           className="w-100 d-flex justify-content-center align-items-center pb-5"
         >
-          <div style={{ ...globalStyles.subheading, width: "100%" }}>
+          <div style={{ ...globalStyles.subheading, ...globalStyles.w100 }}>
             {t("about:multiple-mcda-structure").toUpperCase()}
           </div>
 
-          <div style={{ width: "100%", textAlign: "justify" }}>
+          <div style={{ ...globalStyles.w100, textAlign: "justify" }}>
             {t("about:multiple-mcda-structure-text-1")}
           </div>
 
           <Image
             src={locale === "en" ? structure2_EN : structure2_PL}
             alt={t("home:fig-alt-app-flow")}
-            height={500}
+            width={800}
+            maxWidth={"100%"}
           />
         </Stack>
 
@@ -126,18 +129,19 @@ export default function Instruction() {
           gap={3}
           className="w-100 d-flex justify-content-center align-items-center pb-5"
         >
-          <div style={{ ...globalStyles.subheading, width: "100%" }}>
+          <div style={{ ...globalStyles.subheading, ...globalStyles.w100 }}>
             {t("about:multiple-weights-structure").toUpperCase()}
           </div>
 
-          <div style={{ width: "100%", textAlign: "justify" }}>
+          <div style={{ ...globalStyles.w100, textAlign: "justify" }}>
             {t("about:multiple-weights-structure-text-1")}
           </div>
 
           <Image
             src={locale === "en" ? structure3_EN : structure3_PL}
             alt={t("home:fig-alt-app-flow")}
-            height={500}
+            width={800}
+            maxWidth={"100%"}
           />
         </Stack>
 
@@ -146,41 +150,42 @@ export default function Instruction() {
           gap={3}
           className="w-100 d-flex justify-content-center align-items-center pb-5"
         >
-          <div style={{ ...globalStyles.subheading, width: "100%" }}>
+          <div style={{ ...globalStyles.subheading, ...globalStyles.w100 }}>
             {t("about:complex-structure").toUpperCase()}
           </div>
 
-          <div style={{ width: "100%", textAlign: "justify" }}>
+          <div style={{ ...globalStyles.w100, textAlign: "justify" }}>
             {t("about:complex-structure-text-1")}
           </div>
 
-          <div style={{ width: "100%", textAlign: "justify" }}>
+          <div style={{ ...globalStyles.w100, textAlign: "justify" }}>
             {t("about:complex-structure-text-2")}
           </div>
 
           <Image
             src={locale === "en" ? structure4_EN : structure4_PL}
             alt={t("home:fig-alt-app-flow")}
-            height={500}
+            width={800}
+            maxWidth={"100%"}
           />
 
-          <div style={{ width: "100%", textAlign: "justify" }}>
+          <div style={{ ...globalStyles.w100, textAlign: "justify" }}>
             {t("about:complex-structure-text-3")}
           </div>
 
-          <div style={{ width: "100%", textAlign: "justify" }}>
+          <div style={{ ...globalStyles.w100, textAlign: "justify" }}>
             {t("about:complex-structure-text-4")}
           </div>
         </Stack>
 
-        <div style={{ width: "100%", textAlign: "justify" }}>
+        <div style={{ ...globalStyles.w100, textAlign: "justify" }}>
           {t("about:application-tutorial")}
         </div>
 
         <Button
           text={t("home:home-button-calculation")}
           onClick={() => navigate(`/${APP_NAME_PATH}/calculation`)}
-          style={{ ...globalStyles.buttonInfo, width: "200px" }}
+          style={{ ...globalStyles.buttonInfo, ...globalStyles.w200 }}
         />
       </Stack>
     </Container>

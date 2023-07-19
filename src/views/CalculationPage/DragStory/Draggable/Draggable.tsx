@@ -23,6 +23,7 @@ import {
   getMethodData,
 } from "../../../../utilities/filtering";
 import useBlocksConnection from "../../../../utilities/connections";
+import { convertTextLength } from "../../../../utilities/formatting";
 
 // STYLES
 import blockStyles from "./Draggable.styles";
@@ -177,7 +178,7 @@ export default function MyDraggable({
           fluid
           className="p-0 m-0 d-flex pt-1 justify-content-between align-items-center"
         >
-          <Container className="d-flex" style={{ fontSize: "12px" }}>
+          <Container className="d-flex" style={{ fontSize: "10px" }}>
             ID {id}
           </Container>
           <Container className="d-flex justify-content-end gap-1 pe-1">
@@ -209,7 +210,7 @@ export default function MyDraggable({
         >
           <div
             style={{
-              fontSize: "14px",
+              fontSize: "11px",
               fontWeight: "bold",
               textAlign: "center",
             }}
@@ -220,18 +221,20 @@ export default function MyDraggable({
         </Container>
         <Container fluid className="p-1 m-0">
           {type.toLowerCase() === "matrix" &&
-            method.toLowerCase() === "file" &&
-            blocks.filter((b) => b._id === +id).length > 0 &&
-            blocks.filter((b) => b._id === +id)[0].data.fileName !== null && (
-              <div
-                style={{
-                  textAlign: "center",
-                  fontSize: "10px",
-                }}
-              >
-                {blocks.filter((b) => b._id === +id)[0].data.fileName}
-              </div>
-            )}
+          method.toLowerCase() === "file" &&
+          blocks.filter((b) => b._id === +id).length > 0 &&
+          blocks.filter((b) => b._id === +id)[0].data.fileName !== null ? (
+            <div
+              style={{
+                textAlign: "center",
+                fontSize: "8px",
+              }}
+            >
+              {convertTextLength(
+                blocks.filter((b) => b._id === +id)[0].data.fileName
+              )}
+            </div>
+          ) : null}
         </Container>
       </Container>
     </Draggable>

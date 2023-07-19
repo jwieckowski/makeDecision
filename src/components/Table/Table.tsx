@@ -4,6 +4,7 @@ import Container from "react-bootstrap/Container";
 
 // STYLES
 import globalStyles from "../../common/globalStyles";
+import styles from "./Table.styles";
 
 type TableProps = {
   data: (number | string)[][];
@@ -31,13 +32,20 @@ export default function MyTable({
       <Table responsive style={style ? style : null} striped hover>
         <thead>
           <tr>
-            <th style={{ fontWeight: "bold" }}>{title ? title : null}</th>
+            <th style={styles.title}>{title ? title : null}</th>
             {Array.from({ length: data[0]?.length ? data[0].length : 0 }).map(
               (_, index) => (
-                <th key={index} style={{ textAlign: "center" }}>
+                <th
+                  key={index}
+                  style={{ ...styles.header, textAlign: "center" }}
+                >
                   {headers[index].split(" | ").map((item, idx) => {
                     return (
-                      <div style={{ fontSize: idx === 0 ? 16 : 12 }}>
+                      <div
+                        style={{
+                          fontSize: idx === 0 ? 14 : 10,
+                        }}
+                      >
                         {item}
                       </div>
                     );
@@ -51,10 +59,10 @@ export default function MyTable({
           {data.map((row, colIdx) => {
             return (
               <tr>
-                <td style={{ fontWeight: "bold" }}>
+                <td style={styles.label}>
                   {labels[colIdx].split(" | ").map((item, idx) => {
                     return (
-                      <div style={{ fontSize: idx === 0 ? 16 : 12 }}>
+                      <div style={{ fontSize: idx === 0 ? 14 : 10 }}>
                         {item}
                       </div>
                     );
@@ -66,6 +74,7 @@ export default function MyTable({
                       key={rowIdx}
                       style={{
                         textAlign: "center",
+                        ...styles.item,
                       }}
                     >
                       {precision

@@ -129,6 +129,8 @@ const calculationSlice = createSlice({
       .addCase(
         getResults.rejected,
         (state: CalculationSliceState, action: PayloadAction<any>) => {
+          state.results = null;
+          state.filteredResults = null;
           state.error = action.payload.response.data.message;
           state.loading = false;
         }

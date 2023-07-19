@@ -15,6 +15,7 @@ import Tooltip from "../Tooltip";
 
 // STYLES
 import globalStyles from "../../common/globalStyles";
+import styles from "./UploadFile.styles";
 
 type UploadFileProps = {
   onUpload: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -35,36 +36,25 @@ export default function UploadFile({
       <Container fluid className="d-flex justify-content-end mb-1 gap-1">
         <Tooltip
           text={t("common:accepted-file-format-csv")}
-          element={
-            <FiletypeCsv style={{ fontSize: "24px", cursor: "pointer" }} />
-          }
+          element={<FiletypeCsv style={styles.icon} />}
         />
         <Tooltip
           text={t("common:accepted-file-format-json")}
-          element={
-            <FiletypeJson style={{ fontSize: "24px", cursor: "pointer" }} />
-          }
+          element={<FiletypeJson style={styles.icon} />}
         />
         <Tooltip
           text={t("common:accepted-file-format-xlsx")}
-          element={
-            <FiletypeXlsx style={{ fontSize: "24px", cursor: "pointer" }} />
-          }
+          element={<FiletypeXlsx style={styles.icon} />}
         />
         <Tooltip
           text={t("common:file-formatting-guide")}
-          element={
-            <QuestionCircle style={{ fontSize: "24px", cursor: "pointer" }} />
-          }
+          element={<QuestionCircle style={styles.icon} />}
         />
       </Container>
       <Form.Group
         className="mb-3"
         style={{
-          border: "2px solid #2AABDF",
-          backgroundColor: "rgba(42, 171, 223, 0.2)",
-          borderRadius: 10,
-          display: "flex",
+          ...styles.uploadForm,
           justifyContent: "center",
           alignItems: "center",
         }}
@@ -79,7 +69,7 @@ export default function UploadFile({
             htmlFor="upload-file"
           >
             {label}
-            <CloudArrowUpFill style={{ fontSize: "60px" }} />
+            <CloudArrowUpFill style={styles.uploadIcon} />
           </Form.Label>
         ) : null}
         <input

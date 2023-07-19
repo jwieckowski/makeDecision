@@ -1,5 +1,7 @@
-export const BASE_URL = "https://jwieckowski.pythonanywhere.com";
-export const APP_URL = "https://jwieckowski.github.io/gui";
+// export const BASE_URL = "https://jwieckowski.pythonanywhere.com";
+// export const APP_URL = "https://jwieckowski.github.io/gui";
+export const BASE_URL = "http://127.0.0.1:5000";
+export const APP_URL = "./";
 
 export const APP_NAME_PATH = "gui";
 
@@ -24,6 +26,9 @@ export const DRAWER_WIDTH = 20;
 export const MODAL_MIN_WIDTH = 400;
 export const MODAL_MAX_WIDTH = 700;
 export const MENU_ITEM_WIDTH = 140;
+
+export const DRAGGABLE_WIDTH = 110;
+export const DRAGGABLE_HEIGHT = 80;
 
 // CONTACT AND SOCIALS
 export const GITHUB_PROFILE_LABEL = "jwieckowski";

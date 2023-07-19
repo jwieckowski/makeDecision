@@ -195,6 +195,13 @@ const useValidation = () => {
     return true;
   };
 
+  // const validateWeightsMethodConnection = (
+  //   weights: [] | BlockType[],
+  //   connections: string[][]
+  // ) => {
+  //   weights.forEach((item) => {});
+  // };
+
   const validateMethodConnection = (block: [] | BlockType[][], id: number) => {
     if (block.length === 0) {
       showSnackbar(t("snackbar:no-mcda-method", { id: id }), "error");

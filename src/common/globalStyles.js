@@ -16,26 +16,95 @@ export const colors = {
 };
 
 const globalStyles = {
-  navbar: {
-    backgroundColor: colors.primary,
-    boxShadow: "0px 5px 5px 0px rgba(66, 68, 90, 1)",
-    fontFamily: "Helvetica Neue",
+  p0: {
+    padding: 0,
   },
-  logo: {
-    color: colors.light,
+  m0: {
+    margin: 0,
   },
-  menuItem: {
-    color: colors.gray,
+  h100: {
+    height: "100%",
   },
-  menuItemActive: {
-    color: colors.light,
+  mt25: {
+    marginTop: "25px",
+  },
+  mt50: {
+    marginTop: "50px",
+  },
+  mt100: {
+    marginTop: "100px",
+  },
+  mb25: {
+    marginBottom: "25px",
+  },
+  mb50: {
+    marginBottom: "50px",
+  },
+  mb100: {
+    marginBottom: "100px",
+  },
+  lh30: {
+    lineHeight: "30px",
+  },
+  w50: {
+    width: "50%",
+  },
+  w70: {
+    width: "70%",
+  },
+  w100: {
+    width: "100%",
+  },
+  w200: {
+    width: "200px",
+  },
+  noTextDecoration: {
+    textDecoration: "none",
+  },
+  cursorDefault: {
+    cursor: "default",
+  },
+  doiText: {
+    fontSize: "12px",
+    textDecoration: "none",
+    color: "grey",
+  },
+  font14: {
+    fontSize: "14px",
+  },
+  tabHeight: {
+    height: "70px",
+  },
+  layoutWrapper: {
+    maxWidth: "100vw",
+    minHeight: "100vh",
+    height: "100%",
+  },
+  contentWrapper: {
+    width: "100%",
+    height: "100%",
   },
   methodsDrawer: {
     padding: 0,
     margin: 0,
     backgroundColor: colors.light,
   },
-
+  calculationWrapper: {
+    width: "100%",
+    maxWidth: "100vw",
+    marginBottom: "200px",
+  },
+  calculationAreaWrapper: {
+    width: "100%",
+    maxWidth: "100vw",
+  },
+  smallCalculationWrapper: {
+    height: "70%",
+    width: "70%",
+    backgroundColor: colors.light,
+    borderRadius: 10,
+    boxShadow: "0px 5px 5px 3px rgba(66, 68, 90, 1)",
+  },
   actionButtonsWrapper: {
     display: "flex",
     width: "100%",
@@ -195,13 +264,8 @@ const globalStyles = {
     fontSize: "18px",
     fontWeight: "bold",
   },
-  contactWrapper: { width: "60%", marginTop: "50px" },
   contactLinksWrapper: {
     margin: "50px 0px",
-  },
-  contactAffiliationWrapper: {
-    margin: "55px 0px",
-    fontSize: "14px",
   },
   criteriaTypesWrapper: {
     display: "flex",
@@ -222,32 +286,6 @@ const globalStyles = {
   resultsTableWrapper: {
     width: "80%",
     margin: "0 10%",
-  },
-  footerWrapper: {
-    margin: 0,
-    padding: 0,
-    height: "150px",
-    width: "100%",
-    backgroundColor: colors.darkBackgroundFooter,
-    display: "flex",
-  },
-  footerSection: {
-    width: "35%",
-    height: "60%",
-    display: "flex",
-  },
-  footerLinkHeader: {
-    color: colors.light,
-  },
-  footerLinkItem: {
-    display: "flex",
-    gap: "10px",
-    alignItems: "center",
-    cursor: "pointer",
-    fontSize: "12px",
-  },
-  footerLinkIcon: {
-    fontSize: "20px",
   },
 };
 

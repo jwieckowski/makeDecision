@@ -169,10 +169,10 @@ export default function Method({ data }: MethodProps) {
             {metricsValues.length > 0 ? (
               <Container
                 fluid
-                className="d-flex gap-2 p-0 m-0 justify-content-center"
+                className="d-flex gap-2 p-0 m-0 my-3 justify-content-center"
               >
                 {items[idx]?.map((params, i) => {
-                  return (
+                  return Object.keys(metricsValues[idx][i]) ? (
                     <Select
                       key={`parameter-${idx}-${i}`}
                       label={metricNames[idx][i]}
@@ -188,7 +188,7 @@ export default function Method({ data }: MethodProps) {
                       }
                       onChange={(e) => handleMetricChange(e, idx, i)}
                     />
-                  );
+                  ) : null;
                 })}
               </Container>
             ) : null}

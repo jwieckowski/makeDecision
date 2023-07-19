@@ -5,9 +5,18 @@ type ImageProps = {
   alt: string;
   width?: number;
   height?: number;
+  maxHeight?: number | string;
+  maxWidth?: number | string;
 };
 
-const Image = ({ src, alt, width, height }: ImageProps) => {
+const Image = ({
+  src,
+  alt,
+  width,
+  height,
+  maxHeight,
+  maxWidth,
+}: ImageProps) => {
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -28,10 +37,12 @@ const Image = ({ src, alt, width, height }: ImageProps) => {
           width={width ? width : undefined}
           height={height ? height : undefined}
           style={{
-            objectFit: "contain",
             visibility: loading ? "hidden" : "visible",
             opacity: loading ? "0" : "1",
             transition: "opacity 300ms ease-in",
+            maxHeight: maxHeight ? maxHeight : "auto",
+            maxWidth: maxWidth ? maxWidth : "auto",
+            minWidth: "400px",
           }}
           onLoad={onLoaded}
         />

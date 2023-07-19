@@ -36,7 +36,7 @@ export default function MCDA() {
           {t("about:mcda-problems")}
         </div>
 
-        <div style={{ textAlign: "justify", lineHeight: "24px" }}>
+        <div style={{ textAlign: "justify" }}>
           {t("about:mcda-description-text-1")}
         </div>
 
@@ -47,7 +47,8 @@ export default function MCDA() {
         <Image
           src={locale === "en" ? fc1_EN : fc1_PL}
           alt={t("home:fig-alt-mcda-flow")}
-          height={400}
+          width={600}
+          maxWidth={"100%"}
         />
 
         <div style={{ textAlign: "justify" }}>
@@ -74,7 +75,8 @@ export default function MCDA() {
         <Image
           src={locale === "en" ? fc2_EN : fc2_PL}
           alt={t("home:fig-alt-app-flow")}
-          height={400}
+          width={800}
+          maxWidth={"100%"}
         />
 
         <div style={{ textAlign: "justify" }}>

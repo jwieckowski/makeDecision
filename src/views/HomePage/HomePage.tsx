@@ -32,42 +32,31 @@ export default function HomePage() {
     <Container
       fluid
       style={{
-        padding: 0,
-        margin: 0,
-        height: "100%",
+        ...globalStyles.p0,
+        ...globalStyles.m0,
+        ...globalStyles.h100,
       }}
       className="d-flex flex-column w-75 m-auto"
     >
-      <Container
-        style={{
-          marginTop: "50px",
-        }}
-      >
+      <Container style={globalStyles.mt50}>
         <div
+          className="text-center"
           style={{
             ...globalStyles.heading,
-            textAlign: "center",
-            marginBottom: "25px",
+            ...globalStyles.mb25,
           }}
         >
           {t("home:home-heading-1")}
         </div>
 
-        <Stack
-          gap={3}
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
+        <Stack gap={3} className="d-flex flex-column align-items-center">
           <div style={{ textAlign: "justify" }}>
             {t("home:home-text-mcda-1")}
           </div>
 
           <div style={{ textAlign: "justify" }}>
             {t("home:home-text-mcda-2")}
-            <ul style={{ lineHeight: "30px", marginTop: "20px" }}>
+            <ul style={{ ...globalStyles.lh30, ...globalStyles.mt25 }}>
               <li>{t("home:home-text-mcda-item-1")}</li>
               <li>{t("home:home-text-mcda-item-2")}</li>
               <li>{t("home:home-text-mcda-item-3")}</li>
@@ -75,15 +64,16 @@ export default function HomePage() {
             </ul>
           </div>
 
-          <div style={{ position: "relative" }}>
+          <div>
             <Image
               src={locale === "en" ? fc1_EN : fc1_PL}
               alt={t("home:fig-alt-mcda-flow")}
-              height={400}
+              width={600}
+              maxWidth={"100%"}
             />
           </div>
 
-          <div style={{ textAlign: "justify", marginTop: 20 }}>
+          <div style={{ textAlign: "justify", ...globalStyles.mt25 }}>
             {t("home:home-text-mcda-3")}
           </div>
 
@@ -95,43 +85,46 @@ export default function HomePage() {
 
       <Container
         style={{
-          marginTop: "50px",
-          marginBottom: "100px",
+          ...globalStyles.mt50,
+          ...globalStyles.mb100,
         }}
       >
         <div
+          className="text-center"
           style={{
             ...globalStyles.heading,
-            textAlign: "center",
-            marginBottom: "25px",
+            ...globalStyles.mb25,
           }}
         >
           {t("home:home-heading-2")}
         </div>
-        <Stack
-          gap={3}
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
+        <Stack gap={3} className="d-flex flex-column align-items-center">
           <div style={{ textAlign: "justify" }}>
             {t("home:home-text-app-1")}
           </div>
+
           <Image
             src={locale === "en" ? fc2_EN : fc2_PL}
             alt={t("home:fig-alt-app-flow")}
-            height={400}
+            width={800}
+            maxWidth={"100%"}
           />
+
           <div style={{ textAlign: "justify" }}>
             {t("home:home-text-app-2")}
           </div>
+
           <div>
             <Button
               text={t("home:home-button-instruction")}
-              onClick={() => navigate(`/${APP_NAME_PATH}/about`)}
-              style={{ ...globalStyles.buttonInfo, width: "200px" }}
+              onClick={() =>
+                navigate(`/${APP_NAME_PATH}/about`, {
+                  state: {
+                    content: 1,
+                  },
+                })
+              }
+              style={{ ...globalStyles.buttonInfo, ...globalStyles.w200 }}
             />
           </div>
           <div style={{ textAlign: "justify" }}>
@@ -141,7 +134,7 @@ export default function HomePage() {
             <Button
               text={t("home:home-button-calculation")}
               onClick={() => navigate(`/${APP_NAME_PATH}/calculation`)}
-              style={{ ...globalStyles.buttonInfo, width: "200px" }}
+              style={{ ...globalStyles.buttonInfo, ...globalStyles.w200 }}
             />
           </div>
         </Stack>

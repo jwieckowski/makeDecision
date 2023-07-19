@@ -10,6 +10,7 @@ import Tooltip from "../../../../../components/Tooltip";
 
 // STYLES
 import globalStyles from "../../../../../common/globalStyles";
+import styles from "./Item.styles";
 
 type ItemProps = {
   index: number;
@@ -48,13 +49,7 @@ export default function Item({ index, methods, onClick }: ItemProps) {
                 >
                   <div>{method.label}</div>
                   {index === 1 || index === 2 ? (
-                    <div
-                      className="d-flex gap-1"
-                      style={{
-                        fontSize: "8px",
-                        fontWeight: "bold",
-                      }}
-                    >
+                    <div className="d-flex gap-1" style={styles.item}>
                       {method.extensions
                         .map((item) => item.toUpperCase())
                         .join(", ")}
@@ -74,13 +69,7 @@ export default function Item({ index, methods, onClick }: ItemProps) {
                     >
                       <div>{method.label}</div>
                       {index === 1 || index === 2 ? (
-                        <div
-                          className="d-flex gap-1"
-                          style={{
-                            fontSize: "8px",
-                            fontWeight: "bold",
-                          }}
-                        >
+                        <div className="d-flex gap-1" style={styles.item}>
                           {method.extensions
                             .map((item) => item.toUpperCase())
                             .join(", ")}

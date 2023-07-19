@@ -40,6 +40,9 @@ import {
 import useBlocksConnection from "../../../../utilities/connections";
 import { t } from "i18next";
 
+// STYLES
+import globalStyles from "../../../../common/globalStyles";
+
 export default function DragArea() {
   const { allMethods } = useSelector((state: RootState) => state.dictionary);
 
@@ -241,7 +244,7 @@ export default function DragArea() {
         {/* <ScaleSettings /> */}
         <TransformComponent
           wrapperStyle={{
-            width: "100%",
+            ...globalStyles.w100,
             height: `calc(100vh - ${NAV_HEIGHT}px - ${DRAG_AREA_SPACE}px)`,
             border: "3px solid black",
             background: gridOn
@@ -292,7 +295,7 @@ export default function DragArea() {
         </TransformComponent>
       </TransformWrapper>
       <div
-        style={{ width: "100%", textAlign: "end" }}
+        style={{ ...globalStyles.w100, textAlign: "end" }}
         onClick={() => {
           setCurrentStep(0);
           setIsOpen(true);

@@ -6,6 +6,7 @@ import { Github, EnvelopeFill, BuildingsFill } from "react-bootstrap-icons";
 
 // STYLES
 import globalStyles, { colors } from "../../../common/globalStyles";
+import styles from "./Footer.styles";
 
 // CONST
 import {
@@ -26,92 +27,79 @@ export default function Footer() {
   return (
     <Container
       fluid
-      style={{ ...globalStyles.footerWrapper, alignItems: "center" }}
+      className="flex-column flex-lg-row align-items-center"
+      style={styles.footerWrapper}
     >
-      <Container
-        style={{
-          ...globalStyles.footerSection,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Stack gap={1}>
-          <div style={globalStyles.footerLinkHeader}>
-            {t("common:nav-page-5")}
-          </div>
+      <Container className="align-items-center justify-content-center w-100 w-sm-75 w-md-50 py-3 py-lg-0 ">
+        <Stack gap={1} className="w-75 d-flex mx-auto">
+          <div style={styles.footerLinkHeader}>{t("common:nav-page-5")}</div>
           <a
             href={GITHUB_PROFILE_LINK}
             target="_blank"
-            style={{ textDecoration: "none" }}
+            style={globalStyles.noTextDecoration}
             rel="noreferrer"
           >
             <div
               style={{
-                ...globalStyles.footerLinkItem,
+                ...styles.footerLinkItem,
                 transition: "color 200ms ease-in",
                 color: hover[0] ? colors.light : colors.lightMuted,
               }}
               onMouseEnter={() => handleMouseAction(0, true)}
               onMouseLeave={() => handleMouseAction(0, false)}
             >
-              <Github style={globalStyles.footerLinkIcon} />
+              <Github style={styles.footerLinkIcon} />
               <div> {GITHUB_PROFILE_LABEL}</div>
             </div>
           </a>
           <a
             href={EMAIL_LINK}
             target="_blank"
-            style={{ textDecoration: "none" }}
+            style={globalStyles.noTextDecoration}
             rel="noreferrer"
           >
             <div
               style={{
-                ...globalStyles.footerLinkItem,
+                ...styles.footerLinkItem,
                 transition: "color 200ms ease-in",
                 color: hover[1] ? colors.light : colors.lightMuted,
               }}
               onMouseEnter={() => handleMouseAction(1, true)}
               onMouseLeave={() => handleMouseAction(1, false)}
             >
-              <EnvelopeFill style={globalStyles.footerLinkIcon} />
+              <EnvelopeFill style={styles.footerLinkIcon} />
               <div> {EMAIL_LABEL}</div>
             </div>
           </a>
         </Stack>
       </Container>
-      <Container
-        style={{
-          ...globalStyles.footerSection,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Stack gap={1}>
-          <div style={globalStyles.footerLinkHeader}>
-            {t("common:research-team")}
-          </div>
+      <Container className="align-items-center justify-content-center w-100 w-sm-75 w-md-50 py-3 py-lg-0">
+        <Stack gap={1} className="w-75 d-flex mx-auto">
+          <div style={styles.footerLinkHeader}>{t("common:research-team")}</div>
           <div
             style={{
-              ...globalStyles.footerLinkItem,
+              ...styles.footerLinkItem,
+              ...globalStyles.cursorDefault,
               transition: "color 200ms ease-in",
               color: hover[2] ? colors.light : colors.lightMuted,
             }}
             onMouseEnter={() => handleMouseAction(2, true)}
             onMouseLeave={() => handleMouseAction(2, false)}
           >
-            <BuildingsFill style={globalStyles.footerLinkIcon} />
+            <BuildingsFill style={styles.footerLinkIcon} />
             <div>{t("common:research-team-1")}</div>
           </div>
           <div
             style={{
-              ...globalStyles.footerLinkItem,
+              ...styles.footerLinkItem,
+              ...globalStyles.cursorDefault,
               transition: "color 200ms ease-in",
               color: hover[3] ? colors.light : colors.lightMuted,
             }}
             onMouseEnter={() => handleMouseAction(3, true)}
             onMouseLeave={() => handleMouseAction(3, false)}
           >
-            <BuildingsFill style={globalStyles.footerLinkIcon} />
+            <BuildingsFill style={styles.footerLinkIcon} />
             <div>{t("common:research-team-2")}</div>
           </div>
         </Stack>

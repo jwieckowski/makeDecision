@@ -31,6 +31,7 @@ import {
 
 // STYLES
 import globalStyles, { colors } from "../../../../common/globalStyles";
+import styles from "./Filters.styles";
 
 export default function Filters() {
   const { results, matrixId } = useSelector(
@@ -92,10 +93,7 @@ export default function Filters() {
     <Container
       fluid
       className="w-100 m-0 p-4 pe-2 d-flex gap-3 justify-content-end align-items-center"
-      style={{
-        height: "30px",
-        backgroundColor: colors.light,
-      }}
+      style={styles.bar}
     >
       <Select
         items={getMatrixFilterItems()}
@@ -103,7 +101,7 @@ export default function Filters() {
         onChange={(e) => {
           dispatch(setMatrixFilter(e.target.value));
         }}
-        style={{ width: "120px" }}
+        style={styles.item}
       />
       <Select
         items={getMethodFilterItems()}
@@ -111,7 +109,7 @@ export default function Filters() {
         onChange={(e) => {
           dispatch(setMethodFilter(e.target.value));
         }}
-        style={{ width: "120px" }}
+        style={styles.item}
       />
       <Select
         items={getCorrelationFilterItems()}
@@ -119,7 +117,7 @@ export default function Filters() {
         onChange={(e) => {
           dispatch(setCorrelationFilter(e.target.value));
         }}
-        style={{ width: "120px" }}
+        style={styles.item}
       />
       <Button
         text={t("results:clear")}

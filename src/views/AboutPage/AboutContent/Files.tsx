@@ -65,22 +65,22 @@ export default function Files() {
             {t("about:crisp-json")}
           </div>
 
-          <div style={{ width: "100%", textAlign: "justify" }}>
+          <div style={{ ...globalStyles.w100, textAlign: "justify" }}>
             {t("about:crisp-json-description-text-1")}
           </div>
-          <div style={{ width: "100%", textAlign: "justify" }}>
+          <div style={{ ...globalStyles.w100, textAlign: "justify" }}>
             {t("about:crisp-json-description-text-2")}
           </div>
-          <div style={{ width: "100%", textAlign: "justify" }}>
+          <div style={{ ...globalStyles.w100, textAlign: "justify" }}>
             {t("about:crisp-json-description-text-3")}
           </div>
 
           <Codes type="json" data={showJSON(JSON_CRISP_DATA)} />
 
-          <div className="w-100 d-flex justify-content-between">
+          <div className="w-100 d-flex flex-column flex-lg-row justify-content-between ">
             <div
               style={{
-                width: "100%",
+                ...globalStyles.w100,
                 textAlign: "justify",
               }}
             >
@@ -90,10 +90,8 @@ export default function Files() {
               to={`${APP_URL}/examples/${CRISP_JSON_FILE}`}
               target="_blank"
               download
-              style={{
-                textDecoration: "none",
-                paddingLeft: "15px",
-              }}
+              className="mx-0 mx-lg-3 my-2 my-lg-0"
+              style={globalStyles.noTextDecoration}
             >
               <Button
                 text={t("about:download-example-file")}
@@ -101,7 +99,7 @@ export default function Files() {
                 onClick={() => {}}
                 style={{
                   ...globalStyles.buttonPrimary,
-                  width: "200px",
+                  ...globalStyles.w200,
                 }}
               />
             </Link>
@@ -114,22 +112,22 @@ export default function Files() {
             {t("about:fuzzy-json")}
           </div>
 
-          <div style={{ width: "100%", textAlign: "justify" }}>
+          <div style={{ ...globalStyles.w100, textAlign: "justify" }}>
             {t("about:fuzzy-json-description-text-1")}
           </div>
-          <div style={{ width: "100%", textAlign: "justify" }}>
+          <div style={{ ...globalStyles.w100, textAlign: "justify" }}>
             {t("about:fuzzy-json-description-text-2")}
           </div>
-          <div style={{ width: "100%", textAlign: "justify" }}>
+          <div style={{ ...globalStyles.w100, textAlign: "justify" }}>
             {t("about:fuzzy-json-description-text-3")}
           </div>
 
           <Codes type="json" data={showJSON(JSON_FUZZY_DATA)} />
 
-          <div className="w-100 d-flex justify-content-between">
+          <div className="w-100 d-flex flex-column flex-lg-row justify-content-between ">
             <div
               style={{
-                width: "100%",
+                ...globalStyles.w100,
                 textAlign: "justify",
               }}
             >
@@ -139,10 +137,8 @@ export default function Files() {
               to={`${APP_URL}/examples/${FUZZY_JSON_FILE}`}
               target="_blank"
               download
-              style={{
-                textDecoration: "none",
-                paddingLeft: "15px",
-              }}
+              className="mx-0 mx-lg-3 my-2 my-lg-0"
+              style={globalStyles.noTextDecoration}
             >
               <Button
                 text={t("about:download-example-file")}
@@ -150,7 +146,7 @@ export default function Files() {
                 onClick={() => {}}
                 style={{
                   ...globalStyles.buttonPrimary,
-                  width: "200px",
+                  ...globalStyles.w200,
                 }}
               />
             </Link>
@@ -164,22 +160,22 @@ export default function Files() {
             {t("about:crisp-csv")}
           </div>
 
-          <div style={{ width: "100%", textAlign: "justify" }}>
+          <div style={{ ...globalStyles.w100, textAlign: "justify" }}>
             {t("about:crisp-csv-description-text-1")}
           </div>
-          <div style={{ width: "100%", textAlign: "justify" }}>
+          <div style={{ ...globalStyles.w100, textAlign: "justify" }}>
             {t("about:crisp-csv-description-text-2")}
           </div>
-          <div style={{ width: "100%", textAlign: "justify" }}>
+          <div style={{ ...globalStyles.w100, textAlign: "justify" }}>
             {t("about:crisp-csv-description-text-3")}
           </div>
 
           <Codes type="csv" data={showCSV(CSV_CRISP_DATA)} />
 
-          <div className="w-100 d-flex justify-content-between">
+          <div className="w-100 d-flex flex-column flex-lg-row justify-content-between ">
             <div
               style={{
-                width: "100%",
+                ...globalStyles.w100,
                 textAlign: "justify",
               }}
             >
@@ -189,10 +185,8 @@ export default function Files() {
               to={`${APP_URL}/examples/${CRISP_CSV_FILE}`}
               target="_blank"
               download
-              style={{
-                textDecoration: "none",
-                paddingLeft: "15px",
-              }}
+              className="mx-0 mx-lg-3 my-2 my-lg-0"
+              style={globalStyles.noTextDecoration}
             >
               <Button
                 text={t("about:download-example-file")}
@@ -200,7 +194,7 @@ export default function Files() {
                 onClick={() => {}}
                 style={{
                   ...globalStyles.buttonPrimary,
-                  width: "200px",
+                  ...globalStyles.w200,
                 }}
               />
             </Link>
@@ -213,22 +207,22 @@ export default function Files() {
             {t("about:fuzzy-csv")}
           </div>
 
-          <div style={{ width: "100%", textAlign: "justify" }}>
+          <div style={{ ...globalStyles.w100, textAlign: "justify" }}>
             {t("about:fuzzy-csv-description-text-1")}
           </div>
-          <div style={{ width: "100%", textAlign: "justify" }}>
+          <div style={{ ...globalStyles.w100, textAlign: "justify" }}>
             {t("about:fuzzy-csv-description-text-2")}
           </div>
-          <div style={{ width: "100%", textAlign: "justify" }}>
+          <div style={{ ...globalStyles.w100, textAlign: "justify" }}>
             {t("about:fuzzy-csv-description-text-3")}
           </div>
 
           <Codes type="csv" data={showCSV(CSV_FUZZY_DATA)} />
 
-          <div className="w-100 d-flex justify-content-between">
+          <div className="w-100 d-flex flex-column flex-lg-row justify-content-between ">
             <div
               style={{
-                width: "100%",
+                ...globalStyles.w100,
                 textAlign: "justify",
               }}
             >
@@ -238,10 +232,8 @@ export default function Files() {
               to={`${APP_URL}/examples/${FUZZY_CSV_FILE}`}
               target="_blank"
               download
-              style={{
-                textDecoration: "none",
-                paddingLeft: "15px",
-              }}
+              className="mx-0 mx-lg-3 my-2 my-lg-0"
+              style={globalStyles.noTextDecoration}
             >
               <Button
                 text={t("about:download-example-file")}
@@ -249,7 +241,7 @@ export default function Files() {
                 onClick={() => {}}
                 style={{
                   ...globalStyles.buttonPrimary,
-                  width: "200px",
+                  ...globalStyles.w200,
                 }}
               />
             </Link>
@@ -263,22 +255,22 @@ export default function Files() {
             {t("about:crisp-xlsx")}
           </div>
 
-          <div style={{ width: "100%", textAlign: "justify" }}>
+          <div style={{ ...globalStyles.w100, textAlign: "justify" }}>
             {t("about:crisp-xlsx-description-text-1")}
           </div>
-          <div style={{ width: "100%", textAlign: "justify" }}>
+          <div style={{ ...globalStyles.w100, textAlign: "justify" }}>
             {t("about:crisp-xlsx-description-text-2")}
           </div>
-          <div style={{ width: "100%", textAlign: "justify" }}>
+          <div style={{ ...globalStyles.w100, textAlign: "justify" }}>
             {t("about:crisp-xlsx-description-text-3")}
           </div>
 
           <Codes type="xlsx" data={XLSX_CRISP_DATA} />
 
-          <div className="w-100 d-flex justify-content-between">
+          <div className="w-100 d-flex flex-column flex-lg-row justify-content-between ">
             <div
               style={{
-                width: "100%",
+                ...globalStyles.w100,
                 textAlign: "justify",
               }}
             >
@@ -288,10 +280,8 @@ export default function Files() {
               to={`${APP_URL}/examples/${CRISP_XLSX_FILE}`}
               target="_blank"
               download
-              style={{
-                textDecoration: "none",
-                paddingLeft: "15px",
-              }}
+              className="mx-0 mx-lg-3 my-2 my-lg-0"
+              style={globalStyles.noTextDecoration}
             >
               <Button
                 text={t("about:download-example-file")}
@@ -299,7 +289,7 @@ export default function Files() {
                 onClick={() => {}}
                 style={{
                   ...globalStyles.buttonPrimary,
-                  width: "200px",
+                  ...globalStyles.w200,
                 }}
               />
             </Link>
@@ -312,22 +302,22 @@ export default function Files() {
             {t("about:fuzzy-xlsx")}
           </div>
 
-          <div style={{ width: "100%", textAlign: "justify" }}>
+          <div style={{ ...globalStyles.w100, textAlign: "justify" }}>
             {t("about:fuzzy-xlsx-description-text-1")}
           </div>
-          <div style={{ width: "100%", textAlign: "justify" }}>
+          <div style={{ ...globalStyles.w100, textAlign: "justify" }}>
             {t("about:fuzzy-xlsx-description-text-2")}
           </div>
-          <div style={{ width: "100%", textAlign: "justify" }}>
+          <div style={{ ...globalStyles.w100, textAlign: "justify" }}>
             {t("about:fuzzy-xlsx-description-text-3")}
           </div>
 
           <Codes type="xlsx" data={XLSX_FUZZY_DATA} />
 
-          <div className="w-100 d-flex justify-content-between">
+          <div className="w-100 d-flex flex-column flex-lg-row justify-content-between ">
             <div
               style={{
-                width: "100%",
+                ...globalStyles.w100,
                 textAlign: "justify",
               }}
             >
@@ -337,10 +327,8 @@ export default function Files() {
               to={`${APP_URL}/examples/${FUZZY_XLSX_FILE}`}
               target="_blank"
               download
-              style={{
-                textDecoration: "none",
-                paddingLeft: "15px",
-              }}
+              className="mx-0 mx-lg-3 my-2 my-lg-0"
+              style={globalStyles.noTextDecoration}
             >
               <Button
                 text={t("about:download-example-file")}
@@ -348,7 +336,7 @@ export default function Files() {
                 onClick={() => {}}
                 style={{
                   ...globalStyles.buttonPrimary,
-                  width: "200px",
+                  ...globalStyles.w200,
                 }}
               />
             </Link>

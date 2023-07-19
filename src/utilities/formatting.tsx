@@ -9,3 +9,8 @@ export const convertCrispInput = (value: string) => {
 export const convertFuzzyInput = (value: string) => {
   return value;
 };
+
+export const convertTextLength = (text: string | null) => {
+  if (text === null) return "";
+  return text.length > 25 ? `${text.slice(0, 18)}...` : text;
+};

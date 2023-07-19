@@ -9,7 +9,7 @@ import Input from "../Input";
 import { MAX_ALTERNATIVES, MAX_CRITERIA } from "../../common/const";
 
 // STYLES
-import styles from "./styles.js";
+import styles from "./Matrix.styles.js";
 
 type MatrixProps = {
   matrix: string[][] | number[][];
@@ -42,8 +42,7 @@ export default function Matrix({
       <Stack
         direction="horizontal"
         style={{
-          width: "100%",
-          display: "flex",
+          ...styles.matrixWrapper,
           flexDirection: "row",
           justifyContent: criteria < 4 ? "center" : "start",
         }}
@@ -59,7 +58,7 @@ export default function Matrix({
                 <div key={`col-label-${col}`}>
                   <div
                     style={{
-                      width: "80px",
+                      ...styles.matrixHeader,
                       textAlign: "center",
                     }}
                   >
@@ -100,11 +99,9 @@ export default function Matrix({
                         {col === 0 ? (
                           <div
                             style={{
-                              width: "80px",
-                              display: "flex",
+                              ...styles.matrixCell,
                               alignItems: "center",
                               justifyContent: "center",
-                              height: "100%",
                             }}
                           >
                             A{row + 1}
@@ -123,12 +120,8 @@ export default function Matrix({
                               onChange(e, row, col - 1);
                             }}
                             style={{
-                              width: "80px",
-                              fontSize: "13px",
+                              ...styles.matrixInput,
                               textAlign: "center",
-                              border: "1px solid black",
-                              padding: 0,
-                              margin: 0,
                             }}
                           />
                         )}

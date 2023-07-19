@@ -39,9 +39,9 @@ export const getTableTitle = (
   label: string
 ) => {
   if (ids.length > idx) {
-    return `${label} ID ${ids[idx]}`;
+    return `${label} (ID ${ids[idx]})`;
   }
-  return `${label} ID`;
+  return `${label} (ID)`;
 };
 
 export const getTableWeightsHeaders = (methods: ResultsMethod[]) => {
@@ -101,7 +101,13 @@ export const getTableRankingHeaders = (rankings: ResultsMethodRankings[]) => {
 
 export const getTableRankingLabels = (rankings: ResultsMethodRankings[]) => {
   return rankings.map((rank, idx) => {
-    return `${rank.methods.method.toUpperCase()} ${rank.methods.weights.toUpperCase()}`;
+    return [
+      rank.methods.method.toUpperCase(),
+      rank.methods.weights.toUpperCase(),
+      ...Object.values(rank.methods.additionals).map(
+        (item) => `| ${item.split("_").join(" ").toUpperCase()}`
+      ),
+    ].join(" ");
   });
 };
 
@@ -119,18 +125,15 @@ export const getTablePreferenceCorrelationData = (
 export const getTablePreferenceCorrelationLabels = (
   corr: ResultsMethodCorrelations
 ) => {
-  return corr.methods.map(
-    (m) => `${m.method.toUpperCase()} ${m.weights.toUpperCase()}`
+  return corr.methods.map((res) =>
+    [
+      res.method.toUpperCase(),
+      res.weights.toUpperCase(),
+      ...Object.values(res.additionals).map(
+        (item) => `| ${item.split("_").join(" ").toUpperCase()}`
+      ),
+    ].join(" ")
   );
-  // return corr.methods.map((res) =>
-  //   [
-  //     res.method.toUpperCase(),
-  //     res.weights.toUpperCase(),
-  //     ...Object.values(res.additional).map(
-  //       (item) => `| ${item.split("_").join(" ").toUpperCase()}`
-  //     ),
-  //   ].join(" ")
-  // );
 };
 
 export const getTableCorrelationTitle = (corr: ResultsMethodCorrelations) => {

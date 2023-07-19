@@ -152,43 +152,61 @@ const useCalculation = () => {
     blocks: [] | BlockType[],
     connections: [] | string[][],
     weightsItems: [] | BlockType[],
-    mcdaItems: [] | BlockType[][]
+    mcdaItems: [] | BlockType[][],
+    allMethods: [] | AllMethodsItem[]
   ) => {
-    const correlationBlocks = blocks.filter(
-      (block) => block.type === "correlation"
-    );
+    const correlationBlocks = blocks
+      .filter((block) => block.type === "correlation")
+      .filter((block) =>
+        allMethods
+          .filter(
+            (item) => item.key.toLowerCase() === block.type.toLowerCase()
+          )[0]
+          .data.filter((i) => i.requiredData.includes("preferences" as never))
+          .map((i) => i.name.toLowerCase())
+          .includes(block.method.toLowerCase() as never)
+      );
     let methodCorrelationItem: [] | MethodCorrelationType[] = [];
 
-    correlationBlocks.forEach((block) => {
-      const blockConnections = connections.filter(
-        (c) =>
-          c[1] === block._id.toString() &&
-          mcdaItems.filter(
-            (items) => items.filter((i) => i._id === +c[0]).length > 0
-          )
-      );
+    correlationBlocks.forEach((corr) => {
       let methodCorrelation: MethodCorrelationType = {
-        correlation: block.method,
+        correlation: blocks.filter((b) => b._id === corr._id)[0].method,
         data: [],
       };
-      blockConnections.forEach((c) => {
-        weightsItems.forEach((item, index) => {
-          mcdaItems[index].forEach((mcda) => {
-            if (mcda._id === +c[0]) {
+      weightsItems.forEach((weights, index) => {
+        mcdaItems[index].forEach((mcda) => {
+          if (
+            connections.filter(
+              (conn) => +conn[0] === mcda._id && +conn[1] === corr._id
+            ).length > 0
+          ) {
+            if (
+              connections.filter(
+                (conn) => +conn[0] === corr._id && +conn[1] === corr._id
+              ).length > 0
+            ) {
               methodCorrelation.data = [
                 ...methodCorrelation.data,
                 {
                   method: mcda.method,
-                  weights: item.method,
+                  weights: weights.method,
+                  correlation: true,
+                },
+              ];
+            } else {
+              methodCorrelation.data = [
+                ...methodCorrelation.data,
+                {
+                  method: mcda.method,
+                  weights: weights.method,
+                  correlation: false,
                 },
               ];
             }
-          });
+          }
         });
       });
-      if (methodCorrelation.data.length > 0) {
-        methodCorrelationItem = [...methodCorrelationItem, methodCorrelation];
-      }
+      methodCorrelationItem = [...methodCorrelationItem, methodCorrelation];
     });
     return methodCorrelationItem;
   };
@@ -213,26 +231,38 @@ const useCalculation = () => {
       );
       let methodRanking: MethodRankingType = { data: [] };
 
-      blockConnections.forEach((c) => {
-        weightsItems.forEach((item, index) => {
-          mcdaItems[index].forEach((mcda) => {
-            if (mcda._id === +c[0]) {
-              const data = getSingleItemByName(
-                getMethodData(allMethods, "Method"),
-                blocks.filter((block) => block._id === +c[0])[0].method
-              );
-              methodRanking.data = [
-                ...methodRanking.data,
-                {
-                  method: mcda.method,
-                  weights: item.method,
-                  order: data?.order ? data.order : "",
-                },
-              ];
-            }
-          });
-        });
+      weightsItems.forEach((item, index) => {
+        mcdaItems[index] && mcdaItems[index].length > 0
+          ? mcdaItems[index].forEach((mcda) => {
+              if (blockConnections.map((bc) => bc[0]).includes(`${mcda._id}`)) {
+                const data = getSingleItemByName(
+                  getMethodData(allMethods, "Method"),
+                  blocks.filter((block) => block._id === mcda._id)[0].method
+                );
+                methodRanking.data = [
+                  ...methodRanking.data,
+                  {
+                    method: mcda.method,
+                    weights: item.method,
+                    order: data?.order ? data.order : "",
+                    ranking: true,
+                  },
+                ];
+              } else {
+                methodRanking.data = [
+                  ...methodRanking.data,
+                  {
+                    method: mcda.method,
+                    weights: item.method,
+                    order: "",
+                    ranking: false,
+                  },
+                ];
+              }
+            })
+          : (methodRanking.data = [...methodRanking.data]);
       });
+
       if (methodRanking.data.length > 0) {
         methodRankingItem = [...methodRankingItem, methodRanking];
       }
@@ -249,58 +279,67 @@ const useCalculation = () => {
     allMethods: [] | AllMethodsItem[]
   ) => {
     const rankingBlocks = blocks.filter((block) => block.type === "ranking");
-    const correlationBlocks = blocks.filter(
-      (block) => block.type === "correlation"
-    );
+    const correlationBlocks = blocks
+      .filter((block) => block.type === "correlation")
+      .filter((block) =>
+        allMethods
+          .filter(
+            (item) => item.key.toLowerCase() === block.type.toLowerCase()
+          )[0]
+          .data.filter((i) => i.requiredData.includes("ranking" as never))
+          .map((i) => i.name.toLowerCase())
+          .includes(block.method.toLowerCase() as never)
+      );
     let rankingCorrelationItem: [] | RankingCorrelationType[] = [];
 
-    rankingBlocks.forEach((block) => {
-      const rankCorrConnections = connections.filter(
-        (c) =>
-          c[0] === block._id.toString() &&
-          correlationBlocks.map((b) => b._id).includes(+c[1])
-      );
-      rankCorrConnections.forEach((c) => {
-        const blockConnections = connections.filter(
-          (c) =>
-            c[1] === block._id.toString() &&
-            mcdaItems.filter(
-              (items) => items.filter((i) => i._id === +c[0]).length > 0
-            )
-        );
-        let rankingCorrelation: RankingCorrelationType = {
-          correlation: blocks.filter((b) => b._id === +c[1])[0].method,
-          data: [],
-        };
-        blockConnections.forEach((conn) => {
-          weightsItems.forEach((item, index) => {
-            mcdaItems[index].forEach((mcda) => {
-              if (mcda._id === +conn[0]) {
+    correlationBlocks.forEach((corr) => {
+      let rankingCorrelation: RankingCorrelationType = {
+        correlation: blocks.filter((b) => b._id === corr._id)[0].method,
+        data: [],
+      };
+      weightsItems.forEach((weights, index) => {
+        mcdaItems[index].forEach((mcda) => {
+          rankingBlocks.forEach((rank) => {
+            if (
+              connections.filter(
+                (conn) => +conn[0] === mcda._id && +conn[1] === rank._id
+              ).length > 0
+            ) {
+              if (
+                connections.filter(
+                  (conn) => +conn[0] === rank._id && +conn[1] === corr._id
+                ).length > 0
+              ) {
                 const data = getSingleItemByName(
                   getMethodData(allMethods, "Method"),
-                  blocks.filter((block) => block._id === +conn[0])[0].method
+                  blocks.filter((block) => block._id === mcda._id)[0].method
                 );
                 rankingCorrelation.data = [
                   ...rankingCorrelation.data,
                   {
                     method: mcda.method,
-                    weights: item.method,
+                    weights: weights.method,
                     order: data?.order ? data.order : "",
+                    correlation: true,
+                  },
+                ];
+              } else {
+                rankingCorrelation.data = [
+                  ...rankingCorrelation.data,
+                  {
+                    method: mcda.method,
+                    weights: weights.method,
+                    order: "",
+                    correlation: false,
                   },
                 ];
               }
-            });
+            }
           });
         });
-        if (rankingCorrelation.data.length > 0) {
-          rankingCorrelationItem = [
-            ...rankingCorrelationItem,
-            rankingCorrelation,
-          ];
-        }
       });
+      rankingCorrelationItem = [...rankingCorrelationItem, rankingCorrelation];
     });
-
     return rankingCorrelationItem;
   };
 
@@ -389,9 +428,16 @@ const useCalculation = () => {
       matrixIndexes = [...matrixIndexes, matrix._id];
 
       // MATRIX
-      if (["input", "file"].includes(matrix.method))
-        body.matrix = [...body.matrix, matrix.data.matrix];
-      else if (matrix.method === "random")
+      if (["input", "file"].includes(matrix.method)) {
+        if (matrix.data.extension === "crisp") {
+          body.matrix = [
+            ...body.matrix,
+            matrix.data.matrix.map((row: string[]) => row.map((col) => +col)),
+          ];
+        } else {
+          body.matrix = [...body.matrix, matrix.data.matrix];
+        }
+      } else if (matrix.method === "random")
         body.matrix = [
           ...body.matrix,
           [matrix.data.alternatives, matrix.data.criteria],
@@ -430,6 +476,8 @@ const useCalculation = () => {
         }
       });
 
+      if (!calculate) return;
+
       // GET METHODS BLOCKS CONNECTED TO WEIGHTS BLOCKS
       const mcdaItems = getWeightsMethodConnections(
         weightsItems,
@@ -437,6 +485,7 @@ const useCalculation = () => {
         connections
       );
       calculate = validateMethodConnection(mcdaItems, matrix._id);
+      if (!calculate) return;
 
       // ADDITIONAL PARAMS FOR METHODS
       const params = getMethodsParams(
@@ -456,7 +505,8 @@ const useCalculation = () => {
         blocks,
         connections,
         weightsItems,
-        mcdaItems
+        mcdaItems,
+        allMethods
       );
       if (methodCorrelationItem.length > 0) {
         body.methodCorrelations = [

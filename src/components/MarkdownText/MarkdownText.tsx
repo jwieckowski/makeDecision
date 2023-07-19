@@ -6,6 +6,9 @@ import Container from "react-bootstrap/Container";
 
 import "katex/dist/katex.min.css"; // `rehype-katex` does not import the CSS for you
 
+// STYLES
+import styles from "./MarkdownText.styles";
+
 type MarkdownProps = {
   text: string;
 };
@@ -14,9 +17,7 @@ export default function MarkdownText({ text }: MarkdownProps) {
   return (
     <Container
       style={{
-        maxWidth: "800px",
-        margin: "0 5px",
-        overflow: "hidden",
+        ...styles.wrapper,
         textAlign: "justify",
       }}
     >

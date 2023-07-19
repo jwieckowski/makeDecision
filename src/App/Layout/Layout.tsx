@@ -14,6 +14,9 @@ import { useOnlineStatus } from "../../hooks";
 // CONST
 import { APP_NAME_PATH, NAV_HEIGHT, HIDE_DURATION } from "../../common/const";
 
+// STYLES
+import globalStyles from "../../common/globalStyles";
+
 // TRANSLATIONS
 import "../../translations";
 
@@ -50,27 +53,17 @@ export default function Layout({ children }: LayoutChildren) {
   return (
     <Container
       fluid
-      style={{
-        display: "flex",
-        maxWidth: "100vw",
-        minHeight: "100vh",
-        height: "100%",
-        flexDirection: "column",
-        margin: 0,
-        padding: 0,
-      }}
+      className="d-flex flex-column p-0 m-0"
+      style={globalStyles.layoutWrapper}
     >
       <NavigationMenu />
       <Container
         fluid
+        className="d-flex m-0 p-0"
         style={{
-          display: "flex",
-          margin: 0,
-          padding: 0,
-          width: "100%",
-          height: "100%",
-          minHeight: `calc(100vh - ${NAV_HEIGHT}px)`,
+          ...globalStyles.contentWrapper,
           overflowX: "hidden",
+          minHeight: `calc(100vh - ${NAV_HEIGHT}px)`,
         }}
       >
         {children}

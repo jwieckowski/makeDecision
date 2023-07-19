@@ -8,7 +8,7 @@ import JsonCodes from "./JSON";
 import XlsxCodes from "./XLSX";
 
 // STYLES
-import { colors } from "../../common/globalStyles";
+import styles from "./Codes.styles";
 
 type CodesProps = {
   type: string;
@@ -31,17 +31,12 @@ export default function Codes({ type, data }: CodesProps) {
   return (
     <Container
       style={{
-        backgroundColor: colors.infoBackground,
-        border: "3px solid black",
-        padding: "20px",
-        display: "flex",
+        ...styles.wrapper,
         flexDirection: "column",
         justifyContent: "start",
       }}
     >
-      <div style={{ marginBottom: "20px", fontWeight: "bold" }}>
-        {t("common:example").toUpperCase()}
-      </div>
+      <div style={styles.codeText}>{t("common:example").toUpperCase()}</div>
       {codes[type]}
     </Container>
   );

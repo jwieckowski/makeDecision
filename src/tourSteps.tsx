@@ -73,6 +73,7 @@ const useTourSteps = () => {
     {
       selector: ".tour-step-fourteen",
       content: `${t("common:tutorial-step-15")}`,
+      stepInteraction: false,
     },
   ];
 

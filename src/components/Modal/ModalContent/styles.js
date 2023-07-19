@@ -6,23 +6,33 @@ const styles = {
     width: "100%",
   },
   selectExtension: {
-    width: "100px",
+    width: "80px",
     marginBottom: "20px",
-    textAlign: "center",
+    textAlign: "start",
+    fontSize: "12px",
+    fontWeight: "bold",
   },
   selectExtensionLabel: {
-    width: "100px",
+    width: "80px",
+    textAlign: "start",
+    fontSize: "12px",
+  },
+  selectCriteriaLabel: {
+    width: "80px",
     textAlign: "center",
+    fontSize: "14px",
   },
   inputLabelMatrix: {
     width: "100px",
     textAlign: "center",
   },
   inputMatrixSize: {
-    width: "100px",
-    height: "37px",
+    width: "80px",
+    height: "30px",
     marginBottom: "20px",
-    textAlign: "center",
+    textAlign: "start",
+    fontSize: "12px",
+    fontWeight: "bold",
   },
   weightsWrapper: {
     display: "flex",
@@ -41,11 +51,14 @@ const styles = {
   selectMetrics: {
     width: "140px",
     marginBottom: "20px",
-    textAlign: "center",
+    textAlign: "start",
+    fontSize: "12px",
+    fontWeight: "bold",
   },
   selectMetricsLabel: {
     width: "140px",
-    textAlign: "center",
+    textAlign: "start",
+    fontSize: "12px",
   },
 };
 

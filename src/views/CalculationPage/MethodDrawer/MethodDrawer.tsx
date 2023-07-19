@@ -22,6 +22,7 @@ import {
 
 // STYLES
 import globalStyles from "../../../common/globalStyles";
+import styles from "./MethodDrawer.styles";
 
 export default function MethodDrawer() {
   const { allMethods, loading } = useSelector(
@@ -36,16 +37,15 @@ export default function MethodDrawer() {
       }}
       className="tour-step-two"
     >
-      <Stack gap={3} style={{ padding: "15px 15px" }}>
+      <Stack gap={3} style={styles.wrapper}>
         <ActionButtons />
         <DragSettings />
         <SearchBar />
         {loading && allMethods.length === 0 ? (
           <div
             style={{
-              width: "300px",
+              ...styles.loaderWrapper,
               height: `${METHODS_LIST_HEIGHT}px`,
-              display: "flex",
               justifyContent: "center",
               alignItems: "center",
             }}

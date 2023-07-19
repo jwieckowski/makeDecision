@@ -16,13 +16,15 @@ import MethodDrawer from "./MethodDrawer";
 import { NAV_HEIGHT } from "../../common/const";
 
 // STYLES
-import globalStyles, { colors } from "../../common/globalStyles";
+import globalStyles from "../../common/globalStyles";
 
 export default function CalculationPage() {
   const { allMethods, loading } = useSelector(
     (state: RootState) => state.dictionary
   );
   const { results } = useSelector((state: RootState) => state.calculation);
+
+  // console.log(results);
 
   const { setIsOpen } = useTour();
 
@@ -49,36 +51,23 @@ export default function CalculationPage() {
   return (
     <Container
       fluid
-      style={{
-        padding: 0,
-        margin: 0,
-        width: "100%",
-        maxWidth: "100vw",
-        marginBottom: "200px",
-        display: "flex",
-        flexDirection: "column",
-      }}
-      className="tour-step-fourteen"
+      className="d-flex flex-column p-0 m-0 tour-step-fourteen"
+      style={globalStyles.calculationWrapper}
     >
       {/* BIG SCREEN CONTAINER */}
       <div className="d-none d-md-flex flex-column">
         <Container
           fluid
-          style={{
-            padding: 0,
-            margin: 0,
-            width: "100%",
-            maxWidth: "100vw",
-            display: "flex",
-            justifyContent: "start",
-            alignItems: "start",
-          }}
+          className={`d-flex justify-content-center align-items-center m-0 p-0 ${
+            results === null ? "mb-5" : "mb-0"
+          }`}
+          style={globalStyles.calculationAreaWrapper}
           id="dragArea"
         >
           <DragStory />
           <MethodDrawer />
         </Container>
-        {results !== null ? <Results /> : null}
+        <Results />
       </div>
       {/* SMALL SCREEN CONTAINER */}
       <Container
@@ -89,19 +78,13 @@ export default function CalculationPage() {
         }}
       >
         <div
-          style={{
-            height: "70%",
-            width: "70%",
-            backgroundColor: colors.light,
-            borderRadius: 10,
-            boxShadow: "0px 5px 5px 3px rgba(66, 68, 90, 1)",
-          }}
+          style={globalStyles.smallCalculationWrapper}
           className="d-flex flex-column justify-content-center align-items-center gap-5"
         >
           <div
             style={{
               ...globalStyles.heading,
-              width: "70%",
+              ...globalStyles.w70,
               textAlign: "center",
             }}
           >
@@ -110,7 +93,7 @@ export default function CalculationPage() {
           <div
             style={{
               ...globalStyles.subheading,
-              width: "50%",
+              ...globalStyles.w50,
               textAlign: "center",
             }}
           >
@@ -119,7 +102,7 @@ export default function CalculationPage() {
           <div
             style={{
               ...globalStyles.subheading,
-              width: "50%",
+              ...globalStyles.w50,
               textAlign: "center",
             }}
           >

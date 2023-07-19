@@ -83,10 +83,12 @@ export default function ActionButtons() {
       if (blocks.length > 1) {
         showSnackbar(t("snackbar:not-connected-blocks"), "error");
       }
+      return;
     }
     setTimeout(async () => {
       const res = getCalculateBody(blocks, connections, allMethods);
       if (res !== undefined && res.calculate) {
+        console.log(res);
         await dispatch(setCalculationMatrixId(res.matrixIndexes));
         await dispatch(getResults({ locale, params: res.body }));
       }

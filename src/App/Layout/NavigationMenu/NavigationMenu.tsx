@@ -21,6 +21,7 @@ import {
 
 // STYLES
 import globalStyles from "../../../common/globalStyles";
+import styles from "./NavigationMenu.styles";
 
 export default function NavigationMenu() {
   const { t } = useTranslation();
@@ -36,29 +37,28 @@ export default function NavigationMenu() {
   return (
     <Navbar
       key="lg"
-      // bg="secondary"
       expand="lg"
       className="w-100"
-      style={{ height: `${NAV_HEIGHT}px`, ...globalStyles.navbar }}
+      style={{ height: `${NAV_HEIGHT}px`, ...styles.navbar }}
     >
       <Container fluid id="navMenu">
         <Navbar.Brand
           href={`/${APP_NAME_PATH}${URLS[0]}`}
-          style={{ ...globalStyles.logo }}
+          style={{ ...styles.logo }}
         >
           {t("common:app")}
         </Navbar.Brand>
-        <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-md`} />
+        <Navbar.Toggle aria-controls={`side-navbar`} />
         <Navbar.Offcanvas
-          id={`offcanvasNavbar-expand-md`}
-          aria-labelledby={`offcanvasNavbarLabel-expand-md`}
+          id={`side-navbar`}
+          aria-labelledby={`side-navbar-label`}
           placement="end"
-          style={{ ...globalStyles.logo }}
+          style={{ ...styles.sideNavbar }}
         >
-          <Offcanvas.Header closeButton>
+          <Offcanvas.Header closeButton closeVariant="white">
             <Offcanvas.Title
-              id={`offcanvasNavbarLabel-expand-md`}
-              style={{ ...globalStyles.menuItem }}
+              id={`side-navbar-label`}
+              style={{ ...styles.menuItem, ...styles.menu }}
             >
               {t("common:menu")}
             </Offcanvas.Title>
@@ -69,10 +69,10 @@ export default function NavigationMenu() {
                 <Link
                   to={`/${APP_NAME_PATH}${URLS[index]}`}
                   key={index}
+                  className="text-lg-center"
                   style={{
                     width: `${MENU_ITEM_WIDTH}px`,
-                    textAlign: "center",
-                    textDecoration: "none",
+                    ...globalStyles.noTextDecoration,
                   }}
                 >
                   <div
@@ -82,9 +82,9 @@ export default function NavigationMenu() {
                     style={
                       location.pathname === `/${APP_NAME_PATH}${URLS[index]}`
                         ? {
-                            ...globalStyles.menuItemActive,
+                            ...styles.menuItemActive,
                           }
-                        : { ...globalStyles.menuItem }
+                        : { ...styles.menuItem }
                     }
                   >
                     {page}
@@ -92,7 +92,9 @@ export default function NavigationMenu() {
                 </Link>
               ))}
             </Nav>
-            <Language />
+            <div className="pt-sm-3 pt-lg-0">
+              <Language />
+            </div>
           </Offcanvas.Body>
         </Navbar.Offcanvas>
       </Container>

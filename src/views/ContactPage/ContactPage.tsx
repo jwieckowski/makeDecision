@@ -36,6 +36,7 @@ import {
 
 // STYLES
 import globalStyles from "../../common/globalStyles";
+import styles from "./ContactPage.styles";
 
 export default function ContactPage() {
   const { t } = useTranslation();
@@ -94,7 +95,7 @@ export default function ContactPage() {
         height: "100%",
       }}
     >
-      <Container style={globalStyles.contactWrapper}>
+      <Container style={globalStyles.mt50} className="w-75 w-md-50">
         <Container className="d-flex flex-column gap-3 p-0">
           <div style={{ textAlign: "justify" }}>
             {t("contact:contact-text-1")}
@@ -124,7 +125,7 @@ export default function ContactPage() {
                 <a
                   href={item.link}
                   target="_blank"
-                  style={{ textDecoration: "none" }}
+                  style={globalStyles.noTextDecoration}
                   rel="noreferrer"
                 >
                   <div style={globalStyles.linkItem}>
@@ -151,7 +152,7 @@ export default function ContactPage() {
                 <a
                   href={item.link}
                   target="_blank"
-                  style={{ textDecoration: "none" }}
+                  style={globalStyles.noTextDecoration}
                   rel="noreferrer"
                 >
                   <div style={globalStyles.linkItem}>
@@ -160,17 +161,13 @@ export default function ContactPage() {
                   </div>
                 </a>
                 <div>
-                  <div style={{ fontSize: "14px" }}>{item.apa}</div>
+                  <div style={globalStyles.font14}>{item.apa}</div>
                   <div>
                     <a
                       href={item.doi}
                       target="_blank"
                       rel="noreferrer"
-                      style={{
-                        fontSize: "12px",
-                        textDecoration: "none",
-                        color: "grey",
-                      }}
+                      style={globalStyles.doiText}
                     >
                       {item.doi}
                     </a>
@@ -186,7 +183,7 @@ export default function ContactPage() {
                 <a
                   href={item.link}
                   target="_blank"
-                  style={{ textDecoration: "none" }}
+                  style={globalStyles.noTextDecoration}
                   rel="noreferrer"
                 >
                   <div style={globalStyles.linkItem}>
@@ -200,13 +197,17 @@ export default function ContactPage() {
         </Stack>
 
         {/* AFFILIATION */}
-        <Stack gap={3} style={globalStyles.contactAffiliationWrapper}>
+        <Stack gap={3} style={styles.contactAffiliationWrapper}>
           <div style={globalStyles.heading}>{t("common:affiliation")}</div>
-          <div style={{ ...globalStyles.linkItem, cursor: "default" }}>
+          <div
+            style={{ ...globalStyles.linkItem, ...globalStyles.cursorDefault }}
+          >
             <BuildingsFill style={globalStyles.linkIcon} />
             <div>{t("common:research-team-1")}</div>
           </div>
-          <div style={{ ...globalStyles.linkItem, cursor: "default" }}>
+          <div
+            style={{ ...globalStyles.linkItem, ...globalStyles.cursorDefault }}
+          >
             <BuildingsFill style={globalStyles.linkIcon} />
             <div>{t("common:research-team-2")}</div>
           </div>

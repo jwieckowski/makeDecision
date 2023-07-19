@@ -12,9 +12,7 @@ import { RootState } from "../../../redux";
 import Table from "../../../components/Table";
 import Button from "../../../components/Button";
 import Filters from "./Filters";
-
-// STYLES
-import globalStyles, { colors } from "../../../common/globalStyles";
+import Loader from "../../../components/Loader";
 
 // UTILS
 import {
@@ -32,8 +30,12 @@ import {
   getTablePreferenceCorrelationLabels,
 } from "../../../utilities/results";
 
+// STYLES
+import globalStyles from "../../../common/globalStyles";
+import styles from "./Results.styles";
+
 export default function Results() {
-  const { filteredResults, matrixId, loading, error } = useSelector(
+  const { filteredResults, matrixId, loading } = useSelector(
     (state: RootState) => state.calculation
   );
   const { matrixFilter } = useSelector((state: RootState) => state.filters);
@@ -53,26 +55,26 @@ export default function Results() {
     else setFilteredMatrixId(matrixId);
   }, [filteredResults]);
 
-  return filteredResults !== null ? (
+  return loading ? (
     <Container
       fluid
-      style={{
-        padding: 0,
-        margin: 0,
-        marginTop: "100px",
-      }}
+      className="p-0 mb-5 w-100 d-flex align-items-center justify-content-center"
+      style={globalStyles.mt100}
+      id="resultsContainer"
+    >
+      <Loader />
+    </Container>
+  ) : filteredResults !== null ? (
+    <Container
+      fluid
+      className="p-0"
+      style={globalStyles.mt100}
       id="resultsContainer"
     >
       <Container
         fluid
         className="w-100 m-0 p-0 d-flex justify-content-center align-items-center"
-        style={{
-          backgroundColor: colors.darkBackgroundFooter,
-          height: "60px",
-          fontSize: "24px",
-          color: colors.light,
-          boxShadow: "0px 5px 5px 0px rgba(66, 68, 90, 1)",
-        }}
+        style={styles.header}
       >
         {t("results:results")}
       </Container>
@@ -80,13 +82,11 @@ export default function Results() {
       <Filters />
 
       {/* WEIGHTS */}
-      <Stack gap={5} style={{ marginTop: "25px" }}>
+      <Stack gap={5} style={globalStyles.mt25}>
         <div
           style={{
             ...globalStyles.heading,
-            marginLeft: "100px",
-            width: "300px",
-            borderBottom: "1px solid black",
+            ...styles.typeLabel,
           }}
         >
           {t("results:weights")}
@@ -106,13 +106,11 @@ export default function Results() {
       </Stack>
 
       {/* PREFERENCES */}
-      <Stack gap={5} style={{ marginTop: "50px" }}>
+      <Stack gap={5} style={globalStyles.mt50}>
         <div
           style={{
             ...globalStyles.heading,
-            marginLeft: "100px",
-            width: "300px",
-            borderBottom: "1px solid black",
+            ...styles.typeLabel,
           }}
         >
           {t("results:preferences")}
@@ -133,13 +131,11 @@ export default function Results() {
 
       {/* RANKING */}
       {filteredResults.methodRankings.length > 0 ? (
-        <Stack gap={5} style={{ marginTop: "50px" }}>
+        <Stack gap={5} style={globalStyles.mt50}>
           <div
             style={{
               ...globalStyles.heading,
-              marginLeft: "100px",
-              width: "300px",
-              borderBottom: "1px solid black",
+              ...styles.typeLabel,
             }}
           >
             {t("results:ranking")}
@@ -167,13 +163,11 @@ export default function Results() {
 
       {/* PREFERENCES CORRELATIONS */}
       {filteredResults.methodCorrelations.length > 0 ? (
-        <Stack gap={5} style={{ marginTop: "50px" }}>
+        <Stack gap={5} style={globalStyles.mt50}>
           <div
             style={{
               ...globalStyles.heading,
-              marginLeft: "100px",
-              width: "300px",
-              borderBottom: "1px solid black",
+              ...styles.typeLabel,
             }}
           >
             {t("results:correlation-preferences")}
@@ -201,13 +195,11 @@ export default function Results() {
 
       {/* RANKING CORRELATIONS */}
       {filteredResults.rankingCorrelations.length > 0 ? (
-        <Stack gap={5} style={{ marginTop: "50px" }}>
+        <Stack gap={5} style={globalStyles.mt50}>
           <div
             style={{
               ...globalStyles.heading,
-              marginLeft: "100px",
-              width: "300px",
-              borderBottom: "1px solid black",
+              ...styles.typeLabel,
             }}
           >
             {t("results:correlation-ranking")}
@@ -237,9 +229,7 @@ export default function Results() {
       <Container
         fluid
         className="w-100 pe-5 gap-2 d-flex justify-content-end align-items-center"
-        style={{
-          marginTop: "50px",
-        }}
+        style={{ ...globalStyles.mt50, ...globalStyles.mb100 }}
       >
         <Button
           text={t("common:go-to-filters")}

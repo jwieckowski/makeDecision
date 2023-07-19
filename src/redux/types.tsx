@@ -268,15 +268,29 @@ export type MethodType = {
   weights: string | number[] | string[];
 };
 
+export type MethodCorrelationDataType = {
+  method: string;
+  weights: string | number[] | string[];
+  correlation: boolean;
+};
+
 export type MethodCorrelationType = {
   correlation: string;
-  data: [] | MethodType[];
+  data: [] | MethodCorrelationDataType[];
 };
 
 export type MethodRankingItem = {
   method: string;
   weights: string;
   order: string;
+  ranking: boolean;
+};
+
+export type MethodCorrelationItem = {
+  method: string;
+  weights: string;
+  order: string;
+  correlation: boolean;
 };
 
 export type MethodRankingType = {
@@ -285,7 +299,7 @@ export type MethodRankingType = {
 
 export type RankingCorrelationType = {
   correlation: string;
-  data: [] | MethodRankingItem[];
+  data: [] | MethodCorrelationItem[];
 };
 
 export type MatrixBodyType = {

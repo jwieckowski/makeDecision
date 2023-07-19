@@ -54,7 +54,7 @@ export default function Technology() {
   return (
     <Container
       fluid
-      className="d-flex flex-column align-items-center mt-3 mb-5 w-75 gap-3"
+      className="d-flex flex-column align-items-center mt-3 mb-5 w-100 w-md-75 gap-3"
     >
       <div style={globalStyles.heading}>{t("about:tab-4").toUpperCase()}</div>
 
@@ -64,14 +64,14 @@ export default function Technology() {
 
         <div style={globalStyles.iconItem}>
           <Server style={globalStyles.linkIcon} />
-          <div style={{ width: "100%", lineHeight: "24px" }}>
+          <div style={{ ...globalStyles.w100, textAlign: "justify" }}>
             {t("about:server-description-text-1")}
           </div>
         </div>
 
         <div style={globalStyles.iconItem}>
           <FiletypePy style={globalStyles.linkIcon} />
-          <div style={{ width: "100%", lineHeight: "24px" }}>
+          <div style={{ ...globalStyles.w100, textAlign: "justify" }}>
             {t("about:server-description-text-2")}
           </div>
         </div>
@@ -79,12 +79,12 @@ export default function Technology() {
         <a
           href={API_DOCUMENTATION}
           target="_blank"
-          style={{ textDecoration: "none" }}
+          style={globalStyles.noTextDecoration}
           rel="noreferrer"
         >
           <div style={globalStyles.linkItem}>
             <FileEarmarkTextFill style={globalStyles.linkIcon} />
-            <div style={{ width: "100%", lineHeight: "24px" }}>
+            <div style={{ ...globalStyles.w100, textAlign: "justify" }}>
               {t("about:api-docs")}
             </div>
           </div>
@@ -95,7 +95,7 @@ export default function Technology() {
       <Stack gap={3} style={globalStyles.contactLinksWrapper}>
         <div style={globalStyles.subheading}>{t("common:packages")}</div>
 
-        <div style={{ width: "100%", lineHeight: "24px" }}>
+        <div style={{ ...globalStyles.w100, textAlign: "justify" }}>
           {t("about:server-description-text-3")}
         </div>
 
@@ -105,7 +105,7 @@ export default function Technology() {
               <a
                 href={item.link}
                 target="_blank"
-                style={{ textDecoration: "none" }}
+                style={globalStyles.noTextDecoration}
                 rel="noreferrer"
               >
                 <div style={globalStyles.linkItem}>
@@ -120,11 +120,7 @@ export default function Technology() {
                     href={item.doi}
                     target="_blank"
                     rel="noreferrer"
-                    style={{
-                      fontSize: "12px",
-                      textDecoration: "none",
-                      color: "grey",
-                    }}
+                    style={globalStyles.doiText}
                   >
                     {item.doi}
                   </a>
@@ -142,12 +138,12 @@ export default function Technology() {
         <a
           href={REACT_LINK}
           target="_blank"
-          style={{ textDecoration: "none" }}
+          style={globalStyles.noTextDecoration}
           rel="noreferrer"
         >
           <div style={globalStyles.iconItem}>
             <Window style={globalStyles.linkIcon} />
-            <div style={{ width: "100%" }}>
+            <div style={{ ...globalStyles.w100, textAlign: "justify" }}>
               {t("about:app-description-text-1")}
             </div>
           </div>
@@ -156,12 +152,12 @@ export default function Technology() {
         <a
           href={RTK_LINK}
           target="_blank"
-          style={{ textDecoration: "none" }}
+          style={globalStyles.noTextDecoration}
           rel="noreferrer"
         >
           <div style={globalStyles.iconItem}>
             <FiletypeJsx style={globalStyles.linkIcon} />
-            <div style={{ width: "100%" }}>
+            <div style={{ ...globalStyles.w100, textAlign: "justify" }}>
               {t("about:app-description-text-2")}
             </div>
           </div>
@@ -170,12 +166,12 @@ export default function Technology() {
         <a
           href={DRAGGABLE_LINK}
           target="_blank"
-          style={{ textDecoration: "none" }}
+          style={globalStyles.noTextDecoration}
           rel="noreferrer"
         >
           <div style={globalStyles.linkItem}>
             <Diagram3Fill style={globalStyles.linkIcon} />
-            <div style={{ width: "100%" }}>
+            <div style={{ ...globalStyles.w100, textAlign: "justify" }}>
               {t("about:app-description-text-3")}
             </div>
           </div>
@@ -184,12 +180,12 @@ export default function Technology() {
         <a
           href={XARROWS_LINK}
           target="_blank"
-          style={{ textDecoration: "none" }}
+          style={globalStyles.noTextDecoration}
           rel="noreferrer"
         >
           <div style={globalStyles.linkItem}>
             <ArrowsMove style={globalStyles.linkIcon} />
-            <div style={{ width: "100%" }}>
+            <div style={{ ...globalStyles.w100, textAlign: "justify" }}>
               {t("about:app-description-text-4")}
             </div>
           </div>

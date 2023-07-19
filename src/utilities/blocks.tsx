@@ -7,7 +7,10 @@ export const getNotConnectedBlocks = (
 ) => {
   return blocks.filter(
     (block) =>
-      connections.filter((c) => c.includes(block._id.toString())).length === 0
+      connections.filter((c) => c.includes(block._id.toString())).length ===
+        0 ||
+      (block.type === "weights" &&
+        connections.filter((c) => c[0] === block._id.toString()).length === 0)
   );
 };
 

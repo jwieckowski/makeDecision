@@ -1,29 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 
-// REDUX
-import { RootState, useAppDispatch } from "../../redux";
-
-// HOOKS
-import { useLocale } from "../../hooks";
-
 // COMPONENTS
-import Image from "../../components/Image";
 import { Files, Instruction, MCDA, Technology } from "./AboutContent";
 
 // STYLES
-import { colors } from "../../common/globalStyles";
+import globalStyles, { colors } from "../../common/globalStyles";
 
 export default function AboutPage() {
-  const { about, file, loading, error } = useSelector((state: RootState) => ({
-    ...state.about,
-  }));
   const [groupIndex, setGroupIndex] = useState<number>(0);
 
   const { t } = useTranslation();
+  const location = useLocation();
 
   const content = [<MCDA />, <Instruction />, <Files />, <Technology />];
 
@@ -34,43 +25,40 @@ export default function AboutPage() {
     t("about:tab-4"),
   ];
 
+  useEffect(() => {
+    if (location.state) {
+      setGroupIndex(location.state.content);
+    }
+  }, []);
+
   return (
     <Container
       fluid
       style={{
-        margin: 0,
-        padding: 0,
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "start",
-        alignItems: "center",
+        ...globalStyles.p0,
+        ...globalStyles.m0,
       }}
+      className="d-flex flex-column justify-content-start align-items-center"
     >
       {/* APP DESCRIPTION GROUPS ITEMS */}
       <Nav
-        fill
-        justify
         variant="tabs"
+        className="d-flex flex-column flex-md-row align-items-center w-100 justify-content-center"
         activeKey={groupIndex}
         onSelect={(eventKey) => setGroupIndex(eventKey ? +eventKey : 0)}
-        style={{ height: "70px", marginTop: "50px" }}
+        style={{
+          ...globalStyles.mt50,
+        }}
       >
         {TABS.map((method, idx) => {
           return (
-            <Nav.Item
-              key={idx}
-              style={{
-                height: "100%",
-                width: "150px",
-              }}
-            >
+            <Nav.Item key={idx}>
               <Nav.Link
                 eventKey={idx}
+                className="d-flex justify-content-center align-items-center"
                 style={{
-                  height: "100%",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
+                  ...globalStyles.h100,
+                  width: "200px",
                   backgroundColor:
                     idx === groupIndex ? colors.darkBackground : "",
                   color: idx === groupIndex ? colors.light : colors.dark,

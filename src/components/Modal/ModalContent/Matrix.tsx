@@ -45,6 +45,7 @@ import useValidation from "../../../utilities/validation";
 import {
   convertCrispInput,
   convertFuzzyInput,
+  convertTextLength,
 } from "../../../utilities/formatting";
 import useSnackbars from "../../../utilities/snackbars";
 
@@ -489,7 +490,7 @@ export default function Matrix({ data }: MatrixProps) {
                   <div style={{ textAlign: "end", fontSize: "14px" }}>
                     {t("common:uploaded-file")}{" "}
                     <div style={{ fontWeight: "bold", fontSize: "12px" }}>
-                      {data.data.fileName}
+                      {convertTextLength(data.data.fileName)}
                     </div>
                   </div>
                   <div>
@@ -547,7 +548,7 @@ export default function Matrix({ data }: MatrixProps) {
                   <Select
                     label={`C${col + 1}`}
                     style={styles.selectExtension}
-                    labelStyle={styles.selectExtensionLabel}
+                    labelStyle={styles.selectCriteriaLabel}
                     items={types}
                     value={
                       data === null || data.data.types.length === 0
