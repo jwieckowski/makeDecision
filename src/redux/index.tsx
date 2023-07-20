@@ -5,7 +5,6 @@ import dictionarySlice from "./slices/dictionarySlice";
 import searchSlice from "./slices/searchSlice";
 import blocksSlice from "./slices/blocksSlice";
 import descriptionSlice from "./slices/descriptionSlice";
-import aboutSlice from "./slices/aboutSlice";
 import settingsSlice from "./slices/settingsSlice";
 import filteringSlice from "./slices/filteringSlice";
 
@@ -16,7 +15,6 @@ const store = configureStore({
     search: searchSlice,
     blocks: blocksSlice,
     description: descriptionSlice,
-    about: aboutSlice,
     settings: settingsSlice,
     filters: filteringSlice,
   },

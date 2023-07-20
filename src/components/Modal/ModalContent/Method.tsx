@@ -5,7 +5,7 @@ import Container from "react-bootstrap/Container";
 
 // REDUX
 import { RootState, useAppDispatch } from "../../../redux";
-import { BlockType, AdditionalType } from "../../../redux/types";
+import { BlockType, ResultsAdditional } from "../../../redux/types";
 
 // SLICES
 import { setBlockAdditionals } from "../../../redux/slices/blocksSlice";
@@ -41,11 +41,16 @@ export default function Method({ data }: MethodProps) {
   const { allMethods } = useSelector((state: RootState) => ({
     ...state.dictionary,
   }));
+
+  const { connections } = useSelector((state: RootState) => ({
+    ...state.blocks,
+  }));
+
   const { getMethodsConnectedBlocksExtensions } = useBlocksConnection();
 
-  const [metricsValues, setMetricsValues] = useState<AdditionalType[][] | []>(
-    []
-  );
+  const [metricsValues, setMetricsValues] = useState<
+    ResultsAdditional[][] | []
+  >([]);
   const [items, setItems] = useState<ItemProps[][][]>([]);
   const [metricNames, setMetricNames] = useState<string[][]>([]);
   const [connectedMatrices, setConnectedMatrices] = useState<MatricesProps[]>(
@@ -54,6 +59,24 @@ export default function Method({ data }: MethodProps) {
 
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
+
+  const getMetricValue = (idx: number, i: number) => {
+    let value = undefined;
+    if (Object.keys(metricsValues[idx][i])[0] === "normalization_function")
+      value = metricsValues[idx][i]?.normalization_function;
+    if (Object.keys(metricsValues[idx][i])[0] === "preference_function")
+      value = metricsValues[idx][i]?.preference_function;
+    if (Object.keys(metricsValues[idx][i])[0] === "normalization")
+      value = metricsValues[idx][i]?.normalization;
+    if (Object.keys(metricsValues[idx][i])[0] === "distance")
+      value = metricsValues[idx][i]?.distance;
+    if (Object.keys(metricsValues[idx][i])[0] === "distance_1")
+      value = metricsValues[idx][i]?.distance_1;
+    if (Object.keys(metricsValues[idx][i])[0] === "distance_2")
+      value = metricsValues[idx][i]?.distance_2;
+
+    return value === undefined ? "" : value;
+  };
 
   const handleMetricChange = (
     e: ChangeEvent<HTMLInputElement>,
@@ -85,9 +108,16 @@ export default function Method({ data }: MethodProps) {
     );
   };
 
+  console.log(data?.data.additionals);
   useEffect(() => {
     if (data === null) return;
     if (allMethods.length === 0) return;
+    if (
+      data.data.additionals.length !== 0 &&
+      data.data.additionals.length === items.length
+    )
+      return;
+    console.log("tutaj");
 
     setItems([]);
     setMetricNames([]);
@@ -113,9 +143,9 @@ export default function Method({ data }: MethodProps) {
       if (additionals === undefined) return;
       let names: string[] = [];
       let methodItems: ItemProps[][] = [];
-      let defaultMetrics: AdditionalType[] = [];
+      let defaultMetrics: ResultsAdditional[] = [];
 
-      additionals.data.forEach((item) => {
+      additionals.data.forEach((item, aIdx) => {
         names = [...names, item.method.toUpperCase()];
 
         methodItems = [
@@ -128,7 +158,7 @@ export default function Method({ data }: MethodProps) {
               defaultMetrics = [
                 ...defaultMetrics,
                 {
-                  [item.parameter]: i.functionName ? i.functionName : i.name,
+                  [item.parameter]: item.default,
                 },
               ];
             }
@@ -146,30 +176,55 @@ export default function Method({ data }: MethodProps) {
       });
       setMetricNames((prev) => [...prev, names]);
       setItems((prev) => [...prev, methodItems]);
-      if (data.data.additionals.length === 0)
+      if (
+        data.data.additionals.length === 0 ||
+        data.data.additionals.length !== items.length + 1
+      )
         setMetricsValues((prev) => [...prev, defaultMetrics]);
       else setMetricsValues(data.data.additionals);
     });
-  }, [data, allMethods]);
+  }, [data, allMethods, connections]);
+
+  console.log(metricsValues);
+  useEffect(() => {
+    if (metricsValues.length === 0) return;
+    dispatch(
+      setBlockAdditionals({
+        id: data?._id,
+        data: metricsValues,
+      })
+    );
+  }, [metricsValues]);
 
   return (
     <Container
       fluid
-      style={{ ...styles.wrapper, flexDirection: "column" }}
+      style={{
+        ...styles.wrapper,
+        flexDirection: "column",
+        maxHeight: "600px",
+        overflow: "auto",
+      }}
       className="w-100 m-0 p-0"
     >
       {connectedMatrices.map((block, idx) => {
         return (
-          <Container fluid className="w-100 m-0 p-0">
+          <Container
+            fluid
+            className="w-100 m-0 p-0"
+            key={`metrics-wrapper-${idx}`}
+          >
             <div className="w-100">
               {t("results:matrix")} ID {block.id} (
               {t(`results:${block.extension}`).toLowerCase()})
             </div>
 
-            {metricsValues.length > 0 ? (
+            {metricsValues.length > 0 &&
+            metricsValues.length === items.length ? (
               <Container
                 fluid
                 className="d-flex gap-2 p-0 m-0 my-3 justify-content-center"
+                key={`matrix-metrics-wrapper-${idx}`}
               >
                 {items[idx]?.map((params, i) => {
                   return Object.keys(metricsValues[idx][i]) ? (
@@ -181,9 +236,7 @@ export default function Method({ data }: MethodProps) {
                       items={params}
                       value={
                         metricsValues[idx][i]
-                          ? metricsValues[idx][i][
-                              Object.keys(metricsValues[idx][i])[0]
-                            ]
+                          ? getMetricValue(idx, i)
                           : params[0].value
                       }
                       onChange={(e) => handleMetricChange(e, idx, i)}

@@ -54,7 +54,7 @@ export const getTableWeightsLabels = (methods: ResultsMethod[]) => {
 
   methods.forEach((res) => {
     if (!weightsMethods.includes(res.weights)) {
-      weightsMethods = [...weightsMethods, res.weights];
+      weightsMethods = [...weightsMethods, res.weights.toUpperCase()];
     }
   });
   return weightsMethods;
@@ -88,19 +88,19 @@ export const getTableWeightsData = (
 };
 
 export const getTableRankingsData = (rankings: ResultsMethodRankings[]) => {
-  return rankings.map((rank, idx) => {
+  return rankings.map((rank) => {
     return rank.ranking;
   });
 };
 
 export const getTableRankingHeaders = (rankings: ResultsMethodRankings[]) => {
-  return rankings.map((rank, idx) => {
-    return rank.ranking.map((r, i) => `A${i + 1}`);
+  return rankings.map((rank) => {
+    return rank.ranking.map((_, i) => `A${i + 1}`);
   })[0];
 };
 
 export const getTableRankingLabels = (rankings: ResultsMethodRankings[]) => {
-  return rankings.map((rank, idx) => {
+  return rankings.map((rank) => {
     return [
       rank.methods.method.toUpperCase(),
       rank.methods.weights.toUpperCase(),

@@ -4,6 +4,11 @@ export type MethodAdditionalData = {
   id: number;
   method: string;
   parameter: string;
+  default: string;
+};
+export type MethodAdditional = {
+  extension: string;
+  data: [] | MethodAdditionalData[];
 };
 
 export type AllMethodsDataItem = {
@@ -29,120 +34,6 @@ export type AllMethodsItem = {
   data: [] | AllMethodsDataItem[];
   inputConnections: [] | string[];
   outputConnections: [] | string[];
-};
-
-export type MethodAdditional = {
-  extension: string;
-  data: [] | MethodAdditionalData[];
-};
-
-export type MethodsItem = {
-  id: number;
-  type: string;
-  label: string;
-  name: string;
-  abbreviation: string;
-  extensions: [] | string[];
-  order: string;
-  requiredData: [] | string[];
-  additional: [] | MethodAdditional[];
-  inputConnections: [] | string[];
-  outputConnections: [] | string[];
-  hints: [] | string[];
-};
-
-export type CorrelationsItem = {
-  id: number;
-  type: string;
-  label: string;
-  name: string;
-  requiredData: [] | string[];
-  inputConnections: [] | string[];
-  outputConnections: [] | string[];
-  hints: [] | string[];
-  additional?: null;
-};
-
-export type DecisionMatrixItem = {
-  id: number;
-  type: string;
-  label: string;
-  name: string;
-  extensions: [] | string[];
-  formats?: [] | string[];
-  requiredData: [] | string[];
-  outputConnections: [] | string[];
-  hints: [] | string[];
-  additional?: null;
-};
-
-export type DefuzzificationsItem = {
-  id: number;
-  type: string;
-  label: string;
-  name: string;
-  functionName: string;
-  extensions: [] | string[];
-  inputConnections: [] | string[];
-  hints: [] | string[];
-};
-
-export type DistancesItem = {
-  id: number;
-  type: string;
-  label: string;
-  name: string;
-  functionName: string;
-  extensions: [] | string[];
-  inputConnections: [] | string[];
-  hints: [] | string[];
-};
-
-export type NormalizationsItem = {
-  id: number;
-  type: string;
-  label: string;
-  name: string;
-  functionName: string;
-  extensions: [] | string[];
-  requiredData: [] | string[];
-  inputConnections: [] | string[];
-  outputConnections: [] | string[];
-  hints: [] | string[];
-};
-
-export type RankingItem = {
-  id: number;
-  type: string;
-  label: string;
-  name: string;
-  inputConnections: [] | string[];
-  outputConnections: [] | string[];
-  hints: [] | string[];
-  additional?: null;
-};
-
-export type VisualizationItem = {
-  id: number;
-  type: string;
-  label: string;
-  name: string;
-  inputConnections: [] | string[];
-  hints: [] | string[];
-  additional?: null;
-};
-
-export type WeightsItem = {
-  id: number;
-  type: string;
-  label: string;
-  name: string;
-  extensions: [] | string[];
-  requiredData: [] | string[];
-  inputConnections: [] | string[];
-  outputConnections: [] | string[];
-  hints: [] | string[];
-  additional?: null;
 };
 
 export type DictionarySliceState = {
@@ -182,35 +73,14 @@ export type FilterItem = {
 
 // RESULTS TYPES --------------------------------------------------------------
 
-export type AdditionalType = {
-  [key: string]: string;
-};
-
-type ParamsType = {
-  method: string;
-  extension: string;
-  additional: AdditionalType;
-};
-
-export type ResultsBodyType = {
-  matrix: number[][] | number[][][];
-  mcda_methods: string[];
-  extension: string;
-  types: number[];
-  weights_method: string;
-  correlation_methods: string[];
-  ranking_order: string;
-  params?: ParamsType[];
-};
-
-export type RankingBodyType = {
-  matrix: number[] | number[][];
-  order: [] | string[];
-};
-
-export type CorrelationBodyType = {
-  matrix: number[][];
-  correlationMethods: string[];
+export type ResultsAdditional = {
+  normalization_function?: string;
+  preference_function?: string;
+  normalization?: string;
+  defuzzify?: string;
+  distance?: string;
+  distance_1?: string;
+  distance_2?: string;
 };
 
 export type ResultsMethod = {
@@ -219,32 +89,46 @@ export type ResultsMethod = {
   weights_value: [] | number[] | number[][];
   preference: [] | number[];
   extension: string;
-  additional: {} | AdditionalType;
+  additional: ResultsAdditional;
   error: boolean | string;
+};
+
+type ResultsCorrelationsMethods = {
+  method: string;
+  weights: string;
+  additionals: ResultsAdditional;
 };
 
 export type ResultsMethodCorrelations = {
   correlation: string;
   results: [] | number[][];
-  methods: [] | AdditionalType[];
+  methods: ResultsCorrelationsMethods[];
   error: boolean | string;
+};
+
+type RankingMethods = {
+  method: string;
+  weights: string;
+  order: string;
+  ranking: boolean;
+  additionals: ResultsAdditional;
 };
 
 export type ResultsMethodRankings = {
   ranking: [] | number[];
-  methods: AdditionalType;
+  methods: RankingMethods;
   error: boolean | string;
 };
 
 export type ResultsRankingCorrelations = {
   correlation: string;
   results: [] | number[][];
-  methods: [] | AdditionalType[];
+  methods: ResultsCorrelationsMethods[];
   error: boolean | string;
 };
 
 export type ResultsType = {
-  matrices: [] | any;
+  matrices: [] | number[][] | number[][][];
   method: [] | ResultsMethod[][];
   methodCorrelations: [] | ResultsMethodCorrelations[][];
   methodRankings: [] | ResultsMethodRankings[][][];
@@ -302,9 +186,10 @@ export type RankingCorrelationType = {
   data: [] | MethodCorrelationItem[];
 };
 
-export type MatrixBodyType = {
-  matrix: File;
+type CalculationParamsType = {
+  method: string;
   extension: string;
+  additional: ResultsAdditional;
 };
 
 export type CalculationBodyType = {
@@ -315,11 +200,16 @@ export type CalculationBodyType = {
   methodCorrelations: [] | MethodCorrelationType[][];
   methodRankings: [] | MethodRankingType[][];
   rankingCorrelations: [] | RankingCorrelationType[][];
-  params: [] | AdditionalType[][];
+  params: [] | CalculationParamsType[][];
 };
 
 export type TempBodyType = {
   matrixFiles: [] | File[];
+};
+
+type ConvertedMatrixType = {
+  matrix: number[][] | number[][][];
+  criteriaTypes: number[];
 };
 
 export type CalculationSliceState = {
@@ -327,13 +217,12 @@ export type CalculationSliceState = {
   filteredResults: null | ResultsType;
   rankingResults: [] | RankingType[];
   correlationResults: [] | CorrelationType[];
-  methodParameters: [] | ParamsType[];
   alternatives: number;
   criteria: number;
   calculationBody: TempBodyType;
   loading: boolean;
   error: null | string;
-  convertedMatrix: [] | any;
+  convertedMatrix: null | ConvertedMatrixType;
   matrixId: [] | number[];
 };
 
@@ -347,7 +236,7 @@ export type BlockDataType = {
   types: [] | string[];
   weights: [] | string[];
   extension: string;
-  additionals: [] | AdditionalType[][];
+  additionals: [] | ResultsAdditional[][];
   alternatives: number;
   criteria: number;
   styles: null | React.CSSProperties;
@@ -364,18 +253,16 @@ export type BlockType = {
   data: BlockDataType;
 };
 
+export type ActiveBlockType = {
+  id: number;
+  type: string;
+};
+
 export type BlocksSliceState = {
   blocks: [] | BlockType[];
   clickedBlocks: [] | string[];
   connections: [] | string[][];
-  activeBlock:
-    | null
-    | MethodsItem
-    | CorrelationsItem
-    | DecisionMatrixItem
-    | RankingItem
-    | VisualizationItem
-    | WeightsItem;
+  activeBlock: null | ActiveBlockType;
   clickedBlockId: null | number;
   draggedItem: null | string;
   modalOpen: boolean;
@@ -405,21 +292,6 @@ export type MethodsDescriptionType = {
 export type DescriptionsSliceState = {
   home: [] | DescriptionType[];
   methods: [] | MethodsDescriptionType[];
-  loading: boolean;
-  error: null | string;
-};
-
-//  ABOUT TYPES --------------------------------------------------------------------------------------
-
-export type AboutDescriptionType = {
-  format: string;
-  imgIndex: number;
-  description: [] | DescriptionType[];
-};
-
-export type AboutSliceState = {
-  about: [] | AboutDescriptionType[];
-  file: any;
   loading: boolean;
   error: null | string;
 };

@@ -24,8 +24,6 @@ export default function CalculationPage() {
   );
   const { results } = useSelector((state: RootState) => state.calculation);
 
-  // console.log(results);
-
   const { setIsOpen } = useTour();
 
   const { t } = useTranslation();

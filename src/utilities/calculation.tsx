@@ -438,10 +438,10 @@ const useCalculation = () => {
           body.matrix = [...body.matrix, matrix.data.matrix];
         }
       } else if (matrix.method === "random")
-        body.matrix = [
-          ...body.matrix,
-          [matrix.data.alternatives, matrix.data.criteria],
-        ];
+        if (matrix.data?.alternatives && matrix.data?.criteria) {
+          const randomMatrix = [matrix.data.alternatives, matrix.data.criteria];
+          body.matrix = [...body.matrix, randomMatrix];
+        }
 
       // TYPES
       body.types = [...body.types, matrix.data.types.map((t) => +t)];

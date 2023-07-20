@@ -4,13 +4,12 @@ import {
   CalculationSliceState,
   ResultsType,
   CalculationBodyType,
-  MatrixBodyType,
 } from "../types";
 import { BASE_URL } from "../../common/const";
 
 type GetMatrixProps = {
   locale: string;
-  body: any;
+  body: FormData;
 };
 
 type GetResultsProps = {
@@ -56,13 +55,12 @@ const initialState: CalculationSliceState = {
   filteredResults: null,
   rankingResults: [],
   correlationResults: [],
-  methodParameters: [],
   alternatives: 3,
   criteria: 3,
   calculationBody: {
     matrixFiles: [],
   },
-  convertedMatrix: [],
+  convertedMatrix: null,
   loading: false,
   error: null,
   matrixId: [],
@@ -72,9 +70,6 @@ const calculationSlice = createSlice({
   name: "calculations",
   initialState: initialState,
   reducers: {
-    addMethodParameters: (state, action) => {
-      state.methodParameters = [action.payload, ...state.methodParameters];
-    },
     setAlternatives: (state, action) => {
       state.alternatives = action.payload;
     },
@@ -82,7 +77,7 @@ const calculationSlice = createSlice({
       state.criteria = action.payload;
     },
     resetConvertedMatrix: (state) => {
-      state.convertedMatrix = [];
+      state.convertedMatrix = null;
     },
     addMatrixFile: (state, action) => {
       state.calculationBody.matrixFiles = [
@@ -103,6 +98,7 @@ const calculationSlice = createSlice({
     },
     resetResults: (state) => {
       state.results = initialState.results;
+      state.filteredResults = initialState.filteredResults;
       state.error = null;
     },
     setCalculationMatrixId: (state, action) => {
@@ -157,7 +153,6 @@ const calculationSlice = createSlice({
 });
 const { actions, reducer } = calculationSlice;
 export const {
-  addMethodParameters,
   setAlternatives,
   setCriteria,
   addMatrixFile,

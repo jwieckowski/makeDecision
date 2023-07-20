@@ -195,9 +195,9 @@ export default function DragArea() {
       if (methods.key.toLowerCase().includes(type.toLowerCase())) {
         dispatch(
           setActiveBlock({
-            ...methods.data.filter(
+            type: methods.data.filter(
               (item) => item.name.toLowerCase() === method.toLowerCase()
-            )[0],
+            )[0].type,
             id: +id,
           })
         );

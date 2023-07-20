@@ -88,7 +88,6 @@ export default function ActionButtons() {
     setTimeout(async () => {
       const res = getCalculateBody(blocks, connections, allMethods);
       if (res !== undefined && res.calculate) {
-        console.log(res);
         await dispatch(setCalculationMatrixId(res.matrixIndexes));
         await dispatch(getResults({ locale, params: res.body }));
       }

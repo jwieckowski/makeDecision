@@ -170,10 +170,7 @@ export default function Matrix({ data }: MatrixProps) {
 
   // UPLOAD FILE EFFECTS
   useEffect(() => {
-    if (
-      convertedMatrix.length !== 0 &&
-      Object.keys(convertedMatrix).length !== 0
-    ) {
+    if (convertedMatrix !== null && Object.keys(convertedMatrix).length !== 0) {
       dispatch(
         setBlockMatrix({
           id: data?._id,
