@@ -73,3 +73,48 @@ Based on `pymcdm` and `pyfdm` packages which handles the calculations, the GUI c
 [GUI application](https://jwieckowski.github.io/gui/)
 
 [Server documentation](https://jwieckowski.pythonanywhere.com/api/v1/documentation)
+
+### Run locally
+
+To run the web application locally:
+
+- Clone the repository with the web application
+
+```
+git clone https://github.com/jwieckowski/gui.git
+```
+
+- Enter the repository and install dependencies
+
+```
+cd gui
+npm install
+```
+
+- Run the application
+
+```
+npm start
+```
+
+To run the REST API server locally:
+
+- Clone the repository with the REST API server
+
+```
+git clone https://github.com/jwieckowski/gui-server.git
+```
+
+- Enter the repository and install dependencies
+
+```
+cd gui-server
+pip install -r requirements.txt
+```
+
+- Run the server
+
+```
+cd server
+python server.py
+```
