@@ -23,6 +23,7 @@ import {
   FUZZY_JSON_FILE,
   CRISP_XLSX_FILE,
   FUZZY_XLSX_FILE,
+  APP_NAME_PATH,
 } from "../../../common/const";
 
 // STYLES
@@ -86,7 +87,7 @@ export default function Files() {
               {t("about:file-bad-format")}
             </div>
             <Link
-              to={`/examples/${CRISP_JSON_FILE}`}
+              to={`/${APP_NAME_PATH}/examples/${CRISP_JSON_FILE}`}
               target="_blank"
               download
               className="mx-0 mx-lg-3 my-2 my-lg-0"
@@ -133,7 +134,7 @@ export default function Files() {
               {t("about:file-bad-format")}
             </div>
             <Link
-              to={`/examples/${FUZZY_JSON_FILE}`}
+              to={`/${APP_NAME_PATH}/examples/${FUZZY_JSON_FILE}`}
               target="_blank"
               download
               className="mx-0 mx-lg-3 my-2 my-lg-0"
@@ -181,7 +182,7 @@ export default function Files() {
               {t("about:file-bad-format")}
             </div>
             <Link
-              to={`/examples/${CRISP_CSV_FILE}`}
+              to={`/${APP_NAME_PATH}/examples/${CRISP_CSV_FILE}`}
               target="_blank"
               download
               className="mx-0 mx-lg-3 my-2 my-lg-0"
@@ -228,7 +229,7 @@ export default function Files() {
               {t("about:file-bad-format")}
             </div>
             <Link
-              to={`/examples/${FUZZY_CSV_FILE}`}
+              to={`/${APP_NAME_PATH}/examples/${FUZZY_CSV_FILE}`}
               target="_blank"
               download
               className="mx-0 mx-lg-3 my-2 my-lg-0"
@@ -276,7 +277,7 @@ export default function Files() {
               {t("about:file-bad-format")}
             </div>
             <Link
-              to={`/examples/${CRISP_XLSX_FILE}`}
+              to={`/${APP_NAME_PATH}/examples/${CRISP_XLSX_FILE}`}
               target="_blank"
               download
               className="mx-0 mx-lg-3 my-2 my-lg-0"
@@ -323,7 +324,7 @@ export default function Files() {
               {t("about:file-bad-format")}
             </div>
             <Link
-              to={`/examples/${FUZZY_XLSX_FILE}`}
+              to={`/${APP_NAME_PATH}/examples/${FUZZY_XLSX_FILE}`}
               target="_blank"
               download
               className="mx-0 mx-lg-3 my-2 my-lg-0"
