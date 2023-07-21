@@ -108,7 +108,6 @@ export default function Method({ data }: MethodProps) {
     );
   };
 
-  console.log(data?.data.additionals);
   useEffect(() => {
     if (data === null) return;
     if (allMethods.length === 0) return;
@@ -117,14 +116,15 @@ export default function Method({ data }: MethodProps) {
       data.data.additionals.length === items.length
     )
       return;
-    console.log("tutaj");
 
     setItems([]);
     setMetricNames([]);
     setMetricsValues([]);
 
     // FOR EACH CONNECTED MATRIX GET PARAMETERS TO SET FOR A METHOD
-    getMethodsConnectedBlocksExtensions(data).forEach((block) => {
+    const methodExtensions = getMethodsConnectedBlocksExtensions(data);
+
+    methodExtensions.forEach((block, blockId) => {
       const newItem = getFilteredMethods(
         getMethodData(allMethods, data.type),
         block.extension
@@ -143,9 +143,12 @@ export default function Method({ data }: MethodProps) {
       if (additionals === undefined) return;
       let names: string[] = [];
       let methodItems: ItemProps[][] = [];
-      let defaultMetrics: ResultsAdditional[] = [];
+      let defaultMetrics: ResultsAdditional[] =
+        data.data.additionals.length > blockId
+          ? [...data.data?.additionals[blockId]]
+          : [];
 
-      additionals.data.forEach((item, aIdx) => {
+      additionals.data.forEach((item) => {
         names = [...names, item.method.toUpperCase()];
 
         methodItems = [
@@ -154,7 +157,11 @@ export default function Method({ data }: MethodProps) {
             getMethodData(allMethods, item.method),
             block.extension
           ).map((i, idx) => {
-            if (idx === 0 && additionals.extension === block.extension) {
+            if (
+              idx === 0 &&
+              additionals.extension === block.extension &&
+              data.data.additionals.length < blockId + 1
+            ) {
               defaultMetrics = [
                 ...defaultMetrics,
                 {
@@ -176,16 +183,10 @@ export default function Method({ data }: MethodProps) {
       });
       setMetricNames((prev) => [...prev, names]);
       setItems((prev) => [...prev, methodItems]);
-      if (
-        data.data.additionals.length === 0 ||
-        data.data.additionals.length !== items.length + 1
-      )
-        setMetricsValues((prev) => [...prev, defaultMetrics]);
-      else setMetricsValues(data.data.additionals);
+      setMetricsValues((prev) => [...prev, defaultMetrics]);
     });
   }, [data, allMethods, connections]);
 
-  console.log(metricsValues);
   useEffect(() => {
     if (metricsValues.length === 0) return;
     dispatch(

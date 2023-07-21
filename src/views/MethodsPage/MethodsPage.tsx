@@ -25,7 +25,7 @@ import globalStyles, { colors } from "../../common/globalStyles";
 import styles from "./MethodsPage.styles";
 
 export default function MethodsPage() {
-  const { methods, loading, error } = useSelector((state: RootState) => ({
+  const { methods, loading } = useSelector((state: RootState) => ({
     ...state.description,
   }));
   const [groupIndex, setGroupIndex] = useState<number>(0);
@@ -76,7 +76,10 @@ export default function MethodsPage() {
       >
         {methods.map((method, idx) => {
           return (
-            <Nav.Item key={method.id} style={globalStyles.h100}>
+            <Nav.Item
+              key={`${method.key}-${method.id}`}
+              style={globalStyles.h100}
+            >
               <Nav.Link
                 eventKey={idx}
                 className="d-flex justify-content-center align-items-center"
@@ -104,7 +107,7 @@ export default function MethodsPage() {
       >
         {methods[groupIndex].data.map((method, idx) => {
           return (
-            <Nav.Item key={method.id} style={styles.tabItem}>
+            <Nav.Item key={method.name} style={styles.tabItem}>
               <Nav.Link
                 eventKey={idx}
                 className="d-flex justify-content-center align-items-center"
@@ -129,7 +132,10 @@ export default function MethodsPage() {
         >
           {methods[groupIndex].data[methodIndex].description.map((text) => {
             return (
-              <div style={styles.textItemWrapper}>
+              <div
+                style={styles.textItemWrapper}
+                key={`text-${groupIndex}-${methodIndex}-${text.id}`}
+              >
                 <div style={styles.textItemBorder}></div>
                 <MarkdownText text={text.text} key={`text-${text.id}`} />
               </div>

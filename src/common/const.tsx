@@ -1,14 +1,12 @@
-// export const BASE_URL = "https://jwieckowski.pythonanywhere.com";
-// export const APP_URL = "https://jwieckowski.github.io/gui";
-export const BASE_URL = "http://127.0.0.1:5000";
-export const APP_URL = "./";
+export const BASE_URL = "https://jwieckowski.pythonanywhere.com";
+// export const BASE_URL = "http://127.0.0.1:5000";
 
 export const APP_NAME_PATH = "gui";
 
 // APPLICATION CONST
 export const NAV_HEIGHT = 80;
 export const DRAWER_MIN_WIDTH = 350;
-export const METHODS_LIST_HEIGHT = 430;
+export const METHODS_LIST_HEIGHT = 460;
 export const DRAG_AREA_SPACE = 40;
 
 export const HIDE_DURATION = 4000;
@@ -29,6 +27,16 @@ export const MENU_ITEM_WIDTH = 140;
 
 export const DRAGGABLE_WIDTH = 110;
 export const DRAGGABLE_HEIGHT = 80;
+
+// DRAG SETTINGS INPUT PROPS
+export const MIN_SETTINGS_VALUE = 1;
+export const MIN_CURVENESS_VALUE = 0.1;
+export const MAX_SETTINGS_VALUE = 10;
+export const MAX_CURVENESS_VALUE = 2;
+export const STEP_SETTINGS_VALUE = 1;
+export const STEP_CURVENESS_VALUE = 0.1;
+export const MIN_GRID_VALUE = 25;
+export const MAX_GRID_VALUE = 100;
 
 // CONTACT AND SOCIALS
 export const GITHUB_PROFILE_LABEL = "jwieckowski";

@@ -13,6 +13,9 @@ type InputProps = {
   labelStyle?: any;
   style?: any;
   disabled?: boolean;
+  min?: number;
+  max?: number;
+  step?: number;
 };
 
 export default function Input({
@@ -25,6 +28,9 @@ export default function Input({
   labelStyle,
   style,
   disabled,
+  min,
+  max,
+  step,
 }: InputProps) {
   return (
     <Form.Group controlId="formGroup" style={{ ...globalStyles.inputForm }}>
@@ -46,6 +52,9 @@ export default function Input({
         onChange={onChange}
         disabled={disabled ? disabled : false}
         onBlur={(e) => (onBlur ? onBlur(e) : () => {})}
+        min={min ? min : undefined}
+        max={max ? max : undefined}
+        step={step ? step : undefined}
       />
     </Form.Group>
   );

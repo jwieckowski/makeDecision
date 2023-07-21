@@ -3,9 +3,6 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import { Placement } from "react-bootstrap/esm/types";
 
-// STYLES
-import globalStyles from "../../common/globalStyles";
-
 type TooltipProps = {
   text: string;
   element: React.ReactElement;

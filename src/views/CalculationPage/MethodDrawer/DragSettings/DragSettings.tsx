@@ -24,7 +24,17 @@ import ColorPicker from "../../../../components/ColorPicker";
 import Checkbox from "../../../../components/Checkbox";
 
 // CONST
-import { PATHS } from "../../../../common/const";
+import {
+  PATHS,
+  MIN_SETTINGS_VALUE,
+  MIN_CURVENESS_VALUE,
+  MAX_SETTINGS_VALUE,
+  MAX_CURVENESS_VALUE,
+  STEP_SETTINGS_VALUE,
+  STEP_CURVENESS_VALUE,
+  MIN_GRID_VALUE,
+  MAX_GRID_VALUE,
+} from "../../../../common/const";
 
 // STYLES
 import globalStyles from "../../../../common/globalStyles";
@@ -50,6 +60,9 @@ export default function DragSettings() {
             dispatch(setHeadSize(+e.target.value));
           }}
           style={globalStyles.textInput}
+          min={MIN_SETTINGS_VALUE}
+          max={MAX_SETTINGS_VALUE}
+          step={STEP_SETTINGS_VALUE}
         />
         <Input
           type={"number"}
@@ -59,6 +72,9 @@ export default function DragSettings() {
             dispatch(setSize(+e.target.value));
           }}
           style={globalStyles.textInput}
+          min={MIN_SETTINGS_VALUE}
+          max={MAX_SETTINGS_VALUE}
+          step={STEP_SETTINGS_VALUE}
         />
         <Input
           type={"number"}
@@ -68,6 +84,9 @@ export default function DragSettings() {
             dispatch(setCurveness(+e.target.value));
           }}
           style={globalStyles.textInput}
+          min={MIN_CURVENESS_VALUE}
+          max={MAX_CURVENESS_VALUE}
+          step={STEP_CURVENESS_VALUE}
         />
         <Select
           items={PATHS}
@@ -104,6 +123,8 @@ export default function DragSettings() {
           }}
           disabled={!gridOn}
           style={globalStyles.textInput}
+          min={MIN_GRID_VALUE}
+          max={MAX_GRID_VALUE}
         />
       </Container>
     </Container>

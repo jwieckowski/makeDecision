@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import Container from "react-bootstrap/Container";
 import { Save, Trash3, PlayCircleFill } from "react-bootstrap-icons";
-import { useTour } from "@reactour/tour";
 
 // REDUX
 import { RootState, useAppDispatch } from "../../../../redux";
@@ -28,8 +27,7 @@ import {
 import { useLocale } from "../../../../hooks";
 
 // COMPONENTS
-import Button from "../../../../components/Button";
-import Tooltip from "../../../../components/Tooltip";
+import TooltipButton from "../../../../components/Tooltip/TooltipButton";
 
 // UTILS
 import {
@@ -101,7 +99,7 @@ export default function ActionButtons() {
         ...globalStyles.actionButtonsWrapper,
       }}
     >
-      <Container className="" style={{ ...globalStyles.actionButtonsRow }}>
+      {/* <Container className="" style={{ ...globalStyles.actionButtonsRow }}>
         <Tooltip
           text={t("common:tooltip-graph")}
           placement="top"
@@ -133,32 +131,24 @@ export default function ActionButtons() {
             />
           }
         />
-      </Container>
+      </Container> */}
 
       <Container style={{ ...globalStyles.actionButtonsRow }}>
-        <Tooltip
-          text={t("common:tooltip-clear")}
-          placement="top"
-          element={
-            <Button
-              text={t("results:clear")}
-              icon={<Trash3 />}
-              onClick={handleClearClick}
-              style={globalStyles.buttonDanger}
-            />
-          }
+        <TooltipButton
+          text={t("results:clear")}
+          icon={<Trash3 />}
+          onClick={handleClearClick}
+          label={t("common:tooltip-clear")}
+          style={globalStyles.buttonDanger}
+          placement={"top"}
         />
-        <Tooltip
-          text={t("common:tooltip-calculate")}
-          placement="top"
-          element={
-            <Button
-              text={t("results:calculate")}
-              icon={<PlayCircleFill />}
-              onClick={handleCalculateClick}
-              style={globalStyles.buttonSuccess}
-            />
-          }
+        <TooltipButton
+          text={t("results:calculate")}
+          icon={<PlayCircleFill />}
+          onClick={handleCalculateClick}
+          label={t("common:tooltip-calculate")}
+          style={globalStyles.buttonSuccess}
+          placement={"top"}
         />
       </Container>
     </Container>
