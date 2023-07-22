@@ -81,9 +81,7 @@ export default function DragArea() {
   }, [scale]);
 
   useEffect(() => {
-    setModalType((prev) =>
-      activeBlock ? activeBlock.type.toLowerCase() : prev
-    );
+    setModalType(() => (activeBlock ? activeBlock.type.toLowerCase() : ""));
   }, [activeBlock]);
 
   useEffect(() => {
@@ -106,6 +104,7 @@ export default function DragArea() {
 
     if (!currentBlocks.includes(activeBlock?.id as never)) {
       dispatch(setActiveBlock(null));
+      setModalType("");
     }
   }, [blocks]);
 
@@ -151,6 +150,7 @@ export default function DragArea() {
     dispatch(setClickedBlockId(null));
     dispatch(setClickedBlocks([]));
     dispatch(setActiveBlock(null));
+    setModalType("");
   };
 
   const handleArrowClick = (c: string[]) => {

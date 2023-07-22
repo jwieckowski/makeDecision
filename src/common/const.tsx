@@ -1,9 +1,10 @@
-export const BASE_URL = "https://jwieckowski.pythonanywhere.com";
-// export const BASE_URL = "http://127.0.0.1:5000";
+// export const BASE_URL = "https://jwieckowski.pythonanywhere.com";
+export const BASE_URL = "http://127.0.0.1:5000";
 
 export const APP_NAME_PATH = "gui";
 
 // APPLICATION CONST
+export const APPLICATION_NAME = "MakeDecision.it";
 export const NAV_HEIGHT = 80;
 export const DRAWER_MIN_WIDTH = 350;
 export const METHODS_LIST_HEIGHT = 460;

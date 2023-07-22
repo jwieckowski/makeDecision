@@ -13,6 +13,7 @@ import Language from "./Language";
 
 // CONST
 import {
+  APPLICATION_NAME,
   APP_NAME_PATH,
   URLS,
   NAV_HEIGHT,
@@ -46,7 +47,7 @@ export default function NavigationMenu() {
           href={`/${APP_NAME_PATH}${URLS[0]}`}
           style={{ ...styles.logo }}
         >
-          {t("common:app")}
+          {APPLICATION_NAME}
         </Navbar.Brand>
         <Navbar.Toggle aria-controls={`side-navbar`} />
         <Navbar.Offcanvas
