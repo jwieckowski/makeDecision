@@ -43,10 +43,7 @@ export default function NavigationMenu() {
       style={{ height: `${NAV_HEIGHT}px`, ...styles.navbar }}
     >
       <Container fluid id="navMenu">
-        <Navbar.Brand
-          href={`/${APP_NAME_PATH}${URLS[0]}`}
-          style={{ ...styles.logo }}
-        >
+        <Navbar.Brand href={`${URLS[0]}`} style={{ ...styles.logo }}>
           {APPLICATION_NAME}
         </Navbar.Brand>
         <Navbar.Toggle aria-controls={`side-navbar`} />
@@ -68,7 +65,7 @@ export default function NavigationMenu() {
             <Nav className="justify-content-end flex-grow-1">
               {PAGES.map((page, index) => (
                 <Link
-                  to={`/${APP_NAME_PATH}${URLS[index]}`}
+                  to={`${URLS[index]}`}
                   key={index}
                   className="text-lg-center"
                   style={{
@@ -81,7 +78,7 @@ export default function NavigationMenu() {
                       index === 3 ? "tour-step-thirteen" : ""
                     }`}
                     style={
-                      location.pathname === `/${APP_NAME_PATH}${URLS[index]}`
+                      location.pathname === `${URLS[index]}`
                         ? {
                             ...styles.menuItemActive,
                           }

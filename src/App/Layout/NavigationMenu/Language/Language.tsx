@@ -30,9 +30,9 @@ export default function Language() {
     setLang(event.target.value as string);
     window.localStorage.setItem("locale", event.target.value as string);
 
-    // if (window.location.pathname === `/${APP_NAME_PATH}/calculation`) {
-    //   window.location.reload();
-    // }
+    if (window.location.pathname.includes(`/calculation`)) {
+      window.location.reload();
+    }
 
     // reload application
     await dispatch(getMethodsDescriptions(event.target.value as string));

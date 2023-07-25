@@ -1,6 +1,6 @@
 export const BASE_URL = "https://jwieckowski.pythonanywhere.com";
 
-export const APP_NAME_PATH = "";
+export const APP_NAME_PATH = "/";
 
 // APPLICATION CONST
 export const APPLICATION_NAME = "MakeDecision.it";
