@@ -51,7 +51,7 @@ export const MCDA_IT_LINK = "https://mcda.it/";
 
 // TECHNOLOGY
 export const API_DOCUMENTATION =
-  "https://jwieckowski.pythonanywhere.com/api/v1/documentation";
+  "http://api.make-decision.it/api/v1/documentation";
 export const REACT_LINK = "https://react.dev/";
 export const RTK_LINK = "https://redux-toolkit.js.org/";
 export const DRAGGABLE_LINK =
