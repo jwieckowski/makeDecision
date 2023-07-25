@@ -40,7 +40,10 @@ export default function NavigationMenu() {
       key="lg"
       expand="lg"
       className="w-100"
-      style={{ height: `${NAV_HEIGHT}px`, ...styles.navbar }}
+      style={{
+        minHeight: `${NAV_HEIGHT}px`,
+        ...styles.navbar,
+      }}
     >
       <Container fluid id="navMenu">
         <Navbar.Brand href={`${URLS[0]}`} style={{ ...styles.logo }}>

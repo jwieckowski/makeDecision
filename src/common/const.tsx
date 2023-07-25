@@ -1,4 +1,5 @@
-export const BASE_URL = "https://jwieckowski.pythonanywhere.com";
+export const BASE_URL = "http://api.make-decision.it/";
+export const APP_URL = "http://make-decision.it";
 
 export const APP_NAME_PATH = "/";
 

@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import Container from "react-bootstrap/Container";
 import Stack from "react-bootstrap/Stack";
 import { Download } from "react-bootstrap-icons";
-import { Link } from "react-router-dom";
 
 // COMPONENTS
 import Codes from "../../../components/Codes";
@@ -24,6 +23,7 @@ import {
   CRISP_XLSX_FILE,
   FUZZY_XLSX_FILE,
   APP_NAME_PATH,
+  APP_URL,
 } from "../../../common/const";
 
 // STYLES
@@ -45,6 +45,17 @@ export default function Files() {
 
   const showCSV = (data: string[]) => {
     return data.join("\n");
+  };
+
+  const generateFile = (data: any, title: string) => {
+    const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
+      JSON.stringify(data, null, 2)
+    )}`;
+    const link = document.createElement("a");
+    link.href = jsonString;
+    link.download = title;
+
+    link.click();
   };
 
   return (
@@ -86,23 +97,20 @@ export default function Files() {
             >
               {t("about:file-bad-format")}
             </div>
-            <Link
-              to={`/${APP_NAME_PATH}/examples/${CRISP_JSON_FILE}`}
-              target="_blank"
-              download
+            <div
               className="mx-0 mx-lg-3 my-2 my-lg-0"
               style={globalStyles.noTextDecoration}
             >
               <Button
                 text={t("about:download-example-file")}
                 icon={<Download />}
-                onClick={() => {}}
+                onClick={() => generateFile(JSON_CRISP_DATA, CRISP_JSON_FILE)}
                 style={{
                   ...globalStyles.buttonPrimary,
                   ...globalStyles.w200,
                 }}
               />
-            </Link>
+            </div>
           </div>
         </Stack>
 
@@ -133,23 +141,20 @@ export default function Files() {
             >
               {t("about:file-bad-format")}
             </div>
-            <Link
-              to={`/${APP_NAME_PATH}/examples/${FUZZY_JSON_FILE}`}
-              target="_blank"
-              download
+            <div
               className="mx-0 mx-lg-3 my-2 my-lg-0"
               style={globalStyles.noTextDecoration}
             >
               <Button
                 text={t("about:download-example-file")}
                 icon={<Download />}
-                onClick={() => {}}
+                onClick={() => generateFile(JSON_FUZZY_DATA, FUZZY_JSON_FILE)}
                 style={{
                   ...globalStyles.buttonPrimary,
                   ...globalStyles.w200,
                 }}
               />
-            </Link>
+            </div>
           </div>
         </Stack>
 
@@ -181,9 +186,10 @@ export default function Files() {
             >
               {t("about:file-bad-format")}
             </div>
-            <Link
-              to={`/${APP_NAME_PATH}/examples/${CRISP_CSV_FILE}`}
+            <a
+              href={`${APP_URL}${APP_NAME_PATH}examples/${CRISP_CSV_FILE}`}
               target="_blank"
+              rel="noopener noreferrer"
               download
               className="mx-0 mx-lg-3 my-2 my-lg-0"
               style={globalStyles.noTextDecoration}
@@ -197,7 +203,7 @@ export default function Files() {
                   ...globalStyles.w200,
                 }}
               />
-            </Link>
+            </a>
           </div>
         </Stack>
 
@@ -228,9 +234,10 @@ export default function Files() {
             >
               {t("about:file-bad-format")}
             </div>
-            <Link
-              to={`/${APP_NAME_PATH}/examples/${FUZZY_CSV_FILE}`}
+            <a
+              href={`${APP_URL}${APP_NAME_PATH}examples/${FUZZY_CSV_FILE}`}
               target="_blank"
+              rel="noopener noreferrer"
               download
               className="mx-0 mx-lg-3 my-2 my-lg-0"
               style={globalStyles.noTextDecoration}
@@ -244,7 +251,7 @@ export default function Files() {
                   ...globalStyles.w200,
                 }}
               />
-            </Link>
+            </a>
           </div>
         </Stack>
 
@@ -276,9 +283,11 @@ export default function Files() {
             >
               {t("about:file-bad-format")}
             </div>
-            <Link
-              to={`/${APP_NAME_PATH}/examples/${CRISP_XLSX_FILE}`}
+
+            <a
+              href={`${APP_URL}${APP_NAME_PATH}examples/${CRISP_XLSX_FILE}`}
               target="_blank"
+              rel="noopener noreferrer"
               download
               className="mx-0 mx-lg-3 my-2 my-lg-0"
               style={globalStyles.noTextDecoration}
@@ -292,7 +301,7 @@ export default function Files() {
                   ...globalStyles.w200,
                 }}
               />
-            </Link>
+            </a>
           </div>
         </Stack>
 
@@ -323,9 +332,10 @@ export default function Files() {
             >
               {t("about:file-bad-format")}
             </div>
-            <Link
-              to={`/${APP_NAME_PATH}/examples/${FUZZY_XLSX_FILE}`}
+            <a
+              href={`${APP_URL}${APP_NAME_PATH}examples/${FUZZY_XLSX_FILE}`}
               target="_blank"
+              rel="noopener noreferrer"
               download
               className="mx-0 mx-lg-3 my-2 my-lg-0"
               style={globalStyles.noTextDecoration}
@@ -339,7 +349,7 @@ export default function Files() {
                   ...globalStyles.w200,
                 }}
               />
-            </Link>
+            </a>
           </div>
         </Stack>
       </Stack>

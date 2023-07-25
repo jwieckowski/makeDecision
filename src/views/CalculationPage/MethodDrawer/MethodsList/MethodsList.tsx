@@ -154,7 +154,9 @@ export default function MethodsList() {
     <ListGroup
       variant="flush"
       style={{
-        height: `${METHODS_LIST_HEIGHT}px`,
+        minHeight: `${METHODS_LIST_HEIGHT}px`,
+        height: "100%",
+        maxHeight: "60vh",
         overflowY: "scroll",
       }}
       className="tour-step-five"

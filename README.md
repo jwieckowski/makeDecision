@@ -1,4 +1,6 @@
-# Multi-Criteria Decision Making GUI
+# Multi-Criteria Decision Making Graphical User Interface
+
+MakeDecision.it application
 
 (under development)
 
@@ -70,9 +72,9 @@ Based on `pymcdm` and `pyfdm` packages which handles the calculations, the GUI c
 
 ### Get started
 
-[GUI application](https://jwieckowski.github.io/gui/)
+[GUI application](http://make-decision.it)
 
-[Server documentation](https://jwieckowski.pythonanywhere.com/api/v1/documentation)
+[Server documentation](http://api.make-decision.it/api/v1/documentation)
 
 ### Run locally
 
@@ -81,13 +83,13 @@ To run the web application locally:
 - Clone the repository with the web application
 
 ```
-git clone https://github.com/jwieckowski/gui.git
+git clone https://github.com/jwieckowski/makeDecision.git
 ```
 
 - Enter the repository and install dependencies
 
 ```
-cd gui
+cd makeDecision
 npm install
 ```
 
@@ -102,13 +104,13 @@ To run the REST API server locally:
 - Clone the repository with the REST API server
 
 ```
-git clone https://github.com/jwieckowski/gui-server.git
+git clone https://github.com/jwieckowski/makeDecision-server.git
 ```
 
 - Enter the repository and install dependencies
 
 ```
-cd gui-server
+cd makeDecision-server
 pip install -r requirements.txt
 ```
 
