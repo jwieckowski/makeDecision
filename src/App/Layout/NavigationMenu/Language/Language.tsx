@@ -30,8 +30,6 @@ export default function Language() {
     setLang(event.target.value as string);
     window.localStorage.setItem("locale", event.target.value as string);
 
-    console.log(window.location.pathname);
-    console.log(window.location.pathname.includes("/calculation"));
     if (window.location.pathname.includes(`/calculation`)) {
       window.location.reload();
     }
