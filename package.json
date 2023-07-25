@@ -1,12 +1,13 @@
 {
-  "name": "gui",
-  "homepage": "https://jwieckowski.github.io/gui/",
-  "version": "0.1.0",
-  "private": true,
+  "name": "makeDecision",
+  "homepage": "http://make-decision.it/",
+  "version": "1.0.0",
+  "private": false,
   "dependencies": {
     "@emotion/react": "^11.11.1",
-    "@emotion/styled": "^11.10.5",
+    "@emotion/styled": "^11.11.0",
     "@handsontable/react": "^13.0.0",
+    "@mui/material": "^5.14.1",
     "@reactour/tour": "^3.4.0",
     "@reduxjs/toolkit": "^1.9.1",
     "@testing-library/jest-dom": "^5.16.5",
