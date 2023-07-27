@@ -15,6 +15,7 @@
 
   "none-criteria-types": "Criteria types were not given (Matrix ID {{id}})",
   "missing-criteria-types": "Not all criteria types were given (Matrix ID {{id}})",
+  "same-criteria-types": "{{method}}: Criteria types should not be the same",
 
   "no-mcda-method": "No MCDA method was used (Matrix ID {{id}})",
 

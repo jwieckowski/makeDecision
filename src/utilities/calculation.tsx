@@ -25,6 +25,7 @@ const useCalculation = () => {
     validateUserInputFuzzyMatrixTFN,
     validateUserInputFuzzyMatrixOrder,
     validateCriteriaTypes,
+    validateSameCriteriaTypes,
     validateMethodConnection,
     validateUserInputWeights,
     validateUserInputCrispWeightsValues,
@@ -485,6 +486,12 @@ const useCalculation = () => {
         connections
       );
       calculate = validateMethodConnection(mcdaItems, matrix._id);
+      if (!calculate) return;
+
+      calculate = validateSameCriteriaTypes(
+        mcdaItems.flatMap((item) => item.map((i) => i.method)),
+        matrix.data.types.map((t) => +t)
+      );
       if (!calculate) return;
 
       // ADDITIONAL PARAMS FOR METHODS

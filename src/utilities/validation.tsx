@@ -192,7 +192,26 @@ const useValidation = () => {
       );
       return false;
     }
+
     return true;
+  };
+
+  const validateSameCriteriaTypes = (methods: string[], types: number[]) => {
+    let calculate = true;
+    methods.forEach((method) => {
+      if (
+        ["COPRAS", "MOORA", "OCRA"].includes(method.toUpperCase()) &&
+        Array.from(new Set(types)).length === 1
+      ) {
+        showSnackbar(
+          t("snackbar:same-criteria-types", { method: method.toUpperCase() }),
+          "error"
+        );
+        calculate = false;
+        return;
+      }
+    });
+    return calculate;
   };
 
   // const validateWeightsMethodConnection = (
@@ -294,6 +313,7 @@ const useValidation = () => {
     validateUserInputFuzzyMatrixTFN,
     validateUserInputFuzzyMatrixOrder,
     validateCriteriaTypes,
+    validateSameCriteriaTypes,
     validateMethodConnection,
     validateUserInputWeights,
     validateUserInputCrispWeightsValues,

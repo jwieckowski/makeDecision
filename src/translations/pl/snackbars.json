@@ -15,6 +15,7 @@
 
   "none-criteria-types": "Typy kryteriów nie zostały podane (Macierz ID {{id}})",
   "missing-criteria-types": "Nie wszystkie typy kryteriów zostały podane (Macierz ID {{id}})",
+  "same-criteria-types": "{{method}}: Typy kryteriów nie mogą być takie same",
 
   "no-mcda-method": "Metoda MCDA nie została użyta (Macierz ID {{id}})",
 
