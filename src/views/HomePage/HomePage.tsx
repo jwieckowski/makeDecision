@@ -118,7 +118,7 @@ export default function HomePage() {
             <Button
               text={t("home:home-button-instruction")}
               onClick={() =>
-                navigate(`/${APP_NAME_PATH}/about`, {
+                navigate(`/about`, {
                   state: {
                     content: 1,
                   },
@@ -133,7 +133,7 @@ export default function HomePage() {
           <div>
             <Button
               text={t("home:home-button-calculation")}
-              onClick={() => navigate(`/${APP_NAME_PATH}/calculation`)}
+              onClick={() => navigate(`/calculation`)}
               style={{ ...globalStyles.buttonInfo, ...globalStyles.w200 }}
             />
           </div>

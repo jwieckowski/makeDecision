@@ -184,7 +184,7 @@ export default function Instruction() {
 
         <Button
           text={t("home:home-button-calculation")}
-          onClick={() => navigate(`/${APP_NAME_PATH}/calculation`)}
+          onClick={() => navigate(`/calculation`)}
           style={{ ...globalStyles.buttonInfo, ...globalStyles.w200 }}
         />
       </Stack>
