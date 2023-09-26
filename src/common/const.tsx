@@ -1,3 +1,38 @@
+
+// APP
+export const TITLE: string = 'Make-Decision.it'
+export const MENU_ITEMS = [
+    {
+        id: 0,
+        label: 'Dashboard',
+        href: '/'
+    },
+    {
+        id: 1,
+        label: 'Calculations',
+        href: '/calculations'
+    },
+    {
+        id: 2,
+        label: 'Methods',
+        href: '/methods'
+    },
+    {
+        id: 3,
+        label: 'About',
+        href: '/about'
+    },
+    {
+        id: 4,
+        label: 'Contact',
+        href: '/contact'
+    },
+]
+
+// UI
+export const DRAWER_WIDTH: number = 250;
+export const SEASON_ITEMS: number = 10;
+
 export const BASE_URL = "http://api.make-decision.it/";
 export const APP_URL = "http://make-decision.it";
 
@@ -21,7 +56,6 @@ export const MAX_CRITERIA = 15;
 
 export const ZOOM_STEP = 0.05;
 
-export const DRAWER_WIDTH = 20;
 export const MODAL_MIN_WIDTH = 400;
 export const MODAL_MAX_WIDTH = 700;
 export const MENU_ITEM_WIDTH = 140;

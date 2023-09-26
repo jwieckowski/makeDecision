@@ -1,8 +1,7 @@
-import React, { ChangeEvent } from "react";
-import Form from "react-bootstrap/Form";
-
-// STYLES
-import globalStyles from "../../common/globalStyles";
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 type Items = {
   label: string;
@@ -12,47 +11,40 @@ type Items = {
 type SelectProps = {
   items: Items[];
   value: string;
-  onChange: (event: ChangeEvent<HTMLInputElement>, val?: number) => void;
+  onChange: (event: SelectChangeEvent<string>) => void;
   label?: string;
-  style?: any;
-  labelStyle?: any;
+  placeholder?: string
 };
 
-export default function Select({
+export default function MySelect({
   items,
   value,
   onChange,
   label,
-  style,
-  labelStyle,
+  placeholder
 }: SelectProps) {
   return (
-    <Form.Group controlId="formGroup" style={{ ...globalStyles.inputForm }}>
-      {label ? (
-        <Form.Label
-          style={
-            labelStyle ? { ...labelStyle } : { ...globalStyles.textInputLabel }
-          }
+    <FormControl variant="standard" sx={{ minWidth: 60}}>
+        {label ? <InputLabel id="select-id">{label}</InputLabel> : null}
+        <Select
+          labelId="select-id"
+          id="select-component"
+          value={value}
+          onChange={onChange}
+          label={label}
         >
-          {label}
-        </Form.Label>
-      ) : null}
-      <Form.Control
-        as="select"
-        value={value}
-        onChange={onChange}
-        style={
-          style ? { ...style } : { margin: 0, padding: 5, textAlign: "center" }
-        }
-      >
-        {items.map((item, index) => {
+          {placeholder ? (
+            <MenuItem disabled value="">
+              <em>{placeholder}</em>
+            </MenuItem> 
+          ) : null}
+          {items.map((item, index) => {
           return (
-            <option key={`select-${index}`} value={item.value}>
-              {item.label}
-            </option>
+            <MenuItem  key={`select-${index}`} value={item.value}>{item.label}</MenuItem>
           );
         })}
-      </Form.Control>
-    </Form.Group>
+
+        </Select>
+      </FormControl>
   );
 }

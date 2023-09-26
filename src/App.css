@@ -1,0 +1,9 @@
+.wrapper {
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+.content-wrapper {
+  overflow-x: hidden;
+}

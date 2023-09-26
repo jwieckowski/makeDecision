@@ -1,7 +1,5 @@
 import React, { FocusEvent } from "react";
 import Form from "react-bootstrap/Form";
-// STYLES
-import globalStyles from "../../common/globalStyles";
 
 type InputProps = {
   type: string;

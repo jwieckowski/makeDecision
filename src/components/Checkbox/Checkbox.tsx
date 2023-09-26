@@ -3,7 +3,7 @@ import React from "react";
 import Form from "react-bootstrap/Form";
 
 // STYLES
-import globalStyles from "../../common/globalStyles";
+import styles from "./styles.js";
 
 type CheckboxProps = {
   id: string;

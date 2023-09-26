@@ -1,6 +1,6 @@
 # Multi-Criteria Decision Making Graphical User Interface
 
-MakeDecision.it application
+Make-Decision.it application
 
 (under development)
 
@@ -58,8 +58,9 @@ Based on `pymcdm` and `pyfdm` packages which handles the calculations, the GUI c
 
 - Frontend
   - React
+  - Vite
   - Redux toolkit
-  - react-bootstrap
+  - mui
   - react-draggable
   - react-xarrows
   - react-zoom-pin-panch
@@ -96,7 +97,7 @@ npm install
 - Run the application
 
 ```
-npm start
+npm run dev
 ```
 
 To run the REST API server locally:
