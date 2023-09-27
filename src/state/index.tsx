@@ -1,14 +1,15 @@
-import { configureStore } from '@reduxjs/toolkit'
-import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
+import { configureStore } from '@reduxjs/toolkit';
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 
 // SLICES
-import calculationSlice from "./slices/calculationSlice";
-import dictionarySlice from "./slices/dictionarySlice";
-import searchSlice from "./slices/searchSlice";
-import blocksSlice from "./slices/blocksSlice";
-import descriptionSlice from "./slices/descriptionSlice";
-import settingsSlice from "./slices/settingsSlice";
-import filteringSlice from "./slices/filteringSlice";
+import calculationSlice from './slices/calculationSlice';
+import dictionarySlice from './slices/dictionarySlice';
+import searchSlice from './slices/searchSlice';
+import blocksSlice from './slices/blocksSlice';
+import descriptionSlice from './slices/descriptionSlice';
+import settingsSlice from './slices/settingsSlice';
+import filteringSlice from './slices/filteringSlice';
+import menuSlice from './slices/menuSlice';
 
 const store = configureStore({
   reducer: {
@@ -19,14 +20,13 @@ const store = configureStore({
     description: descriptionSlice,
     settings: settingsSlice,
     filters: filteringSlice,
-  }
-})
+    menu: menuSlice,
+  },
+});
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 export const useAppDispatch: () => AppDispatch = useDispatch;
-export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 export default store;
-
-

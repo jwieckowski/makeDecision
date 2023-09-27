@@ -27,12 +27,13 @@ import { filterMethodsType } from '@/utils/filtering';
 
 // COMPONENTS
 import SearchBar from '@/components/SearchBar';
+import Loader from '@/components/Loader';
 import CollapseItem from './CollapseItem';
 
 export default function CalculationsMenu() {
   const { blocks } = useAppSelector((state) => state.blocks);
   const { query } = useAppSelector((state) => state.search);
-  const { allMethods } = useAppSelector((state) => state.dictionary);
+  const { allMethods, loading } = useAppSelector((state) => state.dictionary);
   const [openIndex, setOpenIndex] = useState('');
 
   const handleClick = (index: string) => {
@@ -91,25 +92,31 @@ export default function CalculationsMenu() {
       <Box sx={{ px: 1, mt: 1 }}>
         <SearchBar />
       </Box>
-      <List sx={{ maxHeight: '50vh', overflowY: 'auto' }}>
-        {filteredData.map((item, index) => (
-          <Box key={item.key}>
-            <ListItem disablePadding>
-              <ListItemButton onClick={() => handleClick(`${index}`)}>
-                <ListItemText primary={item.label} primaryTypographyProps={{ fontSize: 14, fontWeight: 'bold' }} />
-                {openIndex === `${index}` ? <ExpandLess /> : <ExpandMore />}
-              </ListItemButton>
-            </ListItem>
-            <CollapseItem
-              open={openIndex === `${index}`}
-              forceOpen={query !== '' && filteredData.length > 0}
-              methods={item}
-              onClick={handleItemClick}
-            />
-            <Divider sx={{ backgroundColor: '#6a6a6a' }} />
-          </Box>
-        ))}
-      </List>
+      {loading ? (
+        <Box sx={{ height: '200px', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <Loader size={100} />
+        </Box>
+      ) : (
+        <List sx={{ maxHeight: '50vh', overflowY: 'auto' }}>
+          {filteredData.map((item, index) => (
+            <Box key={item.key}>
+              <ListItem disablePadding>
+                <ListItemButton onClick={() => handleClick(`${index}`)}>
+                  <ListItemText primary={item.label} primaryTypographyProps={{ fontSize: 14, fontWeight: 'bold' }} />
+                  {openIndex === `${index}` ? <ExpandLess /> : <ExpandMore />}
+                </ListItemButton>
+              </ListItem>
+              <CollapseItem
+                open={openIndex === `${index}`}
+                forceOpen={query !== '' && filteredData.length > 0}
+                methods={item}
+                onClick={handleItemClick}
+              />
+              <Divider sx={{ backgroundColor: '#6a6a6a' }} />
+            </Box>
+          ))}
+        </List>
+      )}
     </Box>
   );
 }

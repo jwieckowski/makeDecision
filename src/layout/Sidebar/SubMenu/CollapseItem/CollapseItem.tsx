@@ -12,7 +12,6 @@ import Collapse from '@mui/material/Collapse';
 import { CollapseItemProps } from '@/types/components';
 
 export default function CollapseItem({ open, forceOpen, methods, onClick }: CollapseItemProps) {
-  console.log(methods);
   return (
     <Collapse in={open || forceOpen} timeout="auto" unmountOnExit>
       <List component="div" disablePadding>

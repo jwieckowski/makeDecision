@@ -11,10 +11,23 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 
+// REDUX
+import { useAppDispatch, useAppSelector } from '@/state';
+
+// SLICES
+import { setMenuItemIndex } from '@/state/slices/menuSlice';
+
 export default function AboutMenu() {
+  const { menuItemIndex } = useAppSelector((state) => state.menu);
+
+  const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
   const TABS = [t('about:tab-1'), t('about:tab-2'), t('about:tab-3'), t('about:tab-4')];
+
+  const handleItemClick = (index: number) => {
+    dispatch(setMenuItemIndex(index));
+  };
 
   return (
     <Box>
@@ -22,21 +35,24 @@ export default function AboutMenu() {
         <Typography variant="body2">{t('common:bookmarks')}</Typography>
       </Box>
       <List>
-        {TABS.map((item) => (
+        {TABS.map((item, index) => (
           <Box key={item}>
             <ListItem
+              onClick={() => handleItemClick(index)}
               disablePadding
               sx={
-                location.pathname === item.href
+                index === menuItemIndex
                   ? {
-                      color: 'inherit',
-                      backgroundColor: 'primary.light',
+                      color: 'black',
+                      backgroundColor: 'white',
                     }
                   : {}
               }
             >
               <ListItemButton>
-                <ListItemIcon sx={{ '& .MuiSvgIcon-root': { fontSize: 20, color: 'white' } }}>
+                <ListItemIcon
+                  sx={{ '& .MuiSvgIcon-root': { fontSize: 20, color: index === menuItemIndex ? 'black' : 'white' } }}
+                >
                   {item.id % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                 </ListItemIcon>
                 <ListItemText primary={item} primaryTypographyProps={{ fontSize: 14 }} />
