@@ -8,8 +8,13 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+
+// ICONS
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import LaptopIcon from '@mui/icons-material/Laptop';
+import SubjectIcon from '@mui/icons-material/Subject';
+import InfoIcon from '@mui/icons-material/Info';
+import ContactPageIcon from '@mui/icons-material/ContactPage';
 
 // COMPONENTS
 import Language from '@/components/Language';
@@ -21,6 +26,22 @@ import { TITLE, MENU_ITEMS } from '@/common/const';
 export default function Sidebar() {
   const location = useLocation();
   const { t } = useTranslation();
+
+  const PAGES = [
+    t('common:nav-page-1'),
+    t('common:nav-page-2'),
+    t('common:nav-page-3'),
+    t('common:nav-page-4'),
+    t('common:nav-page-5'),
+  ];
+
+  const ICONS = [
+    <DashboardIcon key={'icon-1'} />,
+    <LaptopIcon key={'icon-2'} />,
+    <SubjectIcon key={'icon-3'} />,
+    <InfoIcon key={'icon-4'} />,
+    <ContactPageIcon key={'icon-5'} />,
+  ];
 
   const getSubMenu = () => {
     if (location.pathname === MENU_ITEMS[1].href) return <CalculationsMenu />;
@@ -73,9 +94,9 @@ export default function Sidebar() {
                 >
                   <ListItemButton>
                     <ListItemIcon sx={{ '& .MuiSvgIcon-root': { fontSize: 20, color: 'white' } }}>
-                      {item.id % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                      {ICONS[item.id]}
                     </ListItemIcon>
-                    <ListItemText primary={item.label} primaryTypographyProps={{ fontSize: 14 }} />
+                    <ListItemText primary={PAGES[item.id]} primaryTypographyProps={{ fontSize: 14 }} />
                   </ListItemButton>
                 </ListItem>
                 <Divider sx={{ backgroundColor: '#6a6a6a' }} />

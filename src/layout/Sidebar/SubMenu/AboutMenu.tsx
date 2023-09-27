@@ -8,8 +8,12 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+
+// ICONS
+import CallSplitIcon from '@mui/icons-material/CallSplit';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+import FolderIcon from '@mui/icons-material/Folder';
+import DeveloperBoardIcon from '@mui/icons-material/DeveloperBoard';
 
 // REDUX
 import { useAppDispatch, useAppSelector } from '@/state';
@@ -24,6 +28,13 @@ export default function AboutMenu() {
   const { t } = useTranslation();
 
   const TABS = [t('about:tab-1'), t('about:tab-2'), t('about:tab-3'), t('about:tab-4')];
+
+  const ICONS = [
+    <CallSplitIcon key={'icon-1'} />,
+    <MenuBookIcon key={'icon-2'} />,
+    <FolderIcon key={'icon-3'} />,
+    <DeveloperBoardIcon key={'icon-4'} />,
+  ];
 
   const handleItemClick = (index: number) => {
     dispatch(setMenuItemIndex(index));
@@ -53,7 +64,7 @@ export default function AboutMenu() {
                 <ListItemIcon
                   sx={{ '& .MuiSvgIcon-root': { fontSize: 20, color: index === menuItemIndex ? 'black' : 'white' } }}
                 >
-                  {item.id % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                  {ICONS[index]}
                 </ListItemIcon>
                 <ListItemText primary={item} primaryTypographyProps={{ fontSize: 14 }} />
               </ListItemButton>
