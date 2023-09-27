@@ -4,15 +4,15 @@ import '@/index.css';
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#5893CF',
-      light: '#61A5E9',
-      dark: '#4B7FB3',
+      main: '#29B6F6',
+      light: '#71D4FA',
+      dark: '#0288D1',
       contrastText: '#fff',
     },
     secondary: {
-      main: '#424949',
-      light: '#667171',
-      dark: '#323737',
+      main: '#707070',
+      light: '#A0A0A0',
+      dark: '#505050',
       contrastText: '#fff',
     },
   },

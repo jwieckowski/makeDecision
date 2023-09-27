@@ -56,7 +56,7 @@ export default function Sidebar() {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
-        backgroundColor: 'secondary.light',
+        backgroundColor: 'secondary.main',
         color: 'primary.contrastText',
         overflowY: 'auto',
       }}
