@@ -30,16 +30,16 @@ export default function MySelect({ items, value, onChange, label, placeholder, l
         sx={{
           color: light ? 'white' : 'dark',
           '&:before': {
-            borderColor: 'white',
+            borderColor: light ? 'white' : 'dark',
           },
           '&:after': {
-            borderColor: 'white',
+            borderColor: light ? 'white' : 'dark',
           },
           '& .MuiSvgIcon-root': {
-            color: 'white',
+            color: light ? 'white' : 'dark',
           },
           '&:hover:not(.Mui-disabled):before': {
-            borderColor: 'white',
+            borderColor: light ? 'white' : 'dark',
           },
         }}
       >

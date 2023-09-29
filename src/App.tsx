@@ -1,16 +1,16 @@
-import {useState, useEffect} from 'react';
-import { SnackbarProvider, useSnackbar, SnackbarKey } from "notistack";
-import { useTranslation } from "react-i18next";
+import { useState, useEffect } from 'react';
+import { SnackbarProvider, useSnackbar, SnackbarKey } from 'notistack';
+import { useTranslation } from 'react-i18next';
+import { useLocation, Routes, Route, Navigate, BrowserRouter } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Drawer from '@mui/material/Drawer';
 import Toolbar from '@mui/material/Toolbar';
-import Container from '@mui/material/Container'
-import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
+import Container from '@mui/material/Container';
 
 // LAYOUT
-import Header from '@/layout/Header'
+import Header from '@/layout/Header';
 import Sidebar from '@/layout/Sidebar';
 
 // PAGES
@@ -21,22 +21,23 @@ import About from '@/pages/About';
 import Contact from '@/pages/Contact';
 
 // HOOKS
-import { useOnlineStatus } from "@/hooks";
+import { useOnlineStatus } from '@/hooks';
 
 // CONST
-import { DRAWER_WIDTH, HIDE_DURATION } from '@/common/const';
+import { DRAWER_WIDTH, HIDE_DURATION, MENU_ITEMS } from '@/common/const';
 
 type AppLayoutProps = {
-  children: React.ReactElement
-}
+  children: React.ReactElement;
+};
 
-function AppLayout({children}: AppLayoutProps) {
+function AppLayout({ children }: AppLayoutProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [snackbarKey, setSnackbarKey] = useState<SnackbarKey>(0);
 
   const isOnline = useOnlineStatus();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const { t } = useTranslation();
+  const location = useLocation();
 
   const handleMenuClick = () => {
     setMobileOpen(!mobileOpen);
@@ -44,8 +45,8 @@ function AppLayout({children}: AppLayoutProps) {
 
   useEffect(() => {
     if (!isOnline) {
-      const key = enqueueSnackbar(t("common:no-internet"), {
-        variant: "info",
+      const key = enqueueSnackbar(t('common:no-internet'), {
+        variant: 'info',
         persist: !isOnline,
       });
       setSnackbarKey(key);
@@ -53,8 +54,8 @@ function AppLayout({children}: AppLayoutProps) {
       closeSnackbar(snackbarKey);
       setSnackbarKey(0);
 
-      enqueueSnackbar(t("common:back-online"), {
-        variant: "success",
+      enqueueSnackbar(t('common:back-online'), {
+        variant: 'success',
         autoHideDuration: HIDE_DURATION,
       });
     }
@@ -68,16 +69,12 @@ function AppLayout({children}: AppLayoutProps) {
         sx={{
           width: { sm: `calc(100% - ${DRAWER_WIDTH}px)` },
           ml: { sm: `${DRAWER_WIDTH}px` },
-          display: {sm: 'none'}
+          display: { sm: 'none' },
         }}
       >
-        <Header onMenuClick={handleMenuClick}/>
+        <Header onMenuClick={handleMenuClick} />
       </AppBar>
-      <Box
-        component="nav"
-        sx={{ width: { sm: DRAWER_WIDTH }, flexShrink: { sm: 0 } }}
-        aria-label="mailbox folders"
-      >
+      <Box component="nav" sx={{ width: { sm: DRAWER_WIDTH }, flexShrink: { sm: 0 } }} aria-label="mailbox folders">
         <Drawer
           variant="temporary"
           open={mobileOpen}
@@ -100,16 +97,21 @@ function AppLayout({children}: AppLayoutProps) {
           }}
           open
         >
-            <Sidebar />
+          <Sidebar />
         </Drawer>
       </Box>
       <Box
         component="main"
         sx={{ flexGrow: 1, p: 0, width: { sm: `calc(100% - ${DRAWER_WIDTH}px)` }, minHeight: '100vh' }}
       >
-        <Toolbar sx={{ display: {sm: 'none'}}} />
+        <Toolbar sx={{ display: { sm: 'none' } }} />
         {/* CONTENT */}
-        <Container maxWidth={false} disableGutters className="content-wrapper" sx={{padding: 2}}>
+        <Container
+          maxWidth={false}
+          disableGutters
+          className="content-wrapper"
+          sx={{ padding: location.pathname === MENU_ITEMS[1].href ? 0 : 2 }}
+        >
           {children}
         </Container>
       </Box>
@@ -117,9 +119,9 @@ function AppLayout({children}: AppLayoutProps) {
   );
 }
 
-export default function App () {
+export default function App() {
   return (
-    <BrowserRouter >
+    <BrowserRouter>
       <SnackbarProvider maxSnack={4}>
         <AppLayout>
           <Routes>
@@ -133,5 +135,5 @@ export default function App () {
         </AppLayout>
       </SnackbarProvider>
     </BrowserRouter>
-  )
+  );
 }
