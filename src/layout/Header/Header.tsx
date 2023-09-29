@@ -4,30 +4,27 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 
 // CONST
-import {TITLE} from '@/common/const'
-
-// STYLE
-import './Header.css'
+import { TITLE } from '@/common/const';
 
 type HeaderProps = {
-    onMenuClick: () => void
-}
+  onMenuClick: () => void;
+};
 
-export default function Header({onMenuClick} : HeaderProps) {
+export default function Header({ onMenuClick }: HeaderProps) {
   return (
     <Toolbar>
-        <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={onMenuClick}
-            sx={{ mr: 2, display: { sm: 'none' } }}
-        >
-            <MenuIcon />
-        </IconButton>
-        <Typography variant="h6" noWrap component="div">
-            {TITLE}
-        </Typography>
+      <IconButton
+        color="inherit"
+        aria-label="open drawer"
+        edge="start"
+        onClick={onMenuClick}
+        sx={{ mr: 2, display: { sm: 'none' } }}
+      >
+        <MenuIcon />
+      </IconButton>
+      <Typography variant="h6" noWrap component="div">
+        {TITLE}
+      </Typography>
     </Toolbar>
-  )
+  );
 }

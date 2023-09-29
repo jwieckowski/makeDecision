@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { Container, Stack, Typography } from '@mui/material';
+import { Container, Stack, Typography, Divider } from '@mui/material';
 
 // COMPONENTS
 import Image from '@/components/Image';
@@ -38,9 +38,11 @@ export default function Instruction() {
         <Stack gap={3}>
           <Typography align="justify">{t('about:instructions-text-1')}</Typography>
 
-          <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-            {t('about:connections-structure').toUpperCase()}
-          </Typography>
+          <Divider textAlign="left">
+            <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+              {t('about:connections-structure').toUpperCase()}
+            </Typography>
+          </Divider>
 
           <Typography align="justify">{t('about:connections-structure-text-1')}</Typography>
 
@@ -60,9 +62,11 @@ export default function Instruction() {
 
         {/* BASIC STRUCTURE */}
         <Stack gap={3}>
-          <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-            {t('about:basic-structure').toUpperCase()}
-          </Typography>
+          <Divider textAlign="left">
+            <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+              {t('about:basic-structure').toUpperCase()}
+            </Typography>
+          </Divider>
 
           <Typography align="justify">{t('about:basic-structure-text-1')}</Typography>
 
@@ -80,9 +84,11 @@ export default function Instruction() {
 
         {/* MULTIPLE METHODS STRUCTURE */}
         <Stack gap={3}>
-          <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-            {t('about:multiple-mcda-structure').toUpperCase()}
-          </Typography>
+          <Divider textAlign="left">
+            <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+              {t('about:multiple-mcda-structure').toUpperCase()}
+            </Typography>
+          </Divider>
 
           <Typography align="justify">{t('about:multiple-mcda-structure-text-1')}</Typography>
 
@@ -98,9 +104,11 @@ export default function Instruction() {
 
         {/* MULTIPLE WEIGHTS STRUCTURE */}
         <Stack gap={3}>
-          <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-            {t('about:multiple-weights-structure').toUpperCase()}
-          </Typography>
+          <Divider textAlign="left">
+            <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+              {t('about:multiple-weights-structure').toUpperCase()}
+            </Typography>
+          </Divider>
 
           <Typography align="justify">{t('about:multiple-weights-structure-text-1')}</Typography>
 
@@ -116,9 +124,11 @@ export default function Instruction() {
 
         {/* COMPLEX STRUCTURE */}
         <Stack gap={3}>
-          <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-            {t('about:complex-structure').toUpperCase()}
-          </Typography>
+          <Divider textAlign="left">
+            <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+              {t('about:complex-structure').toUpperCase()}
+            </Typography>
+          </Divider>
 
           <Typography align="justify">{t('about:complex-structure-text-1')}</Typography>
 

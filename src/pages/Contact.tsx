@@ -1,5 +1,5 @@
-import { useTranslation } from "react-i18next";
-import {Container, Box, Stack, Typography} from '@mui/material';
+import { useTranslation } from 'react-i18next';
+import { Container, Box, Stack, Typography, Divider } from '@mui/material';
 
 // ICONS
 import GitHubIcon from '@mui/icons-material/GitHub';
@@ -29,8 +29,7 @@ import {
   PYIFDM_LINK,
   PYIFDM_APA,
   PYIFDM_DOI,
-} from "@/common/const";
-
+} from '@/common/const';
 
 export default function Contact() {
   const { t } = useTranslation();
@@ -81,49 +80,48 @@ export default function Contact() {
   ];
 
   return (
-    <Container maxWidth='md' sx={{my: '50px'}}>
-      <Container sx={{marginBottom: '50px'}}>
-        <Stack
-          spacing={3}
-        >
-          <Typography align='justify' variant='subtitle1'>
-            {t("contact:contact-text-1")}
+    <Container maxWidth="lg" sx={{ my: '50px' }}>
+      <Container sx={{ marginBottom: '50px' }}>
+        <Stack spacing={3}>
+          <Typography align="justify" variant="subtitle1">
+            {t('contact:contact-text-1')}
           </Typography>
-          <Typography align='justify'>
-            {t("contact:contact-text-2")}
-          </Typography>
-          <Typography align='justify'>
-            {t("contact:contact-text-3")}
-          </Typography>
+          <Typography align="justify">{t('contact:contact-text-2')}</Typography>
+          <Typography align="justify">{t('contact:contact-text-3')}</Typography>
         </Stack>
       </Container>
 
       <Container>
-        <Stack
-          spacing={3}
-        >
-          <Typography variant='h6' sx={{fontWeight: 'bold'}}>{t("common:report-bugs")}</Typography>
-          <Typography align='justify'>{t("contact:bugs-text-1")}</Typography>
+        <Stack spacing={3}>
+          <Divider textAlign="left">
+            <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+              {t('common:report-bugs')}
+            </Typography>
+          </Divider>
+          <Typography align="justify">{t('contact:bugs-text-1')}</Typography>
         </Stack>
       </Container>
 
-      <Container sx={{marginTop: '50px'}}>
-
+      <Container sx={{ marginTop: '50px' }}>
         {/* CONTACT */}
-        <Stack
-          spacing={3}
-        >
-          <Typography variant='h6' sx={{fontWeight: 'bold'}}>{t("common:contact-us")}</Typography>
+        <Stack spacing={3}>
+          <Divider textAlign="left">
+            <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+              {t('common:contact-us')}
+            </Typography>
+          </Divider>
           {contacts.map((item, idx) => {
             return (
               <Box key={idx}>
                 <a
-                  style={{ color: 'inherit', textDecoration: 'none'}}
+                  style={{ color: 'inherit', textDecoration: 'none' }}
                   href={item.link}
                   target="_blank"
                   rel="noreferrer"
+                >
+                  <Box
+                    sx={{ display: 'flex', flexDirection: 'row', gap: '16px', '&:hover': { color: 'primary.light' } }}
                   >
-                  <Box sx={{display: 'flex', flexDirection: 'row', gap: '16px', '&:hover': {color: 'primary.light'}}}>
                     {item.icon}
                     <Typography> {item.label}</Typography>
                   </Box>
@@ -134,34 +132,39 @@ export default function Contact() {
         </Stack>
 
         {/* RECOMMENDED SITES */}
-        <Stack spacing={3} sx={{marginTop: '25px'}}>
-          <Typography variant='subtitle1' sx={{fontWeight: 'bold'}}>
-            {t("common:recommended-sites")}
+        <Stack spacing={3} sx={{ marginTop: '25px' }}>
+          <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+            {t('common:recommended-sites')}
           </Typography>
 
-          <Typography variant='subtitle2' sx={{fontWeight: 'bold'}}>{t("common:packages")}</Typography>
+          <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>
+            {t('common:packages')}
+          </Typography>
 
           {packages.map((item, idx) => {
             return (
-              <Box key={idx} >
+              <Box key={idx}>
                 <a
-                  style={{ color: 'inherit', textDecoration: 'none'}} 
+                  style={{ color: 'inherit', textDecoration: 'none' }}
                   href={item.link}
                   target="_blank"
                   rel="noreferrer"
                 >
-                  <Typography variant="subtitle1" sx={{fontWeight: 'bold', color: 'primary.main'}}> {item.label}</Typography>
+                  <Typography variant="subtitle1" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
+                    {' '}
+                    {item.label}
+                  </Typography>
                 </a>
                 <Box>
-                  <Typography >{item.apa}</Typography>
+                  <Typography>{item.apa}</Typography>
                   <Box>
                     <a
-                      style={{ color: 'inherit', textDecoration: 'none'}}
+                      style={{ color: 'inherit', textDecoration: 'none' }}
                       href={item.doi}
                       target="_blank"
                       rel="noreferrer"
                     >
-                      <Typography variant="subtitle2" sx={{'&:hover': {color: 'primary.light'}}}>
+                      <Typography variant="subtitle2" sx={{ '&:hover': { color: 'primary.light' } }}>
                         {item.doi}
                       </Typography>
                     </a>
@@ -170,17 +173,21 @@ export default function Contact() {
               </Box>
             );
           })}
-          <Typography variant='subtitle2' sx={{fontWeight: 'bold'}}>{t("common:websites")}</Typography>
+          <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>
+            {t('common:websites')}
+          </Typography>
           {websites.map((item, idx) => {
             return (
               <Box key={idx}>
                 <a
-                  style={{ color: 'inherit', textDecoration: 'none'}}
+                  style={{ color: 'inherit', textDecoration: 'none' }}
                   href={item.link}
                   target="_blank"
                   rel="noreferrer"
+                >
+                  <Box
+                    sx={{ display: 'flex', flexDirection: 'row', gap: '16px', '&:hover': { color: 'primary.light' } }}
                   >
-                  <Box sx={{display: 'flex', flexDirection: 'row', gap: '16px', '&:hover': {color: 'primary.light'}}}>
                     <LanguageIcon />
                     <Typography> {item.label}</Typography>
                   </Box>
@@ -191,22 +198,20 @@ export default function Contact() {
         </Stack>
 
         {/* AFFILIATION */}
-        <Stack spacing={3} sx={{marginTop: '25px'}}>
-          <Typography variant='subtitle2' sx={{fontWeight: 'bold'}} >{t("common:affiliation")}</Typography>
-          <Box
-            sx={{display: 'flex', flexDirection: 'row', gap: '16px'}}
-          >
-            <HomeWorkIcon  />
-            <Typography>{t("common:research-team-1")}</Typography>
+        <Stack spacing={3} sx={{ marginTop: '25px' }}>
+          <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>
+            {t('common:affiliation')}
+          </Typography>
+          <Box sx={{ display: 'flex', flexDirection: 'row', gap: '16px' }}>
+            <HomeWorkIcon />
+            <Typography>{t('common:research-team-1')}</Typography>
           </Box>
-          <Box
-            sx={{display: 'flex', flexDirection: 'row', gap: '16px'}}
-          >
-            <HomeWorkIcon  />
-            <Typography>{t("common:research-team-2")}</Typography>
+          <Box sx={{ display: 'flex', flexDirection: 'row', gap: '16px' }}>
+            <HomeWorkIcon />
+            <Typography>{t('common:research-team-2')}</Typography>
           </Box>
         </Stack>
       </Container>
     </Container>
-  )
+  );
 }

@@ -13,38 +13,49 @@ type SelectProps = {
   value: string;
   onChange: (event: SelectChangeEvent<string>) => void;
   label?: string;
-  placeholder?: string
+  placeholder?: string;
+  light?: boolean;
 };
 
-export default function MySelect({
-  items,
-  value,
-  onChange,
-  label,
-  placeholder
-}: SelectProps) {
+export default function MySelect({ items, value, onChange, label, placeholder, light }: SelectProps) {
   return (
-    <FormControl variant="standard" sx={{ minWidth: 60}}>
-        {label ? <InputLabel id="select-id">{label}</InputLabel> : null}
-        <Select
-          labelId="select-id"
-          id="select-component"
-          value={value}
-          onChange={onChange}
-          label={label}
-        >
-          {placeholder ? (
-            <MenuItem disabled value="">
-              <em>{placeholder}</em>
-            </MenuItem> 
-          ) : null}
-          {items.map((item, index) => {
+    <FormControl variant="standard" sx={{ minWidth: 60 }}>
+      {label ? <InputLabel id="select-id">{label}</InputLabel> : null}
+      <Select
+        labelId="select-id"
+        id="select-component"
+        value={value}
+        onChange={onChange}
+        label={label}
+        sx={{
+          color: light ? 'white' : 'dark',
+          '&:before': {
+            borderColor: 'white',
+          },
+          '&:after': {
+            borderColor: 'white',
+          },
+          '& .MuiSvgIcon-root': {
+            color: 'white',
+          },
+          '&:hover:not(.Mui-disabled):before': {
+            borderColor: 'white',
+          },
+        }}
+      >
+        {placeholder ? (
+          <MenuItem disabled value="">
+            <em>{placeholder}</em>
+          </MenuItem>
+        ) : null}
+        {items.map((item, index) => {
           return (
-            <MenuItem  key={`select-${index}`} value={item.value}>{item.label}</MenuItem>
+            <MenuItem key={`select-${index}`} value={item.value}>
+              {item.label}
+            </MenuItem>
           );
         })}
-
-        </Select>
-      </FormControl>
+      </Select>
+    </FormControl>
   );
 }

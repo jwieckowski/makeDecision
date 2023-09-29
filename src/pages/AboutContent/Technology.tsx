@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Container, Stack, Typography, Box } from '@mui/material';
+import { Container, Stack, Typography, Box, Divider } from '@mui/material';
 
 // ICONS
 import CodeIcon from '@mui/icons-material/Code';
@@ -7,7 +7,6 @@ import StorageIcon from '@mui/icons-material/Storage';
 import TerminalIcon from '@mui/icons-material/Terminal';
 import ArticleIcon from '@mui/icons-material/Article';
 import JavascriptIcon from '@mui/icons-material/Javascript';
-import InventoryIcon from '@mui/icons-material/Inventory';
 import PanToolIcon from '@mui/icons-material/PanTool';
 import OpenWithIcon from '@mui/icons-material/OpenWith';
 
@@ -81,9 +80,11 @@ export default function Technology() {
 
       {/* SERVER */}
       <Stack gap={3}>
-        <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-          {t('about:server')}
-        </Typography>
+        <Divider textAlign="left">
+          <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+            {t('about:server')}
+          </Typography>
+        </Divider>
 
         <Box sx={{ display: 'flex', gap: '16px' }}>
           <StorageIcon />
@@ -118,9 +119,11 @@ export default function Technology() {
 
       {/* PACKAGES*/}
       <Stack gap={3} mt={3}>
-        <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-          {t('common:packages')}
-        </Typography>
+        <Divider textAlign="left">
+          <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+            {t('common:packages')}
+          </Typography>
+        </Divider>
 
         <Typography align="justify">{t('about:server-description-text-3')}</Typography>
 
@@ -162,9 +165,11 @@ export default function Technology() {
 
       {/* APPLICATION */}
       <Stack gap={3} mt={3}>
-        <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-          {t('about:application')}
-        </Typography>
+        <Divider textAlign="left">
+          <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+            {t('about:application')}
+          </Typography>
+        </Divider>
 
         {webAppItems.map((item) => {
           return (

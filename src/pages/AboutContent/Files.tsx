@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Container, Stack, Typography, Box } from '@mui/material';
+import { Container, Stack, Typography, Box, Divider } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 
 // COMPONENTS
@@ -190,9 +190,11 @@ export default function Files() {
         {items.map((item) => {
           return (
             <Stack gap={3} key={item.id}>
-              <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                {item.title}
-              </Typography>
+              <Divider textAlign="left">
+                <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                  {item.title}
+                </Typography>
+              </Divider>
 
               {item.descriptions.map((text) => {
                 return (

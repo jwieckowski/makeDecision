@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Container, Stack, Typography } from '@mui/material';
+import { Container, Stack, Typography, Divider } from '@mui/material';
 
 // COMPONENTS
 import Image from '@/components/Image';
@@ -25,9 +25,11 @@ export default function MCDA() {
       </Typography>
 
       <Stack gap={4}>
-        <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-          {t('about:mcda-problems')}
-        </Typography>
+        <Divider textAlign="left">
+          <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+            {t('about:mcda-problems')}
+          </Typography>
+        </Divider>
 
         <Typography align="justify">{t('about:mcda-description-text-1')}</Typography>
 
@@ -46,9 +48,11 @@ export default function MCDA() {
       </Stack>
 
       <Stack gap={4} mt={3}>
-        <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-          {t('about:app-mcda')}
-        </Typography>
+        <Divider textAlign="left">
+          <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+            {t('about:app-mcda')}
+          </Typography>
+        </Divider>
 
         <Typography align="justify">{t('about:app-functions-text-1')}</Typography>
 

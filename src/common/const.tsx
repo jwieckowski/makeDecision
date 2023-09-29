@@ -28,6 +28,7 @@ export const DRAWER_WIDTH: number = 250;
 export const SEASON_ITEMS: number = 10;
 
 export const BASE_URL = 'http://api.make-decision.it/';
+
 export const APP_URL = 'http://make-decision.it';
 
 export const APP_NAME_PATH = '/';
