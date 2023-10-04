@@ -7,11 +7,11 @@ import {
   AllMethodsItem,
   RankingCorrelationType,
   CalculationBodyType,
-} from "../redux/types";
+} from '@/types';
 
 // UTILS
-import { getSingleItemByName, getMethodData } from "./filtering";
-import useValidation from "./validation";
+import { getSingleItemByName, getMethodData } from './filtering';
+import useValidation from './validation';
 
 const useCalculation = () => {
   const {
@@ -34,19 +34,12 @@ const useCalculation = () => {
     validateUserInputFuzzyWeightsOrder,
   } = useValidation();
 
-  const getMatrixWeightsConnections = (
-    blocks: [] | BlockType[],
-    connections: [] | string[][],
-    matrix: BlockType
-  ) => {
+  const getMatrixWeightsConnections = (blocks: [] | BlockType[], connections: [] | string[][], matrix: BlockType) => {
     let weightsItems: [] | BlockType[] = [];
 
     connections.forEach((connection) => {
       if (connection[0] === matrix._id.toString()) {
-        weightsItems = [
-          ...weightsItems,
-          blocks.filter((block) => block._id === +connection[1])[0],
-        ];
+        weightsItems = [...weightsItems, blocks.filter((block) => block._id === +connection[1])[0]];
       }
     });
 
@@ -56,7 +49,7 @@ const useCalculation = () => {
   const getWeightsMethodConnections = (
     weightsItems: [] | BlockType[],
     blocks: [] | BlockType[],
-    connections: [] | string[][]
+    connections: [] | string[][],
   ) => {
     let mcdaItems: [] | BlockType[][] = [];
 
@@ -64,10 +57,7 @@ const useCalculation = () => {
       let mcdaMethodItems: [] | BlockType[] = [];
       connections.forEach((connection) => {
         if (connection[0] === w._id.toString()) {
-          mcdaMethodItems = [
-            ...mcdaMethodItems,
-            blocks.filter((block) => block._id === +connection[1])[0],
-          ];
+          mcdaMethodItems = [...mcdaMethodItems, blocks.filter((block) => block._id === +connection[1])[0]];
         }
       });
       // if no connection from weight then insert empty array
@@ -82,11 +72,7 @@ const useCalculation = () => {
     return mcdaItems;
   };
 
-  const getMethodsParams = (
-    mcdaItems: [] | BlockType[][],
-    matrixIdx: number,
-    extension: string
-  ) => {
+  const getMethodsParams = (mcdaItems: [] | BlockType[][], matrixIdx: number, extension: string) => {
     let params: [] | any = [];
     mcdaItems.forEach((items) => {
       items.forEach((item) => {
@@ -94,10 +80,7 @@ const useCalculation = () => {
           ...params,
           {
             extension: extension,
-            additional:
-              item.data.additionals[matrixIdx] === undefined
-                ? {}
-                : item.data.additionals[matrixIdx],
+            additional: item.data.additionals[matrixIdx] === undefined ? {} : item.data.additionals[matrixIdx],
             method: item.method,
           },
         ];
@@ -113,7 +96,7 @@ const useCalculation = () => {
               ...a,
               [Object.keys(v)[0]]: v[Object.keys(v)[0]],
             }),
-            {}
+            {},
           );
         }
         return { ...param, additional: additionals };
@@ -123,10 +106,7 @@ const useCalculation = () => {
     return params;
   };
 
-  const createWeightMethodPair = (
-    weightsItems: [] | BlockType[],
-    mcdaItems: [] | BlockType[][]
-  ) => {
+  const createWeightMethodPair = (weightsItems: [] | BlockType[], mcdaItems: [] | BlockType[][]) => {
     let methodItem: MethodType[] = [];
 
     weightsItems.forEach((item, index) => {
@@ -136,8 +116,8 @@ const useCalculation = () => {
           {
             method: mcda.method,
             weights:
-              item.method === "input"
-                ? `${item.data.weights[0]}`.includes(",")
+              item.method === 'input'
+                ? `${item.data.weights[0]}`.includes(',')
                   ? item.data.weights
                   : item.data.weights.map((w) => +w)
                 : item.method,
@@ -154,38 +134,28 @@ const useCalculation = () => {
     connections: [] | string[][],
     weightsItems: [] | BlockType[],
     mcdaItems: [] | BlockType[][],
-    allMethods: [] | AllMethodsItem[]
+    allMethods: [] | AllMethodsItem[],
   ) => {
     const correlationBlocks = blocks
-      .filter((block) => block.type === "correlation")
+      .filter((block) => block.type === 'correlation')
       .filter((block) =>
         allMethods
-          .filter(
-            (item) => item.key.toLowerCase() === block.type.toLowerCase()
-          )[0]
-          .data.filter((i) => i.requiredData.includes("preferences" as never))
+          .filter((item) => item.key.toLowerCase() === block.type.toLowerCase())[0]
+          .data.filter((i) => i.requiredData.includes('preferences' as never))
           .map((i) => i.name.toLowerCase())
-          .includes(block.method.toLowerCase() as never)
+          .includes(block.method.toLowerCase() as never),
       );
     let methodCorrelationItem: [] | MethodCorrelationType[] = [];
 
     correlationBlocks.forEach((corr) => {
-      let methodCorrelation: MethodCorrelationType = {
+      const methodCorrelation: MethodCorrelationType = {
         correlation: blocks.filter((b) => b._id === corr._id)[0].method,
         data: [],
       };
       weightsItems.forEach((weights, index) => {
         mcdaItems[index].forEach((mcda) => {
-          if (
-            connections.filter(
-              (conn) => +conn[0] === mcda._id && +conn[1] === corr._id
-            ).length > 0
-          ) {
-            if (
-              connections.filter(
-                (conn) => +conn[0] === corr._id && +conn[1] === corr._id
-              ).length > 0
-            ) {
+          if (connections.filter((conn) => +conn[0] === mcda._id && +conn[1] === corr._id).length > 0) {
+            if (connections.filter((conn) => +conn[0] === corr._id && +conn[1] === corr._id).length > 0) {
               methodCorrelation.data = [
                 ...methodCorrelation.data,
                 {
@@ -217,35 +187,32 @@ const useCalculation = () => {
     connections: [] | string[][],
     weightsItems: [] | BlockType[],
     mcdaItems: [] | BlockType[][],
-    allMethods: [] | AllMethodsItem[]
+    allMethods: [] | AllMethodsItem[],
   ) => {
-    const rankingBlocks = blocks.filter((block) => block.type === "ranking");
+    const rankingBlocks = blocks.filter((block) => block.type === 'ranking');
     let methodRankingItem: [] | MethodRankingType[] = [];
 
     rankingBlocks.forEach((block) => {
       const blockConnections = connections.filter(
         (c) =>
-          c[1] === block._id.toString() &&
-          mcdaItems.filter(
-            (items) => items.filter((i) => i._id === +c[0]).length > 0
-          )
+          c[1] === block._id.toString() && mcdaItems.filter((items) => items.filter((i) => i._id === +c[0]).length > 0),
       );
-      let methodRanking: MethodRankingType = { data: [] };
+      const methodRanking: MethodRankingType = { data: [] };
 
       weightsItems.forEach((item, index) => {
         mcdaItems[index] && mcdaItems[index].length > 0
           ? mcdaItems[index].forEach((mcda) => {
               if (blockConnections.map((bc) => bc[0]).includes(`${mcda._id}`)) {
                 const data = getSingleItemByName(
-                  getMethodData(allMethods, "Method"),
-                  blocks.filter((block) => block._id === mcda._id)[0].method
+                  getMethodData(allMethods, 'Method'),
+                  blocks.filter((block) => block._id === mcda._id)[0].method,
                 );
                 methodRanking.data = [
                   ...methodRanking.data,
                   {
                     method: mcda.method,
                     weights: item.method,
-                    order: data?.order ? data.order : "",
+                    order: data?.order ? data.order : '',
                     ranking: true,
                   },
                 ];
@@ -255,7 +222,7 @@ const useCalculation = () => {
                   {
                     method: mcda.method,
                     weights: item.method,
-                    order: "",
+                    order: '',
                     ranking: false,
                   },
                 ];
@@ -277,50 +244,40 @@ const useCalculation = () => {
     connections: [] | string[][],
     weightsItems: [] | BlockType[],
     mcdaItems: [] | BlockType[][],
-    allMethods: [] | AllMethodsItem[]
+    allMethods: [] | AllMethodsItem[],
   ) => {
-    const rankingBlocks = blocks.filter((block) => block.type === "ranking");
+    const rankingBlocks = blocks.filter((block) => block.type === 'ranking');
     const correlationBlocks = blocks
-      .filter((block) => block.type === "correlation")
+      .filter((block) => block.type === 'correlation')
       .filter((block) =>
         allMethods
-          .filter(
-            (item) => item.key.toLowerCase() === block.type.toLowerCase()
-          )[0]
-          .data.filter((i) => i.requiredData.includes("ranking" as never))
+          .filter((item) => item.key.toLowerCase() === block.type.toLowerCase())[0]
+          .data.filter((i) => i.requiredData.includes('ranking' as never))
           .map((i) => i.name.toLowerCase())
-          .includes(block.method.toLowerCase() as never)
+          .includes(block.method.toLowerCase() as never),
       );
     let rankingCorrelationItem: [] | RankingCorrelationType[] = [];
 
     correlationBlocks.forEach((corr) => {
-      let rankingCorrelation: RankingCorrelationType = {
+      const rankingCorrelation: RankingCorrelationType = {
         correlation: blocks.filter((b) => b._id === corr._id)[0].method,
         data: [],
       };
       weightsItems.forEach((weights, index) => {
         mcdaItems[index].forEach((mcda) => {
           rankingBlocks.forEach((rank) => {
-            if (
-              connections.filter(
-                (conn) => +conn[0] === mcda._id && +conn[1] === rank._id
-              ).length > 0
-            ) {
-              if (
-                connections.filter(
-                  (conn) => +conn[0] === rank._id && +conn[1] === corr._id
-                ).length > 0
-              ) {
+            if (connections.filter((conn) => +conn[0] === mcda._id && +conn[1] === rank._id).length > 0) {
+              if (connections.filter((conn) => +conn[0] === rank._id && +conn[1] === corr._id).length > 0) {
                 const data = getSingleItemByName(
-                  getMethodData(allMethods, "Method"),
-                  blocks.filter((block) => block._id === mcda._id)[0].method
+                  getMethodData(allMethods, 'Method'),
+                  blocks.filter((block) => block._id === mcda._id)[0].method,
                 );
                 rankingCorrelation.data = [
                   ...rankingCorrelation.data,
                   {
                     method: mcda.method,
                     weights: weights.method,
-                    order: data?.order ? data.order : "",
+                    order: data?.order ? data.order : '',
                     correlation: true,
                   },
                 ];
@@ -330,7 +287,7 @@ const useCalculation = () => {
                   {
                     method: mcda.method,
                     weights: weights.method,
-                    order: "",
+                    order: '',
                     correlation: false,
                   },
                 ];
@@ -344,13 +301,9 @@ const useCalculation = () => {
     return rankingCorrelationItem;
   };
 
-  const getCalculateBody = (
-    blocks: BlockType[],
-    connections: string[][],
-    allMethods: AllMethodsItem[]
-  ) => {
+  const getCalculateBody = (blocks: BlockType[], connections: string[][], allMethods: AllMethodsItem[]) => {
     let calculate = true;
-    let body: CalculationBodyType = {
+    const body: CalculationBodyType = {
       matrix: [],
       extensions: [],
       types: [],
@@ -363,18 +316,14 @@ const useCalculation = () => {
 
     let matrixIndexes: [] | number[] = [];
     // CHECK CONNECTIONS FROM MATRIX TO WEIGHTS BLOCKS
-    const matrices = blocks.filter((block) => block.type.includes("matrix"));
+    const matrices = blocks.filter((block) => block.type.includes('matrix'));
     if (!validateMatrixInputData(matrices)) return;
 
     // FOR EACH MATRIX CREATE A CALCULATION MODEL CONNECTION
     matrices.forEach((matrix, matrixIdx) => {
       calculate = true;
       // GET WEIGHTS BLOCKS CONNECTED TO CURRENT MATRIX
-      const weightsItems = getMatrixWeightsConnections(
-        blocks,
-        connections,
-        matrix
-      );
+      const weightsItems = getMatrixWeightsConnections(blocks, connections, matrix);
 
       if (!validateMatrixWeightsConnections(weightsItems, matrix._id)) {
         calculate = false;
@@ -391,18 +340,16 @@ const useCalculation = () => {
         return;
       }
 
-      if (matrix.data.extension === "crisp") {
+      if (matrix.data.extension === 'crisp') {
         if (!validateUserInputCrispMatrixZeros(matrix, matrix._id)) {
           calculate = false;
           return;
         }
-        if (
-          !validateUserInputCrispMatrixSameValuesInColumn(matrix, matrix._id)
-        ) {
+        if (!validateUserInputCrispMatrixSameValuesInColumn(matrix, matrix._id)) {
           calculate = false;
           return;
         }
-      } else if (matrix.data.extension === "fuzzy") {
+      } else if (matrix.data.extension === 'fuzzy') {
         if (!validateUserInputFuzzyMatrixZeros(matrix, matrix._id)) {
           calculate = false;
           return;
@@ -429,16 +376,13 @@ const useCalculation = () => {
       matrixIndexes = [...matrixIndexes, matrix._id];
 
       // MATRIX
-      if (["input", "file"].includes(matrix.method)) {
-        if (matrix.data.extension === "crisp") {
-          body.matrix = [
-            ...body.matrix,
-            matrix.data.matrix.map((row: string[]) => row.map((col) => +col)),
-          ];
+      if (['input', 'file'].includes(matrix.method)) {
+        if (matrix.data.extension === 'crisp') {
+          body.matrix = [...body.matrix, matrix.data.matrix.map((row: string[]) => row.map((col) => +col))];
         } else {
           body.matrix = [...body.matrix, matrix.data.matrix];
         }
-      } else if (matrix.method === "random")
+      } else if (matrix.method === 'random')
         if (matrix.data?.alternatives && matrix.data?.criteria) {
           const randomMatrix = [matrix.data.alternatives, matrix.data.criteria];
           body.matrix = [...body.matrix, randomMatrix];
@@ -449,18 +393,18 @@ const useCalculation = () => {
 
       // INPUT WEIGHTS VALIDATION
       weightsItems.forEach((weights) => {
-        if (weights.method === "input") {
+        if (weights.method === 'input') {
           if (!validateUserInputWeights(weights)) {
             calculate = false;
             return;
           }
 
-          if (weights.data.extension === "crisp") {
+          if (weights.data.extension === 'crisp') {
             if (!validateUserInputCrispWeightsValues(weights)) {
               calculate = false;
               return;
             }
-          } else if (weights.data.extension === "fuzzy") {
+          } else if (weights.data.extension === 'fuzzy') {
             if (!validateUserInputFuzzyWeightsZeros(weights)) {
               calculate = false;
               return;
@@ -480,26 +424,18 @@ const useCalculation = () => {
       if (!calculate) return;
 
       // GET METHODS BLOCKS CONNECTED TO WEIGHTS BLOCKS
-      const mcdaItems = getWeightsMethodConnections(
-        weightsItems,
-        blocks,
-        connections
-      );
+      const mcdaItems = getWeightsMethodConnections(weightsItems, blocks, connections);
       calculate = validateMethodConnection(mcdaItems, matrix._id);
       if (!calculate) return;
 
       calculate = validateSameCriteriaTypes(
         mcdaItems.flatMap((item) => item.map((i) => i.method)),
-        matrix.data.types.map((t) => +t)
+        matrix.data.types.map((t) => +t),
       );
       if (!calculate) return;
 
       // ADDITIONAL PARAMS FOR METHODS
-      const params = getMethodsParams(
-        mcdaItems,
-        matrixIdx,
-        matrix.data.extension
-      );
+      const params = getMethodsParams(mcdaItems, matrixIdx, matrix.data.extension);
       body.params = [...body.params, [...params]];
 
       const methodItem = createWeightMethodPair(weightsItems, mcdaItems);
@@ -513,23 +449,14 @@ const useCalculation = () => {
         connections,
         weightsItems,
         mcdaItems,
-        allMethods
+        allMethods,
       );
       if (methodCorrelationItem.length > 0) {
-        body.methodCorrelations = [
-          ...body.methodCorrelations,
-          [...methodCorrelationItem],
-        ];
+        body.methodCorrelations = [...body.methodCorrelations, [...methodCorrelationItem]];
       }
 
       // ranking connections -> (method -> ranking)
-      const methodRankingItem = getMethodRankingConnections(
-        blocks,
-        connections,
-        weightsItems,
-        mcdaItems,
-        allMethods
-      );
+      const methodRankingItem = getMethodRankingConnections(blocks, connections, weightsItems, mcdaItems, allMethods);
       if (methodRankingItem.length > 0) {
         body.methodRankings = [...body.methodRankings, [...methodRankingItem]];
       }
@@ -539,13 +466,10 @@ const useCalculation = () => {
         connections,
         weightsItems,
         mcdaItems,
-        allMethods
+        allMethods,
       );
       if (rankingCorrelationItem.length > 0) {
-        body.rankingCorrelations = [
-          ...body.rankingCorrelations,
-          [...rankingCorrelationItem],
-        ];
+        body.rankingCorrelations = [...body.rankingCorrelations, [...rankingCorrelationItem]];
       }
     });
 

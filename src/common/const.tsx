@@ -58,6 +58,9 @@ export const MENU_ITEM_WIDTH = 140;
 export const DRAGGABLE_WIDTH = 110;
 export const DRAGGABLE_HEIGHT = 80;
 
+export const MATRIX_INPUT_WIDTH = 80;
+export const MATRIX_LABEL_WIDTH = 50;
+
 // DRAG SETTINGS INPUT PROPS
 export const MIN_SETTINGS_VALUE = 1;
 export const MIN_CURVENESS_VALUE = 0.1;

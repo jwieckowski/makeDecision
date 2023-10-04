@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import Button from '@mui/material/Button';
+import Button, { ButtonOwnProps } from '@mui/material/Button';
 
 type ButtonProps = {
   text: string;
@@ -7,12 +7,13 @@ type ButtonProps = {
   endIcon?: ReactElement;
   onClick: () => void;
   disabled?: boolean;
+  variant?: ButtonOwnProps['variant'];
 };
 
-export default function MyButton({ text, startIcon, endIcon, onClick, disabled }: ButtonProps) {
+export default function MyButton({ text, startIcon, endIcon, onClick, disabled, variant }: ButtonProps) {
   return (
     <Button
-      variant="outlined"
+      variant={variant ?? 'outlined'}
       disabled={disabled || false}
       onClick={onClick}
       startIcon={startIcon || null}

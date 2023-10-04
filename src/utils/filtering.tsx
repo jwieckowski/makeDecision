@@ -7,12 +7,9 @@ import {
   ResultsMethodCorrelations,
   ResultsRankingCorrelations,
   FilterItem,
-} from "../redux/types";
+} from '@/types';
 
-export const filterMethodsType = (
-  data: [] | AllMethodsItem[],
-  type: string
-) => {
+export const filterMethodsType = (data: [] | AllMethodsItem[], type: string) => {
   return data.filter((d) => d.type === type);
 };
 
@@ -25,22 +22,14 @@ export const getSingleItemByID = (data: AllMethodsItem, id: number) => {
 };
 
 export const getSingleItemByName = (data: AllMethodsItem, name: string) => {
-  return data.data.filter(
-    (d) => d.name.toLowerCase() === name.toLowerCase()
-  )[0];
+  return data.data.filter((d) => d.name.toLowerCase() === name.toLowerCase())[0];
 };
 
-export const getFilteredMethods = (
-  array: AllMethodsItem,
-  extension: string
-) => {
+export const getFilteredMethods = (array: AllMethodsItem, extension: string) => {
   return array?.data.filter((a) => a.extensions.includes(extension as never));
 };
 
-export const getAdditionalParameters = (
-  additional: MethodAdditional[] | null | undefined,
-  extension: string
-) => {
+export const getAdditionalParameters = (additional: MethodAdditional[] | null | undefined, extension: string) => {
   if (additional === null || additional === undefined) return [];
   return additional.filter((a) => a.extension === extension);
 };
@@ -72,10 +61,7 @@ export const getResultsMatrixItems = (ids: [] | number[], label: string) => {
   });
 };
 
-export const getResultsMethodItems = (
-  results: ResultsMethod[][],
-  matrixId: null | number
-) => {
+export const getResultsMethodItems = (results: ResultsMethod[][], matrixId: null | number) => {
   if (!results) return [];
 
   let items: FilterItem[] = [];
@@ -112,10 +98,9 @@ export const getResultsMethodItems = (
 export const getResultsCorrelationItems = (
   methodCorrelations: ResultsMethodCorrelations[][],
   rankingCorrelations: ResultsRankingCorrelations[][],
-  matrixId: null | number
+  matrixId: null | number,
 ) => {
-  if (methodCorrelations.length === 0 && rankingCorrelations.length === 0)
-    return [];
+  if (methodCorrelations.length === 0 && rankingCorrelations.length === 0) return [];
 
   let items: FilterItem[] = [];
   if (matrixId) {
@@ -180,40 +165,28 @@ export const filterResults = (
   results: ResultsType,
   matrixFilter: string,
   methodFilter: string,
-  correlationFilter: string
+  correlationFilter: string,
 ) => {
   if (results === null) return results;
-  let filteredResults = { ...results };
+  const filteredResults = { ...results };
 
-  if (matrixFilter !== "") {
-    filteredResults.method =
-      filteredResults.method.length > 0
-        ? [filteredResults?.method[+matrixFilter]]
-        : [];
+  if (matrixFilter !== '') {
+    filteredResults.method = filteredResults.method.length > 0 ? [filteredResults?.method[+matrixFilter]] : [];
     filteredResults.methodCorrelations =
-      filteredResults.methodCorrelations.length > 0
-        ? [filteredResults?.methodCorrelations[+matrixFilter]]
-        : [];
+      filteredResults.methodCorrelations.length > 0 ? [filteredResults?.methodCorrelations[+matrixFilter]] : [];
     filteredResults.methodRankings =
-      filteredResults.methodRankings.length > 0
-        ? [filteredResults?.methodRankings[+matrixFilter]]
-        : [];
+      filteredResults.methodRankings.length > 0 ? [filteredResults?.methodRankings[+matrixFilter]] : [];
     filteredResults.rankingCorrelations =
-      filteredResults.rankingCorrelations.length > 0
-        ? [filteredResults?.rankingCorrelations[+matrixFilter]]
-        : [];
+      filteredResults.rankingCorrelations.length > 0 ? [filteredResults?.rankingCorrelations[+matrixFilter]] : [];
   }
 
-  if (methodFilter !== "") {
+  if (methodFilter !== '') {
     filteredResults.method =
       filteredResults.method.length > 0
         ? [
             ...filteredResults.method
               .map((methods) => {
-                return methods.filter(
-                  (item) =>
-                    item.method.toLowerCase() === methodFilter.toLowerCase()
-                );
+                return methods.filter((item) => item.method.toLowerCase() === methodFilter.toLowerCase());
               })
               .filter((m) => m.length !== 0),
           ]
@@ -221,12 +194,10 @@ export const filterResults = (
     filteredResults.methodCorrelations =
       filteredResults.methodCorrelations.length > 0
         ? [
-            ...filteredResults?.methodCorrelations
+            ...filteredResults.methodCorrelations
               .map((corrs) => {
                 return corrs.filter((corr) =>
-                  corr.methods
-                    .map((c) => c.method.toLowerCase())
-                    .includes(methodFilter.toLowerCase())
+                  corr.methods.map((c) => c.method.toLowerCase()).includes(methodFilter.toLowerCase()),
                 );
               })
               .filter((corrs) => corrs.length !== 0),
@@ -235,15 +206,11 @@ export const filterResults = (
     filteredResults.methodRankings =
       filteredResults.methodRankings.length > 0
         ? [
-            ...filteredResults?.methodRankings
+            ...filteredResults.methodRankings
               .map((ranks) => {
                 return ranks
                   .map((rank) => {
-                    return rank.filter(
-                      (r) =>
-                        r.methods.method.toLowerCase() ===
-                        methodFilter.toLowerCase()
-                    );
+                    return rank.filter((r) => r.methods.method.toLowerCase() === methodFilter.toLowerCase());
                   })
                   .filter((rank) => rank.length !== 0);
               })
@@ -253,12 +220,10 @@ export const filterResults = (
     filteredResults.rankingCorrelations =
       filteredResults.rankingCorrelations.length > 0
         ? [
-            ...filteredResults?.rankingCorrelations
+            ...filteredResults.rankingCorrelations
               .map((corrs) => {
                 return corrs.filter((corr) => {
-                  return corr.methods
-                    .map((m) => m.method.toLowerCase())
-                    .includes(methodFilter.toLowerCase());
+                  return corr.methods.map((m) => m.method.toLowerCase()).includes(methodFilter.toLowerCase());
                 });
               })
               .filter((corrs) => corrs.length !== 0),
@@ -266,17 +231,13 @@ export const filterResults = (
         : [];
   }
 
-  if (correlationFilter !== "") {
+  if (correlationFilter !== '') {
     filteredResults.methodCorrelations =
       filteredResults.methodCorrelations.length > 0
         ? [
-            ...filteredResults?.methodCorrelations
+            ...filteredResults.methodCorrelations
               .map((corrs) => {
-                return corrs.filter(
-                  (corr) =>
-                    corr.correlation.toLowerCase() ===
-                    correlationFilter.toLowerCase()
-                );
+                return corrs.filter((corr) => corr.correlation.toLowerCase() === correlationFilter.toLowerCase());
               })
               .filter((corrs) => corrs.length > 0),
           ]
@@ -284,13 +245,9 @@ export const filterResults = (
     filteredResults.rankingCorrelations =
       filteredResults.rankingCorrelations.length > 0
         ? [
-            ...filteredResults?.rankingCorrelations
+            ...filteredResults.rankingCorrelations
               .map((corrs) => {
-                return corrs.filter(
-                  (corr) =>
-                    corr.correlation.toLowerCase() ===
-                    correlationFilter.toLowerCase()
-                );
+                return corrs.filter((corr) => corr.correlation.toLowerCase() === correlationFilter.toLowerCase());
               })
               .filter((corrs) => corrs.length !== 0),
           ]

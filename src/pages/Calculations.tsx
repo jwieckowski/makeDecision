@@ -3,6 +3,7 @@ import { Container, Stack, Typography, Divider } from '@mui/material';
 
 // COMPONENTS
 import SettingsBar from './CalculationContent/SettingsBar';
+import DragStory from './CalculationContent/DragStory';
 
 export default function Calculations() {
   const { t } = useTranslation();
@@ -13,7 +14,9 @@ export default function Calculations() {
         <Container maxWidth={false} disableGutters sx={{ minHeight: '60px', backgroundColor: 'white' }}>
           <SettingsBar />
         </Container>
-        Body
+        <Container maxWidth={false} disableGutters sx={{ minHeight: '70vh', marginTop: 2 }}>
+          <DragStory />
+        </Container>
       </Container>
       <Container
         sx={{

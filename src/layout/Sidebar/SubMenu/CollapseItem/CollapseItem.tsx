@@ -9,7 +9,22 @@ import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
 
 // TYPES
-import { CollapseItemProps } from '@/types/components';
+import { AllMethodsItem } from '@/types';
+
+export type CollapseItemProps = {
+  open: boolean;
+  forceOpen: boolean;
+  methods: AllMethodsItem;
+  onClick: (
+    e: React.MouseEvent<HTMLLIElement, MouseEvent>,
+    type: string,
+    typeLabel: string,
+    method: string,
+    label: string,
+    inputConnections: [] | string[],
+    outputConnections: [] | string[],
+  ) => void;
+};
 
 export default function CollapseItem({ open, forceOpen, methods, onClick }: CollapseItemProps) {
   return (
@@ -19,7 +34,17 @@ export default function CollapseItem({ open, forceOpen, methods, onClick }: Coll
           return (
             <Box key={method.name}>
               <ListItem
-                onClick={onClick}
+                onClick={(e) => {
+                  onClick(
+                    e,
+                    methods.key,
+                    methods.label,
+                    method.name,
+                    method.label,
+                    methods.inputConnections,
+                    methods.outputConnections,
+                  );
+                }}
                 disablePadding
                 secondaryAction={
                   methods.key === 'Weights' || methods.key === 'Method' ? (

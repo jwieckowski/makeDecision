@@ -1,4 +1,3 @@
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Paper, Stack, Divider } from '@mui/material';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
@@ -28,7 +27,7 @@ import Button from '@/components/Button';
 import DragSettings from './DragSettings';
 
 // UTILS
-import { printDocument, generateResultsFile } from '@/utils/files';
+// import { printDocument, generateResultsFile } from '@/utils/files';
 import useCalculation from '@/utils/calculation';
 import { getNotConnectedBlocks } from '@/utils/blocks';
 import useSnackbars from '@/utils/snackbars';
@@ -36,7 +35,7 @@ import useSnackbars from '@/utils/snackbars';
 export default function SettingsBar() {
   const { blocks, connections } = useAppSelector((state) => state.blocks);
   const { allMethods } = useAppSelector((state) => state.dictionary);
-  const { results } = useAppSelector((state) => state.calculation);
+  // const { results } = useAppSelector((state) => state.calculation);
 
   const { t } = useTranslation();
   const { locale } = useLocale();
@@ -56,6 +55,7 @@ export default function SettingsBar() {
   const handleCalculateClick = async () => {
     dispatch(clearBody());
 
+    console.log(getNotConnectedBlocks(blocks, connections));
     // show added but not connected blocks
     if (getNotConnectedBlocks(blocks, connections).length > 0) {
       getNotConnectedBlocks(blocks, connections).forEach((b) => {
@@ -99,8 +99,18 @@ export default function SettingsBar() {
       <DragSettings />
       <Divider orientation="vertical" flexItem />
       <Stack direction="row" gap={2}>
-        <Button text={t('results:clear')} onClick={handleClearClick} startIcon={<HighlightOffIcon />} />
-        <Button text={t('results:calculate')} onClick={handleCalculateClick} startIcon={<PlayCircleOutlineIcon />} />
+        <Button
+          text={t('results:clear')}
+          onClick={handleClearClick}
+          startIcon={<HighlightOffIcon />}
+          variant="contained"
+        />
+        <Button
+          text={t('results:calculate')}
+          onClick={handleCalculateClick}
+          startIcon={<PlayCircleOutlineIcon />}
+          variant="contained"
+        />
       </Stack>
     </Paper>
   );

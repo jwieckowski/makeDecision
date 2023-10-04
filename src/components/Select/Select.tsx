@@ -15,11 +15,12 @@ type SelectProps = {
   label?: string;
   placeholder?: string;
   light?: boolean;
+  minWidth?: number;
 };
 
-export default function MySelect({ items, value, onChange, label, placeholder, light }: SelectProps) {
+export default function MySelect({ items, value, onChange, label, placeholder, light, minWidth }: SelectProps) {
   return (
-    <FormControl variant="standard" sx={{ minWidth: 60 }}>
+    <FormControl variant="standard" sx={{ minWidth: minWidth ?? 60 }}>
       {label ? <InputLabel id="select-id">{label}</InputLabel> : null}
       <Select
         labelId="select-id"

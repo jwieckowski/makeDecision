@@ -1,9 +1,5 @@
 // TYPES
-import {
-  ResultsMethod,
-  ResultsMethodRankings,
-  ResultsMethodCorrelations,
-} from "../redux/types";
+import { ResultsMethod, ResultsMethodRankings, ResultsMethodCorrelations } from '@/types';
 
 export const getTableAlternativesHeaders = (methods: ResultsMethod[]) => {
   if (methods.length === 0) return [];
@@ -15,17 +11,12 @@ export const getTableMethodsLabels = (methods: ResultsMethod[]) => {
     [
       res.method.toUpperCase(),
       res.weights.toUpperCase(),
-      ...Object.values(res.additional).map(
-        (item) => `| ${item.split("_").join(" ").toUpperCase()}`
-      ),
-    ].join(" ")
+      ...Object.values(res.additional).map((item) => `| ${item.split('_').join(' ').toUpperCase()}`),
+    ].join(' '),
   );
 };
 
-export const getTableMethodsData = (
-  methods: ResultsMethod[],
-  precision?: number
-) => {
+export const getTableMethodsData = (methods: ResultsMethod[], precision?: number) => {
   return methods.map((res) => {
     return res.preference.map((pref) => {
       return precision ? pref.toFixed(precision) : pref;
@@ -33,11 +24,7 @@ export const getTableMethodsData = (
   });
 };
 
-export const getTableTitle = (
-  ids: [] | number[],
-  idx: number,
-  label: string
-) => {
+export const getTableTitle = (ids: [] | number[], idx: number, label: string) => {
   if (ids.length > idx) {
     return `${label} (ID ${ids[idx]})`;
   }
@@ -60,10 +47,7 @@ export const getTableWeightsLabels = (methods: ResultsMethod[]) => {
   return weightsMethods;
 };
 
-export const getTableWeightsData = (
-  methods: ResultsMethod[],
-  precision?: number
-) => {
+export const getTableWeightsData = (methods: ResultsMethod[], precision?: number) => {
   let weightsMethods: string[] = [];
   let data: string[][] = [];
 
@@ -78,7 +62,7 @@ export const getTableWeightsData = (
               .map((v) => {
                 return precision ? v.toFixed(precision) : `${v}`;
               })
-              .join(", ")}]`;
+              .join(', ')}]`;
           } else return precision ? val.toFixed(precision) : `${val}`;
         }),
       ];
@@ -104,17 +88,12 @@ export const getTableRankingLabels = (rankings: ResultsMethodRankings[]) => {
     return [
       rank.methods.method.toUpperCase(),
       rank.methods.weights.toUpperCase(),
-      ...Object.values(rank.methods.additionals).map(
-        (item) => `| ${item.split("_").join(" ").toUpperCase()}`
-      ),
-    ].join(" ");
+      ...Object.values(rank.methods.additionals).map((item) => `| ${item.split('_').join(' ').toUpperCase()}`),
+    ].join(' ');
   });
 };
 
-export const getTablePreferenceCorrelationData = (
-  corr: ResultsMethodCorrelations,
-  precision?: number
-) => {
+export const getTablePreferenceCorrelationData = (corr: ResultsMethodCorrelations, precision?: number) => {
   if (!precision) return corr.results;
 
   return corr.results.map((row) => {
@@ -122,17 +101,13 @@ export const getTablePreferenceCorrelationData = (
   });
 };
 
-export const getTablePreferenceCorrelationLabels = (
-  corr: ResultsMethodCorrelations
-) => {
+export const getTablePreferenceCorrelationLabels = (corr: ResultsMethodCorrelations) => {
   return corr.methods.map((res) =>
     [
       res.method.toUpperCase(),
       res.weights.toUpperCase(),
-      ...Object.values(res.additionals).map(
-        (item) => `| ${item.split("_").join(" ").toUpperCase()}`
-      ),
-    ].join(" ")
+      ...Object.values(res.additionals).map((item) => `| ${item.split('_').join(' ').toUpperCase()}`),
+    ].join(' '),
   );
 };
 

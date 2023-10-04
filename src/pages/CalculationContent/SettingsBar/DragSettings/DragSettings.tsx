@@ -1,7 +1,6 @@
-import React from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import Stack from '@mui/material/Stack';
+import { Stack, Box, Typography } from '@mui/material';
 
 // REDUX
 import { RootState, useAppDispatch } from '@/state';
@@ -46,6 +45,11 @@ export default function DragSettings() {
 
   return (
     <Stack direction="row" gap={2} sx={{ height: '100%', display: 'flex', alignItems: 'center' }}>
+      <Box sx={{ height: '100%', minHeight: '50px' }}>
+        <Typography variant="subtitle2" align="left" sx={{ verticalAlign: 'top' }}>
+          {t('common:settings')}
+        </Typography>
+      </Box>
       <Input
         type={'number'}
         value={headSize}
@@ -86,6 +90,7 @@ export default function DragSettings() {
           dispatch(setPath(e.target.value));
         }}
         label={`${t('results:path')}`}
+        minWidth={80}
       />
       <ColorPicker
         value={color}
@@ -103,6 +108,7 @@ export default function DragSettings() {
         }}
       />
       <Input
+        label={`${t('results:size')}`}
         type={'number'}
         value={gridSize}
         onChange={(e) => {
