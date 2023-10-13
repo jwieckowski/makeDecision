@@ -1,6 +1,6 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Container, Stack, Typography, Box, Divider, SelectChangeEvent } from '@mui/material';
+import { Container, Stack, Typography, Box, Divider, SelectChangeEvent, TextField } from '@mui/material';
 
 // ICONS
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -64,6 +64,12 @@ export default function Matrix({ data }: MatrixProps) {
   const { showSnackbar } = useSnackbars();
   const { validateCrispInput, validateFuzzyInput } = useValidation();
   const { getMatrixWeightsConnections, getWeightsMethodConnections } = useCalculation();
+
+  function validateInput(value: number, min: number, max: number, cb: Function) {
+    console.log('tu');
+    console.log(value >= min ? (value > max ? max : +value) : min);
+    dispatch(cb(value >= min ? (value > max ? max : +value) : min));
+  }
 
   // INPUT MATRIX EFFECTS
   useEffect(() => {
@@ -237,10 +243,6 @@ export default function Matrix({ data }: MatrixProps) {
     dispatch(setBlockTypes({ id: data?._id, data: copy }));
   };
 
-  function validateInput(value: number, min: number, max: number, cb: Function) {
-    dispatch(cb(value >= min ? (value > max ? max : +value) : min));
-  }
-
   function changeAlternatives(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) {
     const value = e.target.value;
     if (isNaN(+value)) return;
@@ -341,6 +343,7 @@ export default function Matrix({ data }: MatrixProps) {
     <Container>
       <Stack direction="column" gap={1} sx={{ display: 'flex', justifyContent: 'center' }}>
         <Divider textAlign="center">{data?.method.toUpperCase()}</Divider>
+        {/* <TextField size="small" id="input" /> */}
         <Stack direction="row" gap={3} sx={{ display: 'flex', justifyContent: 'center' }}>
           <Select
             label={t('results:extension') as string}
@@ -352,23 +355,26 @@ export default function Matrix({ data }: MatrixProps) {
           {data !== null && data.method !== 'file' ? (
             <>
               <Input
-                type="string"
+                type="number"
                 value={data.data.alternatives}
-                // placeholder={t('results:alternatives') as string}
                 label={t('results:alternatives') as string}
                 onChange={(e) => changeAlternatives(e)}
                 width={70}
+                min={MIN_ALTERNATIVES}
+                max={MAX_ALTERNATIVES}
                 // onBlur={() =>
-                //   validateInput(data.data.alternatives, MIN_ALTERNATIVES, MAX_ALTERNATIVES, setBlockAlternatives)
+                //   // validateInput(data.data.alternatives, MIN_ALTERNATIVES, MAX_ALTERNATIVES, setBlockAlternatives)
+                //   console.log('blur')
                 // }
               />
               <Input
-                type="string"
+                type="number"
                 value={data.data.criteria}
-                // placeholder={t('results:criteria') as string}
                 label={t('results:criteria') as string}
                 onChange={(e) => changeCriteria(e)}
                 width={70}
+                min={MIN_CRITERIA}
+                max={MAX_CRITERIA}
                 // onBlur={() => validateInput(data.data.criteria, MIN_CRITERIA, MAX_CRITERIA, setBlockCriteria)}
               />
             </>

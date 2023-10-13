@@ -160,7 +160,14 @@ export default function CalculationsMenu() {
   }
 
   return (
-    <Box>
+    <Box
+      sx={{
+        display: {
+          xs: 'none',
+          md: 'block',
+        },
+      }}
+    >
       <Box sx={{ display: 'flex', justifyContent: 'flex-start', pl: 1, fontSize: 14, textTransform: 'uppercase' }}>
         <Typography variant="body2">{t('common:techniques')}</Typography>
       </Box>

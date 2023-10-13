@@ -34,6 +34,8 @@ export default function Codes({ type, data }: CodesProps) {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'start',
+        maxWidth: '75vw',
+        overflowX: { xs: 'scroll', lg: 'hidden' },
       }}
     >
       <Typography variant="h6" sx={{ marginBottom: '20px', fontWeight: 'bold' }}>

@@ -43,7 +43,7 @@
 
   "not-connected": "Not all elements have been connected. Do you want to continue with the calculations?",
   "work-area": "Work area is to small",
-  "work-area-size": "Required window size larger than 766 px",
+  "work-area-size": "Required bigger window size",
   "bigger-screen": "To use the calculation, page run the application on the bigger screen",
   "show-matrix": "Show uploaded matrix",
   "filter": "Filter"

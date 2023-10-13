@@ -39,6 +39,7 @@
   "accepted-file-format-csv": "Accepted file format - CSV",
   "accepted-file-format-json": "Accepted file format - JSON",
   "accepted-file-format-xlsx": "Accepted file format - XLSX",
+  "accepted-file-formats": "Accepted file formats: CSV, JSON, XLSX",
   "file-formatting-guide": "Check the guide on how to format data files in About page",
 
   "menu": "Menu",
@@ -52,6 +53,7 @@
   "methods": "Methods",
   "description": "Description",
   "settings": "Settings",
+  "filters": "Filters",
 
   "no-internet": "No internet connection",
   "back-online": "Back online",
@@ -65,6 +67,12 @@
   "methods-loading-error": "Error occurs when downloading method descriptions",
   "try-again-later": "Try again later",
   "bookmarks": "Bookmarks",
+
+  "keywords-header": "Application purpose",
+  "app-keyword-1": "MCDA/MCDM GUI",
+  "app-keyword-2": "Model Prototyping",
+  "app-keyword-3": "Decision Analysis",
+  "app-keyword-4": "Structural Modeling",
 
   "tutorial": "Guide",
   "tutorial-step-1": "Welcome to the guide. This is the workspace that enables you to structure your decision-making models",

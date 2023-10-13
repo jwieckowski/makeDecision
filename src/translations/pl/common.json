@@ -37,6 +37,7 @@
   "accepted-file-format-csv": "Akceptowalny format pliku - CSV",
   "accepted-file-format-json": "Akceptowalny format pliku - JSON",
   "accepted-file-format-xlsx": "Akceptowalny format pliku - XLSX",
+  "accepted-file-formats": "Akceptowalne formaty plików: CSV, JSON, XLSX",
   "file-formatting-guide": "Sprawdź jak poprawnie formatować plik danych w zakładce O Aplikacji",
 
   "menu": "Menu",
@@ -45,6 +46,7 @@
   "nav-page-3": "Metody",
   "nav-page-4": "O aplikacji",
   "nav-page-5": "Kontakt",
+  "filters": "Filtry",
 
   "categories": "Kategorie",
   "methods": "Metody",
@@ -63,6 +65,12 @@
   "methods-loading-error": "Wystąpił błąd przy pobieraniu opisów metod",
   "try-again-later": "Spróbuj ponownie później",
   "bookmarks": "Zakładki",
+
+  "keywords-header": "Cel aplikacji",
+  "app-keyword-1": "MCDA/MCDM GUI",
+  "app-keyword-2": "Prototypowanie Modeli",
+  "app-keyword-3": "Analiza Decyzyjna",
+  "app-keyword-4": "Modelowanie Strukturalne",
 
   "tutorial": "Samouczek",
   "tutorial-step-1": "Witamy w samouczku. To jest obszar roboczy, który umożliwia tworzenie struktur modeli decyzyjnych",

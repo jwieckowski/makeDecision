@@ -19,16 +19,10 @@ export default function FileUploader({ onUpload, label }: FileUploaderProps) {
   return (
     <Container sx={{ my: 2 }}>
       <Container maxWidth={false} disableGutters sx={{ display: 'flex', justifyContent: 'flex-end', mb: 1 }}>
-        <Tooltip title={t('common:accepted-file-format-csv')}>
+        <Tooltip title={t('common:accepted-file-formats')} placement="top">
           <AttachFileIcon />
         </Tooltip>
-        <Tooltip title={t('common:accepted-file-format-json')}>
-          <AttachFileIcon />
-        </Tooltip>
-        <Tooltip title={t('common:accepted-file-format-xlsx')}>
-          <AttachFileIcon />
-        </Tooltip>
-        <Tooltip title={t('common:file-formatting-guide')}>
+        <Tooltip title={t('common:file-formatting-guide')} placement="top">
           <HelpOutlineIcon />
         </Tooltip>
       </Container>

@@ -7,6 +7,9 @@ import EmailIcon from '@mui/icons-material/Email';
 import HomeWorkIcon from '@mui/icons-material/HomeWork';
 import LanguageIcon from '@mui/icons-material/Language';
 
+// COMPONENTS
+import LinedSubheader from '@/components/LinedSubheader';
+
 // CONST
 import {
   GITHUB_PROFILE_LABEL,
@@ -93,11 +96,7 @@ export default function Contact() {
 
       <Container>
         <Stack spacing={3}>
-          <Divider textAlign="left">
-            <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-              {t('common:report-bugs')}
-            </Typography>
-          </Divider>
+          <LinedSubheader label={t('common:report-bugs')} />
           <Typography align="justify">{t('contact:bugs-text-1')}</Typography>
         </Stack>
       </Container>
@@ -105,11 +104,8 @@ export default function Contact() {
       <Container sx={{ marginTop: '50px' }}>
         {/* CONTACT */}
         <Stack spacing={3}>
-          <Divider textAlign="left">
-            <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-              {t('common:contact-us')}
-            </Typography>
-          </Divider>
+          <LinedSubheader label={t('common:contact-us')} />
+
           {contacts.map((item, idx) => {
             return (
               <Box key={idx}>
@@ -120,7 +116,15 @@ export default function Contact() {
                   rel="noreferrer"
                 >
                   <Box
-                    sx={{ display: 'flex', flexDirection: 'row', gap: '16px', '&:hover': { color: 'primary.light' } }}
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      gap: '16px',
+                      transition: 'color 200ms ease-in',
+                      '&:hover': {
+                        color: 'primary.light',
+                      },
+                    }}
                   >
                     {item.icon}
                     <Typography> {item.label}</Typography>
@@ -164,7 +168,15 @@ export default function Contact() {
                       target="_blank"
                       rel="noreferrer"
                     >
-                      <Typography variant="subtitle2" sx={{ '&:hover': { color: 'primary.light' } }}>
+                      <Typography
+                        variant="subtitle2"
+                        sx={{
+                          transition: 'color 200ms ease-in',
+                          '&:hover': {
+                            color: 'primary.light',
+                          },
+                        }}
+                      >
                         {item.doi}
                       </Typography>
                     </a>
@@ -186,7 +198,15 @@ export default function Contact() {
                   rel="noreferrer"
                 >
                   <Box
-                    sx={{ display: 'flex', flexDirection: 'row', gap: '16px', '&:hover': { color: 'primary.light' } }}
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      gap: '16px',
+                      transition: 'color 200ms ease-in',
+                      '&:hover': {
+                        color: 'primary.light',
+                      },
+                    }}
                   >
                     <LanguageIcon />
                     <Typography> {item.label}</Typography>

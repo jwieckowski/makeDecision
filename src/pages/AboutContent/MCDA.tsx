@@ -4,6 +4,7 @@ import { Container, Stack, Typography, Divider } from '@mui/material';
 
 // COMPONENTS
 import Image from '@/components/Image';
+import LinedSubheader from '@/components/LinedSubheader';
 
 // HOOKS
 import { useLocale } from '@/hooks';
@@ -25,11 +26,7 @@ export default function MCDA() {
       </Typography>
 
       <Stack gap={4}>
-        <Divider textAlign="left">
-          <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-            {t('about:mcda-problems')}
-          </Typography>
-        </Divider>
+        <LinedSubheader label={t('about:mcda-problems')} />
 
         <Typography align="justify">{t('about:mcda-description-text-1')}</Typography>
 
@@ -48,11 +45,7 @@ export default function MCDA() {
       </Stack>
 
       <Stack gap={4} mt={3}>
-        <Divider textAlign="left">
-          <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-            {t('about:app-mcda')}
-          </Typography>
-        </Divider>
+        <LinedSubheader label={t('about:app-mcda')} />
 
         <Typography align="justify">{t('about:app-functions-text-1')}</Typography>
 

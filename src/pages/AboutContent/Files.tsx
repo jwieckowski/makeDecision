@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Container, Stack, Typography, Box, Divider } from '@mui/material';
+import { Container, Stack, Typography, Divider, Grid } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 
 // COMPONENTS
@@ -206,20 +206,30 @@ export default function Files() {
 
               <Codes type={item.type} data={item.data} />
 
-              <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Typography align="justify">{t('about:file-bad-format')}</Typography>
-                {item?.downloadFn ? (
-                  <Button
-                    text={t('about:download-example-file')}
-                    onClick={item.downloadFn}
-                    endIcon={<DownloadIcon />}
-                  />
-                ) : (
-                  <a href={item.href} target="_blank" rel="noopener noreferrer" download>
-                    <Button text={t('about:download-example-file')} endIcon={<DownloadIcon />} onClick={() => {}} />
-                  </a>
-                )}
-              </Box>
+              <Grid container spacing={2} mt={1}>
+                <Grid item xs={12} md={8}>
+                  <Typography align="justify">{t('about:file-bad-format')}</Typography>
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  {item?.downloadFn ? (
+                    <Button
+                      text={t('about:download-example-file')}
+                      onClick={item.downloadFn}
+                      endIcon={<DownloadIcon />}
+                      fullWidth
+                    />
+                  ) : (
+                    <a href={item.href} target="_blank" rel="noopener noreferrer" download>
+                      <Button
+                        text={t('about:download-example-file')}
+                        endIcon={<DownloadIcon />}
+                        onClick={() => {}}
+                        fullWidth
+                      />
+                    </a>
+                  )}
+                </Grid>
+              </Grid>
             </Stack>
           );
         })}

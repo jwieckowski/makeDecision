@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { SnackbarProvider, useSnackbar, SnackbarKey } from 'notistack';
 import { useTranslation } from 'react-i18next';
-import { useLocation, Routes, Route, Navigate, BrowserRouter } from 'react-router-dom';
+import { useLocation, Routes, Route, Navigate, HashRouter } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -24,7 +24,7 @@ import Contact from '@/pages/Contact';
 import { useOnlineStatus } from '@/hooks';
 
 // CONST
-import { DRAWER_WIDTH, HIDE_DURATION, MENU_ITEMS } from '@/common/const';
+import { DRAWER_WIDTH, HIDE_DURATION, MENU_ITEMS, APP_NAME_PATH } from '@/common/const';
 
 type AppLayoutProps = {
   children: React.ReactElement;
@@ -102,7 +102,12 @@ function AppLayout({ children }: AppLayoutProps) {
       </Box>
       <Box
         component="main"
-        sx={{ flexGrow: 1, p: 0, width: { sm: `calc(100% - ${DRAWER_WIDTH}px)` }, minHeight: '100vh' }}
+        sx={{
+          flexGrow: 1,
+          p: 0,
+          width: { sm: `calc(100% - ${DRAWER_WIDTH}px)` },
+          minHeight: '100vh',
+        }}
       >
         <Toolbar sx={{ display: { sm: 'none' } }} />
         {/* CONTENT */}
@@ -121,7 +126,7 @@ function AppLayout({ children }: AppLayoutProps) {
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <HashRouter basename={`${APP_NAME_PATH}`}>
       <SnackbarProvider maxSnack={4}>
         <AppLayout>
           <Routes>
@@ -134,6 +139,6 @@ export default function App() {
           </Routes>
         </AppLayout>
       </SnackbarProvider>
-    </BrowserRouter>
+    </HashRouter>
   );
 }

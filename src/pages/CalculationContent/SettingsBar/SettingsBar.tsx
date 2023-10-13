@@ -55,7 +55,6 @@ export default function SettingsBar() {
   const handleCalculateClick = async () => {
     dispatch(clearBody());
 
-    console.log(getNotConnectedBlocks(blocks, connections));
     // show added but not connected blocks
     if (getNotConnectedBlocks(blocks, connections).length > 0) {
       getNotConnectedBlocks(blocks, connections).forEach((b) => {

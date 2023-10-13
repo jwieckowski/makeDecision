@@ -7,51 +7,51 @@ type dict = {
 
 export default function blockStyles(type: string, active: boolean) {
   const method = {
-    backgroundColor: 'rgba(64, 56, 236, 0.7)',
-    border: active ? '3px solid black' : '3px solid rgb(64, 56, 236)',
-    height: `${DRAGGABLE_HEIGHT}px`,
+    backgroundColor: 'rgba(186,225,255, 0.9)',
+    border: active ? '3px solid black' : '3px solid rgb(186,225,255)',
+    minHeight: `${DRAGGABLE_HEIGHT}px`,
     width: `${DRAGGABLE_WIDTH}px`,
   };
 
   const matrix = {
-    backgroundColor: 'rgba(223, 236, 56, 0.7)',
-    border: active ? '3px solid black' : '3px solid rgba(223, 236, 56)',
-    height: `${DRAGGABLE_HEIGHT}px`,
+    backgroundColor: 'rgba(254,255,163, 0.9)',
+    border: active ? '3px solid black' : '3px solid rgba(254,255,163)',
+    minHeight: `${DRAGGABLE_HEIGHT}px`,
     width: `${DRAGGABLE_WIDTH}px`,
   };
 
   const weights = {
-    backgroundColor: 'rgba(236, 176, 56, 0.7)',
-    border: active ? '3px solid black' : '3px solid rgba(236, 176, 56)',
-    height: `${DRAGGABLE_HEIGHT}px`,
+    backgroundColor: 'rgba(255,223,186, 0.9)',
+    border: active ? '3px solid black' : '3px solid rgba(255,223,186)',
+    minHeight: `${DRAGGABLE_HEIGHT}px`,
     width: `${DRAGGABLE_WIDTH}px`,
   };
 
   const ranking = {
-    backgroundColor: 'rgba(236, 56, 91, 0.7)',
+    backgroundColor: 'rgba(236, 56, 91, 0.9)',
     border: active ? '3px solid black' : '3px solid rgb(236, 56, 91)',
-    height: `${DRAGGABLE_HEIGHT}px`,
+    minHeight: `${DRAGGABLE_HEIGHT}px`,
     width: `${DRAGGABLE_WIDTH}px`,
   };
 
   const visualization = {
-    backgroundColor: 'rgba(168, 56, 236, 0.7)',
-    border: active ? '3px solid black' : '3px solid rgb(168, 56, 236)',
-    height: `${DRAGGABLE_HEIGHT}px`,
+    backgroundColor: 'rgba(215,205,254, 0.9)',
+    border: active ? '3px solid black' : '3px solid rgb(215,205,254)',
+    minHeight: `${DRAGGABLE_HEIGHT}px`,
     width: `${DRAGGABLE_WIDTH}px`,
   };
 
   const correlation = {
-    backgroundColor: 'rgb(94, 236, 56 , 0.7)',
-    border: active ? '3px solid black' : '3px solid rgb(94, 236, 56)',
-    height: `${DRAGGABLE_HEIGHT}px`,
+    backgroundColor: 'rgb(192,244,184 , 0.9)',
+    border: active ? '3px solid black' : '3px solid rgb(192,244,184)',
+    minHeight: `${DRAGGABLE_HEIGHT}px`,
     width: `${DRAGGABLE_WIDTH}px`,
   };
 
   const neutral = {
     backgroundColor: 'rgba(102, 102, 102, 0.7)',
     border: active ? '3px solid black' : '3px solid rgb(102, 102, 102)',
-    height: `${DRAGGABLE_HEIGHT}px`,
+    minHeight: `${DRAGGABLE_HEIGHT}px`,
     width: `${DRAGGABLE_WIDTH}px`,
   };
 

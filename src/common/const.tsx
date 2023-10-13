@@ -27,7 +27,8 @@ export const MENU_ITEMS = [
 export const DRAWER_WIDTH: number = 250;
 export const SEASON_ITEMS: number = 10;
 
-export const BASE_URL = 'http://api.make-decision.it/';
+// export const BASE_URL = 'http://api.make-decision.it/';
+export const BASE_URL = 'http://127.0.0.1:5000';
 
 export const APP_URL = 'http://make-decision.it';
 
@@ -55,7 +56,7 @@ export const MODAL_MIN_WIDTH = 400;
 export const MODAL_MAX_WIDTH = 700;
 export const MENU_ITEM_WIDTH = 140;
 
-export const DRAGGABLE_WIDTH = 110;
+export const DRAGGABLE_WIDTH = 140;
 export const DRAGGABLE_HEIGHT = 80;
 
 export const MATRIX_INPUT_WIDTH = 80;

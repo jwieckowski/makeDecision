@@ -6,6 +6,7 @@ import { Container, Stack, Typography, Divider } from '@mui/material';
 // COMPONENTS
 import Image from '@/components/Image';
 import Button from '@/components/Button';
+import LinedSubheader from '@/components/LinedSubheader';
 
 // HOOKS
 import { useLocale } from '@/hooks';
@@ -38,11 +39,7 @@ export default function Instruction() {
         <Stack gap={3}>
           <Typography align="justify">{t('about:instructions-text-1')}</Typography>
 
-          <Divider textAlign="left">
-            <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-              {t('about:connections-structure').toUpperCase()}
-            </Typography>
-          </Divider>
+          <LinedSubheader label={t('about:connections-structure').toUpperCase()} />
 
           <Typography align="justify">{t('about:connections-structure-text-1')}</Typography>
 
@@ -62,11 +59,7 @@ export default function Instruction() {
 
         {/* BASIC STRUCTURE */}
         <Stack gap={3}>
-          <Divider textAlign="left">
-            <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-              {t('about:basic-structure').toUpperCase()}
-            </Typography>
-          </Divider>
+          <LinedSubheader label={t('about:basic-structure').toUpperCase()} />
 
           <Typography align="justify">{t('about:basic-structure-text-1')}</Typography>
 
@@ -84,11 +77,7 @@ export default function Instruction() {
 
         {/* MULTIPLE METHODS STRUCTURE */}
         <Stack gap={3}>
-          <Divider textAlign="left">
-            <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-              {t('about:multiple-mcda-structure').toUpperCase()}
-            </Typography>
-          </Divider>
+          <LinedSubheader label={t('about:multiple-mcda-structure').toUpperCase()} />
 
           <Typography align="justify">{t('about:multiple-mcda-structure-text-1')}</Typography>
 
@@ -104,11 +93,7 @@ export default function Instruction() {
 
         {/* MULTIPLE WEIGHTS STRUCTURE */}
         <Stack gap={3}>
-          <Divider textAlign="left">
-            <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-              {t('about:multiple-weights-structure').toUpperCase()}
-            </Typography>
-          </Divider>
+          <LinedSubheader label={t('about:multiple-weights-structure').toUpperCase()} />
 
           <Typography align="justify">{t('about:multiple-weights-structure-text-1')}</Typography>
 
@@ -124,11 +109,7 @@ export default function Instruction() {
 
         {/* COMPLEX STRUCTURE */}
         <Stack gap={3}>
-          <Divider textAlign="left">
-            <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-              {t('about:complex-structure').toUpperCase()}
-            </Typography>
-          </Divider>
+          <LinedSubheader label={t('about:complex-structure').toUpperCase()} />
 
           <Typography align="justify">{t('about:complex-structure-text-1')}</Typography>
 

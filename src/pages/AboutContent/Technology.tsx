@@ -106,8 +106,9 @@ export default function Technology() {
             sx={{
               display: 'flex',
               gap: '16px',
+              transition: 'color 200ms ease-in',
               '&:hover': {
-                color: 'primary.main',
+                color: 'primary.light',
               },
             }}
           >
@@ -148,8 +149,9 @@ export default function Technology() {
                     <Typography
                       variant="subtitle2"
                       sx={{
+                        transition: 'color 200ms ease-in',
                         '&:hover': {
-                          color: 'primary.main',
+                          color: 'primary.light',
                         },
                       }}
                     >
@@ -184,8 +186,9 @@ export default function Technology() {
                 sx={{
                   display: 'flex',
                   gap: '16px',
+                  transition: 'color 200ms ease-in',
                   '&:hover': {
-                    color: 'primary.main',
+                    color: 'primary.light',
                   },
                 }}
               >

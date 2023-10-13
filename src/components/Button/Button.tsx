@@ -8,9 +8,10 @@ type ButtonProps = {
   onClick: () => void;
   disabled?: boolean;
   variant?: ButtonOwnProps['variant'];
+  fullWidth?: boolean;
 };
 
-export default function MyButton({ text, startIcon, endIcon, onClick, disabled, variant }: ButtonProps) {
+export default function MyButton({ text, startIcon, endIcon, onClick, disabled, variant, fullWidth }: ButtonProps) {
   return (
     <Button
       variant={variant ?? 'outlined'}
@@ -18,6 +19,7 @@ export default function MyButton({ text, startIcon, endIcon, onClick, disabled, 
       onClick={onClick}
       startIcon={startIcon || null}
       endIcon={endIcon || null}
+      fullWidth={fullWidth}
     >
       {text}
     </Button>

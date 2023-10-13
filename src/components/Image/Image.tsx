@@ -19,7 +19,6 @@ const Image = ({ src, alt, width, height, maxHeight, maxWidth }: ImageProps) => 
           style={{
             maxHeight: maxHeight ? maxHeight : 'auto',
             maxWidth: maxWidth ? maxWidth : 'auto',
-            minWidth: '400px',
           }}
           loading="lazy"
         />

@@ -41,7 +41,7 @@ export default function CriteriaTypes({ criteria, criteriaTypes, onCriteriaTypeC
         alignItems: 'end',
       }}
     >
-      {Array(criteria + 1 <= MAX_CRITERIA ? criteria + 1 : MAX_CRITERIA)
+      {Array(criteria <= MAX_CRITERIA ? criteria + 1 : MAX_CRITERIA)
         .fill(0)
         .map((_, col) => {
           return (
@@ -55,7 +55,7 @@ export default function CriteriaTypes({ criteria, criteriaTypes, onCriteriaTypeC
                   label={`C${col}`}
                   items={types}
                   value={criteriaTypes === null || criteriaTypes.length === 0 ? '' : criteriaTypes[col - 1]}
-                  onChange={(e) => onCriteriaTypeChange(e, col-1)}
+                  onChange={(e) => onCriteriaTypeChange(e, col - 1)}
                   minWidth={MATRIX_INPUT_WIDTH - 4}
                 />
               )}

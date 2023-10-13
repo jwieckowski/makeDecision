@@ -44,6 +44,7 @@ const style = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   minWidth: 400,
+  minHeight: 300,
   maxWidth: 800,
   bgcolor: 'background.paper',
   // border: '2px solid #000',

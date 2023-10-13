@@ -208,12 +208,17 @@ export default function DragArea() {
       maxWidth={false}
       sx={{
         position: 'relative',
-        cursor: 'pointer',
       }}
       onClick={handleGridClick}
       id="blockArea"
     >
-      <Paper elevation={10}>
+      <Paper
+        elevation={10}
+        sx={{
+          cursor: 'pointer',
+        }}
+        id="dragContainer"
+      >
         <TransformWrapper
           initialScale={scale}
           disabled={isMoveable}
@@ -255,6 +260,7 @@ export default function DragArea() {
                   onDrag={onDrag}
                   onStop={onStop}
                   scale={scale}
+                  inputConnections={block.inputConnections}
                 />
               );
             })}

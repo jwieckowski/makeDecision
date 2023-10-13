@@ -1,11 +1,12 @@
 import React, { useState, useMemo, MouseEvent } from 'react';
-import Draggable from 'react-draggable';
+import Draggable, { DraggableEvent } from 'react-draggable';
 import { Container, Typography, Stack, Box } from '@mui/material';
 // import { useTour } from "@reactour/tour";
 
 // ICONS
 import SettingsIcon from '@mui/icons-material/Settings';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 
 // REDUX
 import { useAppSelector, useAppDispatch } from '@/state';
@@ -16,7 +17,7 @@ import { deleteBlock, deleteClickedBlock, changeDraggedItemStatus, setActiveBloc
 // UTILS
 import { getFilteredMethods, getMethodData } from '@/utils/filtering';
 import useBlocksConnection from '@/utils/connections';
-import { convertTextLength } from '@/utils/formatting';
+import { capitalize, convertTextLength } from '@/utils/formatting';
 
 // STYLES
 import blockStyles from './DraggableItem.styles';
@@ -33,6 +34,7 @@ type DraggableProps = {
   extension: string;
   onDrag: () => void;
   onStop: () => void;
+  inputConnections: string[];
 };
 
 export default function CustomDraggable({
@@ -47,11 +49,10 @@ export default function CustomDraggable({
   extension,
   onDrag,
   onStop,
+  inputConnections,
 }: DraggableProps) {
   const { allMethods } = useAppSelector((state) => state.dictionary);
   const { clickedBlockId, activeBlock, blocks, connections } = useAppSelector((state) => state.blocks);
-  const [hoverSettings, setHoverSettings] = useState<boolean>(false);
-  const [hoverDelete, setHoverDelete] = useState<boolean>(false);
 
   // const { isOpen, currentStep } = useTour();
   const dispatch = useAppDispatch();
@@ -84,7 +85,8 @@ export default function CustomDraggable({
     dispatch(deleteClickedBlock(id));
   }
 
-  function drag() {
+  function drag(e: DraggableEvent) {
+    e.stopPropagation();
     onDrag();
     dispatch(changeDraggedItemStatus(id));
   }
@@ -126,15 +128,17 @@ export default function CustomDraggable({
 
   return (
     <Draggable
-      onDrag={drag}
+      onDrag={(e: DraggableEvent) => drag(e)}
       onStop={stop}
       scale={scale}
+      // defaultPosition={{ x: 315, y: 344 }}
       // defaultPosition={id === '2' && isOpen ? { x: 240, y: 0 } : { x: 0, y: 0 }}
     >
       <Container
         id={id}
         disableGutters
         sx={{
+          borderRadius: '8px',
           display: 'flex',
           position: 'fixed',
           flexDirection: 'column',
@@ -145,64 +149,81 @@ export default function CustomDraggable({
         //   id === '2' ? 'tour-step-ten' : ''
         // }`}
       >
-        <Container maxWidth={false} disableGutters sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Typography variant="subtitle2" sx={{ pl: 1 }}>
-            ID {id}
-          </Typography>
-          <Stack direction="row">
+        <Stack gap={1}>
+          <Container
+            maxWidth={false}
+            disableGutters
+            sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', px: '4px' }}
+          >
+            <Typography sx={{ fontSize: '10px' }}>ID {id}</Typography>
+            <Typography sx={{ fontSize: '10px' }}>{type.toUpperCase()}</Typography>
+            <HighlightOffIcon
+              fontSize="small"
+              onClick={(e) => handleDeleteClick(e, id)}
+              sx={{
+                transition: 'color 200ms ease-in',
+                color: 'rgba(0, 0, 0, 0.6)',
+                '&:hover': {
+                  color: 'rgb(0, 0, 0)',
+                },
+              }}
+            />
+          </Container>
+          <Container
+            maxWidth={false}
+            disableGutters
+            sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', px: '4px' }}
+          >
+            <ArrowRightIcon fontSize="small" />
+            <Typography align="center" sx={{ fontWeight: 'bold', fontSize: '10px' }}>
+              {method.toUpperCase()}
+            </Typography>
+            <ArrowRightIcon fontSize="small" />
+          </Container>
+          <Container
+            maxWidth={false}
+            disableGutters
+            sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', px: '4px' }}
+          >
+            <Stack>
+              {inputConnections.map((item) => {
+                return (
+                  <Typography key={item} sx={{ fontSize: '10px' }}>
+                    {capitalize(item)}
+                  </Typography>
+                );
+              })}
+            </Stack>
+
+            {type.toLowerCase() === 'matrix' &&
+            method.toLowerCase() === 'file' &&
+            blocks.filter((b) => b._id === +id).length > 0 &&
+            blocks.filter((b) => b._id === +id)[0].data.fileName !== null ? (
+              <Typography
+                align="center"
+                sx={{
+                  fontSize: '8px',
+                }}
+              >
+                {convertTextLength(blocks.filter((b) => b._id === +id)[0].data.fileName)}
+              </Typography>
+            ) : null}
+
             {showSettingsIcon() ? (
               <SettingsIcon
                 fontSize="small"
                 onClick={(e) => handleSettingsClick(e)}
                 sx={{
                   transition: 'color 200ms ease-in',
-                  color: hoverSettings ? 'rgb(0, 0, 0)' : 'rgba(0, 0, 0, 0.6)',
+                  color: 'rgba(0, 0, 0, 0.6)',
+                  '&:hover': {
+                    color: 'rgb(0, 0, 0)',
+                  },
                 }}
-                onMouseEnter={() => setHoverSettings(true)}
-                onMouseLeave={() => setHoverSettings(false)}
               />
             ) : null}
-            <HighlightOffIcon
-              fontSize="small"
-              onClick={(e) => handleDeleteClick(e, id)}
-              sx={{
-                transition: 'color 200ms ease-in',
-                color: hoverDelete ? 'rgb(0, 0, 0)' : 'rgba(0, 0, 0, 0.6)',
-              }}
-              onMouseEnter={() => setHoverDelete(true)}
-              onMouseLeave={() => setHoverDelete(false)}
-            />
-          </Stack>
-        </Container>
-        <Container disableGutters>
-          <Typography
-            align="center"
-            sx={{
-              fontSize: '12px',
-              fontWeight: 'bold',
-            }}
-          >
-            {label.toUpperCase()}
-          </Typography>
-          <Typography align="center" sx={{ fontSize: '9px' }}>
-            {typeLabel.toUpperCase()}
-          </Typography>
-        </Container>
-        <Container disableGutters>
-          {type.toLowerCase() === 'matrix' &&
-          method.toLowerCase() === 'file' &&
-          blocks.filter((b) => b._id === +id).length > 0 &&
-          blocks.filter((b) => b._id === +id)[0].data.fileName !== null ? (
-            <Typography
-              align="center"
-              sx={{
-                fontSize: '8px',
-              }}
-            >
-              {convertTextLength(blocks.filter((b) => b._id === +id)[0].data.fileName)}
-            </Typography>
-          ) : null}
-        </Container>
+          </Container>
+        </Stack>
       </Container>
     </Draggable>
   );
