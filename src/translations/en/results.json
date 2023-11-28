@@ -22,6 +22,10 @@
   "criteria-types": "Criteria types",
   "types": "Types",
   "weights": "Weights",
+  "lower-bound": "Minimum",
+  "upper-bound": "Maximum",
+  "precision": "Precision",
+  "generate": "Generate",
 
   "profit": "Profit",
   "cost": "Cost",

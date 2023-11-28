@@ -1,4 +1,4 @@
-import { AllMethodsItem } from '.';
+import { AllMethodsItem } from './dictionary';
 
 export type CollapseItemProps = {
   open: boolean;

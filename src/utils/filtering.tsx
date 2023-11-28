@@ -9,8 +9,8 @@ import {
   FilterItem,
 } from '@/types';
 
-export const filterMethodsType = (data: [] | AllMethodsItem[], type: string) => {
-  return data.filter((d) => d.type === type);
+export const filterMethodsFunction = (data: [] | AllMethodsItem[], methodFunction: string) => {
+  return data.filter((d) => d.function === methodFunction);
 };
 
 export const getMethodData = (data: [] | AllMethodsItem[], key: string) => {

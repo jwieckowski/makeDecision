@@ -1,4 +1,3 @@
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Stack, Box, Typography, SelectChangeEvent } from '@mui/material';
 
@@ -54,7 +53,11 @@ export default function CriteriaTypes({ criteria, criteriaTypes, onCriteriaTypeC
                 <Select
                   label={`C${col}`}
                   items={types}
-                  value={criteriaTypes === null || criteriaTypes.length === 0 ? '' : criteriaTypes[col - 1]}
+                  value={
+                    criteriaTypes === null || criteriaTypes.length === 0 || criteriaTypes.length < criteria
+                      ? '1'
+                      : criteriaTypes[col - 1]
+                  }
                   onChange={(e) => onCriteriaTypeChange(e, col - 1)}
                   minWidth={MATRIX_INPUT_WIDTH - 4}
                 />

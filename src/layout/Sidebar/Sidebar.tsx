@@ -69,7 +69,7 @@ export default function Sidebar() {
           gap: '8px',
         }}
       >
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', px: 2, fontSize: 18 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', px: 2, fontSize: 18 }}>
           {TITLE}
           <Language />
         </Box>

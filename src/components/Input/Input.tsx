@@ -32,7 +32,7 @@ export default function Input({
     <TextField
       size="small"
       id="input"
-      variant={variant ?? 'standard'}
+      variant={variant ?? 'outlined'}
       value={value}
       onChange={onChange}
       type={type}

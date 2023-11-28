@@ -1,8 +1,12 @@
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import SearchIcon from '@mui/icons-material/Search';
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
+import Box from '@mui/material/Box';
+
+// ICONS
+import SearchIcon from '@mui/icons-material/Search';
+import ClearIcon from '@mui/icons-material/Clear';
 
 // REDUX
 import { RootState, useAppDispatch } from '@/state';
@@ -25,7 +29,7 @@ const Search = styled('div')(({ theme }) => ({
 }));
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
+  padding: theme.spacing(0, 1),
   height: '100%',
   position: 'absolute',
   pointerEvents: 'none',
@@ -37,24 +41,41 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
   '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
+    padding: theme.spacing(1, 0, 1, 0),
     // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    paddingLeft: `calc(1em + ${theme.spacing(3)})`,
     transition: theme.transitions.create('width'),
-    width: '100%',
+    width: '50%',
     [theme.breakpoints.up('sm')]: {
-      width: '12ch',
-      '&:focus': {
-        width: '20ch',
-      },
+      width: '18ch',
     },
   },
 }));
+
+type ClearButtonProps = {
+  clearSearchValue: () => void;
+};
+
+const ClearButton = ({ clearSearchValue }: ClearButtonProps) => {
+  return (
+    <Box
+      sx={{ cursor: 'pointer', m: 0, p: 0, display: 'flex', alignItems: 'center' }}
+      onClick={() => clearSearchValue()}
+    >
+      <ClearIcon />
+    </Box>
+  );
+};
 
 export default function SearchBar() {
   const dispatch = useAppDispatch();
   const { query } = useSelector((state: RootState) => state.search);
   const { t } = useTranslation();
+
+  const clearSearchValue = () => {
+    if (query === '') return;
+    dispatch(queryChange(''));
+  };
 
   return (
     <Search>
@@ -66,6 +87,7 @@ export default function SearchBar() {
         inputProps={{ 'aria-label': 'search' }}
         value={query}
         onChange={(e) => dispatch(queryChange(e.target.value))}
+        endAdornment={<ClearButton clearSearchValue={clearSearchValue} />}
       />
     </Search>
   );

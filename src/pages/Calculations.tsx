@@ -41,6 +41,7 @@ export default function Calculations() {
           </Container>
         ) : null}
       </Container>
+      {/* SMALL SCREEN INFO */}
       <Container
         sx={{
           display: { xs: 'flex', md: 'none' },

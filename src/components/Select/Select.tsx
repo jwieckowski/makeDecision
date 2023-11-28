@@ -16,11 +16,12 @@ type SelectProps = {
   placeholder?: string;
   light?: boolean;
   minWidth?: number;
+  small?: boolean;
 };
 
-export default function MySelect({ items, value, onChange, label, placeholder, light, minWidth }: SelectProps) {
+export default function MySelect({ items, value, onChange, label, placeholder, light, minWidth, small }: SelectProps) {
   return (
-    <FormControl variant="standard" sx={{ minWidth: minWidth ?? 60 }}>
+    <FormControl variant="outlined" sx={{ minWidth: minWidth ?? 60 }}>
       {label ? <InputLabel id="select-id">{label}</InputLabel> : null}
       <Select
         labelId="select-id"
@@ -29,6 +30,9 @@ export default function MySelect({ items, value, onChange, label, placeholder, l
         onChange={onChange}
         label={label}
         sx={{
+          '& .MuiSelect-outlined': {
+            padding: small ? '5px 10px' : '10px 10px',
+          },
           color: light ? 'white' : 'dark',
           '&:before': {
             borderColor: light ? 'white' : 'dark',

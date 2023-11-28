@@ -17,12 +17,12 @@ type FileUploaderProps = {
 export default function FileUploader({ onUpload, label }: FileUploaderProps) {
   const { t } = useTranslation();
   return (
-    <Container sx={{ my: 2 }}>
+    <Container sx={{ my: 4 }}>
       <Container maxWidth={false} disableGutters sx={{ display: 'flex', justifyContent: 'flex-end', mb: 1 }}>
-        <Tooltip title={t('common:accepted-file-formats')} placement="top">
+        <Tooltip title={t('common:accepted-file-formats')} placement="top" sx={{ cursor: 'pointer' }}>
           <AttachFileIcon />
         </Tooltip>
-        <Tooltip title={t('common:file-formatting-guide')} placement="top">
+        <Tooltip title={t('common:file-formatting-guide')} placement="top" sx={{ cursor: 'pointer' }}>
           <HelpOutlineIcon />
         </Tooltip>
       </Container>

@@ -47,7 +47,7 @@ export const DEFAULT_ALTERNATIVES = 3;
 export const DEFAULT_CRITERIA = 3;
 export const MIN_ALTERNATIVES = 2;
 export const MAX_ALTERNATIVES = 20;
-export const MIN_CRITERIA = 1;
+export const MIN_CRITERIA = 2;
 export const MAX_CRITERIA = 15;
 
 export const ZOOM_STEP = 0.05;
@@ -75,6 +75,7 @@ export const MAX_GRID_VALUE = 100;
 // CONTACT AND SOCIALS
 export const GITHUB_PROFILE_LABEL = 'jwieckowski';
 export const GITHUB_PROFILE_LINK = 'https://github.com/jwieckowski';
+export const GITHUB_ISSUES_LINK = 'https://github.com/jwieckowski/makeDecision/issues';
 export const EMAIL_LABEL = 'j.wieckowski@il-pib.pl';
 export const EMAIL_LINK = 'mailto: j.wieckowski@il-pib.pl?subject=GUI MCDA app';
 export const COMET_LABEL = 'comet.edu.pl';
@@ -90,11 +91,19 @@ export const DRAGGABLE_LINK = 'https://github.com/react-grid-layout/react-dragga
 export const XARROWS_LINK = 'https://eliav2.github.io/react-xarrows/';
 
 // PACKAGES
+// TODO move to separate file as array with objects
 export const PYMCDM_LABEL = 'pymcdm - Crisp Multi-Criteria Decision Making techniques';
 export const PYMCDM_LINK = 'https://pypi.org/project/pymcdm/';
 export const PYMCDM_APA =
   'Kizielewicz, B., Shekhovtsov, A., & Sałabun, W. (2023). pymcdm—The universal library for solving multi-criteria decision-making problems. SoftwareX, 22, 101368.';
 export const PYMCDM_DOI = 'https://doi.org/10.1016/j.softx.2023.101368';
+
+export const PYMCDM_11_LABEL =
+  'Version [1.1]-[pymcdm–The universal library for solving multi-criteria decision-making problems]';
+export const PYMCDM_11_LINK = 'https://pypi.org/project/pymcdm/';
+export const PYMCDM_11_APA =
+  'Shekhovtsov, A., Kizielewicz, B., & Sałabun, W. (2023). Version [1.1]-[pymcdm–The universal library for solving multi-criteria decision-making problems]. SoftwareX, 24, 101519.';
+export const PYMCDM_11_DOI = 'https://doi.org/10.1016/j.softx.2023.101519';
 
 export const PYFDM_LABEL = 'pyfdm - Fuzzy Multi-Criteria Decision Making techniques';
 export const PYFDM_LINK = 'https://pypi.org/project/pyfdm/';

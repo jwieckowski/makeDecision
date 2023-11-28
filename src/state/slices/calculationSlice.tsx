@@ -1,13 +1,10 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 // API
-import { getMatrix, getResults } from "@/api/calculations";
+import { uploadMatrixFile, generateMatrix, getResults } from '@/api/calculations';
 
 // TYPES
-import {
-  CalculationSliceState,
-  ResultsType,
-} from "@/types";
+import { CalculationSliceState, ResultsType } from '@/types';
 
 const initialState: CalculationSliceState = {
   results: null,
@@ -26,7 +23,7 @@ const initialState: CalculationSliceState = {
 };
 
 const calculationSlice = createSlice({
-  name: "calculations",
+  name: 'calculations',
   initialState: initialState,
   reducers: {
     setAlternatives: (state, action) => {
@@ -39,10 +36,7 @@ const calculationSlice = createSlice({
       state.convertedMatrix = null;
     },
     addMatrixFile: (state, action) => {
-      state.calculationBody.matrixFiles = [
-        ...state.calculationBody.matrixFiles,
-        action.payload,
-      ];
+      state.calculationBody.matrixFiles = [...state.calculationBody.matrixFiles, action.payload];
     },
     clearMatrixFiles: (state) => {
       state.calculationBody.matrixFiles = [];
@@ -73,41 +67,41 @@ const calculationSlice = createSlice({
         state.error = null;
         state.loading = true;
       })
-      .addCase(
-        getResults.fulfilled,
-        (state: CalculationSliceState, action: PayloadAction<ResultsType>) => {
-          state.results = action.payload;
-          state.filteredResults = action.payload;
-          state.loading = false;
-        }
-      )
-      .addCase(
-        getResults.rejected,
-        (state: CalculationSliceState, action: PayloadAction<any>) => {
-          state.results = null;
-          state.filteredResults = null;
-          state.error = action.payload.response.data.message;
-          state.loading = false;
-        }
-      )
-      .addCase(getMatrix.pending, (state: CalculationSliceState) => {
+      .addCase(getResults.fulfilled, (state: CalculationSliceState, action: PayloadAction<ResultsType>) => {
+        state.results = action.payload;
+        state.filteredResults = action.payload;
+        state.loading = false;
+      })
+      .addCase(getResults.rejected, (state: CalculationSliceState, action: PayloadAction<any>) => {
+        state.results = null;
+        state.filteredResults = null;
+        state.error = action.payload.response.data.message;
+        state.loading = false;
+      })
+      .addCase(uploadMatrixFile.pending, (state: CalculationSliceState) => {
         state.error = null;
         state.loading = true;
       })
-      .addCase(
-        getMatrix.fulfilled,
-        (state: CalculationSliceState, action: PayloadAction<any>) => {
-          state.convertedMatrix = action.payload;
-          state.loading = false;
-        }
-      )
-      .addCase(
-        getMatrix.rejected,
-        (state: CalculationSliceState, action: PayloadAction<any>) => {
-          state.error = action.payload.response.data.message;
-          state.loading = false;
-        }
-      );
+      .addCase(uploadMatrixFile.fulfilled, (state: CalculationSliceState, action: PayloadAction<any>) => {
+        state.convertedMatrix = action.payload;
+        state.loading = false;
+      })
+      .addCase(uploadMatrixFile.rejected, (state: CalculationSliceState, action: PayloadAction<any>) => {
+        state.error = action.payload.response.data.message;
+        state.loading = false;
+      })
+      .addCase(generateMatrix.pending, (state: CalculationSliceState) => {
+        state.error = null;
+        state.loading = true;
+      })
+      .addCase(generateMatrix.fulfilled, (state: CalculationSliceState, action: PayloadAction<any>) => {
+        state.convertedMatrix = action.payload;
+        state.loading = false;
+      })
+      .addCase(generateMatrix.rejected, (state: CalculationSliceState, action: PayloadAction<any>) => {
+        state.error = action.payload.response.data.message;
+        state.loading = false;
+      });
   },
 });
 const { actions, reducer } = calculationSlice;

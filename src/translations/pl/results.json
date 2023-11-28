@@ -22,6 +22,10 @@
   "criteria-types": "Typy kryteriów",
   "types": "Typy",
   "weights": "Wagi",
+  "lower-bound": "Minimum",
+  "upper-bound": "Maksimum",
+  "precision": "Precyzja",
+  "generate": "Generuj",
 
   "profit": "Zysk",
   "cost": "Koszt",

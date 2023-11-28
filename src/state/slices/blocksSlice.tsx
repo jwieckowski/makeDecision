@@ -1,5 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { BlocksSliceState } from "@/types";
+import { createSlice } from '@reduxjs/toolkit';
+import { BlocksSliceState } from '@/types';
 
 const initialState: BlocksSliceState = {
   blocks: [],
@@ -14,7 +14,7 @@ const initialState: BlocksSliceState = {
 };
 
 const blocksSlice = createSlice({
-  name: "blocks",
+  name: 'blocks',
   initialState: initialState,
   reducers: {
     addBlock: (state, action) => {
@@ -22,17 +22,12 @@ const blocksSlice = createSlice({
         ...state.blocks,
         {
           ...action.payload,
-          _id:
-            state.blocks.length === 0
-              ? 1
-              : Math.max(...state.blocks.map((block) => block._id)) + 1,
+          id: state.blocks.length === 0 ? 1 : Math.max(...state.blocks.map((block) => block.id)) + 1,
         },
       ];
     },
     deleteBlock: (state, action) => {
-      state.blocks = state.blocks.filter(
-        (block) => action.payload !== block._id
-      );
+      state.blocks = state.blocks.filter((block) => action.payload !== block.id);
     },
     setBlocks: (state, action) => {
       state.blocks = action.payload;
@@ -56,20 +51,14 @@ const blocksSlice = createSlice({
       state.draggedItem = action.payload;
     },
     deleteClickedBlock: (state, action) => {
-      state.clickedBlocks = state.clickedBlocks.filter(
-        (block) => block !== action.payload
-      );
+      state.clickedBlocks = state.clickedBlocks.filter((block) => block !== action.payload);
     },
     addConnection: (state, action) => {
       state.connections = [...state.connections, action.payload];
     },
     deleteConnection: (state, action) => {
       state.connections = state.connections.filter(
-        (connection) =>
-          !(
-            connection[0] === action.payload[0] &&
-            connection[1] === action.payload[1]
-          )
+        (connection) => !(connection[0] === action.payload[0] && connection[1] === action.payload[1]),
       );
       if (state.connectionToDelete !== null) state.connectionToDelete = null;
     },
@@ -77,14 +66,15 @@ const blocksSlice = createSlice({
       state.connections = action.payload;
     },
     setActiveBlock: (state, action) => {
-      state.activeBlock = action.payload;
+      state.activeBlock =
+        action.payload !== null ? state.blocks.filter((block) => block.id === +action.payload)[0] : null;
     },
     setClickedBlockId: (state, action) => {
       state.clickedBlockId = action.payload;
     },
     setBlockMatrix: (state, action) => {
       state.blocks = state.blocks.map((b) => {
-        return b._id === action.payload.id
+        return b.id === action.payload.id
           ? {
               ...b,
               data: {
@@ -97,7 +87,7 @@ const blocksSlice = createSlice({
     },
     setBlockMatrixFile: (state, action) => {
       state.blocks = state.blocks.map((b) => {
-        return b._id === action.payload.id
+        return b.id === action.payload.id
           ? {
               ...b,
               data: {
@@ -110,7 +100,7 @@ const blocksSlice = createSlice({
     },
     setBlockFileName: (state, action) => {
       state.blocks = state.blocks.map((b) => {
-        return b._id === action.payload.id
+        return b.id === action.payload.id
           ? {
               ...b,
               data: {
@@ -123,7 +113,7 @@ const blocksSlice = createSlice({
     },
     setBlockRandomMatrix: (state, action) => {
       state.blocks = state.blocks.map((b) => {
-        return b._id === action.payload.id
+        return b.id === action.payload.id
           ? {
               ...b,
               data: {
@@ -136,12 +126,12 @@ const blocksSlice = createSlice({
     },
     setBlockTypes: (state, action) => {
       state.blocks = state.blocks.map((b) => {
-        return b._id === action.payload.id
+        return b.id === action.payload.id
           ? {
               ...b,
               data: {
                 ...b.data,
-                types: action.payload.data,
+                criteriaTypes: action.payload.data,
               },
             }
           : b;
@@ -149,7 +139,7 @@ const blocksSlice = createSlice({
     },
     setBlockWeights: (state, action) => {
       state.blocks = state.blocks.map((b) => {
-        return b._id === action.payload.id
+        return b.id === action.payload.id
           ? {
               ...b,
               data: {
@@ -162,7 +152,7 @@ const blocksSlice = createSlice({
     },
     setBlockExtension: (state, action) => {
       state.blocks = state.blocks.map((b) => {
-        return b._id === action.payload.id
+        return b.id === action.payload.id
           ? {
               ...b,
               data: {
@@ -175,7 +165,7 @@ const blocksSlice = createSlice({
     },
     setBlockAdditionals: (state, action) => {
       state.blocks = state.blocks.map((b) => {
-        return b._id === action.payload.id
+        return b.id === action.payload.id
           ? {
               ...b,
               data: {
@@ -188,7 +178,7 @@ const blocksSlice = createSlice({
     },
     setBlockAlternatives: (state, action) => {
       state.blocks = state.blocks.map((b) => {
-        return b._id === action.payload.id
+        return b.id === action.payload.id
           ? {
               ...b,
               data: {
@@ -201,7 +191,7 @@ const blocksSlice = createSlice({
     },
     setBlockCriteria: (state, action) => {
       state.blocks = state.blocks.map((b) => {
-        return b._id === action.payload.id
+        return b.id === action.payload.id
           ? {
               ...b,
               data: {
@@ -214,7 +204,7 @@ const blocksSlice = createSlice({
     },
     setBlockStyles: (state, action) => {
       state.blocks = state.blocks.map((b) => {
-        return b._id === action.payload.id
+        return b.id === action.payload.id
           ? {
               ...b,
               data: {
@@ -227,17 +217,37 @@ const blocksSlice = createSlice({
     },
     blockFileDelete: (state, action) => {
       state.blocks = state.blocks.map((b) => {
-        return b._id === action.payload.id
+        return b.id === action.payload.id
           ? {
               ...b,
               data: {
                 ...b.data,
                 fileName: null,
                 matrix: [],
-                types: [],
+                criteriaTypes: [],
                 criteria: 3,
                 alternatives: 3,
               },
+            }
+          : b;
+      });
+    },
+    setBlockPosition: (state, action) => {
+      state.blocks = state.blocks.map((b) => {
+        return b.id === action.payload.id
+          ? {
+              ...b,
+              position: action.payload.position,
+            }
+          : b;
+      });
+    },
+    setBlockError: (state, action) => {
+      state.blocks = state.blocks.map((b) => {
+        return b.id === action.payload.id
+          ? {
+              ...b,
+              error: action.payload.error,
             }
           : b;
       });
@@ -273,5 +283,7 @@ export const {
   setBlockCriteria,
   setBlockStyles,
   blockFileDelete,
+  setBlockPosition,
+  setBlockError,
 } = actions;
 export default reducer;

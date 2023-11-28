@@ -19,36 +19,39 @@ import { getFilteredMethods, getMethodData } from '@/utils/filtering';
 import useBlocksConnection from '@/utils/connections';
 import { capitalize, convertTextLength } from '@/utils/formatting';
 
+// TYPES
+import { BlockPosition } from '@/types';
+
 // STYLES
 import blockStyles from './DraggableItem.styles';
 
 type DraggableProps = {
   id: string;
   type: string;
-  typeLabel: string;
-  method: string;
-  label: string;
+  name: string;
   handleClick: (e: any, id: string, type: string, method: string) => void;
   setModalOpen: (val: boolean) => void;
   scale: number;
   extension: string;
   onDrag: () => void;
   onStop: () => void;
+  error: boolean;
+  position: BlockPosition;
   inputConnections: string[];
 };
 
 export default function CustomDraggable({
   id,
   type,
-  typeLabel,
-  method,
-  label,
+  name,
   handleClick,
   setModalOpen,
   scale,
   extension,
   onDrag,
   onStop,
+  error,
+  position,
   inputConnections,
 }: DraggableProps) {
   const { allMethods } = useAppSelector((state) => state.dictionary);
@@ -59,24 +62,15 @@ export default function CustomDraggable({
   const { getMethodsConnectedBlocksExtensions } = useBlocksConnection();
 
   const connectedExtensions = useMemo(() => {
-    if (type.toLowerCase() !== 'method') return [];
-    return getMethodsConnectedBlocksExtensions(blocks.filter((b) => b._id === +id)[0]).map((i) => i.extension);
+    if (type.toLowerCase() !== 'methods') return [];
+    return getMethodsConnectedBlocksExtensions(blocks.filter((b) => b.id === +id)[0]).map((i) => i.extension);
   }, [blocks, connections]);
 
   function handleSettingsClick(e: React.MouseEvent<SVGElement>) {
     e.stopPropagation();
     setModalOpen(true);
 
-    allMethods.forEach((methods) => {
-      if (methods.key.toLowerCase().includes(type.toLowerCase())) {
-        dispatch(
-          setActiveBlock({
-            ...methods.data.filter((item) => item.name.toLowerCase() === method.toLowerCase())[0],
-            id: +id,
-          }),
-        );
-      }
-    });
+    dispatch(setActiveBlock(id));
   }
 
   function handleDeleteClick(e: React.MouseEvent<SVGElement>, id: string) {
@@ -92,6 +86,8 @@ export default function CustomDraggable({
   }
 
   function stop() {
+    // function stop(e: DraggableEvent) {
+    // onStop(id, position.x + e.offsetX, position.y + e.offsetY);
     onStop();
     setTimeout(() => {
       dispatch(changeDraggedItemStatus(null));
@@ -108,10 +104,8 @@ export default function CustomDraggable({
   };
 
   const hasAdditionals = () => {
-    // REMOVE WHEN PREFERENCE FUNCTION AND PARAMETRS P & Q HANDLED
-    if (method.toUpperCase() === 'PROMETHEE') return false;
     const additionals = getFilteredMethods(getMethodData(allMethods, type), extension)
-      .find((item) => item.name.toLowerCase() === method)
+      .find((item) => item.name.toLowerCase() === name)
       ?.additional?.filter((item) => connectedExtensions.includes(item.extension));
     return additionals !== undefined && additionals.length > 0;
   };
@@ -119,8 +113,8 @@ export default function CustomDraggable({
   const showSettingsIcon = () => {
     if (
       type.toLowerCase() === 'matrix' ||
-      (type.toLowerCase() === 'weights' && method.toLowerCase() === 'input' && getBlockInputConnections().length > 0) ||
-      (type.toLowerCase() === 'method' && getBlockInputConnections().length > 0 && hasAdditionals())
+      (type.toLowerCase() === 'weights' && name.toLowerCase() === 'input' && getBlockInputConnections().length > 0) ||
+      (type.toLowerCase() === 'methods' && getBlockInputConnections().length > 0 && hasAdditionals())
     )
       return true;
     return false;
@@ -129,8 +123,10 @@ export default function CustomDraggable({
   return (
     <Draggable
       onDrag={(e: DraggableEvent) => drag(e)}
-      onStop={stop}
+      // onStop={stop}
+      onStop={(e: DraggableEvent) => stop(e)}
       scale={scale}
+      // position={{ x: position.x, y: position.y }}
       // defaultPosition={{ x: 315, y: 344 }}
       // defaultPosition={id === '2' && isOpen ? { x: 240, y: 0 } : { x: 0, y: 0 }}
     >
@@ -142,9 +138,9 @@ export default function CustomDraggable({
           display: 'flex',
           position: 'fixed',
           flexDirection: 'column',
-          ...blockStyles(type, isActiveBlock()),
+          ...blockStyles(type, isActiveBlock(), error),
         }}
-        onClick={(e) => handleClick(e, id, type, method)}
+        onClick={(e) => handleClick(e, id, type, name)}
         // className={`${id === '1' ? (currentStep === 6 ? 'tour-step-seven' : 'tour-step-nine') : ''} ${
         //   id === '2' ? 'tour-step-ten' : ''
         // }`}
@@ -176,7 +172,7 @@ export default function CustomDraggable({
           >
             <ArrowRightIcon fontSize="small" />
             <Typography align="center" sx={{ fontWeight: 'bold', fontSize: '10px' }}>
-              {method.toUpperCase()}
+              {name.toUpperCase()}
             </Typography>
             <ArrowRightIcon fontSize="small" />
           </Container>
@@ -196,16 +192,16 @@ export default function CustomDraggable({
             </Stack>
 
             {type.toLowerCase() === 'matrix' &&
-            method.toLowerCase() === 'file' &&
-            blocks.filter((b) => b._id === +id).length > 0 &&
-            blocks.filter((b) => b._id === +id)[0].data.fileName !== null ? (
+            name.toLowerCase() === 'file' &&
+            blocks.filter((b) => b.id === +id).length > 0 &&
+            blocks.filter((b) => b.id === +id)[0].data.fileName !== null ? (
               <Typography
                 align="center"
                 sx={{
                   fontSize: '8px',
                 }}
               >
-                {convertTextLength(blocks.filter((b) => b._id === +id)[0].data.fileName)}
+                {convertTextLength(blocks.filter((b) => b.id === +id)[0].data.fileName)}
               </Typography>
             ) : null}
 

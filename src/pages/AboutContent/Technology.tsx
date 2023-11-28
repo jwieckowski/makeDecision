@@ -16,6 +16,10 @@ import {
   PYMCDM_LINK,
   PYMCDM_APA,
   PYMCDM_DOI,
+  PYMCDM_11_LABEL,
+  PYMCDM_11_LINK,
+  PYMCDM_11_APA,
+  PYMCDM_11_DOI,
   PYFDM_LABEL,
   PYFDM_LINK,
   PYFDM_APA,
@@ -36,6 +40,12 @@ export default function Technology() {
       label: PYMCDM_LABEL,
       apa: PYMCDM_APA,
       doi: PYMCDM_DOI,
+    },
+    {
+      link: PYMCDM_11_LINK,
+      label: PYMCDM_11_LABEL,
+      apa: PYMCDM_11_APA,
+      doi: PYMCDM_11_DOI,
     },
     {
       link: PYFDM_LINK,

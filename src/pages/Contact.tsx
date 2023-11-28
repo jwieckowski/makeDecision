@@ -1,7 +1,8 @@
 import { useTranslation } from 'react-i18next';
-import { Container, Box, Stack, Typography, Divider } from '@mui/material';
+import { Container, Box, Stack, Typography } from '@mui/material';
 
 // ICONS
+import AdjustIcon from '@mui/icons-material/Adjust';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import EmailIcon from '@mui/icons-material/Email';
 import HomeWorkIcon from '@mui/icons-material/HomeWork';
@@ -14,6 +15,7 @@ import LinedSubheader from '@/components/LinedSubheader';
 import {
   GITHUB_PROFILE_LABEL,
   GITHUB_PROFILE_LINK,
+  GITHUB_ISSUES_LINK,
   EMAIL_LABEL,
   EMAIL_LINK,
   COMET_LABEL,
@@ -24,6 +26,10 @@ import {
   PYMCDM_LINK,
   PYMCDM_APA,
   PYMCDM_DOI,
+  PYMCDM_11_LABEL,
+  PYMCDM_11_LINK,
+  PYMCDM_11_APA,
+  PYMCDM_11_DOI,
   PYFDM_LABEL,
   PYFDM_LINK,
   PYFDM_APA,
@@ -43,6 +49,12 @@ export default function Contact() {
       label: PYMCDM_LABEL,
       apa: PYMCDM_APA,
       doi: PYMCDM_DOI,
+    },
+    {
+      link: PYMCDM_11_LINK,
+      label: PYMCDM_11_LABEL,
+      apa: PYMCDM_11_APA,
+      doi: PYMCDM_11_DOI,
     },
     {
       link: PYFDM_LINK,
@@ -71,6 +83,11 @@ export default function Contact() {
 
   const contacts = [
     {
+      label: 'Github Issues',
+      link: GITHUB_ISSUES_LINK,
+      icon: <AdjustIcon />,
+    },
+    {
       label: GITHUB_PROFILE_LABEL,
       link: GITHUB_PROFILE_LINK,
       icon: <GitHubIcon />,
@@ -98,14 +115,6 @@ export default function Contact() {
         <Stack spacing={3}>
           <LinedSubheader label={t('common:report-bugs')} />
           <Typography align="justify">{t('contact:bugs-text-1')}</Typography>
-        </Stack>
-      </Container>
-
-      <Container sx={{ marginTop: '50px' }}>
-        {/* CONTACT */}
-        <Stack spacing={3}>
-          <LinedSubheader label={t('common:contact-us')} />
-
           {contacts.map((item, idx) => {
             return (
               <Box key={idx}>
@@ -133,13 +142,14 @@ export default function Contact() {
               </Box>
             );
           })}
+          <Typography align="justify">{t('contact:bugs-text-2')}</Typography>
         </Stack>
+      </Container>
 
+      <Container sx={{ marginTop: '50px' }}>
         {/* RECOMMENDED SITES */}
         <Stack spacing={3} sx={{ marginTop: '25px' }}>
-          <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-            {t('common:recommended-sites')}
-          </Typography>
+          <LinedSubheader label={t('common:recommended-sites')} />
 
           <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>
             {t('common:packages')}

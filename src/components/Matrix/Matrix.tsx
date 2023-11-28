@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import { ChangeEvent } from 'react';
 import { Container, Stack, Box, Typography, SelectChangeEvent } from '@mui/material';
 
 // COMPONENTS
@@ -84,7 +84,7 @@ export default function Matrix({
                             <Input
                               type="string"
                               value={
-                                matrix.length === alternatives
+                                matrix.length === alternatives && matrix[0]?.length === criteria
                                   ? matrix[row][col - 1]
                                   : extension === 'crisp'
                                   ? '0'

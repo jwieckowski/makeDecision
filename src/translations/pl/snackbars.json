@@ -3,6 +3,8 @@
 
   "matrix-upload-error": "Błąd przy wczytywaniu macierzy",
   "matrix-upload-success": "Macierz wczytana poprawnie",
+  "matrix-generated-error": "Błąd przy generowaniu macierzy",
+  "matrix-generated-success": "Macierz wygenerowana poprawnie",
   "no-input-data": "Brak danych wejściowych",
 
   "matrix-weights-not-connected": "Macierz (ID {{id}}) nie jest połączona z żadnymi wagami",

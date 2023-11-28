@@ -3,6 +3,8 @@
 
   "matrix-upload-error": "Error during uploading matrix",
   "matrix-upload-success": "Matrix uploaded successfully",
+  "matrix-generated-error": "Error during generating matrix",
+  "matrix-generated-success": "Matrix generated successfully",
 
   "no-input-data": "No input data given",
   "matrix-weights-not-connected": "Matrix (ID {{id}}) not connected to any weights",

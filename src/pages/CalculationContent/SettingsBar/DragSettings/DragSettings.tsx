@@ -2,6 +2,9 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Stack, Box, Typography } from '@mui/material';
 
+// ICONS
+import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
+
 // REDUX
 import { RootState, useAppDispatch } from '@/state';
 
@@ -45,10 +48,21 @@ export default function DragSettings() {
 
   return (
     <Stack direction="row" gap={2} sx={{ height: '100%', display: 'flex', alignItems: 'center' }}>
-      <Box sx={{ height: '100%', minHeight: '50px' }}>
+      <Box
+        sx={{
+          height: '100%',
+          minHeight: '50px',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: '80px',
+        }}
+      >
         <Typography variant="subtitle2" align="left" sx={{ verticalAlign: 'top' }}>
           {t('common:settings')}
         </Typography>
+        <SettingsSuggestIcon />
       </Box>
       <Input
         type={'number'}

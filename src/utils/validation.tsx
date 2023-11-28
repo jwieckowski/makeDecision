@@ -10,22 +10,21 @@ const useValidation = () => {
   const { showSnackbar } = useSnackbars();
   const { t } = useTranslation();
 
-  const validateCrispInput = (data: BlockType, value: any) => {
-    if (data === null) return;
-    if (data.data.extension === 'fuzzy') return true;
+  const validateCrispInput = (extension: string, value: any) => {
+    if (extension === 'fuzzy') return true;
 
     if (!isNaN(+value)) return true;
     return false;
   };
-  const validateFuzzyInput = (data: BlockType, value: any) => {
-    if (data === null) return;
-    if (data.data.extension === 'crisp') return true;
+  const validateFuzzyInput = (extension: string, value: any) => {
+    if (extension === 'crisp') return true;
 
     // check if three number separated by comma are given
     const splitted = value.split(',');
     // check if not a number value in fuzzy set
     if (splitted.some((item: string) => isNaN(+item))) return false;
 
+    if (splitted.length > 3) return false;
     if (splitted.length !== 0) return true;
 
     const numbers = splitted.map((n: string) => +n);

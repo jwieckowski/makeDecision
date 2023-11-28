@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { SelectChangeEvent } from '@mui/material';
@@ -47,7 +47,7 @@ export default function Language() {
 
   return (
     <Box>
-      <Select items={LANGUAGES} value={lang} onChange={handleChange} light={true} />
+      <Select items={LANGUAGES} value={lang} onChange={handleChange} light={true} small={true} />
     </Box>
   );
 }

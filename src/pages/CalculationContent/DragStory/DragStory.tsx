@@ -21,11 +21,13 @@ import {
   deleteClickedBlock,
   deleteConnection,
   setBlocks,
+  setBlockPosition,
 } from '@/state/slices/blocksSlice';
 
 // COMPONENTS
 import DraggableItem from './DraggableItem';
 import Modal from '@/components/Modal';
+import MatrixModal from '@/components/Modal/MatrixModal';
 // import ScaleSettings from './ScaleSettings';
 
 // CONST
@@ -67,12 +69,14 @@ export default function DragArea() {
     updateXarrow();
   }, [scale]);
 
+  // console.log(activeBlock);
+
   useEffect(() => {
     setModalType(() => (activeBlock ? activeBlock.type.toLowerCase() : ''));
   }, [activeBlock]);
 
   useEffect(() => {
-    const currentBlocks = blocks.map((b) => b._id);
+    const currentBlocks = blocks.map((b) => b.id);
 
     clickedBlocks.forEach((b) => {
       if (!currentBlocks.includes(+b)) {
@@ -136,6 +140,7 @@ export default function DragArea() {
 
   const handleModalClose = () => {
     setModalOpen(false);
+    dispatch(setActiveBlock(null));
   };
 
   const handleGridClick = () => {
@@ -164,6 +169,20 @@ export default function DragArea() {
     // if (isOpen) setCurrentStep((prev) => prev + 1);
   };
 
+  // const handleSave = (type: string) => {
+  //   type FunctionsDict = {
+  //     [key: string]: () => void;
+  //   };
+  //   const saveFunctions: FunctionsDict = {
+  //     connection: deleteBlockConnection,
+  //     matrix: handleModalClose,
+  //     weights: handleModalClose,
+  //     method: handleModalClose,
+  //   };
+
+  //   return saveFunctions[type] || handleModalClose;
+  // };
+
   const handleDraggableClick = (e: React.MouseEvent<HTMLElement>, id: string, type: string, method: string) => {
     e.stopPropagation();
     if (draggedItem !== null) return;
@@ -178,18 +197,7 @@ export default function DragArea() {
       }),
     );
 
-    // TO SET BLOCK ACTIVE AFTER CONNECTION
-    allMethods.forEach((methods) => {
-      if (methods.key.toLowerCase().includes(type.toLowerCase())) {
-        dispatch(
-          setActiveBlock({
-            type: methods.data.filter((item) => item.name.toLowerCase() === method.toLowerCase())[0].type,
-            id: +id,
-          }),
-        );
-      }
-    });
-
+    dispatch(setActiveBlock(id));
     // if (isOpen) setCurrentStep((prev) => prev + 1);
   };
 
@@ -199,9 +207,13 @@ export default function DragArea() {
     updateXarrow();
   };
   const onStop = () => {
+    // const onStop = (id: number, x: number, y: number) => {
+    // dispatch(setBlockPosition({ id: +id, position: { x: x, y: y } }));
     setIsMoveable(false);
     updateXarrow();
   };
+
+  console.log(activeBlock);
 
   return (
     <Container
@@ -247,19 +259,18 @@ export default function DragArea() {
             {blocks.map((block) => {
               return (
                 <DraggableItem
-                  key={block._id}
-                  id={block._id.toString()}
+                  key={block.id}
+                  id={block.id.toString()}
+                  name={block.name}
                   type={block.type}
-                  typeLabel={block.typeLabel}
-                  method={block.method}
-                  label={block.label}
                   handleClick={handleDraggableClick}
                   setModalOpen={setModalOpen}
-                  // styles={block.data.styles}
                   extension={block.data.extension}
                   onDrag={onDrag}
                   onStop={onStop}
                   scale={scale}
+                  error={block.error}
+                  position={block.position}
                   inputConnections={block.inputConnections}
                 />
               );
@@ -298,16 +309,16 @@ export default function DragArea() {
       >
         {t('common:tutorial')}
       </Typography>
-      <Modal
-        open={modalOpen}
-        content={modalType}
-        closeModal={handleModalClose}
-        handleSave={modalType === 'connection' ? deleteBlockConnection : undefined}
-        handleClose={modalType === 'connection' ? handleModalClose : undefined}
-        textCancel={modalType === 'connection' ? t('common:no') : null}
-        textSave={modalType === 'connection' ? t('common:yes') : null}
-        closeButton
-      />
+      {activeBlock !== null ? (
+        <MatrixModal
+          open={modalOpen}
+          closeModal={handleModalClose}
+          // handleSave={handleSave(modalType)}
+          handleClose={handleModalClose}
+          // textCancel={modalType === 'connection' ? t('common:no') : null}
+          // textSave={modalType === 'connection' ? t('common:yes') : null}
+        />
+      ) : null}
     </Container>
   );
 }

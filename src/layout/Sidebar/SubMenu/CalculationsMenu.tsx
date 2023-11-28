@@ -29,7 +29,7 @@ import { useLocale } from '@/hooks';
 import { AllMethodsItem } from '@/types';
 
 // UTILS
-import { filterMethodsType } from '@/utils/filtering';
+import { filterMethodsFunction } from '@/utils/filtering';
 
 // COMPONENTS
 import SearchBar from '@/components/SearchBar';
@@ -72,7 +72,7 @@ export default function CalculationsMenu() {
 
     let temp: [] | AllMethodsItem[] = [];
 
-    filterMethodsType(allMethods, 'primary').forEach((methods) => {
+    filterMethodsFunction(allMethods, 'primary').forEach((methods) => {
       if (methods.key.toLowerCase().includes(query.toLowerCase())) {
         temp = [...temp, methods];
       } else {
@@ -125,33 +125,33 @@ export default function CalculationsMenu() {
   function handleMethodItemClick(
     e: React.MouseEvent<HTMLLIElement, MouseEvent>,
     type: string,
-    typeLabel: string,
-    method: string,
-    label: string,
+    name: string,
     inputConnections: [] | string[],
     outputConnections: [] | string[],
   ) {
     e.preventDefault();
 
     const block = {
-      type: type.includes('matrix') ? type.split(' ')[1].toLowerCase() : type.toLowerCase(),
-      typeLabel: typeLabel.toLocaleLowerCase(),
-      method: method.toLowerCase(),
-      label: label.toLowerCase(),
+      type: type.toLowerCase(),
+      name: name.toLowerCase(),
       inputConnections,
       outputConnections,
       data: {
         matrix: [],
-        matrixFile: [],
         fileName: null,
-        randomMatrix: [],
-        types: [],
+        criteriaTypes: [],
         weights: [],
         extension: 'crisp',
-        additionals: [],
+        kwargs: [],
         alternatives: DEFAULT_ALTERNATIVES,
         criteria: DEFAULT_CRITERIA,
-        styles: null,
+      },
+      error: false,
+      errorMessage: null,
+      // TODO set initial position based on the area
+      position: {
+        x: 100,
+        y: 100,
       },
     };
     dispatch(addBlock(block));
@@ -168,8 +168,18 @@ export default function CalculationsMenu() {
         },
       }}
     >
-      <Box sx={{ display: 'flex', justifyContent: 'flex-start', pl: 1, fontSize: 14, textTransform: 'uppercase' }}>
-        <Typography variant="body2">{t('common:techniques')}</Typography>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          pl: 1,
+        }}
+      >
+        <Typography variant="body2" sx={{ fontSize: 14, textTransform: 'uppercase' }}>
+          {t('common:techniques')}
+        </Typography>
       </Box>
       <Box sx={{ px: 1, mt: 1 }}>
         <SearchBar />
