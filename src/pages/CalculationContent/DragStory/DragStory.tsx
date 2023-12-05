@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import { useSnackbar } from 'notistack';
 import Xarrow, { useXarrow } from 'react-xarrows';
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
@@ -8,7 +7,7 @@ import { Container, Typography, Paper } from '@mui/material';
 // import { useTour } from "@reactour/tour";
 
 // REDUX
-import { RootState, useAppDispatch } from '@/state';
+import { useAppSelector, useAppDispatch } from '@/state';
 
 // SLICES
 import {
@@ -16,7 +15,6 @@ import {
   setActiveBlock,
   setClickedBlocks,
   setClickedBlockId,
-  setBlockStyles,
   setConnectionToDelete,
   deleteClickedBlock,
   deleteConnection,
@@ -26,8 +24,9 @@ import {
 
 // COMPONENTS
 import DraggableItem from './DraggableItem';
-import Modal from '@/components/Modal';
 import MatrixModal from '@/components/Modal/MatrixModal';
+import WeightsModal from '@/components/Modal/WeightsModal';
+import ConnectionModal from '@/components/Modal/ConnectionModal';
 // import ScaleSettings from './ScaleSettings';
 
 // CONST
@@ -37,17 +36,15 @@ import { HIDE_DURATION, NAV_HEIGHT, DRAG_AREA_SPACE } from '@/common/const';
 import useBlocksConnection from '@/utils/connections';
 
 export default function DragArea() {
-  const { allMethods } = useSelector((state: RootState) => state.dictionary);
+  const { allMethods } = useAppSelector((state) => state.dictionary);
 
-  const { blocks, clickedBlocks, connections, draggedItem, activeBlock, connectionToDelete } = useSelector(
-    (state: RootState) => state.blocks,
+  const { blocks, clickedBlocks, connections, draggedItem, activeBlock, connectionToDelete } = useAppSelector(
+    (state) => state.blocks,
   );
 
-  const { error } = useSelector((state: RootState) => state.calculation);
+  const { error } = useAppSelector((state) => state.calculation);
 
-  const { size, headSize, curveness, color, path, scale, gridOn, gridSize } = useSelector(
-    (state: RootState) => state.settings,
-  );
+  const { size, headSize, curveness, color, path, scale, gridOn, gridSize } = useAppSelector((state) => state.settings);
 
   const [isMoveable, setIsMoveable] = useState<boolean>(false);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
@@ -69,7 +66,7 @@ export default function DragArea() {
     updateXarrow();
   }, [scale]);
 
-  // console.log(activeBlock);
+  console.log(activeBlock);
 
   useEffect(() => {
     setModalType(() => (activeBlock ? activeBlock.type.toLowerCase() : ''));
@@ -141,6 +138,7 @@ export default function DragArea() {
   const handleModalClose = () => {
     setModalOpen(false);
     dispatch(setActiveBlock(null));
+    dispatch(setClickedBlocks([]));
   };
 
   const handleGridClick = () => {
@@ -162,12 +160,12 @@ export default function DragArea() {
     //   }, 300);
   };
 
-  const deleteBlockConnection = () => {
-    dispatch(deleteConnection(connectionToDelete));
-    handleModalClose();
+  // const deleteBlockConnection = () => {
+  //   dispatch(deleteConnection(connectionToDelete));
+  //   handleModalClose();
 
-    // if (isOpen) setCurrentStep((prev) => prev + 1);
-  };
+  //   // if (isOpen) setCurrentStep((prev) => prev + 1);
+  // };
 
   // const handleSave = (type: string) => {
   //   type FunctionsDict = {
@@ -185,17 +183,11 @@ export default function DragArea() {
 
   const handleDraggableClick = (e: React.MouseEvent<HTMLElement>, id: string, type: string, method: string) => {
     e.stopPropagation();
+    console.log(clickedBlocks);
     if (draggedItem !== null) return;
     if (clickedBlocks.includes(id as never)) return;
     dispatch(addClickedBlock(id));
     dispatch(setClickedBlockId(+id));
-
-    dispatch(
-      setBlockStyles({
-        id: +id,
-        data: null,
-      }),
-    );
 
     dispatch(setActiveBlock(id));
     // if (isOpen) setCurrentStep((prev) => prev + 1);
@@ -206,6 +198,7 @@ export default function DragArea() {
     setIsMoveable(true);
     updateXarrow();
   };
+
   const onStop = () => {
     // const onStop = (id: number, x: number, y: number) => {
     // dispatch(setBlockPosition({ id: +id, position: { x: x, y: y } }));
@@ -213,19 +206,43 @@ export default function DragArea() {
     updateXarrow();
   };
 
-  console.log(activeBlock);
+  const getModal = () => {
+    if ((activeBlock === null && modalType !== 'connection') || modalType === '') return null;
+
+    type ModalDict = {
+      [key: string]: React.ReactNode;
+    };
+
+    const modals: ModalDict = {
+      matrix: <MatrixModal open={modalOpen} closeModal={handleModalClose} />,
+      weights: <WeightsModal open={modalOpen} closeModal={handleModalClose} />,
+      connection: (
+        <ConnectionModal
+          open={modalOpen}
+          closeModal={handleModalClose}
+          textCancel={t('common:no')}
+          textSave={t('common:yes')}
+        />
+      ),
+    };
+
+    return modals[modalType];
+  };
 
   return (
     <Container
       maxWidth={false}
       sx={{
         position: 'relative',
+        backgroundColor: 'secondary.light',
+        padding: 2,
+        boxShadow: '0 4px 2px -2px gray',
       }}
       onClick={handleGridClick}
       id="blockArea"
     >
       <Paper
-        elevation={10}
+        elevation={0}
         sx={{
           cursor: 'pointer',
         }}
@@ -309,16 +326,7 @@ export default function DragArea() {
       >
         {t('common:tutorial')}
       </Typography>
-      {activeBlock !== null ? (
-        <MatrixModal
-          open={modalOpen}
-          closeModal={handleModalClose}
-          // handleSave={handleSave(modalType)}
-          handleClose={handleModalClose}
-          // textCancel={modalType === 'connection' ? t('common:no') : null}
-          // textSave={modalType === 'connection' ? t('common:yes') : null}
-        />
-      ) : null}
+      {getModal()}
     </Container>
   );
 }

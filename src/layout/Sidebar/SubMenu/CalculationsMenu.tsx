@@ -62,6 +62,12 @@ export default function CalculationsMenu() {
     await dispatch(fetchAllMethods(locale));
   };
 
+  const isMissingData = (type: string, name: string) => {
+    if (['matrix', 'method'].includes(type.toLowerCase())) return true;
+    if (type.toLowerCase() === 'weights' && name.toLowerCase() === 'input') return true;
+    return false;
+  };
+
   useEffect(() => {
     if (locale === '') return;
     if (allMethods.length === 0) fetchData();
@@ -146,7 +152,7 @@ export default function CalculationsMenu() {
         alternatives: DEFAULT_ALTERNATIVES,
         criteria: DEFAULT_CRITERIA,
       },
-      error: false,
+      error: isMissingData(type, name),
       errorMessage: null,
       // TODO set initial position based on the area
       position: {

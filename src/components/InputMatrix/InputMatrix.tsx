@@ -18,7 +18,7 @@ type MatrixProps = {
   onCriteriaTypeChange: (e: SelectChangeEvent<string>, col: number) => void;
 };
 
-export default function Matrix({
+export default function InputMatrix({
   matrix,
   alternatives,
   criteria,

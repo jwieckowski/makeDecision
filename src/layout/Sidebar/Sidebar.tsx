@@ -23,6 +23,8 @@ import { AboutMenu, CalculationsMenu } from './SubMenu';
 // CONST
 import { TITLE, MENU_ITEMS } from '@/common/const';
 
+import pkg from '/package.json';
+
 export default function Sidebar() {
   const location = useLocation();
   const { t } = useTranslation();
@@ -70,7 +72,11 @@ export default function Sidebar() {
         }}
       >
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', px: 2, fontSize: 18 }}>
-          {TITLE}
+          <Box sx={{ m: 0, p: 0 }}>
+            <Typography sx={{ fontWeight: 'bold' }}>{TITLE}</Typography>
+            <Typography sx={{ fontSize: 10 }}>v{pkg.version}</Typography>
+          </Box>
+
           <Language />
         </Box>
 

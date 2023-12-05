@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { BlocksSliceState } from '@/types';
+import { BlocksSliceState, BlockDataType } from '@/types';
+import { DEFAULT_ALTERNATIVES, DEFAULT_CRITERIA } from '@/common/const';
 
 const initialState: BlocksSliceState = {
   blocks: [],
@@ -11,6 +12,17 @@ const initialState: BlocksSliceState = {
   modalOpen: false,
   modalType: null,
   connectionToDelete: null,
+};
+
+const initialBlockData: BlockDataType = {
+  extension: 'crisp',
+  matrix: [],
+  criteriaTypes: [],
+  fileName: null,
+  weights: [],
+  alternatives: DEFAULT_ALTERNATIVES,
+  criteria: DEFAULT_CRITERIA,
+  kwargs: null,
 };
 
 const blocksSlice = createSlice({
@@ -252,6 +264,31 @@ const blocksSlice = createSlice({
           : b;
       });
     },
+    setBlockData: (state, action) => {
+      state.blocks = state.blocks.map((b) => {
+        {
+          return b.id === action.payload.id
+            ? {
+                ...b,
+                data: {
+                  ...b.data,
+                  ...action.payload.data,
+                },
+              }
+            : b;
+        }
+      });
+    },
+    clearBlockData: (state, action) => {
+      state.blocks = state.blocks.map((b) => {
+        return b.id === action.payload.id
+          ? {
+              ...b,
+              data: initialBlockData,
+            }
+          : b;
+      });
+    },
   },
 });
 const { actions, reducer } = blocksSlice;
@@ -285,5 +322,7 @@ export const {
   blockFileDelete,
   setBlockPosition,
   setBlockError,
+  setBlockData,
+  clearBlockData,
 } = actions;
 export default reducer;

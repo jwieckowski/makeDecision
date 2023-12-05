@@ -6,7 +6,7 @@ export const getNotConnectedBlocks = (blocks: [] | BlockType[], connections: [] 
     (block) =>
       // connections.filter((c) => c.includes(block._id.toString())).length === 0 ||
       // (block.type === 'weights' && connections.filter((c) => c[0] === block._id.toString()).length === 0),
-      connections.filter((c) => c.includes(block._id.toString())).length === 0,
+      connections.filter((c) => c.includes(block.id.toString())).length === 0,
   );
 };
 
@@ -20,17 +20,13 @@ export const getUpdatedBlocksLanguage = (blocks: [] | BlockType[], methods: [] |
   return blocks.map((block) => {
     const blockMethodInfo = methods.find((item) => item.key.toLowerCase().includes(block.type.toLowerCase()));
     const blockMethodDataInfo = blockMethodInfo?.data.find(
-      (item) => item.name.toLowerCase() === block.method.toLowerCase(),
+      (item) => item.name.toLowerCase() === block.name.toLowerCase(),
     );
 
     return {
       ...block,
-      type: blockMethodInfo?.key.includes('matrix')
-        ? blockMethodInfo?.key.split(' ')[1].toLowerCase()
-        : blockMethodInfo?.key.toLowerCase(),
-      label: blockMethodDataInfo?.label.toLowerCase(),
-      method: blockMethodDataInfo?.name.toLowerCase(),
-      typeLabel: blockMethodInfo?.label.toLocaleLowerCase(),
+      type: blockMethodInfo?.key.toLowerCase(),
+      name: blockMethodDataInfo?.name.toLowerCase(),
     };
   });
 };

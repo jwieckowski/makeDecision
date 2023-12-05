@@ -51,7 +51,6 @@ export default function CriteriaTypes({ criteria, criteriaTypes, onCriteriaTypeC
                 </Typography>
               ) : (
                 <Select
-                  label={`C${col}`}
                   items={types}
                   value={
                     criteriaTypes === null || criteriaTypes.length === 0 || criteriaTypes.length < criteria

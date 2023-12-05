@@ -10,6 +10,12 @@ const useValidation = () => {
   const { showSnackbar } = useSnackbars();
   const { t } = useTranslation();
 
+  const validateMatrixBounds = (lower: number, upper: number) => {
+    if (lower >= upper) return false;
+
+    return true;
+  };
+
   const validateCrispInput = (extension: string, value: any) => {
     if (extension === 'fuzzy') return true;
 
@@ -51,7 +57,7 @@ const useValidation = () => {
   };
 
   const validateUploadedMatrix = (block: BlockType, id: number) => {
-    if (block.method !== 'file') return true;
+    if (block.name !== 'file') return true;
     if (
       (Array.isArray(block.data.matrix) && block.data.matrix.length === 0) ||
       block.data.matrix.map((r: number[]) => r.some((item) => item === 0) === true).some((r: boolean) => r === true) ===
@@ -63,19 +69,37 @@ const useValidation = () => {
     return true;
   };
 
-  const validateUserInputMatrixEmpty = (block: BlockType, id: number) => {
-    if (block.method !== 'input') return true;
-    if (block.data.matrix.length === 0) {
+  const validateUserInputMatrixEmpty = (matrix: string[][], id: number) => {
+    if (matrix.length === 0) {
       showSnackbar(t('snackbar:empty-input-matrix', { id }), 'error');
       return false;
     }
     return true;
   };
 
-  const validateUserInputCrispMatrixZeros = (block: BlockType, id: number) => {
-    if (block.method !== 'input') return true;
+  const validateUserInputCrispMatrixZeros = (matrix: string[][], id: number) => {
+    if (matrix.map((r: string[]) => r.some((item) => +item === 0) === true).some((r: boolean) => r === true) === true) {
+      showSnackbar(t('snackbar:zeros-in-matrix', { id }), 'error');
+      return false;
+    }
+    return true;
+  };
+
+  const validateUserInputCrispMatrixSameValuesInColumn = (matrix: string[][], id: number) => {
+    for (let i = 0; i < matrix[0].length; i++) {
+      const colValue = [...matrix.map((r: string[]) => r[i])];
+      const unique = Array.from(new Set(colValue));
+      if (unique.length === 1) {
+        showSnackbar(t('snackbar:same-values-in-column', { column: i + 1, id }), 'error');
+        return false;
+      }
+    }
+    return true;
+  };
+
+  const validateUserInputFuzzyMatrixZeros = (matrix: string[][], id: number) => {
     if (
-      block.data.matrix.map((r: number[]) => r.some((item) => item === 0) === true).some((r: boolean) => r === true) ===
+      matrix.map((r: string[]) => r.some((item) => item === '0, 0, 0') === true).some((r: boolean) => r === true) ===
       true
     ) {
       showSnackbar(t('snackbar:zeros-in-matrix', { id }), 'error');
@@ -84,37 +108,9 @@ const useValidation = () => {
     return true;
   };
 
-  const validateUserInputCrispMatrixSameValuesInColumn = (block: BlockType, id: number) => {
-    if (block.method !== 'input') return true;
-
-    for (let i = 0; i < block.data.matrix[0].length; i++) {
-      const colValue = [...block.data.matrix.map((r: number[]) => r[i])];
-      const unique = Array.from(new Set(colValue));
-      if (unique.length === 1) {
-        showSnackbar(t('snackbar:same-values-in-column', { column: i, id }), 'error');
-        return false;
-      }
-    }
-    return true;
-  };
-
-  const validateUserInputFuzzyMatrixZeros = (block: BlockType, id: number) => {
-    if (block.method !== 'input') return true;
+  const validateUserInputFuzzyMatrixTFN = (matrix: string[][], id: number) => {
     if (
-      block.data.matrix
-        .map((r: string[]) => r.some((item) => item === '0, 0, 0') === true)
-        .some((r: boolean) => r === true) === true
-    ) {
-      showSnackbar(t('snackbar:zeros-in-matrix', { id }), 'error');
-      return false;
-    }
-    return true;
-  };
-
-  const validateUserInputFuzzyMatrixTFN = (block: BlockType, id: number) => {
-    if (block.method !== 'input') return true;
-    if (
-      block.data.matrix
+      matrix
         .map(
           (r: string[]) =>
             r.some(
@@ -129,10 +125,9 @@ const useValidation = () => {
     return true;
   };
 
-  const validateUserInputFuzzyMatrixOrder = (block: BlockType, id: number) => {
-    if (block.method !== 'input') return true;
+  const validateUserInputFuzzyMatrixOrder = (matrix: string[][], id: number) => {
     if (
-      block.data.matrix
+      matrix
         .map(
           (r: string[]) =>
             r.some((item) => {
@@ -148,17 +143,30 @@ const useValidation = () => {
     return true;
   };
 
+  const validateMatrixData = (matrix: string[][], extension: string, id: number) => {
+    if (extension === 'crisp') {
+      if (!validateUserInputCrispMatrixZeros(matrix, id)) return false;
+      if (!validateUserInputMatrixEmpty(matrix, id)) return false;
+      if (!validateUserInputCrispMatrixSameValuesInColumn(matrix, id)) return false;
+    } else if (extension === 'fuzzy') {
+      if (!validateUserInputFuzzyMatrixZeros(matrix, id)) return false;
+      if (!validateUserInputFuzzyMatrixTFN(matrix, id)) return false;
+      if (!validateUserInputFuzzyMatrixOrder(matrix, id)) return false;
+    }
+    return true;
+  };
+
   const validateCriteriaTypes = (block: BlockType) => {
     // ALL CRITERIA TYPES ITEMS
-    if (block.data.types.length === 0) {
-      showSnackbar(t('snackbar:none-criteria-types', { id: block._id }), 'error');
+    if (block.data.criteriaTypes.length === 0) {
+      showSnackbar(t('snackbar:none-criteria-types', { id: block.id }), 'error');
       return false;
     }
 
     // SOME CRITERIA TYPES ITEMS
-    const size = block.method === 'random' ? block.data.criteria : block.data.matrix[0].length;
-    if (block.data.types.includes('' as never) || size !== block.data.types.length) {
-      showSnackbar(t('snackbar:missing-criteria-types', { id: block._id }), 'error');
+    const size = block.name === 'random' ? block.data.criteria : block.data.matrix[0].length;
+    if (block.data.criteriaTypes.includes('' as never) || size !== block.data.criteriaTypes.length) {
+      showSnackbar(t('snackbar:missing-criteria-types', { id: block.id }), 'error');
       return false;
     }
 
@@ -192,64 +200,78 @@ const useValidation = () => {
     return true;
   };
 
-  const validateUserInputWeights = (block: BlockType) => {
-    if (block.method === 'input' && block.data.weights.length === 0) {
-      showSnackbar(t('snackbar:no-input-weights', { id: block._id }), 'error');
+  const validateUserInputWeights = (weights: string[], id: number) => {
+    if (weights.length === 0) {
+      showSnackbar(t('snackbar:no-input-weights', { id: id }), 'error');
       return false;
     }
     return true;
   };
 
-  const validateUserInputCrispWeightsValues = (block: BlockType) => {
-    const sum = block.data.weights.map((w) => +w).reduce((total, value) => Number(total) + Number(value), 0);
+  const validateUserInputCrispWeightsValues = (weights: string[], id: number) => {
+    const sum = weights.map((w) => +w).reduce((total, value) => Number(total) + Number(value), 0);
     // check if weights are greater than 0
-    if (block.data.weights.some((w) => +w === 0)) {
-      showSnackbar(t('snackbar:zero-in-weights', { id: block._id }), 'error');
+    if (weights.some((w) => +w === 0)) {
+      showSnackbar(t('snackbar:zero-in-weights', { id: id }), 'error');
       return false;
-    } else if (block.data.weights.some((w) => +w < 0)) {
-      showSnackbar(t('snackbar:minus-in-weights', { id: block._id }), 'error');
+    } else if (weights.some((w) => +w < 0)) {
+      showSnackbar(t('snackbar:minus-in-weights', { id: id }), 'error');
       return false;
     } else if (Math.round(sum * 100) / 100 !== 1) {
-      showSnackbar(t('snackbar:sum-weights', { id: block._id }), 'error');
+      showSnackbar(t('snackbar:sum-weights', { id: id }), 'error');
       return false;
     }
     return true;
   };
 
-  const validateUserInputFuzzyWeightsZeros = (block: BlockType) => {
-    if (block.data.weights.some((item: string) => item === '0, 0, 0') === true) {
-      showSnackbar(t('snackbar:zero-in-weights', { id: block._id }), 'error');
+  const validateUserInputFuzzyWeightsZeros = (weights: string[], id: number) => {
+    if (weights.some((item: string) => item === '0, 0, 0') === true) {
+      showSnackbar(t('snackbar:zero-in-weights', { id: id }), 'error');
       return false;
     }
     return true;
   };
 
-  const validateUserInputFuzzyWeightsTFN = (block: BlockType) => {
+  const validateUserInputFuzzyWeightsTFN = (weights: string[], id: number) => {
     if (
-      block.data.weights.some(
+      weights.some(
         (item) => item.split(',').length !== 3 || item.split(',').some((item: string) => item.trim() === ''),
       ) === true
     ) {
-      showSnackbar(t('snackbar:fuzzy-weights-comma', { id: block._id }), 'error');
+      showSnackbar(t('snackbar:fuzzy-weights-comma', { id: id }), 'error');
       return false;
     }
     return true;
   };
 
-  const validateUserInputFuzzyWeightsOrder = (block: BlockType) => {
+  const validateUserInputFuzzyWeightsOrder = (weights: string[], id: number) => {
     if (
-      block.data.weights.some((item) => {
+      weights.some((item) => {
         const numbers = item.split(',').map((n) => +n);
         return !numbers.every((v: number, i: number) => i === 0 || v >= numbers[i - 1]);
       }) === true
     ) {
-      showSnackbar(t('snackbar:fuzzy-weights-ascending', { id: block._id }), 'error');
+      showSnackbar(t('snackbar:fuzzy-weights-ascending', { id: id }), 'error');
       return false;
+    }
+    return true;
+  };
+
+  const validateUserInputWeightsData = (weights: string[], extension: string, id: number) => {
+    if (!validateUserInputWeights(weights, id)) return false;
+
+    if (extension === 'crisp') {
+      if (!validateUserInputCrispWeightsValues(weights, id)) return false;
+    } else if (extension === 'fuzzy') {
+      if (!validateUserInputFuzzyWeightsZeros(weights, id)) return false;
+      if (!validateUserInputFuzzyWeightsTFN(weights, id)) return false;
+      if (!validateUserInputFuzzyWeightsTFN(weights, id)) return false;
     }
     return true;
   };
 
   return {
+    validateMatrixBounds,
     validateCrispInput,
     validateFuzzyInput,
     validateMatrixInputData,
@@ -269,6 +291,8 @@ const useValidation = () => {
     validateUserInputFuzzyWeightsZeros,
     validateUserInputFuzzyWeightsTFN,
     validateUserInputFuzzyWeightsOrder,
+    validateMatrixData,
+    validateUserInputWeightsData,
   };
 };
 

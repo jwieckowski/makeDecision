@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { styled } from '@mui/material/styles';
+import { makeStyles, styled } from '@mui/styles';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Dialog from '@mui/material/Dialog';
@@ -20,21 +20,11 @@ type ModalProps = {
   open: boolean;
   children: React.ReactElement;
   closeModal: () => void;
-  handleClose: () => void;
   handleSave: () => void;
   textSave?: null | string;
   textCancel?: null | string;
   fullScreen?: boolean;
 };
-
-const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-  '& .MuiDialogContent-root': {
-    padding: theme.spacing(2),
-  },
-  '& .MuiDialogActions-root': {
-    padding: theme.spacing(1),
-  },
-}));
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -45,21 +35,30 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
+const useStyles = makeStyles({
+  topScrollPaper: {
+    alignItems: 'flex-start',
+  },
+  topPaperScrollBody: {
+    verticalAlign: 'top',
+  },
+});
+
 export default function CustomModal({
   title,
   open,
   children,
   closeModal,
-  handleClose,
   handleSave,
   textSave,
   textCancel,
   fullScreen,
 }: ModalProps) {
   const { t } = useTranslation();
+  const classes = useStyles();
 
   return (
-    <BootstrapDialog
+    <Dialog
       onClick={(e) => e.stopPropagation()}
       onClose={closeModal}
       aria-labelledby="custom-modal"
@@ -67,6 +66,11 @@ export default function CustomModal({
       maxWidth="md"
       fullWidth={fullScreen}
       TransitionComponent={Transition}
+      scroll="paper"
+      classes={{
+        scrollPaper: classes.topScrollPaper,
+        paperScrollBody: classes.topPaperScrollBody,
+      }}
     >
       <DialogTitle sx={{ m: 0, p: 2, textAlign: 'center' }} id="custom-modal">
         <Typography id="modal-title" align="center" sx={{ fontWeight: 'bold', fontSize: '20px' }}>
@@ -88,10 +92,10 @@ export default function CustomModal({
       <DialogContent dividers>{children}</DialogContent>
       <DialogActions>
         <Stack direction="row" gap={2} justifyContent="flex-end">
-          <Button text={textCancel ? textCancel : t('common:cancel')} onClick={handleClose} />
+          <Button text={textCancel ? textCancel : t('common:cancel')} onClick={closeModal} />
           <Button variant="contained" text={textSave ? textSave : t('common:save')} onClick={handleSave} />
         </Stack>
       </DialogActions>
-    </BootstrapDialog>
+    </Dialog>
   );
 }

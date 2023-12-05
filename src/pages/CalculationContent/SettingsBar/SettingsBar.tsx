@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Paper, Stack, Divider } from '@mui/material';
+import { Paper, Stack, Grid } from '@mui/material';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
@@ -11,13 +11,7 @@ import { getResults } from '@/api/calculations';
 
 // SLICES
 import { clearBody, resetBody, resetResults, setCalculationMatrixId } from '@/state/slices/calculationSlice';
-import {
-  setBlocks,
-  setClickedBlocks,
-  setConnections,
-  setActiveBlock,
-  setBlockStyles,
-} from '@/state/slices/blocksSlice';
+import { setBlocks, setClickedBlocks, setConnections, setActiveBlock, setBlockError } from '@/state/slices/blocksSlice';
 
 // HOOKS
 import { useLocale } from '@/hooks';
@@ -59,11 +53,9 @@ export default function SettingsBar() {
     if (getNotConnectedBlocks(blocks, connections).length > 0) {
       getNotConnectedBlocks(blocks, connections).forEach((b) => {
         dispatch(
-          setBlockStyles({
-            id: b._id,
-            data: {
-              border: '3px solid red',
-            },
+          setBlockError({
+            id: b.id,
+            error: true,
           }),
         );
       });
@@ -76,7 +68,14 @@ export default function SettingsBar() {
       const res = getCalculateBody(blocks, connections, allMethods);
       if (res !== undefined && res.calculate) {
         await dispatch(setCalculationMatrixId(res.matrixIndexes));
-        await dispatch(getResults({ locale, params: res.body }));
+        await dispatch(
+          getResults({
+            locale,
+            params: {
+              data: [res.body],
+            },
+          }),
+        );
       }
     });
   };
@@ -95,22 +94,30 @@ export default function SettingsBar() {
         py: 1,
       }}
     >
-      <DragSettings />
-      <Divider orientation="vertical" flexItem />
-      <Stack direction="row" gap={2}>
-        <Button
-          text={t('results:clear')}
-          onClick={handleClearClick}
-          startIcon={<HighlightOffIcon />}
-          variant="contained"
-        />
-        <Button
-          text={t('results:calculate')}
-          onClick={handleCalculateClick}
-          startIcon={<PlayCircleOutlineIcon />}
-          variant="contained"
-        />
-      </Stack>
+      {' '}
+      <Grid container spacing={2}>
+        <Grid item xs={8} md={9}>
+          <DragSettings />
+        </Grid>
+        <Grid item xs={4} md={3} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Stack direction="row" gap={2} sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+            <Button
+              text={t('results:clear')}
+              onClick={handleClearClick}
+              startIcon={<HighlightOffIcon />}
+              variant="contained"
+              width={130}
+            />
+            <Button
+              text={t('results:calculate')}
+              onClick={handleCalculateClick}
+              startIcon={<PlayCircleOutlineIcon />}
+              variant="contained"
+              width={130}
+            />
+          </Stack>
+        </Grid>
+      </Grid>
     </Paper>
   );
 }

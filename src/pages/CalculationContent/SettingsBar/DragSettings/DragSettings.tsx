@@ -47,10 +47,9 @@ export default function DragSettings() {
   const dispatch = useAppDispatch();
 
   return (
-    <Stack direction="row" gap={2} sx={{ height: '100%', display: 'flex', alignItems: 'center' }}>
+    <Stack direction="row" gap={2} sx={{ height: '100%', display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
       <Box
         sx={{
-          height: '100%',
           minHeight: '50px',
           display: 'flex',
           flexDirection: 'column',

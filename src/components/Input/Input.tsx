@@ -13,6 +13,9 @@ type InputProps = {
   step?: number;
   width?: number;
   textCenter?: boolean;
+  error?: boolean;
+  errorText?: string;
+  required?: boolean;
 };
 
 export default function Input({
@@ -27,6 +30,9 @@ export default function Input({
   step,
   width,
   textCenter,
+  error,
+  errorText,
+  required,
 }: InputProps) {
   return (
     <TextField
@@ -46,9 +52,18 @@ export default function Input({
           textAlign: textCenter ? 'center' : 'start',
         },
       }}
+      InputLabelProps={{
+        shrink: true,
+      }}
       sx={{
         width: width ?? '80px',
+        '& .MuiInputLabel-asterisk': {
+          color: 'red',
+        },
       }}
+      error={error ?? false}
+      helperText={errorText ?? null}
+      required={required ?? false}
     />
   );
 }

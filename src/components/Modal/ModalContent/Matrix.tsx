@@ -31,7 +31,7 @@ import { useLocale } from '@/hooks';
 
 // COMPONENTS
 import FileUploader from '@/components/FileUploader';
-import { default as InputMatrix } from '@/components/Matrix';
+import { default as InputMatrix } from '@/components/InputMatrix';
 import Select from '@/components/Select';
 import Input from '@/components/Input';
 import Checkbox from '@/components/Checkbox';

@@ -55,7 +55,7 @@ export default function CustomDraggable({
   inputConnections,
 }: DraggableProps) {
   const { allMethods } = useAppSelector((state) => state.dictionary);
-  const { clickedBlockId, activeBlock, blocks, connections } = useAppSelector((state) => state.blocks);
+  const { activeBlock, blocks, connections } = useAppSelector((state) => state.blocks);
 
   // const { isOpen, currentStep } = useTour();
   const dispatch = useAppDispatch();
@@ -85,8 +85,7 @@ export default function CustomDraggable({
     dispatch(changeDraggedItemStatus(id));
   }
 
-  function stop() {
-    // function stop(e: DraggableEvent) {
+  function stop(e: DraggableEvent) {
     // onStop(id, position.x + e.offsetX, position.y + e.offsetY);
     onStop();
     setTimeout(() => {
@@ -96,7 +95,7 @@ export default function CustomDraggable({
 
   const isActiveBlock = () => {
     if (activeBlock === null) return false;
-    return clickedBlockId === +id;
+    return activeBlock.id === +id;
   };
 
   const getBlockInputConnections = () => {
@@ -127,7 +126,7 @@ export default function CustomDraggable({
       onStop={(e: DraggableEvent) => stop(e)}
       scale={scale}
       // position={{ x: position.x, y: position.y }}
-      // defaultPosition={{ x: 315, y: 344 }}
+      defaultPosition={{ x: position.x, y: position.y }}
       // defaultPosition={id === '2' && isOpen ? { x: 240, y: 0 } : { x: 0, y: 0 }}
     >
       <Container

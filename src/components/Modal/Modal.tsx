@@ -93,6 +93,13 @@ export default function CustomModal({
       maxWidth="md"
       fullWidth={fullScreen}
       TransitionComponent={Transition}
+      scroll="paper"
+      sx={{
+        '& .MuiDialog-container': {
+          alignItems: 'flex-start',
+        },
+      }}
+      PaperProps={{ sx: { mt: '50px' } }}
     >
       <DialogTitle sx={{ m: 0, p: 2, textAlign: 'center' }} id="custom-modal">
         <Typography id="modal-title" align="center" sx={{ fontWeight: 'bold', fontSize: '20px' }}>

@@ -1,19 +1,19 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { SettingsSliceState } from "@/types";
+import { createSlice } from '@reduxjs/toolkit';
+import { SettingsSliceState } from '@/types';
 
 const initialState: SettingsSliceState = {
   scale: 1,
-  gridOn: false,
+  gridOn: true,
   gridSize: 50,
   size: 4,
   headSize: 8,
-  color: "#000000",
+  color: '#000000',
   curveness: 0.8,
-  path: "smooth",
+  path: 'smooth',
 };
 
 const settingsSlice = createSlice({
-  name: "settings",
+  name: 'settings',
   initialState: initialState,
   reducers: {
     setSize: (state, action) => {
@@ -43,14 +43,5 @@ const settingsSlice = createSlice({
   },
 });
 const { actions, reducer } = settingsSlice;
-export const {
-  setSize,
-  setHeadSize,
-  setCurveness,
-  setColor,
-  setPath,
-  setScale,
-  setGrid,
-  setGridSize,
-} = actions;
+export const { setSize, setHeadSize, setCurveness, setColor, setPath, setScale, setGrid, setGridSize } = actions;
 export default reducer;

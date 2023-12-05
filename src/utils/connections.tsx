@@ -1,18 +1,30 @@
 import { useMemo } from 'react';
-import { useAppSelector, useAppDispatch } from '@/state';
 import { useTranslation } from 'react-i18next';
-import useSnackbars from './snackbars';
 
-import { getFilteredMethods, getMethodData, getSingleItemByName } from './filtering';
-import { getBlocksOfType } from './blocks';
+// REDUX
+import { useAppSelector, useAppDispatch } from '@/state';
+
+// SLICES
 import {
   addConnection,
   deleteConnection,
   setClickedBlocks,
   setActiveBlock,
   setClickedBlockId,
+  setBlockWeights,
+  setBlockCriteria,
+  setBlockExtension,
+  setBlockAdditionals,
+  setBlockError,
 } from '@/state/slices/blocksSlice';
 
+// UTILS
+import useCalculation from './calculation';
+import { getFilteredMethods, getMethodData, getSingleItemByName } from './filtering';
+import { getBlocksOfType } from './blocks';
+import useSnackbars from './snackbars';
+
+// TYPES
 import { BlockDataType, BlockType } from '@/types';
 
 export default function useBlocksConnection() {
@@ -20,11 +32,13 @@ export default function useBlocksConnection() {
   const { blocks, clickedBlocks, connections } = useAppSelector((state) => state.blocks);
   const { t } = useTranslation();
   const { showSnackbar } = useSnackbars();
+  const { getMatrixWeightsConnections, getWeightsMethodConnections } = useCalculation();
 
   const fuzzyMethods = useMemo(
-    () => (allMethods.length > 0 ? getFilteredMethods(getMethodData(allMethods, 'method'), 'fuzzy') : []),
+    () => (allMethods.length > 0 ? getFilteredMethods(getMethodData(allMethods, 'methods'), 'fuzzy') : []),
     [allMethods],
   );
+
   const fuzzyWeights = useMemo(
     () => (allMethods.length > 0 ? getFilteredMethods(getMethodData(allMethods, 'weights'), 'fuzzy') : []),
     [allMethods],
@@ -55,29 +69,55 @@ export default function useBlocksConnection() {
             } else {
               showSnackbar(t('snackbar:method-ranking'), 'error');
             }
-            // } else if (outputBlock.type === 'correlation') {
-            //   const requiredData = getSingleItemByName(
-            //     getMethodData(allMethods, 'correlation'),
-            //     outputBlock.method,
-            //   ).requiredData;
-            //   // method->correlation
-            //   if (requiredData.includes('preferences' as never)) {
-            //     if (inputBlock.type !== 'method') {
-            //       showSnackbar(t('snackbar:correlation-connection-1'), 'error');
-            //     } else {
-            //       dispatch(addConnection([clickedBlocks[0], clickedBlocks[1]]));
-            //     }
-            //   }
-            //   // ranking-> correlation
-            //   if (requiredData.includes('ranking' as never)) {
-            //     if (inputBlock.type !== 'ranking') {
-            //       showSnackbar(t('snackbar:correlation-connection-2'), 'error');
-            //     } else {
-            //       dispatch(addConnection([clickedBlocks[0], clickedBlocks[1]]));
-            //     }
-            //   }
           } else {
             dispatch(addConnection([clickedBlocks[0], clickedBlocks[1]]));
+            [inputBlock, outputBlock].map((item) => {
+              if (!['matrix', 'method'].includes(item.type.toLowerCase()) && item.name.toLowerCase() !== 'input') {
+                dispatch(
+                  setBlockError({
+                    id: item.id,
+                    error: false,
+                  }),
+                );
+              } else {
+                dispatch(
+                  setBlockError({
+                    id: item.id,
+                    error: item.error,
+                  }),
+                );
+              }
+            });
+
+            const currentConnections = [...connections, [clickedBlocks[0], clickedBlocks[1]]];
+            // UPDATE EXTENSIONS IN WEIGHTS AND METHODS BLOCKS CONNECTED TO MATRIX
+            if (inputBlock.type === 'matrix') {
+              const weightsBlock = getMatrixWeightsConnections(blocks, currentConnections, inputBlock);
+              weightsBlock.forEach((b) => {
+                dispatch(
+                  setBlockWeights({
+                    id: b.id,
+                    data: [],
+                  }),
+                );
+                dispatch(
+                  setBlockCriteria({
+                    id: b.id,
+                    data: inputBlock.data.criteria,
+                  }),
+                );
+              });
+              getWeightsMethodConnections(weightsBlock, blocks, currentConnections).forEach((block) => {
+                block.forEach((b) => {
+                  dispatch(
+                    setBlockAdditionals({
+                      id: b.id,
+                      data: [],
+                    }),
+                  );
+                });
+              });
+            }
           }
         } else {
           showSnackbar(t('snackbar:cannot-connect'), 'error');
@@ -141,8 +181,7 @@ export default function useBlocksConnection() {
 
     // TODO - AFTER LOADING MATRIX FROM FILE AS ARRAY IN APP
     const getCriteriaSize = (data: BlockDataType) => {
-      //   if (data.randomMatrix.length > 0) return data.randomMatrix[1];
-      //   else if (data.matrix) return data.matrix.length > 0 ? data.matrix[0].length : 1;
+      if (data.matrix) return data.matrix.length > 0 ? data.matrix[0].length : 1;
       return 0;
     };
 

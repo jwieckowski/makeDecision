@@ -17,11 +17,22 @@ type SelectProps = {
   light?: boolean;
   minWidth?: number;
   small?: boolean;
+  required?: boolean;
 };
 
-export default function MySelect({ items, value, onChange, label, placeholder, light, minWidth, small }: SelectProps) {
+export default function MySelect({
+  items,
+  value,
+  onChange,
+  label,
+  placeholder,
+  light,
+  minWidth,
+  small,
+  required,
+}: SelectProps) {
   return (
-    <FormControl variant="outlined" sx={{ minWidth: minWidth ?? 60 }}>
+    <FormControl variant="outlined" sx={{ minWidth: minWidth ?? 50 }}>
       {label ? <InputLabel id="select-id">{label}</InputLabel> : null}
       <Select
         labelId="select-id"
@@ -30,6 +41,7 @@ export default function MySelect({ items, value, onChange, label, placeholder, l
         onChange={onChange}
         label={label}
         sx={{
+          fontSize: 12,
           '& .MuiSelect-outlined': {
             padding: small ? '5px 10px' : '10px 10px',
           },
@@ -46,7 +58,11 @@ export default function MySelect({ items, value, onChange, label, placeholder, l
           '&:hover:not(.Mui-disabled):before': {
             borderColor: light ? 'white' : 'dark',
           },
+          '& .MuiInputLabel-asterisk': {
+            color: 'red',
+          },
         }}
+        required={required ?? false}
       >
         {placeholder ? (
           <MenuItem disabled value="">

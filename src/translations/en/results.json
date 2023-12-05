@@ -13,6 +13,7 @@
   "method": "Method",
   "connection": "Connection",
   "metrics": "Metrics",
+  "unsaved-data": "Unsaved data",
 
   "add-parameters": "Add parameters",
   "extension": "Extension",
@@ -50,5 +51,6 @@
   "work-area-size": "Required bigger window size",
   "bigger-screen": "To use the calculation, page run the application on the bigger screen",
   "show-matrix": "Show uploaded matrix",
-  "filter": "Filter"
+  "filter": "Filter",
+  "cancel-modified-data": "The data in the block has been modified. Are you sure you want to continue without saving?"
 }

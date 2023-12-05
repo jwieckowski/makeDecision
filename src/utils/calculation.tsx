@@ -80,7 +80,10 @@ const useCalculation = () => {
           ...params,
           {
             extension: extension,
-            // additional: item.data.additionals[matrixIdx] === undefined ? {} : item.data.additionals[matrixIdx],
+            additional:
+              item.data.kwargs.length === 0 || item.data.kwargs[matrixIdx] === undefined
+                ? {}
+                : item.data.kwargs[matrixIdx],
             method: item.name,
           },
         ];
@@ -205,7 +208,7 @@ const useCalculation = () => {
           ? mcdaItems[index].forEach((mcda) => {
               if (blockConnections.map((bc) => bc[0]).includes(`${mcda.id}`)) {
                 const data = getSingleItemByName(
-                  getMethodData(allMethods, 'Method'),
+                  getMethodData(allMethods, 'methods'),
                   blocks.filter((block) => block.id === mcda.id)[0].name,
                 );
                 methodRanking.data = [
@@ -337,30 +340,30 @@ const useCalculation = () => {
         return;
       }
 
-      if (!validateUserInputMatrixEmpty(matrix, matrix.id)) {
+      if (!validateUserInputMatrixEmpty(matrix.data.matrix, matrix.id)) {
         calculate = false;
         return;
       }
 
       if (matrix.data.extension === 'crisp') {
-        if (!validateUserInputCrispMatrixZeros(matrix, matrix.id)) {
+        if (!validateUserInputCrispMatrixZeros(matrix.data.matrix, matrix.id)) {
           calculate = false;
           return;
         }
-        if (!validateUserInputCrispMatrixSameValuesInColumn(matrix, matrix.id)) {
+        if (!validateUserInputCrispMatrixSameValuesInColumn(matrix.data.matrix, matrix.id)) {
           calculate = false;
           return;
         }
       } else if (matrix.data.extension === 'fuzzy') {
-        if (!validateUserInputFuzzyMatrixZeros(matrix, matrix.id)) {
+        if (!validateUserInputFuzzyMatrixZeros(matrix.data.matrix, matrix.id)) {
           calculate = false;
           return;
         }
-        if (!validateUserInputFuzzyMatrixTFN(matrix, matrix.id)) {
+        if (!validateUserInputFuzzyMatrixTFN(matrix.data.matrix, matrix.id)) {
           calculate = false;
           return;
         }
-        if (!validateUserInputFuzzyMatrixOrder(matrix, matrix.id)) {
+        if (!validateUserInputFuzzyMatrixOrder(matrix.data.matrix, matrix.id)) {
           calculate = false;
           return;
         }
@@ -396,26 +399,26 @@ const useCalculation = () => {
       // INPUT WEIGHTS VALIDATION
       weightsItems.forEach((weights) => {
         if (weights.name === 'input') {
-          if (!validateUserInputWeights(weights)) {
+          if (!validateUserInputWeights(weights.data.weights, weights.id)) {
             calculate = false;
             return;
           }
 
           if (weights.data.extension === 'crisp') {
-            if (!validateUserInputCrispWeightsValues(weights)) {
+            if (!validateUserInputCrispWeightsValues(weights.data.weights, weights.id)) {
               calculate = false;
               return;
             }
           } else if (weights.data.extension === 'fuzzy') {
-            if (!validateUserInputFuzzyWeightsZeros(weights)) {
+            if (!validateUserInputFuzzyWeightsZeros(weights.data.weights, weights.id)) {
               calculate = false;
               return;
             }
-            if (!validateUserInputFuzzyWeightsTFN(weights)) {
+            if (!validateUserInputFuzzyWeightsTFN(weights.data.weights, weights.id)) {
               calculate = false;
               return;
             }
-            if (!validateUserInputFuzzyWeightsOrder(weights)) {
+            if (!validateUserInputFuzzyWeightsOrder(weights.data.weights, weights.id)) {
               calculate = false;
               return;
             }

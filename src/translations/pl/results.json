@@ -13,6 +13,7 @@
   "method": "Metoda",
   "connection": "Połączenie",
   "metrics": "Metryki",
+  "unsaved-data": "Niezapisane dane",
 
   "add-parameters": "Dodaj parametry",
   "extension": "Rozszerzenie",
@@ -50,5 +51,6 @@
   "work-area-size": "Wymagany większy rozmiar okna",
   "bigger-screen": "By wykonać obliczenia, uruchom aplikację na większym urządzeniu",
   "show-matrix": "Pokaż załadowaną macierz",
-  "filter": "Filtruj"
+  "filter": "Filtruj",
+  "cancel-modified-data": "Dane w bloku zostały zmodyfikowane. Czy na pewno chcesz kontynuować bez zapisu?"
 }

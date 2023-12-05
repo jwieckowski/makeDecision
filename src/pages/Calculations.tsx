@@ -32,7 +32,7 @@ export default function Calculations() {
         <Container maxWidth={false} disableGutters sx={{ minHeight: '60px', backgroundColor: 'white' }}>
           <SettingsBar />
         </Container>
-        <Container maxWidth={false} disableGutters sx={{ minHeight: '70vh', marginTop: 2 }}>
+        <Container maxWidth={false} disableGutters sx={{ minHeight: '70vh' }}>
           <DragStory />
         </Container>
         {results !== null ? (

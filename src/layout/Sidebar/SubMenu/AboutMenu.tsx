@@ -13,6 +13,7 @@ import CallSplitIcon from '@mui/icons-material/CallSplit';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import FolderIcon from '@mui/icons-material/Folder';
 import DeveloperBoardIcon from '@mui/icons-material/DeveloperBoard';
+import UpdateIcon from '@mui/icons-material/Update';
 
 // REDUX
 import { useAppDispatch, useAppSelector } from '@/state';
@@ -26,13 +27,14 @@ export default function AboutMenu() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
-  const TABS = [t('about:tab-1'), t('about:tab-2'), t('about:tab-3'), t('about:tab-4')];
+  const TABS = [t('about:tab-1'), t('about:tab-2'), t('about:tab-3'), t('about:tab-4'), t('about:tab-5')];
 
   const ICONS = [
     <CallSplitIcon key={'icon-1'} />,
     <MenuBookIcon key={'icon-2'} />,
     <FolderIcon key={'icon-3'} />,
     <DeveloperBoardIcon key={'icon-4'} />,
+    <UpdateIcon key={'icon-5'} />,
   ];
 
   const handleItemClick = (index: number) => {
