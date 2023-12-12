@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 // API
-import { uploadMatrixFile, generateMatrix, getResults } from '@/api/calculations';
+import { uploadMatrixFile, generateMatrix, getResults, getKwargsItems } from '@/api/calculations';
 
 // TYPES
 import { CalculationSliceState, ResultsType } from '@/types';
@@ -20,6 +20,7 @@ const initialState: CalculationSliceState = {
   loading: false,
   error: null,
   matrixId: [],
+  methodsKwargsItems: {},
 };
 
 const calculationSlice = createSlice({
@@ -99,6 +100,18 @@ const calculationSlice = createSlice({
         state.loading = false;
       })
       .addCase(generateMatrix.rejected, (state: CalculationSliceState, action: PayloadAction<any>) => {
+        state.error = action.payload.response.data.message;
+        state.loading = false;
+      })
+      .addCase(getKwargsItems.pending, (state: CalculationSliceState) => {
+        state.error = null;
+        state.loading = true;
+      })
+      .addCase(getKwargsItems.fulfilled, (state: CalculationSliceState, action: PayloadAction<any>) => {
+        state.methodsKwargsItems = { ...state.methodsKwargsItems, ...action.payload };
+        state.loading = false;
+      })
+      .addCase(getKwargsItems.rejected, (state: CalculationSliceState, action: PayloadAction<any>) => {
         state.error = action.payload.response.data.message;
         state.loading = false;
       });

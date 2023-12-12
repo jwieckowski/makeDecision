@@ -1,7 +1,8 @@
-import InputLabel from '@mui/material/InputLabel';
+import { ChangeEvent } from 'react';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Typography from '@mui/material/Typography';
+import { TextField } from '@mui/material';
 
 type Items = {
   label: string;
@@ -11,13 +12,15 @@ type Items = {
 type SelectProps = {
   items: Items[];
   value: string;
-  onChange: (event: SelectChangeEvent<string>) => void;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   label?: string;
   placeholder?: string;
   light?: boolean;
   minWidth?: number;
   small?: boolean;
   required?: boolean;
+  fontSize?: number;
+  name?: string;
 };
 
 export default function MySelect({
@@ -28,41 +31,31 @@ export default function MySelect({
   placeholder,
   light,
   minWidth,
-  small,
   required,
+  fontSize,
+  name,
 }: SelectProps) {
   return (
     <FormControl variant="outlined" sx={{ minWidth: minWidth ?? 50 }}>
-      {label ? <InputLabel id="select-id">{label}</InputLabel> : null}
-      <Select
-        labelId="select-id"
-        id="select-component"
+      <TextField
+        select
+        name={name}
         value={value}
         onChange={onChange}
-        label={label}
+        id="select-component"
         sx={{
-          fontSize: 12,
-          '& .MuiSelect-outlined': {
-            padding: small ? '5px 10px' : '10px 10px',
-          },
-          color: light ? 'white' : 'dark',
-          '&:before': {
-            borderColor: light ? 'white' : 'dark',
-          },
-          '&:after': {
-            borderColor: light ? 'white' : 'dark',
-          },
-          '& .MuiSvgIcon-root': {
-            color: light ? 'white' : 'dark',
-          },
-          '&:hover:not(.Mui-disabled):before': {
-            borderColor: light ? 'white' : 'dark',
-          },
+          width: minWidth ?? '70px',
           '& .MuiInputLabel-asterisk': {
             color: 'red',
           },
+          // '& .MuiSvgIcon-root': {
+          //   color: light ? 'white' : 'dark',
+          // },
         }}
-        required={required ?? false}
+        margin="none"
+        size="small"
+        label={label}
+        required={required}
       >
         {placeholder ? (
           <MenuItem disabled value="">
@@ -72,11 +65,11 @@ export default function MySelect({
         {items.map((item, index) => {
           return (
             <MenuItem key={`select-${index}`} value={item.value}>
-              {item.label}
+              <Typography sx={{ fontSize: fontSize ?? 16 }}>{item.label}</Typography>
             </MenuItem>
           );
         })}
-      </Select>
+      </TextField>
     </FormControl>
   );
 }

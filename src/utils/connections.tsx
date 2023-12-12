@@ -14,8 +14,8 @@ import {
   setBlockWeights,
   setBlockCriteria,
   setBlockExtension,
-  setBlockAdditionals,
   setBlockError,
+  setBlockKwargs,
 } from '@/state/slices/blocksSlice';
 
 // UTILS
@@ -94,12 +94,14 @@ export default function useBlocksConnection() {
             if (inputBlock.type === 'matrix') {
               const weightsBlock = getMatrixWeightsConnections(blocks, currentConnections, inputBlock);
               weightsBlock.forEach((b) => {
-                dispatch(
-                  setBlockWeights({
-                    id: b.id,
-                    data: [],
-                  }),
-                );
+                if (b.data.criteria !== inputBlock.data.criteria) {
+                  dispatch(
+                    setBlockWeights({
+                      id: b.id,
+                      data: [],
+                    }),
+                  );
+                }
                 dispatch(
                   setBlockCriteria({
                     id: b.id,
@@ -110,7 +112,7 @@ export default function useBlocksConnection() {
               getWeightsMethodConnections(weightsBlock, blocks, currentConnections).forEach((block) => {
                 block.forEach((b) => {
                   dispatch(
-                    setBlockAdditionals({
+                    setBlockKwargs({
                       id: b.id,
                       data: [],
                     }),

@@ -175,14 +175,14 @@ const blocksSlice = createSlice({
           : b;
       });
     },
-    setBlockAdditionals: (state, action) => {
+    setBlockKwargs: (state, action) => {
       state.blocks = state.blocks.map((b) => {
         return b.id === action.payload.id
           ? {
               ...b,
               data: {
                 ...b.data,
-                additionals: action.payload.data,
+                kwargs: action.payload.data,
               },
             }
           : b;
@@ -315,7 +315,7 @@ export const {
   setBlockTypes,
   setBlockWeights,
   setBlockExtension,
-  setBlockAdditionals,
+  setBlockKwargs,
   setBlockAlternatives,
   setBlockCriteria,
   setBlockStyles,

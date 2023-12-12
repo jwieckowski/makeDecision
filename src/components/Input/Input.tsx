@@ -1,10 +1,11 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, FocusEvent } from 'react';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 
 type InputProps = {
-  type: string;
+  type?: string;
   value: string | number;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (e: FocusEvent<HTMLInputElement>) => void;
   variant?: TextFieldProps['variant'];
   label?: string;
   disabled?: boolean;
@@ -14,14 +15,16 @@ type InputProps = {
   width?: number;
   textCenter?: boolean;
   error?: boolean;
-  errorText?: string;
+  helperText?: string;
   required?: boolean;
+  name?: string;
 };
 
 export default function Input({
   type,
   value,
   onChange,
+  onBlur,
   variant,
   label,
   disabled,
@@ -31,19 +34,22 @@ export default function Input({
   width,
   textCenter,
   error,
-  errorText,
+  helperText,
   required,
+  name,
 }: InputProps) {
   return (
     <TextField
+      name={name}
       size="small"
       id="input"
       variant={variant ?? 'outlined'}
       value={value}
       onChange={onChange}
-      type={type}
+      type={type ?? 'string'}
       label={label ?? ''}
       disabled={disabled}
+      onBlur={onBlur}
       inputProps={{
         min: min ?? null,
         max: max ?? null,
@@ -62,7 +68,7 @@ export default function Input({
         },
       }}
       error={error ?? false}
-      helperText={errorText ?? null}
+      helperText={helperText ?? null}
       required={required ?? false}
     />
   );

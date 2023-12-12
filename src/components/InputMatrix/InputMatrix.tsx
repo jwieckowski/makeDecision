@@ -1,5 +1,5 @@
-import { ChangeEvent } from 'react';
-import { Container, Stack, Box, Typography, SelectChangeEvent } from '@mui/material';
+import { ChangeEvent, FocusEvent } from 'react';
+import { Container, Stack, Box, Typography } from '@mui/material';
 
 // COMPONENTS
 import Input from '@/components/Input';
@@ -8,14 +8,20 @@ import CriteriaTypes from '@/components/CriteriaTypes';
 // CONST
 import { MAX_ALTERNATIVES, MAX_CRITERIA, MATRIX_LABEL_WIDTH, MATRIX_INPUT_WIDTH } from '@/common/const';
 
+type MatrixCellProps = {
+  value: string;
+  error: boolean;
+};
+
 type MatrixProps = {
-  matrix: string[][] | number[][];
+  matrix: MatrixCellProps[][];
   alternatives: number;
   criteria: number;
   extension: string;
   onChange: (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, row: number, col: number) => void;
   criteriaTypes: string[];
-  onCriteriaTypeChange: (e: SelectChangeEvent<string>, col: number) => void;
+  onCriteriaTypeChange: (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, col: number) => void;
+  onMatrixBlur: (e: FocusEvent<HTMLInputElement>, row: number, col: number) => void;
 };
 
 export default function InputMatrix({
@@ -26,14 +32,16 @@ export default function InputMatrix({
   onChange,
   criteriaTypes,
   onCriteriaTypeChange,
+  onMatrixBlur,
 }: MatrixProps) {
+  if (alternatives === 0 || criteria === 0) return null;
+
   return (
     <Container maxWidth="md" disableGutters sx={{ overflow: 'auto', maxHeight: '400px', pb: 2 }}>
       {/* MATRIX HEADER */}
       <Stack
         direction="row"
         sx={{
-          flexDirection: 'row',
           justifyContent: criteria < 4 ? 'center' : 'start',
         }}
       >
@@ -77,7 +85,15 @@ export default function InputMatrix({
                       return (
                         <Box key={`row-${row}-${col}`} sx={{ m: 0, p: 0 }}>
                           {col === 0 ? (
-                            <Typography align="center" sx={{ width: `${MATRIX_LABEL_WIDTH}px` }}>
+                            <Typography
+                              sx={{
+                                width: `${MATRIX_LABEL_WIDTH}px`,
+                                height: '100%',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                              }}
+                            >
                               A{row + 1}
                             </Typography>
                           ) : (
@@ -85,7 +101,7 @@ export default function InputMatrix({
                               type="string"
                               value={
                                 matrix.length === alternatives && matrix[0]?.length === criteria
-                                  ? matrix[row][col - 1]
+                                  ? matrix[row][col - 1].value
                                   : extension === 'crisp'
                                   ? '0'
                                   : '0, 0, 0'
@@ -96,6 +112,12 @@ export default function InputMatrix({
                               textCenter
                               width={MATRIX_INPUT_WIDTH}
                               variant="outlined"
+                              error={
+                                matrix.length === alternatives && matrix[0]?.length === criteria
+                                  ? matrix[row][col - 1]?.error
+                                  : false
+                              }
+                              onBlur={(e) => onMatrixBlur(e, row, col - 1)}
                             />
                           )}
                         </Box>

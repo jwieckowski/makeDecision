@@ -26,6 +26,11 @@ type GetRandomMatrixProps = {
   body: RandomMatrixProps;
 };
 
+type GetKwargsItemsProps = {
+  locale: string;
+  method: string;
+};
+
 type GetResultsProps = {
   locale: string;
   params: CalculationBodyType;
@@ -64,6 +69,28 @@ const generateMatrix = createAsyncThunk(
   },
 );
 
+const getKwargsItems = createAsyncThunk(
+  'calculations/getKwargsItems',
+  async ({ locale, method }: GetKwargsItemsProps, { rejectWithValue }) => {
+    try {
+      const data = await axios.post(
+        `${BASE_URL}/api/v1/calculations/items`,
+        {
+          method: method,
+        },
+        {
+          headers: {
+            locale: locale,
+          },
+        },
+      );
+      return { [method]: data.data.response };
+    } catch (e) {
+      throw rejectWithValue(e);
+    }
+  },
+);
+
 const getResults = createAsyncThunk(
   'calculations/getResults',
   async ({ locale, params }: GetResultsProps, { rejectWithValue }) => {
@@ -80,4 +107,4 @@ const getResults = createAsyncThunk(
   },
 );
 
-export { uploadMatrixFile, generateMatrix, getResults };
+export { uploadMatrixFile, generateMatrix, getResults, getKwargsItems };

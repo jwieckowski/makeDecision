@@ -29,7 +29,7 @@ import { useLocale } from '@/hooks';
 import { AllMethodsItem } from '@/types';
 
 // UTILS
-import { filterMethodsFunction } from '@/utils/filtering';
+import { filterMethodsFunction, getKwargsFromDictionary } from '@/utils/filtering';
 
 // COMPONENTS
 import SearchBar from '@/components/SearchBar';
@@ -142,6 +142,7 @@ export default function CalculationsMenu() {
       name: name.toLowerCase(),
       inputConnections,
       outputConnections,
+      typeKwargs: type.toLowerCase() === 'method' ? getKwargsFromDictionary(allMethods, name) : [],
       data: {
         matrix: [],
         fileName: null,

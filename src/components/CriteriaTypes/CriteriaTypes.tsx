@@ -1,5 +1,6 @@
+import { ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Stack, Box, Typography, SelectChangeEvent } from '@mui/material';
+import { Stack, Box, Typography } from '@mui/material';
 
 // COMPONENTS
 import Select from '@/components/Select';
@@ -10,7 +11,7 @@ import { MAX_CRITERIA, MATRIX_LABEL_WIDTH, MATRIX_INPUT_WIDTH } from '@/common/c
 type CriteriaTypesProps = {
   criteria: number;
   criteriaTypes: string[];
-  onCriteriaTypeChange: (e: SelectChangeEvent<string>, col: number) => void;
+  onCriteriaTypeChange: (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, col: number) => void;
 };
 
 export default function CriteriaTypes({ criteria, criteriaTypes, onCriteriaTypeChange }: CriteriaTypesProps) {
@@ -35,12 +36,11 @@ export default function CriteriaTypes({ criteria, criteriaTypes, onCriteriaTypeC
         mt: 1,
         width: '100%',
         display: 'flex',
-        flexDirection: 'row',
         justifyContent: criteria < 4 ? 'center' : 'start',
-        alignItems: 'end',
+        alignItems: 'center',
       }}
     >
-      {Array(criteria <= MAX_CRITERIA ? criteria + 1 : MAX_CRITERIA)
+      {Array(criteria <= MAX_CRITERIA ? criteria + 1 : MAX_CRITERIA + 1)
         .fill(0)
         .map((_, col) => {
           return (
@@ -59,6 +59,7 @@ export default function CriteriaTypes({ criteria, criteriaTypes, onCriteriaTypeC
                   }
                   onChange={(e) => onCriteriaTypeChange(e, col - 1)}
                   minWidth={MATRIX_INPUT_WIDTH - 4}
+                  fontSize={12}
                 />
               )}
             </Box>

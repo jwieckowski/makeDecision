@@ -1,8 +1,7 @@
 import {
   AllMethodsItem,
-  MethodAdditional,
+  MethodKwargs,
   ResultsType,
-  BlockType,
   ResultsMethod,
   ResultsMethodCorrelations,
   ResultsRankingCorrelations,
@@ -29,9 +28,14 @@ export const getFilteredMethods = (array: AllMethodsItem, extension: string) => 
   return array?.data.filter((a) => a.extensions.includes(extension as never));
 };
 
-export const getAdditionalParameters = (additional: MethodAdditional[] | null | undefined, extension: string) => {
-  if (additional === null || additional === undefined) return [];
-  return additional.filter((a) => a.extension === extension);
+export const getKwargs = (kwargs: MethodKwargs[] | null | undefined, extension: string) => {
+  if (kwargs === null || kwargs === undefined) return [];
+  return kwargs.filter((a) => a.extension === extension);
+};
+
+export const getKwargsFromDictionary = (data: AllMethodsItem[], method: string) => {
+  const methods = data.filter((d) => d.type.toLowerCase() === 'method')[0];
+  return methods.data.filter((m) => m.name.toLowerCase() === method.toLowerCase())[0].kwargs;
 };
 
 export const removeFirst = (src: string[], element: string) => {

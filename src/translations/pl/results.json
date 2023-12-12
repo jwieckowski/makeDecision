@@ -23,10 +23,13 @@
   "criteria-types": "Typy kryteriów",
   "types": "Typy",
   "weights": "Wagi",
+  "from-to": "Od {{from}} do {{to}}",
   "lower-bound": "Minimum",
   "upper-bound": "Maksimum",
   "precision": "Precyzja",
   "generate": "Generuj",
+  "matrix-error": "Macierz zawiera błędy",
+  "weights-error": "Błędne wagi",
 
   "profit": "Zysk",
   "cost": "Koszt",

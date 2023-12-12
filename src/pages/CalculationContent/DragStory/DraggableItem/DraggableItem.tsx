@@ -1,4 +1,4 @@
-import React, { useState, useMemo, MouseEvent } from 'react';
+import React, { useState, useEffect, useMemo, MouseEvent } from 'react';
 import Draggable, { DraggableEvent } from 'react-draggable';
 import { Container, Typography, Stack, Box } from '@mui/material';
 // import { useTour } from "@reactour/tour";
@@ -12,7 +12,13 @@ import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { useAppSelector, useAppDispatch } from '@/state';
 
 // SLICES
-import { deleteBlock, deleteClickedBlock, changeDraggedItemStatus, setActiveBlock } from '@/state/slices/blocksSlice';
+import {
+  deleteBlock,
+  deleteClickedBlock,
+  changeDraggedItemStatus,
+  setActiveBlock,
+  setBlockError,
+} from '@/state/slices/blocksSlice';
 
 // UTILS
 import { getFilteredMethods, getMethodData } from '@/utils/filtering';
@@ -20,7 +26,7 @@ import useBlocksConnection from '@/utils/connections';
 import { capitalize, convertTextLength } from '@/utils/formatting';
 
 // TYPES
-import { BlockPosition } from '@/types';
+import { BlockPosition, MethodKwargs } from '@/types';
 
 // STYLES
 import blockStyles from './DraggableItem.styles';
@@ -38,6 +44,7 @@ type DraggableProps = {
   error: boolean;
   position: BlockPosition;
   inputConnections: string[];
+  typeKwargs: [] | MethodKwargs[];
 };
 
 export default function CustomDraggable({
@@ -53,18 +60,23 @@ export default function CustomDraggable({
   error,
   position,
   inputConnections,
+  typeKwargs,
 }: DraggableProps) {
   const { allMethods } = useAppSelector((state) => state.dictionary);
   const { activeBlock, blocks, connections } = useAppSelector((state) => state.blocks);
 
   // const { isOpen, currentStep } = useTour();
   const dispatch = useAppDispatch();
-  const { getMethodsConnectedBlocksExtensions } = useBlocksConnection();
+  // const { getMethodsConnectedBlocksExtensions } = useBlocksConnection();
 
-  const connectedExtensions = useMemo(() => {
-    if (type.toLowerCase() !== 'methods') return [];
-    return getMethodsConnectedBlocksExtensions(blocks.filter((b) => b.id === +id)[0]).map((i) => i.extension);
-  }, [blocks, connections]);
+  // const connectedExtensions = useMemo(() => {
+  //   if (type.toLowerCase() !== 'method') return [];
+  //   return getMethodsConnectedBlocksExtensions(blocks.filter((b) => b.id === +id)[0]).map((i) => i.extension);
+  // }, [blocks, connections]);
+
+  useEffect(() => {
+    if (type.toLowerCase() === 'method' && !hasKwargs()) dispatch(setBlockError({ id: +id, error: false }));
+  }, []);
 
   function handleSettingsClick(e: React.MouseEvent<SVGElement>) {
     e.stopPropagation();
@@ -102,18 +114,15 @@ export default function CustomDraggable({
     return connections.filter((c) => c[1] === id);
   };
 
-  const hasAdditionals = () => {
-    const additionals = getFilteredMethods(getMethodData(allMethods, type), extension)
-      .find((item) => item.name.toLowerCase() === name)
-      ?.additional?.filter((item) => connectedExtensions.includes(item.extension));
-    return additionals !== undefined && additionals.length > 0;
+  const hasKwargs = () => {
+    return typeKwargs.filter((t) => t.extension === extension).length > 0;
   };
 
   const showSettingsIcon = () => {
     if (
       type.toLowerCase() === 'matrix' ||
       (type.toLowerCase() === 'weights' && name.toLowerCase() === 'input' && getBlockInputConnections().length > 0) ||
-      (type.toLowerCase() === 'methods' && getBlockInputConnections().length > 0 && hasAdditionals())
+      (type.toLowerCase() === 'method' && getBlockInputConnections().length > 0 && hasKwargs())
     )
       return true;
     return false;

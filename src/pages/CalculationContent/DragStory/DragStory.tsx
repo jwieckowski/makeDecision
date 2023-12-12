@@ -27,6 +27,7 @@ import DraggableItem from './DraggableItem';
 import MatrixModal from '@/components/Modal/MatrixModal';
 import WeightsModal from '@/components/Modal/WeightsModal';
 import ConnectionModal from '@/components/Modal/ConnectionModal';
+import MethodModal from '@/components/Modal/MethodModal';
 // import ScaleSettings from './ScaleSettings';
 
 // CONST
@@ -65,8 +66,6 @@ export default function DragArea() {
   useEffect(() => {
     updateXarrow();
   }, [scale]);
-
-  console.log(activeBlock);
 
   useEffect(() => {
     setModalType(() => (activeBlock ? activeBlock.type.toLowerCase() : ''));
@@ -183,7 +182,6 @@ export default function DragArea() {
 
   const handleDraggableClick = (e: React.MouseEvent<HTMLElement>, id: string, type: string, method: string) => {
     e.stopPropagation();
-    console.log(clickedBlocks);
     if (draggedItem !== null) return;
     if (clickedBlocks.includes(id as never)) return;
     dispatch(addClickedBlock(id));
@@ -216,6 +214,7 @@ export default function DragArea() {
     const modals: ModalDict = {
       matrix: <MatrixModal open={modalOpen} closeModal={handleModalClose} />,
       weights: <WeightsModal open={modalOpen} closeModal={handleModalClose} />,
+      method: <MethodModal open={modalOpen} closeModal={handleModalClose} />,
       connection: (
         <ConnectionModal
           open={modalOpen}
@@ -289,6 +288,7 @@ export default function DragArea() {
                   error={block.error}
                   position={block.position}
                   inputConnections={block.inputConnections}
+                  typeKwargs={block.typeKwargs}
                 />
               );
             })}

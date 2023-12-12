@@ -103,7 +103,7 @@ export default function DragSettings() {
           dispatch(setPath(e.target.value));
         }}
         label={`${t('results:path')}`}
-        minWidth={80}
+        minWidth={100}
       />
       <ColorPicker
         value={color}

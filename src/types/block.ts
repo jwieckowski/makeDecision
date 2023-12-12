@@ -1,8 +1,20 @@
-import { ResultsAdditional } from './results';
+import { MethodKwargs } from './dictionary';
+
+// TODO DEFINE MATRIX
 
 export type BlockPosition = {
   x: number;
   y: number;
+};
+
+export type BlockDataKwargsItemType = {
+  parameter: string;
+  value: string;
+};
+
+export type BlockDataKwargsType = {
+  matrixId: number;
+  data: BlockDataKwargsItemType[];
 };
 
 export type BlockDataType = {
@@ -13,7 +25,7 @@ export type BlockDataType = {
   weights: string[];
   alternatives: number;
   criteria: number;
-  kwargs: any;
+  kwargs: BlockDataKwargsType[];
 };
 
 export type BlockType = {
@@ -26,6 +38,7 @@ export type BlockType = {
   error: boolean;
   errorMessage: null | string;
   position: BlockPosition;
+  typeKwargs: [] | MethodKwargs[];
 };
 
 export type BlocksSliceState = {

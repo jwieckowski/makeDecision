@@ -137,6 +137,28 @@ type ConvertedMatrixType = {
   criteria_types: number[];
 };
 
+export type SelectItemType = {
+  value: string;
+  label: string;
+};
+
+export type MethodsKwargsValueType = {
+  extension: string;
+  label: string;
+  type: string;
+  parameter: string;
+  default: string;
+  items?: SelectItemType[];
+  min?: number;
+  max?: number;
+  dimension?: number;
+  required?: boolean;
+};
+
+export type MethodsKwargsItemsType = {
+  [key: string]: MethodsKwargsValueType[];
+};
+
 export type CalculationSliceState = {
   results: null | ResultsType;
   filteredResults: null | ResultsType;
@@ -149,4 +171,5 @@ export type CalculationSliceState = {
   error: null | string;
   convertedMatrix: null | ConvertedMatrixType;
   matrixId: [] | number[];
+  methodsKwargsItems: MethodsKwargsItemsType;
 };

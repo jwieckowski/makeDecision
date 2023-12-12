@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { makeStyles, styled } from '@mui/styles';
+import { makeStyles } from '@mui/styles';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Dialog from '@mui/material/Dialog';
@@ -24,6 +24,7 @@ type ModalProps = {
   textSave?: null | string;
   textCancel?: null | string;
   fullScreen?: boolean;
+  errorText?: string;
 };
 
 const Transition = React.forwardRef(function Transition(
@@ -44,7 +45,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function CustomModal({
+export default function ModalContainer({
   title,
   open,
   children,
@@ -53,6 +54,7 @@ export default function CustomModal({
   textSave,
   textCancel,
   fullScreen,
+  errorText,
 }: ModalProps) {
   const { t } = useTranslation();
   const classes = useStyles();
@@ -91,9 +93,27 @@ export default function CustomModal({
       </IconButton>
       <DialogContent dividers>{children}</DialogContent>
       <DialogActions>
-        <Stack direction="row" gap={2} justifyContent="flex-end">
-          <Button text={textCancel ? textCancel : t('common:cancel')} onClick={closeModal} />
-          <Button variant="contained" text={textSave ? textSave : t('common:save')} onClick={handleSave} />
+        <Stack
+          direction="row"
+          gap={2}
+          justifyContent={errorText ? 'space-between' : 'flex-end'}
+          alignItems="center"
+          sx={{ width: '100%' }}
+        >
+          {errorText ? (
+            <Typography align="center" sx={{ color: 'error.main', fontSize: 16, pl: 2 }}>
+              {errorText}
+            </Typography>
+          ) : null}
+          <Stack direction="row" gap={2} justifyContent="flex-end">
+            <Button text={textCancel ? textCancel : t('common:cancel')} onClick={closeModal} />
+            <Button
+              variant="contained"
+              text={textSave ? textSave : t('common:save')}
+              onClick={handleSave}
+              disabled={errorText ? true : false}
+            />
+          </Stack>
         </Stack>
       </DialogActions>
     </Dialog>

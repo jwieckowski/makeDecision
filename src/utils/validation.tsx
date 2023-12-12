@@ -10,32 +10,31 @@ const useValidation = () => {
   const { showSnackbar } = useSnackbars();
   const { t } = useTranslation();
 
-  const validateMatrixBounds = (lower: number, upper: number) => {
-    if (lower >= upper) return false;
+  const validateMatrixBounds = (lower: string, upper: string) => {
+    if (lower === '' || upper === '') return false;
+    if (+lower >= +upper) return false;
 
     return true;
   };
 
-  const validateCrispInput = (extension: string, value: any) => {
+  const isCrispInputValid = (extension: string, value: any) => {
     if (extension === 'fuzzy') return true;
-
     if (!isNaN(+value)) return true;
     return false;
   };
-  const validateFuzzyInput = (extension: string, value: any) => {
+  const isFuzzyInputValid = (extension: string, value: any) => {
     if (extension === 'crisp') return true;
 
     // check if three number separated by comma are given
     const splitted = value.split(',');
     // check if not a number value in fuzzy set
     if (splitted.some((item: string) => isNaN(+item))) return false;
-
     if (splitted.length > 3) return false;
     if (splitted.length !== 0) return true;
 
     const numbers = splitted.map((n: string) => +n);
     // check if values are given in ascending order or equal than previous value
-    if (!numbers.every((v: number, i: number) => i === 0 || v >= numbers[i - 1])) return true;
+    if (!numbers.every((v: number, i: number) => i === 0 || v >= numbers[i - 1])) return false;
 
     return false;
   };
@@ -257,7 +256,7 @@ const useValidation = () => {
     return true;
   };
 
-  const validateUserInputWeightsData = (weights: string[], extension: string, id: number) => {
+  const isUserInputWeightsDataValid = (weights: string[], extension: string, id: number) => {
     if (!validateUserInputWeights(weights, id)) return false;
 
     if (extension === 'crisp') {
@@ -272,8 +271,8 @@ const useValidation = () => {
 
   return {
     validateMatrixBounds,
-    validateCrispInput,
-    validateFuzzyInput,
+    isCrispInputValid,
+    isFuzzyInputValid,
     validateMatrixInputData,
     validateMatrixWeightsConnections,
     validateUploadedMatrix,
@@ -292,7 +291,7 @@ const useValidation = () => {
     validateUserInputFuzzyWeightsTFN,
     validateUserInputFuzzyWeightsOrder,
     validateMatrixData,
-    validateUserInputWeightsData,
+    isUserInputWeightsDataValid,
   };
 };
 

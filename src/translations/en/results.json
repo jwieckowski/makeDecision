@@ -23,10 +23,13 @@
   "criteria-types": "Criteria types",
   "types": "Types",
   "weights": "Weights",
+  "from-to": "From {{from}} to {{to}}",
   "lower-bound": "Minimum",
   "upper-bound": "Maximum",
   "precision": "Precision",
   "generate": "Generate",
+  "matrix-error": "Error in matrix",
+  "weights-error": "Error in weights",
 
   "profit": "Profit",
   "cost": "Cost",

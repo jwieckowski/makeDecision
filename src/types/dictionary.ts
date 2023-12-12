@@ -1,12 +1,18 @@
-export type MethodAdditionalData = {
+export type MethodKwargsData = {
   id: number;
   method: string;
   parameter: string;
   default: string;
+  type: string;
+  min?: number;
+  max?: number;
+  dimension?: number;
+  required?: boolean;
 };
-export type MethodAdditional = {
+
+export type MethodKwargs = {
   extension: string;
-  data: [] | MethodAdditionalData[];
+  data: [] | MethodKwargsData[];
 };
 
 export type AllMethodsDataItem = {
@@ -18,7 +24,7 @@ export type AllMethodsDataItem = {
   outputConnections: [] | string[];
   abbreviation?: string;
   order?: string;
-  additional?: [] | MethodAdditional[];
+  kwargs?: [] | MethodKwargs[];
   functionName?: string;
 };
 
