@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSnackbar } from 'notistack';
 import Xarrow, { useXarrow } from 'react-xarrows';
@@ -35,6 +35,7 @@ import { HIDE_DURATION, NAV_HEIGHT, DRAG_AREA_SPACE } from '@/common/const';
 
 // UTILS
 import useBlocksConnection from '@/utils/connections';
+import UserInputModal from '@/components/Modal/UserInputModal';
 
 export default function DragArea() {
   const { allMethods } = useAppSelector((state) => state.dictionary);
@@ -68,7 +69,9 @@ export default function DragArea() {
   }, [scale]);
 
   useEffect(() => {
-    setModalType(() => (activeBlock ? activeBlock.type.toLowerCase() : ''));
+    if (activeBlock?.type.toLowerCase() === 'method' && activeBlock.name.toLowerCase() === 'input')
+      setModalType('preference');
+    else setModalType(() => (activeBlock ? activeBlock.type.toLowerCase() : ''));
   }, [activeBlock]);
 
   useEffect(() => {
@@ -180,7 +183,7 @@ export default function DragArea() {
   //   return saveFunctions[type] || handleModalClose;
   // };
 
-  const handleDraggableClick = (e: React.MouseEvent<HTMLElement>, id: string, type: string, method: string) => {
+  const handleDraggableClick = (e: MouseEvent<HTMLElement>, id: string) => {
     e.stopPropagation();
     if (draggedItem !== null) return;
     if (clickedBlocks.includes(id as never)) return;
@@ -215,6 +218,8 @@ export default function DragArea() {
       matrix: <MatrixModal open={modalOpen} closeModal={handleModalClose} />,
       weights: <WeightsModal open={modalOpen} closeModal={handleModalClose} />,
       method: <MethodModal open={modalOpen} closeModal={handleModalClose} />,
+      preference: <UserInputModal open={modalOpen} type="preferences" closeModal={handleModalClose} />,
+      ranking: <UserInputModal open={modalOpen} type="ranking" closeModal={handleModalClose} />,
       connection: (
         <ConnectionModal
           open={modalOpen}

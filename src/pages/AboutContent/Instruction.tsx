@@ -1,7 +1,6 @@
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { Container, Stack, Typography, Divider } from '@mui/material';
+import { Container, Stack, Typography } from '@mui/material';
 
 // COMPONENTS
 import Image from '@/components/Image';
@@ -131,7 +130,11 @@ export default function Instruction() {
 
         <Typography align="justify">{t('about:application-tutorial')}</Typography>
 
-        <Button text={t('home:home-button-calculation')} onClick={() => navigate(`/calculations`)} />
+        <Button
+          variant="contained"
+          text={t('home:home-button-calculation')}
+          onClick={() => navigate(`/calculations`)}
+        />
       </Stack>
     </Container>
   );

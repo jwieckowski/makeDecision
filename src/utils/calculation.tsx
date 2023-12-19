@@ -7,6 +7,8 @@ import {
   AllMethodsItem,
   RankingCorrelationType,
   CalculationBodyType,
+  CalculationNode,
+  CalculationBodyTypeNew,
 } from '@/types';
 
 // UTILS
@@ -481,6 +483,58 @@ const useCalculation = () => {
     return { calculate, body, matrixIndexes };
   };
 
+  const getConnectionsTo = (id: number, connections: string[][]) => {
+    return connections.filter((con) => +con[0] === id).map((con) => +con[1]);
+  };
+
+  const getConnectionsFrom = (id: number, connections: string[][]) => {
+    return connections.filter((con) => +con[1] === id).map((con) => +con[0]);
+  };
+
+  const getMatrixData = (block: BlockType) => {
+    return {
+      matrix: block.data.matrix,
+      criteria_types: block.data.criteriaTypes,
+    };
+  };
+
+  const getWeightsData = (block: BlockType) => {
+    return {
+      weights: block.data.weights,
+    };
+  };
+
+  const getMethodsData = (block: BlockType) => {
+    return {
+      kwargs: block.data.kwargs.map((item) => {
+        return {
+          matrix_id: item.matrixId,
+          ...item.data.reduce((a, v) => ({ ...a, [v.parameter]: v.value }), {}),
+        };
+      }),
+    };
+  };
+
+  const getCalculationBody = (blocks: BlockType[], connections: string[][]) => {
+    const data: CalculationNode[] = blocks.map((block) => {
+      return {
+        id: block.id,
+        node_type: block.type,
+        extension: block.data.extension,
+        method: block.name,
+        connections_from: getConnectionsFrom(block.id, connections),
+        connections_to: getConnectionsTo(block.id, connections),
+        position_x: block.position.x,
+        position_y: block.position.y,
+        ...(block.type === 'matrix' && getMatrixData(block)),
+        ...(block.type === 'weights' && getWeightsData(block)),
+        ...(block.type === 'method' && getMethodsData(block)),
+      };
+    });
+
+    return data;
+  };
+
   return {
     getMatrixWeightsConnections,
     getWeightsMethodConnections,
@@ -490,6 +544,7 @@ const useCalculation = () => {
     getMethodRankingConnections,
     getRankingCorrelationConnections,
     getCalculateBody,
+    getCalculationBody,
   };
 };
 

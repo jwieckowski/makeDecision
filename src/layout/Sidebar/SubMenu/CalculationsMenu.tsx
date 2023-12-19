@@ -152,6 +152,7 @@ export default function CalculationsMenu() {
         kwargs: [],
         alternatives: DEFAULT_ALTERNATIVES,
         criteria: DEFAULT_CRITERIA,
+        preference: [],
       },
       error: isMissingData(type, name),
       errorMessage: null,
@@ -196,7 +197,7 @@ export default function CalculationsMenu() {
           <Loader size={100} />
         </Box>
       ) : (
-        <List sx={{ maxHeight: '50vh', overflowY: 'auto' }}>
+        <List sx={{ maxHeight: '49vh', overflowY: 'auto' }}>
           {filteredData.map((item, index) => (
             <Box key={item.key}>
               <ListItem disablePadding sx={{ backgroundColor: 'secondary.dark' }}>

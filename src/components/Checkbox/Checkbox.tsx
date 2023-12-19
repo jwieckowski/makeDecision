@@ -10,9 +10,10 @@ type CheckboxProps = {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   placement?: FormControlLabelProps['labelPlacement'];
   name?: string;
+  disabled?: boolean;
 };
 
-export default function CustomCheckbox({ id, label, value, onChange, placement, name }: CheckboxProps) {
+export default function CustomCheckbox({ id, label, value, onChange, placement, name, disabled }: CheckboxProps) {
   return (
     <FormGroup>
       <FormControlLabel
@@ -21,6 +22,7 @@ export default function CustomCheckbox({ id, label, value, onChange, placement, 
         label={label}
         labelPlacement={placement ?? 'end'}
         sx={{ width: '100%', justifyContent: 'center' }}
+        disabled={disabled ?? false}
       />
     </FormGroup>
   );

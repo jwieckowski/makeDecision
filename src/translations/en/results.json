@@ -30,6 +30,8 @@
   "generate": "Generate",
   "matrix-error": "Error in matrix",
   "weights-error": "Error in weights",
+  "preference-error": "Error in preference",
+  "ranking-error": "Error in ranking",
 
   "profit": "Profit",
   "cost": "Cost",

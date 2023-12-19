@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import { ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import Container from '@mui/material/Container';
 import Tooltip from '@mui/material/Tooltip';

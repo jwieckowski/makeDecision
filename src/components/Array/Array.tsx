@@ -1,5 +1,5 @@
-import { ChangeEvent } from 'react';
-import { Container, Stack, Box, Typography, SelectChangeEvent } from '@mui/material';
+import { ChangeEvent, FocusEvent } from 'react';
+import { Container, Stack, Box, Typography } from '@mui/material';
 
 // COMPONENTS
 import Input from '@/components/Input';
@@ -10,11 +10,14 @@ import { MAX_CRITERIA, MATRIX_LABEL_WIDTH, MATRIX_INPUT_WIDTH, STEP_CURVENESS_VA
 type MyArrayProps = {
   criteria: number;
   dimension: number;
+  values: string[];
+  onChange: (e: ChangeEvent<HTMLInputElement>, idx: number) => void;
   min?: number;
   max?: number;
+  onBlur?: (e: FocusEvent<HTMLInputElement>, idx: number) => void;
 };
 
-export default function MyArray({ criteria, dimension, min, max }: MyArrayProps) {
+export default function MyArray({ criteria, dimension, values, onChange, onBlur, min, max }: MyArrayProps) {
   const criteriaOffset = dimension === 1 ? 0 : 1;
   return (
     <Container maxWidth="md" disableGutters sx={{ overflow: 'auto', maxWidth: '500px', pb: 2 }}>
@@ -63,7 +66,6 @@ export default function MyArray({ criteria, dimension, min, max }: MyArrayProps)
                 justifyContent: criteria < 4 ? 'center' : 'start',
               }}
             >
-              {/* MATRIX BODY */}
               {Array(criteria + 1 <= MAX_CRITERIA + 1 ? criteria + 1 : MAX_CRITERIA + 1)
                 .fill(0)
                 .map((_, col) => {
@@ -76,14 +78,15 @@ export default function MyArray({ criteria, dimension, min, max }: MyArrayProps)
                       ) : col !== 0 ? (
                         <Input
                           type="string"
-                          value={''}
-                          onChange={(e) => {}}
+                          value={values.length === criteria ? values[col] : ''}
+                          onChange={(e) => onChange(e, col)}
                           textCenter
                           width={MATRIX_INPUT_WIDTH}
                           variant="outlined"
                           min={min}
                           max={max}
                           step={STEP_CURVENESS_VALUE}
+                          onBlur={(e) => (onBlur ? onBlur(e, col) : {})}
                         />
                       ) : null}
                     </Box>

@@ -128,6 +128,29 @@ export type CalculationBodyType = {
   params: [] | CalculationParamsType[][];
 };
 
+export type CalculationNodeKwargItem = {
+  [key: string]: string | number;
+};
+
+export type CalculationNode = {
+  id: number;
+  node_type: string;
+  extension: string;
+  method: string;
+  connections_from: number[];
+  connections_to: number[];
+  position_x: number;
+  position_y: number;
+  matrix?: string[][];
+  criteria_types?: string[];
+  weights?: string[];
+  kwargs?: CalculationNodeKwargItem[];
+};
+
+export type CalculationBodyTypeNew = {
+  data: CalculationNode[];
+};
+
 export type TempBodyType = {
   matrixFiles: [] | File[];
 };

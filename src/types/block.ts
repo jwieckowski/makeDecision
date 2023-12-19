@@ -26,6 +26,7 @@ export type BlockDataType = {
   alternatives: number;
   criteria: number;
   kwargs: BlockDataKwargsType[];
+  preference: string[];
 };
 
 export type BlockType = {

@@ -35,7 +35,7 @@ type DraggableProps = {
   id: string;
   type: string;
   name: string;
-  handleClick: (e: any, id: string, type: string, method: string) => void;
+  handleClick: (e: MouseEvent<HTMLElement>, id: string) => void;
   setModalOpen: (val: boolean) => void;
   scale: number;
   extension: string;
@@ -122,7 +122,9 @@ export default function CustomDraggable({
     if (
       type.toLowerCase() === 'matrix' ||
       (type.toLowerCase() === 'weights' && name.toLowerCase() === 'input' && getBlockInputConnections().length > 0) ||
-      (type.toLowerCase() === 'method' && getBlockInputConnections().length > 0 && hasKwargs())
+      (type.toLowerCase() === 'method' &&
+        (name.toLowerCase() === 'input' || (getBlockInputConnections().length > 0 && hasKwargs()))) ||
+      (type.toLowerCase() === 'ranking' && name.toLowerCase() === 'input')
     )
       return true;
     return false;
@@ -148,7 +150,7 @@ export default function CustomDraggable({
           flexDirection: 'column',
           ...blockStyles(type, isActiveBlock(), error),
         }}
-        onClick={(e) => handleClick(e, id, type, name)}
+        onClick={(e) => handleClick(e, id)}
         // className={`${id === '1' ? (currentStep === 6 ? 'tour-step-seven' : 'tour-step-nine') : ''} ${
         //   id === '2' ? 'tour-step-ten' : ''
         // }`}

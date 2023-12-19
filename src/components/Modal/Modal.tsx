@@ -56,7 +56,7 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function CustomModal({
+export default function WeightsModal({
   open,
   content,
   closeModal,

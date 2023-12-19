@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Container, Box, Stack, Typography, Grid, Divider } from '@mui/material';
 
@@ -90,6 +90,7 @@ export default function Methods() {
                   }
                   onChange={(e) => changeCategory(e)}
                   label={t('common:categories')}
+                  minWidth={300}
                 />
               </Stack>
             </Grid>
@@ -106,6 +107,7 @@ export default function Methods() {
                   }
                   onChange={(e) => changeMethod(e)}
                   label={t('common:methods')}
+                  minWidth={300}
                 />
               </Stack>
             </Grid>

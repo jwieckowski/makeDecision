@@ -30,6 +30,8 @@
   "generate": "Generuj",
   "matrix-error": "Macierz zawiera błędy",
   "weights-error": "Błędne wagi",
+  "preference-error": "Błąd w preferencjach",
+  "ranking-error": "Błąd w rankingach",
 
   "profit": "Zysk",
   "cost": "Koszt",

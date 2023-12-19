@@ -22,7 +22,8 @@ const initialBlockData: BlockDataType = {
   weights: [],
   alternatives: DEFAULT_ALTERNATIVES,
   criteria: DEFAULT_CRITERIA,
-  kwargs: null,
+  kwargs: [],
+  preference: [],
 };
 
 const blocksSlice = createSlice({

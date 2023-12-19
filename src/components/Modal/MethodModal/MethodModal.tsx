@@ -28,6 +28,8 @@ import Input from '@/components/Input';
 import ArrayInput from '@/components/Array';
 import Checkbox from '@/components/Checkbox';
 
+import { CValues, Bounds, ESPInput } from '@/components/ArrayInputs';
+
 // UTILS
 import useBlocksConnection from '@/utils/connections';
 
@@ -138,6 +140,29 @@ export default function MethodModal({ open, closeModal, textSave, textCancel, fu
     setKwargsItems(copy);
   };
 
+  const isArrayRequired = (kwargsData: KwargsItemsValueProps[]) => {
+    return kwargsData[0].parameter === 'preference_function' && kwargsData[0].value !== kwargsData[0].default;
+  };
+
+  const showArrayParam = (kwargsData: KwargsItemsValueProps[], idx: number) => {
+    return isArrayRequired(kwargsData) || kwargsData[idx]?.arrayShow || false;
+  };
+
+  // const getArrayContent = (label: string) => {
+  //   switch (label.toLowerCase()) {
+  //     case 'characteristic values':
+  //       return <CValues />;
+  //     case 'esp':
+  //     case 'reference ideal':
+  //     case 'reference points':
+  //       return <ESPInput />;
+  //     case 'bounds':
+  //       return <Bounds />;
+  //     default:
+  //       return null;
+  //   }
+  // };
+
   const handleModalClose = () => {
     if (modified) {
       setModifiedModalOpen(true);
@@ -192,6 +217,7 @@ export default function MethodModal({ open, closeModal, textSave, textCancel, fu
           {kwargsItems.map((kwargs, idx) => {
             return (
               <Accordion
+                defaultExpanded={idx === 0}
                 key={idx}
                 sx={{ bgcolor: 'secondary.light', px: 2, mt: 1, borderRadius: 2, boxShadow: '0 4px 2px -2px gray' }}
               >
@@ -247,16 +273,20 @@ export default function MethodModal({ open, closeModal, textSave, textCancel, fu
                                   <Checkbox
                                     id="arrayCheckbox"
                                     label={kwargItem.label.toUpperCase()}
-                                    value={kwargItem?.arrayShow ?? false}
+                                    // value={kwargItem?.arrayShow ?? false}
+                                    value={showArrayParam(kwargs.data, i)}
                                     onChange={(e) => handleArrayShowClick(e, idx, i)}
                                     placement="start"
+                                    disabled={isArrayRequired(kwargs.data)}
                                   />
                                 )}
-                                {kwargItem.arrayShow ? (
+                                {showArrayParam(kwargs.data, i) ? (
                                   <ArrayInput
                                     key={`parameter-${idx}-${i}`}
                                     criteria={activeBlock?.data.criteria ?? MIN_CRITERIA}
                                     dimension={kwargItem?.dimension ?? 1}
+                                    onChange={(e) => {}}
+                                    values={[]}
                                     min={kwargItem?.min}
                                     max={kwargItem?.max}
                                   />

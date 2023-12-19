@@ -34,7 +34,7 @@ export default function SettingsBar() {
   const { t } = useTranslation();
   const { locale } = useLocale();
   const dispatch = useAppDispatch();
-  const { getCalculateBody } = useCalculation();
+  const { getCalculateBody, getCalculationBody } = useCalculation();
   const { showSnackbar } = useSnackbars();
 
   const handleClearClick = () => {
@@ -64,19 +64,34 @@ export default function SettingsBar() {
       }
       return;
     }
+
+    // setTimeout(async () => {
+    //   const res = getCalculateBody(blocks, connections, allMethods);
+    //   if (res !== undefined && res.calculate) {
+    //     await dispatch(setCalculationMatrixId(res.matrixIndexes));
+    //     await dispatch(
+    //       getResults({
+    //         locale,
+    //         params: {
+    //           data: [res.body],
+    //         },
+    //       }),
+    //     );
+    //   }
+    // });
+
     setTimeout(async () => {
-      const res = getCalculateBody(blocks, connections, allMethods);
-      if (res !== undefined && res.calculate) {
-        await dispatch(setCalculationMatrixId(res.matrixIndexes));
-        await dispatch(
-          getResults({
-            locale,
-            params: {
-              data: [res.body],
-            },
-          }),
-        );
-      }
+      const data = getCalculationBody(blocks, connections);
+      console.log(data);
+      // await dispatch(setCalculationMatrixId(res.matrixIndexes));
+      await dispatch(
+        getResults({
+          locale,
+          params: {
+            data: data,
+          },
+        }),
+      );
     });
   };
 
