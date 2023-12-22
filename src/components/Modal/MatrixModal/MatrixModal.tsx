@@ -1,4 +1,4 @@
-import { useState, useEffect, ChangeEvent, FocusEvent } from 'react';
+import { useState, useMemo, useEffect, ChangeEvent, FocusEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Container, Stack, Typography, Box, Divider } from '@mui/material';
 
@@ -82,16 +82,35 @@ export default function MatrixModal({ open, closeModal, textSave, textCancel, fu
   const { getMatrixWeightsConnections, getWeightsMethodConnections } = useCalculation();
   const { locale } = useLocale();
 
-  const items = [
-    {
-      label: t('results:crisp'),
-      value: 'crisp',
-    },
-    {
-      label: t('results:fuzzy'),
-      value: 'fuzzy',
-    },
-  ];
+  const extensionItems = useMemo(
+    () => [
+      {
+        label: t('results:crisp'),
+        value: 'crisp',
+      },
+      {
+        label: t('results:fuzzy'),
+        value: 'fuzzy',
+      },
+    ],
+    [],
+  );
+
+  const alternativesItems = useMemo(
+    () =>
+      Array(MAX_ALTERNATIVES - MIN_ALTERNATIVES)
+        .fill(0)
+        .map((_, i) => ({ label: `${i + 1 + MIN_ALTERNATIVES}`, value: `${i + 1 + MIN_ALTERNATIVES}` })),
+    [],
+  );
+
+  const criteriaItems = useMemo(
+    () =>
+      Array(MAX_CRITERIA - MIN_CRITERIA)
+        .fill(0)
+        .map((_, i) => ({ label: `${i + 1 + MIN_CRITERIA}`, value: `${i + 1 + MIN_CRITERIA}` })),
+    [],
+  );
 
   const precisionItems = Array(6)
     .fill(0)
@@ -100,7 +119,7 @@ export default function MatrixModal({ open, closeModal, textSave, textCancel, fu
   const [form, setForm] = useState<FormProps>({
     alternatives: activeBlock?.data.alternatives ?? DEFAULT_ALTERNATIVES,
     criteria: activeBlock?.data.criteria ?? DEFAULT_CRITERIA,
-    extension: activeBlock?.data.extension ?? items[0].value,
+    extension: activeBlock?.data.extension ?? extensionItems[0].value,
     fileName: activeBlock?.data.fileName ?? null,
     lowerBound: '0',
     upperBound: '1',
@@ -191,15 +210,6 @@ export default function MatrixModal({ open, closeModal, textSave, textCancel, fu
     return value < min || value > max;
   };
 
-  const handleInputChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    if (isNaN(+event.target.value)) return;
-    setForm({
-      ...form,
-      [event.target.name]: +event.target.value,
-      modified: +event.target.value !== activeBlock?.data.alternatives,
-    });
-  };
-
   const handleFileDelete = () => {
     dispatch(resetConvertedMatrix());
     setForm((prev) => ({
@@ -261,7 +271,9 @@ export default function MatrixModal({ open, closeModal, textSave, textCancel, fu
   const handleSelectChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     setForm((prev) => ({
       ...prev,
-      [event.target.name]: event.target.value,
+      [event.target.name]: ['alternatives', 'criteria'].includes(event.target.name)
+        ? +event.target.value
+        : event.target.value,
       modified: event.target.value !== activeBlock?.data.extension,
     }));
 
@@ -488,7 +500,7 @@ export default function MatrixModal({ open, closeModal, textSave, textCancel, fu
               <Select
                 name="extension"
                 label={t('results:extension') as string}
-                items={items}
+                items={extensionItems}
                 value={form.extension}
                 onChange={handleSelectChange}
                 minWidth={200}
@@ -496,25 +508,23 @@ export default function MatrixModal({ open, closeModal, textSave, textCancel, fu
               />
               {activeBlock !== null && activeBlock.name !== 'file' ? (
                 <>
-                  <Input
+                  <Select
                     name="alternatives"
-                    value={form.alternatives}
                     label={t('results:alternatives') as string}
-                    onChange={(e) => handleInputChange(e)}
-                    width={100}
+                    items={alternativesItems}
+                    value={`${form.alternatives}`}
+                    onChange={handleSelectChange}
+                    minWidth={100}
                     required
-                    helperText={t('results:from-to', { from: MIN_ALTERNATIVES, to: MAX_ALTERNATIVES })}
-                    error={validateInput(form.alternatives, MIN_ALTERNATIVES, MAX_ALTERNATIVES)}
                   />
-                  <Input
+                  <Select
                     name="criteria"
-                    value={form.criteria}
                     label={t('results:criteria') as string}
-                    onChange={(e) => handleInputChange(e)}
-                    width={100}
+                    items={criteriaItems}
+                    value={`${form.criteria}`}
+                    onChange={handleSelectChange}
+                    minWidth={100}
                     required
-                    helperText={t('results:from-to', { from: MIN_CRITERIA, to: MAX_CRITERIA })}
-                    error={validateInput(form.criteria, MIN_CRITERIA, MAX_CRITERIA)}
                   />
                 </>
               ) : null}

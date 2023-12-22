@@ -10,7 +10,7 @@ import { useAppSelector, useAppDispatch } from '@/state';
 import { getResults } from '@/api/calculations';
 
 // SLICES
-import { clearBody, resetBody, resetResults, setCalculationMatrixId } from '@/state/slices/calculationSlice';
+import { clearBody, resetBody, resetResults } from '@/state/slices/calculationSlice';
 import { setBlocks, setClickedBlocks, setConnections, setActiveBlock, setBlockError } from '@/state/slices/blocksSlice';
 
 // HOOKS
@@ -34,7 +34,7 @@ export default function SettingsBar() {
   const { t } = useTranslation();
   const { locale } = useLocale();
   const dispatch = useAppDispatch();
-  const { getCalculateBody, getCalculationBody } = useCalculation();
+  const { getCalculationBody } = useCalculation();
   const { showSnackbar } = useSnackbars();
 
   const handleClearClick = () => {
@@ -48,10 +48,31 @@ export default function SettingsBar() {
 
   const handleCalculateClick = async () => {
     dispatch(clearBody());
+    if (blocks.length === 0) {
+      showSnackbar(t('snackbar:no-input-data'), 'error');
+      return;
+    }
+
+    // check if some blocks have not filled data
+    const notFilledBlocks = blocks.filter((block) => block.error);
+    if (notFilledBlocks.length > 0) {
+      showSnackbar(t('snackbar:not-filled-blocks'), 'error');
+      return;
+    }
+
+    // check for minimum block structure
+    const minStructure = ['matrix', 'weights'];
+    const blocksType = blocks.map((block) => block.type);
+    const isMinStructure = minStructure.every((value) => blocksType.includes(value));
+    if (!isMinStructure) {
+      showSnackbar(t('snackbar:structure-missing'), 'error');
+      return;
+    }
 
     // show added but not connected blocks
-    if (getNotConnectedBlocks(blocks, connections).length > 0) {
-      getNotConnectedBlocks(blocks, connections).forEach((b) => {
+    const notConnectedBlocks = getNotConnectedBlocks(blocks, connections);
+    if (notConnectedBlocks.length > 0) {
+      notConnectedBlocks.forEach((b) => {
         dispatch(
           setBlockError({
             id: b.id,
@@ -59,31 +80,13 @@ export default function SettingsBar() {
           }),
         );
       });
-      if (blocks.length > 1) {
-        showSnackbar(t('snackbar:not-connected-blocks'), 'error');
-      }
+      showSnackbar(t('snackbar:not-connected-blocks'), 'error');
       return;
     }
-
-    // setTimeout(async () => {
-    //   const res = getCalculateBody(blocks, connections, allMethods);
-    //   if (res !== undefined && res.calculate) {
-    //     await dispatch(setCalculationMatrixId(res.matrixIndexes));
-    //     await dispatch(
-    //       getResults({
-    //         locale,
-    //         params: {
-    //           data: [res.body],
-    //         },
-    //       }),
-    //     );
-    //   }
-    // });
 
     setTimeout(async () => {
       const data = getCalculationBody(blocks, connections);
       console.log(data);
-      // await dispatch(setCalculationMatrixId(res.matrixIndexes));
       await dispatch(
         getResults({
           locale,
@@ -109,7 +112,6 @@ export default function SettingsBar() {
         py: 1,
       }}
     >
-      {' '}
       <Grid container spacing={2}>
         <Grid item xs={8} md={9}>
           <DragSettings />

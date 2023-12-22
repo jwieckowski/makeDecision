@@ -1,5 +1,7 @@
 {
-  "not-connected-blocks": "Nie wszystkie bloki zostały połączone. Są zaznaczone czerwoną ramką. Połącz je lub usuń, by obliczyć wyniki.",
+  "not-connected-blocks": "Nie wszystkie bloki zostały połączone",
+  "not-filled-blocks": "Nie wszystkie bloki zostały uzupełnione",
+  "structure-missing": "Nie wszystkie wygamane bloki zostały podane (Macierz or Wagi)",
 
   "matrix-upload-error": "Błąd przy wczytywaniu macierzy",
   "matrix-upload-success": "Macierz wczytana poprawnie",

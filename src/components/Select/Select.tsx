@@ -44,29 +44,31 @@ export default function MySelect({
         onChange={onChange}
         id="select-component"
         sx={{
-          width: minWidth ?? '70px',
+          width: minWidth ?? 70,
           '& .MuiInputLabel-asterisk': {
             color: 'red',
           },
-          // '& .MuiSvgIcon-root': {
-          //   color: light ? 'white' : 'dark',
-          // },
         }}
         margin="none"
         size="small"
         label={label}
         required={required}
+        SelectProps={{
+          native: true,
+        }}
+        inputProps={{ style: { fontSize: fontSize ?? 16 } }}
       >
         {placeholder ? (
-          <MenuItem disabled value="">
+          <option disabled value="">
             <em>{placeholder}</em>
-          </MenuItem>
+          </option>
         ) : null}
         {items.map((item, index) => {
           return (
-            <MenuItem key={`select-${index}`} value={item.value}>
-              <Typography sx={{ fontSize: fontSize ?? 16 }}>{item.label}</Typography>
-            </MenuItem>
+            <option key={`select-${index}`} value={item.value}>
+              {/* <Typography sx={{ p: 0, m: 0, fontSize: fontSize ?? 16 }}>{item.label}</Typography> */}
+              {item.label}
+            </option>
           );
         })}
       </TextField>

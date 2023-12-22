@@ -55,9 +55,6 @@ const calculationSlice = createSlice({
       state.filteredResults = initialState.filteredResults;
       state.error = null;
     },
-    setCalculationMatrixId: (state, action) => {
-      state.matrixId = action.payload;
-    },
     setFilteredResults: (state, action) => {
       state.filteredResults = action.payload;
     },
@@ -127,7 +124,6 @@ export const {
   resetBody,
   resetResults,
   resetConvertedMatrix,
-  setCalculationMatrixId,
   setFilteredResults,
 } = actions;
 export default reducer;

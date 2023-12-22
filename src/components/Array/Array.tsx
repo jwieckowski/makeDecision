@@ -1,4 +1,4 @@
-import { ChangeEvent, FocusEvent } from 'react';
+import { useMemo, ChangeEvent, FocusEvent } from 'react';
 import { Container, Stack, Box, Typography } from '@mui/material';
 
 // COMPONENTS
@@ -7,18 +7,34 @@ import Input from '@/components/Input';
 // CONST
 import { MAX_CRITERIA, MATRIX_LABEL_WIDTH, MATRIX_INPUT_WIDTH, STEP_CURVENESS_VALUE } from '@/common/const';
 
+type ArrayValueItem = {
+  value: string;
+  error: boolean;
+};
+
 type MyArrayProps = {
   criteria: number;
   dimension: number;
-  values: string[];
-  onChange: (e: ChangeEvent<HTMLInputElement>, idx: number) => void;
+  values: ArrayValueItem[][];
+  onChange: (e: ChangeEvent<HTMLInputElement>, row: number, col: number) => void;
   min?: number;
   max?: number;
-  onBlur?: (e: FocusEvent<HTMLInputElement>, idx: number) => void;
+  onBlur?: (e: FocusEvent<HTMLInputElement>, row: number, col: number) => void;
+  helperTexts?: string[];
 };
 
-export default function MyArray({ criteria, dimension, values, onChange, onBlur, min, max }: MyArrayProps) {
-  const criteriaOffset = dimension === 1 ? 0 : 1;
+export default function MyArray({
+  criteria,
+  dimension,
+  values,
+  onChange,
+  onBlur,
+  min,
+  max,
+  helperTexts,
+}: MyArrayProps) {
+  const criteriaOffset = useMemo(() => (dimension === 1 ? 0 : 1), []);
+
   return (
     <Container maxWidth="md" disableGutters sx={{ overflow: 'auto', maxWidth: '500px', pb: 2 }}>
       <Stack
@@ -72,21 +88,34 @@ export default function MyArray({ criteria, dimension, values, onChange, onBlur,
                   return (
                     <Box key={`row-${row}-${col}`} sx={{ m: 0, p: 0 }}>
                       {col === 0 && dimension !== 1 ? (
-                        <Typography align="center" sx={{ width: `${MATRIX_LABEL_WIDTH}px` }}>
-                          {row === 1 ? 'Lower' : 'Upper'}
+                        <Typography
+                          align="center"
+                          sx={{
+                            width: `${MATRIX_LABEL_WIDTH}px`,
+                            height: '100%',
+                            pt: 1,
+                          }}
+                        >
+                          {row === 0 ? 'Lower' : 'Upper'}
                         </Typography>
                       ) : col !== 0 ? (
                         <Input
                           type="string"
-                          value={values.length === criteria ? values[col] : ''}
-                          onChange={(e) => onChange(e, col)}
+                          value={values[row]?.length >= col ? values[row][col - 1]?.value : ''}
+                          error={values[row]?.length >= col ? values[row][col - 1]?.error : true}
+                          onChange={(e) => onChange(e, row, col - 1)}
                           textCenter
                           width={MATRIX_INPUT_WIDTH}
                           variant="outlined"
                           min={min}
                           max={max}
                           step={STEP_CURVENESS_VALUE}
-                          onBlur={(e) => (onBlur ? onBlur(e, col) : {})}
+                          onBlur={(e) => (onBlur ? onBlur(e, row, col - 1) : {})}
+                          helperText={
+                            row === dimension - 1 && helperTexts && helperTexts.length >= col
+                              ? helperTexts[col - 1]
+                              : undefined
+                          }
                         />
                       ) : null}
                     </Box>

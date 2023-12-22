@@ -1,5 +1,7 @@
 {
-  "not-connected-blocks": "Not all added blocks were connected. They are highlighted with red border. Connect or remove them to calculate the results.",
+  "not-connected-blocks": "Not all added blocks were connected",
+  "not-filled-blocks": "Not all added blocks were filled",
+  "structure-missing": "Not all required blocks were given (Matrix or Weights)",
 
   "matrix-upload-error": "Error during uploading matrix",
   "matrix-upload-success": "Matrix uploaded successfully",

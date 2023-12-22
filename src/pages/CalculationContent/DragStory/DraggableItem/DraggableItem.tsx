@@ -114,8 +114,11 @@ export default function CustomDraggable({
     return connections.filter((c) => c[1] === id);
   };
 
+  // console.log(typeKwargs, extension);
+
   const hasKwargs = () => {
-    return typeKwargs.filter((t) => t.extension === extension).length > 0;
+    // return typeKwargs.filter((t) => t.extension === extension).length > 0;
+    return typeKwargs.length > 0;
   };
 
   const showSettingsIcon = () => {

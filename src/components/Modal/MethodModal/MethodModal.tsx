@@ -25,16 +25,15 @@ import ModalContainer from '../ModalContainer';
 import ModificationModal from '../ModificationModal';
 import Select from '@/components/Select';
 import Input from '@/components/Input';
-import ArrayInput from '@/components/Array';
 import Checkbox from '@/components/Checkbox';
 
-import { CValues, Bounds, ESPInput } from '@/components/ArrayInputs';
+import ArrayParams from './ArrayParams';
 
 // UTILS
 import useBlocksConnection from '@/utils/connections';
 
 // CONST
-import { MIN_CRITERIA, STEP_CURVENESS_VALUE } from '@/common/const';
+import { DEFAULT_CRITERIA, MIN_CRITERIA, STEP_CURVENESS_VALUE } from '@/common/const';
 
 type ModalProps = {
   open: boolean;
@@ -50,7 +49,7 @@ type MatricesProps = {
 };
 
 type KwargsItemsValueProps = MethodsKwargsValueType & {
-  value: string;
+  value: string | string[] | string[][];
   arrayShow?: boolean;
 };
 
@@ -61,7 +60,7 @@ type KwargsItemsProps = {
 };
 
 export default function MethodModal({ open, closeModal, textSave, textCancel, fullScreen }: ModalProps) {
-  const { activeBlock } = useAppSelector((state) => state.blocks);
+  const { blocks, activeBlock } = useAppSelector((state) => state.blocks);
   const { methodsKwargsItems } = useAppSelector((state) => state.calculation);
 
   const dispatch = useAppDispatch();
@@ -108,8 +107,6 @@ export default function MethodModal({ open, closeModal, textSave, textCancel, fu
     setKwargsItems(methodItems);
   };
 
-  console.log(kwargsItems);
-
   useEffect(() => {
     getMethodItems();
   }, []);
@@ -136,7 +133,7 @@ export default function MethodModal({ open, closeModal, textSave, textCancel, fu
 
   const handleArrayShowClick = (e: ChangeEvent<HTMLInputElement>, idx: number, i: number) => {
     const copy = [...kwargsItems];
-    copy[idx].data[i] = { ...copy[idx].data[i], arrayShow: e.target.checked };
+    copy[idx].data[i] = { ...copy[idx].data[i], arrayShow: e.target.checked, value: kwargsItems[idx].data[i].default };
     setKwargsItems(copy);
   };
 
@@ -145,23 +142,27 @@ export default function MethodModal({ open, closeModal, textSave, textCancel, fu
   };
 
   const showArrayParam = (kwargsData: KwargsItemsValueProps[], idx: number) => {
-    return isArrayRequired(kwargsData) || kwargsData[idx]?.arrayShow || false;
+    return (
+      isArrayRequired(kwargsData) ||
+      kwargsData[idx]?.arrayShow ||
+      kwargsData[idx].value !== kwargsData[idx].default ||
+      false
+    );
   };
 
-  // const getArrayContent = (label: string) => {
-  //   switch (label.toLowerCase()) {
-  //     case 'characteristic values':
-  //       return <CValues />;
-  //     case 'esp':
-  //     case 'reference ideal':
-  //     case 'reference points':
-  //       return <ESPInput />;
-  //     case 'bounds':
-  //       return <Bounds />;
-  //     default:
-  //       return null;
-  //   }
-  // };
+  console.log(kwargsItems);
+
+  const handleArrayInputChange = (arrayValues: string[][], kwargId: number, paramId: number) => {
+    const copy = [...kwargsItems];
+
+    // DISTINCT IF ONE OR TWO DIMENSIONAL PARAMETER
+    copy[kwargId].data[paramId] = {
+      ...copy[kwargId].data[paramId],
+      value: arrayValues.length === 1 ? arrayValues[0] : arrayValues,
+    };
+
+    setKwargsItems(copy);
+  };
 
   const handleModalClose = () => {
     if (modified) {
@@ -182,7 +183,7 @@ export default function MethodModal({ open, closeModal, textSave, textCancel, fu
           ...item.data.map((i) => {
             return {
               parameter: i.parameter,
-              value: i.value,
+              value: i?.arrayShow === undefined ? i.value : i.arrayShow ? i.value : i.default,
             };
           }),
         ],
@@ -247,7 +248,7 @@ export default function MethodModal({ open, closeModal, textSave, textCancel, fu
                                 key={`parameter-${idx}-${i}`}
                                 label={kwargItem.label.toUpperCase()}
                                 items={kwargItem.items}
-                                value={kwargItem.value}
+                                value={kwargItem.value as string}
                                 onChange={(e) => handleSelectKwargChange(e, idx, i)}
                                 minWidth={200}
                               />
@@ -256,7 +257,7 @@ export default function MethodModal({ open, closeModal, textSave, textCancel, fu
                               <Input
                                 key={`parameter-${idx}-${i}`}
                                 type={'number'}
-                                value={kwargItem.value}
+                                value={kwargItem.value as string}
                                 label={kwargItem.label.toUpperCase()}
                                 onChange={(e) => handleInputKwargChange(e, idx, i)}
                                 width={200}
@@ -273,7 +274,6 @@ export default function MethodModal({ open, closeModal, textSave, textCancel, fu
                                   <Checkbox
                                     id="arrayCheckbox"
                                     label={kwargItem.label.toUpperCase()}
-                                    // value={kwargItem?.arrayShow ?? false}
                                     value={showArrayParam(kwargs.data, i)}
                                     onChange={(e) => handleArrayShowClick(e, idx, i)}
                                     placement="start"
@@ -281,14 +281,14 @@ export default function MethodModal({ open, closeModal, textSave, textCancel, fu
                                   />
                                 )}
                                 {showArrayParam(kwargs.data, i) ? (
-                                  <ArrayInput
-                                    key={`parameter-${idx}-${i}`}
-                                    criteria={activeBlock?.data.criteria ?? MIN_CRITERIA}
-                                    dimension={kwargItem?.dimension ?? 1}
-                                    onChange={(e) => {}}
-                                    values={[]}
-                                    min={kwargItem?.min}
-                                    max={kwargItem?.max}
+                                  <ArrayParams
+                                    label={kwargItem.label}
+                                    matrixId={kwargs.matrixId}
+                                    values={kwargItem.value !== '' ? (kwargItem.value as string[]) : []}
+                                    onChange={handleArrayInputChange}
+                                    kwargId={idx}
+                                    paramId={i}
+                                    setKwargsItems={setKwargsItems}
                                   />
                                 ) : null}
                               </>
