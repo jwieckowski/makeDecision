@@ -33,7 +33,7 @@ import ArrayParams from './ArrayParams';
 import useBlocksConnection from '@/utils/connections';
 
 // CONST
-import { DEFAULT_CRITERIA, MIN_CRITERIA, STEP_CURVENESS_VALUE } from '@/common/const';
+import { STEP_CURVENESS_VALUE } from '@/common/const';
 
 type ModalProps = {
   open: boolean;
@@ -60,7 +60,7 @@ type KwargsItemsProps = {
 };
 
 export default function MethodModal({ open, closeModal, textSave, textCancel, fullScreen }: ModalProps) {
-  const { blocks, activeBlock } = useAppSelector((state) => state.blocks);
+  const { activeBlock } = useAppSelector((state) => state.blocks);
   const { methodsKwargsItems } = useAppSelector((state) => state.calculation);
 
   const dispatch = useAppDispatch();
@@ -118,6 +118,24 @@ export default function MethodModal({ open, closeModal, textSave, textCancel, fu
 
     const copy = [...kwargsItems];
     copy[idx].data[i] = { ...copy[idx].data[i], value: e.target.value };
+
+    if (e.target.value === 'esp_expert') {
+      copy[idx].data = [
+        ...copy[idx].data,
+        {
+          default: '',
+          dimension: 1,
+          extension: 'crisp',
+          label: 'expected solution points',
+          parameter: 'esp',
+          required: true,
+          type: 'array',
+          value: '',
+        },
+      ];
+    } else if (['method_expert', 'compromise_expert'].includes(e.target.value) && copy[idx].data.length > 1) {
+      copy[idx].data = [copy[idx].data[0]];
+    }
     setKwargsItems(copy);
   };
 
@@ -280,7 +298,7 @@ export default function MethodModal({ open, closeModal, textSave, textCancel, fu
                                     disabled={isArrayRequired(kwargs.data)}
                                   />
                                 )}
-                                {showArrayParam(kwargs.data, i) ? (
+                                {kwargItem?.required || showArrayParam(kwargs.data, i) ? (
                                   <ArrayParams
                                     label={kwargItem.label}
                                     matrixId={kwargs.matrixId}

@@ -8,7 +8,6 @@ import {
   RankingCorrelationType,
   CalculationBodyType,
   CalculationNode,
-  CalculationBodyTypeNew,
 } from '@/types';
 
 // UTILS

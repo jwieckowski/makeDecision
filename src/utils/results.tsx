@@ -114,3 +114,10 @@ export const getTablePreferenceCorrelationLabels = (corr: ResultsMethodCorrelati
 export const getTableCorrelationTitle = (corr: ResultsMethodCorrelations) => {
   return corr.correlation;
 };
+
+// NEW
+export const getTableLabels = (n: number, label = 'C') => {
+  return Array(n)
+    .fill('')
+    .map((_, idx) => `${label}${idx + 1}`);
+};

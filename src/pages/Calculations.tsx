@@ -37,11 +37,11 @@ export default function Calculations() {
         <Container maxWidth={false} disableGutters sx={{ minHeight: '70vh' }}>
           <DragStory />
         </Container>
-        {/* {results !== null ? (
+        {results !== null ? (
           <Container maxWidth={false} disableGutters sx={{ marginTop: 2 }}>
             <Results />
           </Container>
-        ) : null} */}
+        ) : null}
       </Container>
       {/* SMALL SCREEN INFO */}
       <Container

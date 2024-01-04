@@ -4,10 +4,10 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { uploadMatrixFile, generateMatrix, getResults, getKwargsItems } from '@/api/calculations';
 
 // TYPES
-import { CalculationSliceState, ResultsType } from '@/types';
+import { CalculationSliceState, ResultsNode } from '@/types';
 
 const initialState: CalculationSliceState = {
-  results: null,
+  results: [],
   filteredResults: null,
   rankingResults: [],
   correlationResults: [],
@@ -65,13 +65,13 @@ const calculationSlice = createSlice({
         state.error = null;
         state.loading = true;
       })
-      .addCase(getResults.fulfilled, (state: CalculationSliceState, action: PayloadAction<ResultsType>) => {
+      .addCase(getResults.fulfilled, (state: CalculationSliceState, action: PayloadAction<ResultsNode[]>) => {
         state.results = action.payload;
-        state.filteredResults = action.payload;
+        // state.filteredResults = action.payload;
         state.loading = false;
       })
       .addCase(getResults.rejected, (state: CalculationSliceState, action: PayloadAction<any>) => {
-        state.results = null;
+        state.results = [];
         state.filteredResults = null;
         state.error = action.payload.response.data.message;
         state.loading = false;

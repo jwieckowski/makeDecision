@@ -1,4 +1,3 @@
-import React from 'react';
 import { styled } from '@mui/material/styles';
 import Container from '@mui/material/Container';
 import Table from '@mui/material/Table';
@@ -45,7 +44,7 @@ export default function CustomTable({ data, headers, labels, title, precision }:
         <Table sx={{ minWidth: 650 }} size="small" aria-label="results-table">
           <TableHead>
             <TableRow>
-              <StyledTableCell>{title ? title : null}</StyledTableCell>
+              <StyledTableCell>{title ? title.toUpperCase() : null}</StyledTableCell>
               {Array.from({ length: data[0]?.length ? data[0].length : 0 }).map((_, index) => {
                 return (
                   <StyledTableCell key={index}>
