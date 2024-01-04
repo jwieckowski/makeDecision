@@ -290,7 +290,7 @@ export type ResultsNode = {
 export type CalculationSliceState = {
   // results: null | ResultsType;
   results: ResultsNode[];
-  filteredResults: null | ResultsType;
+  filteredResults: ResultsNode[];
   rankingResults: [] | RankingType[];
   correlationResults: [] | CorrelationType[];
   alternatives: number;

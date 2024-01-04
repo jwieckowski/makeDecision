@@ -6,6 +6,7 @@ import {
   ResultsMethodCorrelations,
   ResultsRankingCorrelations,
   FilterItem,
+  ResultsNode,
 } from '@/types';
 
 export const filterMethodsFunction = (data: [] | AllMethodsItem[], methodFunction: string) => {
@@ -165,98 +166,117 @@ export const getResultsCorrelationItems = (
   return items;
 };
 
-export const filterResults = (
-  results: ResultsType,
-  matrixFilter: string,
-  methodFilter: string,
-  correlationFilter: string,
-) => {
-  if (results === null) return results;
-  const filteredResults = { ...results };
+// export const filterResults = (
+//   results: ResultsType,
+//   matrixFilter: string,
+//   methodFilter: string,
+//   correlationFilter: string,
+// ) => {
+//   if (results === null) return results;
+//   const filteredResults = { ...results };
 
-  if (matrixFilter !== '') {
-    filteredResults.method = filteredResults.method.length > 0 ? [filteredResults?.method[+matrixFilter]] : [];
-    filteredResults.methodCorrelations =
-      filteredResults.methodCorrelations.length > 0 ? [filteredResults?.methodCorrelations[+matrixFilter]] : [];
-    filteredResults.methodRankings =
-      filteredResults.methodRankings.length > 0 ? [filteredResults?.methodRankings[+matrixFilter]] : [];
-    filteredResults.rankingCorrelations =
-      filteredResults.rankingCorrelations.length > 0 ? [filteredResults?.rankingCorrelations[+matrixFilter]] : [];
+//   if (matrixFilter !== '') {
+//     filteredResults.method = filteredResults.method.length > 0 ? [filteredResults?.method[+matrixFilter]] : [];
+//     filteredResults.methodCorrelations =
+//       filteredResults.methodCorrelations.length > 0 ? [filteredResults?.methodCorrelations[+matrixFilter]] : [];
+//     filteredResults.methodRankings =
+//       filteredResults.methodRankings.length > 0 ? [filteredResults?.methodRankings[+matrixFilter]] : [];
+//     filteredResults.rankingCorrelations =
+//       filteredResults.rankingCorrelations.length > 0 ? [filteredResults?.rankingCorrelations[+matrixFilter]] : [];
+//   }
+
+//   if (methodFilter !== '') {
+//     filteredResults.method =
+//       filteredResults.method.length > 0
+//         ? [
+//             ...filteredResults.method
+//               .map((methods) => {
+//                 return methods.filter((item) => item.method.toLowerCase() === methodFilter.toLowerCase());
+//               })
+//               .filter((m) => m.length !== 0),
+//           ]
+//         : [];
+//     filteredResults.methodCorrelations =
+//       filteredResults.methodCorrelations.length > 0
+//         ? [
+//             ...filteredResults.methodCorrelations
+//               .map((corrs) => {
+//                 return corrs.filter((corr) =>
+//                   corr.methods.map((c) => c.method.toLowerCase()).includes(methodFilter.toLowerCase()),
+//                 );
+//               })
+//               .filter((corrs) => corrs.length !== 0),
+//           ]
+//         : [];
+//     filteredResults.methodRankings =
+//       filteredResults.methodRankings.length > 0
+//         ? [
+//             ...filteredResults.methodRankings
+//               .map((ranks) => {
+//                 return ranks
+//                   .map((rank) => {
+//                     return rank.filter((r) => r.methods.method.toLowerCase() === methodFilter.toLowerCase());
+//                   })
+//                   .filter((rank) => rank.length !== 0);
+//               })
+//               .filter((ranks) => ranks.length !== 0),
+//           ]
+//         : [];
+//     filteredResults.rankingCorrelations =
+//       filteredResults.rankingCorrelations.length > 0
+//         ? [
+//             ...filteredResults.rankingCorrelations
+//               .map((corrs) => {
+//                 return corrs.filter((corr) => {
+//                   return corr.methods.map((m) => m.method.toLowerCase()).includes(methodFilter.toLowerCase());
+//                 });
+//               })
+//               .filter((corrs) => corrs.length !== 0),
+//           ]
+//         : [];
+//   }
+
+//   if (correlationFilter !== '') {
+//     filteredResults.methodCorrelations =
+//       filteredResults.methodCorrelations.length > 0
+//         ? [
+//             ...filteredResults.methodCorrelations
+//               .map((corrs) => {
+//                 return corrs.filter((corr) => corr.correlation.toLowerCase() === correlationFilter.toLowerCase());
+//               })
+//               .filter((corrs) => corrs.length > 0),
+//           ]
+//         : [];
+//     filteredResults.rankingCorrelations =
+//       filteredResults.rankingCorrelations.length > 0
+//         ? [
+//             ...filteredResults.rankingCorrelations
+//               .map((corrs) => {
+//                 return corrs.filter((corr) => corr.correlation.toLowerCase() === correlationFilter.toLowerCase());
+//               })
+//               .filter((corrs) => corrs.length !== 0),
+//           ]
+//         : [];
+//   }
+
+//   return filteredResults;
+// };
+
+type FiltersProps = {
+  matrix: string;
+  weights: string;
+  method: string;
+  correlation: string;
+};
+// NEW
+export const filterResults = (results: ResultsNode[], filters: FiltersProps) => {
+  if (results.length === 0) return [];
+  let filtered = results;
+  if (filters.matrix !== '') {
+    filtered = [
+      ...filtered.filter((node) => node.id === +filters.matrix),
+      ...filtered.filter((node) => node.data.filter((item) => item?.matrix_id === +filters.matrix).length > 0),
+    ];
   }
-
-  if (methodFilter !== '') {
-    filteredResults.method =
-      filteredResults.method.length > 0
-        ? [
-            ...filteredResults.method
-              .map((methods) => {
-                return methods.filter((item) => item.method.toLowerCase() === methodFilter.toLowerCase());
-              })
-              .filter((m) => m.length !== 0),
-          ]
-        : [];
-    filteredResults.methodCorrelations =
-      filteredResults.methodCorrelations.length > 0
-        ? [
-            ...filteredResults.methodCorrelations
-              .map((corrs) => {
-                return corrs.filter((corr) =>
-                  corr.methods.map((c) => c.method.toLowerCase()).includes(methodFilter.toLowerCase()),
-                );
-              })
-              .filter((corrs) => corrs.length !== 0),
-          ]
-        : [];
-    filteredResults.methodRankings =
-      filteredResults.methodRankings.length > 0
-        ? [
-            ...filteredResults.methodRankings
-              .map((ranks) => {
-                return ranks
-                  .map((rank) => {
-                    return rank.filter((r) => r.methods.method.toLowerCase() === methodFilter.toLowerCase());
-                  })
-                  .filter((rank) => rank.length !== 0);
-              })
-              .filter((ranks) => ranks.length !== 0),
-          ]
-        : [];
-    filteredResults.rankingCorrelations =
-      filteredResults.rankingCorrelations.length > 0
-        ? [
-            ...filteredResults.rankingCorrelations
-              .map((corrs) => {
-                return corrs.filter((corr) => {
-                  return corr.methods.map((m) => m.method.toLowerCase()).includes(methodFilter.toLowerCase());
-                });
-              })
-              .filter((corrs) => corrs.length !== 0),
-          ]
-        : [];
-  }
-
-  if (correlationFilter !== '') {
-    filteredResults.methodCorrelations =
-      filteredResults.methodCorrelations.length > 0
-        ? [
-            ...filteredResults.methodCorrelations
-              .map((corrs) => {
-                return corrs.filter((corr) => corr.correlation.toLowerCase() === correlationFilter.toLowerCase());
-              })
-              .filter((corrs) => corrs.length > 0),
-          ]
-        : [];
-    filteredResults.rankingCorrelations =
-      filteredResults.rankingCorrelations.length > 0
-        ? [
-            ...filteredResults.rankingCorrelations
-              .map((corrs) => {
-                return corrs.filter((corr) => corr.correlation.toLowerCase() === correlationFilter.toLowerCase());
-              })
-              .filter((corrs) => corrs.length !== 0),
-          ]
-        : [];
-  }
-
-  return filteredResults;
+  return filtered;
 };

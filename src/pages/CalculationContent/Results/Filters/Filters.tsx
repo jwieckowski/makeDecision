@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, ChangeEvent, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Container, Stack } from '@mui/material';
 
@@ -11,7 +11,7 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { useAppSelector, useAppDispatch } from '@/state';
 
 // SLICES
-import { setMatrixFilter, setMethodFilter, setCorrelationFilter, clearFilters } from '@/state/slices/filteringSlice';
+import { clearFilters } from '@/state/slices/filteringSlice';
 import { setFilteredResults } from '@/state/slices/calculationSlice';
 
 // COMPONENTS
@@ -27,47 +27,102 @@ import {
   filterResults,
 } from '@/utils/filtering';
 
+type FiltersProps = {
+  matrix: string;
+  weights: string;
+  method: string;
+  correlation: string;
+};
+
 export default function Filters() {
-  const { results, matrixId } = useAppSelector((state) => state.calculation);
-  const { matrixFilter, methodFilter, correlationFilter } = useAppSelector((state) => state.filters);
+  const { results } = useAppSelector((state) => state.calculation);
+
+  const [filters, setFilters] = useState<FiltersProps>({
+    matrix: '',
+    weights: '',
+    method: '',
+    correlation: '',
+  });
 
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
-  const getMatrixFilterItems = () => {
-    return [{ value: '', label: t('results:matrix') }, ...getResultsMatrixItems(matrixId, t('results:matrix'))];
+  const handleSelectChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    setFilters((prev) => ({
+      ...prev,
+      [event.target.name]: event.target.value,
+    }));
   };
 
-  const getMethodFilterItems = () => {
-    if (!results?.method) return [{ value: '', label: t('results:method') }];
+  const getMatrixFilterItems = () => {
     return [
-      { value: '', label: t('results:method') },
-      ...getResultsMethodItems(results?.method, matrixFilter === '' ? null : +matrixFilter),
+      { value: '', label: '' },
+      ...results
+        .filter((node) => node.node_type === 'matrix')
+        .map((node) => ({ value: `${node.id}`, label: `ID ${node.id}` })),
     ];
+  };
+
+  const getWeightsFilterItems = () => {
+    let weights = results.filter((node) => node.node_type === 'weights');
+    if (filters.matrix !== '') {
+      weights = weights.filter((node) => node.data.filter((item) => item.matrix_id === +filters.matrix).length > 0);
+    }
+
+    return [{ value: '', label: '' }, ...weights.map((node) => ({ value: node.method, label: node.method }))];
+  };
+  const getMethodFilterItems = () => {
+    let method = results.filter((node) => node.node_type === 'method');
+    if (filters.matrix !== '') {
+      method = method.filter((node) => node.data.filter((item) => item.matrix_id === +filters.matrix).length > 0);
+    }
+    if (filters.weights !== '') {
+      method = method.filter((node) => node.data.filter((item) => item?.weights_method === filters.weights).length > 0);
+    }
+
+    return [{ value: '', label: '' }, ...method.map((node) => ({ value: node.method, label: node.method }))];
   };
 
   const getCorrelationFilterItems = () => {
-    if (!results?.methodCorrelations || !results?.rankingCorrelations)
-      return [{ value: '', label: t('results:method') }];
-    return [
-      { value: '', label: t('results:correlation') },
-      ...getResultsCorrelationItems(
-        results?.methodCorrelations,
-        results?.rankingCorrelations,
-        matrixFilter === '' ? null : +matrixFilter,
-      ),
-    ];
+    let correlation = results.filter((node) => node.node_type === 'correlation');
+    if (filters.matrix !== '') {
+      correlation = correlation.filter(
+        (node) => node.data.filter((item) => item.matrix_id === +filters.matrix).length > 0,
+      );
+    }
+
+    return [{ value: '', label: '' }, ...correlation.map((node) => ({ value: node.method, label: node.method }))];
   };
 
   const handleResultsFiltering = () => {
-    if (results === null) return;
-    dispatch(setFilteredResults(filterResults(results, matrixFilter, methodFilter, correlationFilter)));
+    // if (results === null) return;
+    // dispatch(setFilteredResults(filterResults(results, matrixFilter, methodFilter, correlationFilter)));
+    if (results.length === 0) return;
+    dispatch(setFilteredResults(filterResults(results, filters)));
   };
 
   const handleClearFilters = () => {
     dispatch(clearFilters());
     dispatch(setFilteredResults(results));
   };
+
+  useEffect(() => {
+    setFilters((prev) => {
+      return {
+        ...prev,
+        weights: getWeightsFilterItems()
+          .map((item) => item.value)
+          .includes(prev.weights)
+          ? prev.weights
+          : '',
+        method: getMethodFilterItems()
+          .map((item) => item.value)
+          .includes(prev.method)
+          ? prev.method
+          : '',
+      };
+    });
+  }, [filters]);
 
   return (
     <Container
@@ -77,34 +132,39 @@ export default function Filters() {
     >
       <Stack direction="row" gap={2}>
         <Select
+          name="matrix"
           items={getMatrixFilterItems()}
-          value={matrixFilter}
-          onChange={(e) => {
-            dispatch(setMatrixFilter(e.target.value));
-          }}
+          value={filters.matrix}
+          onChange={handleSelectChange}
           label={t('results:matrix')}
           minWidth={120}
         />
         <Select
+          name="weights"
+          items={getWeightsFilterItems()}
+          value={filters.weights}
+          onChange={handleSelectChange}
+          label={t('results:weights')}
+          minWidth={120}
+        />
+        <Select
+          name="method"
           items={getMethodFilterItems()}
-          value={methodFilter}
-          onChange={(e) => {
-            dispatch(setMethodFilter(e.target.value));
-          }}
+          value={filters.method}
+          onChange={handleSelectChange}
           label={t('results:method')}
           minWidth={120}
         />
         <Select
+          name="correlation"
           items={getCorrelationFilterItems()}
-          value={correlationFilter}
-          onChange={(e) => {
-            dispatch(setCorrelationFilter(e.target.value));
-          }}
+          value={filters.correlation}
+          onChange={handleSelectChange}
           label={t('results:correlation')}
           minWidth={120}
         />
       </Stack>
-      <Stack direction="row" gap={2} sx={{ height: '40px' }}>
+      <Stack direction="row" gap={2} sx={{ height: '40px', pl: 1 }}>
         <Button
           text={t('results:clear')}
           startIcon={<HighlightOffIcon />}

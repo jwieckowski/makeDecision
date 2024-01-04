@@ -174,48 +174,51 @@ export default function CalculationsMenu() {
           xs: 'none',
           md: 'block',
         },
+        flex: 1,
       }}
     >
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          pl: 1,
-        }}
-      >
-        <Typography variant="body2" sx={{ fontSize: 14, textTransform: 'uppercase' }}>
-          {t('common:techniques')}
-        </Typography>
-      </Box>
-      <Box sx={{ px: 1, mt: 1 }}>
-        <SearchBar />
-      </Box>
       {loading ? (
         <Box sx={{ height: '200px', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <Loader size={100} />
         </Box>
       ) : (
-        <List sx={{ maxHeight: '49vh', overflowY: 'auto' }}>
-          {filteredData.map((item, index) => (
-            <Box key={item.key}>
-              <ListItem disablePadding sx={{ backgroundColor: 'secondary.dark' }}>
-                <ListItemButton onClick={() => handleClick(`${index}`)}>
-                  <ListItemText primary={item.label} primaryTypographyProps={{ fontSize: 14, fontWeight: 'bold' }} />
-                  {openIndex === `${index}` ? <ExpandLess /> : <ExpandMore />}
-                </ListItemButton>
-              </ListItem>
-              <CollapseItem
-                open={openIndex === `${index}`}
-                forceOpen={query !== '' && filteredData.length > 0}
-                methods={item}
-                onClick={handleMethodItemClick}
-              />
-              <Divider sx={{ backgroundColor: '#6a6a6a' }} />
-            </Box>
-          ))}
-        </List>
+        <>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              pl: 1,
+            }}
+          >
+            <Typography variant="body2" sx={{ fontSize: 14, textTransform: 'uppercase' }}>
+              {t('common:techniques')}
+            </Typography>
+          </Box>
+          <Box sx={{ px: 1, mt: 1 }}>
+            <SearchBar />
+          </Box>
+          <List>
+            {filteredData.map((item, index) => (
+              <Box key={item.key}>
+                <ListItem disablePadding sx={{ backgroundColor: 'secondary.dark' }}>
+                  <ListItemButton onClick={() => handleClick(`${index}`)}>
+                    <ListItemText primary={item.label} primaryTypographyProps={{ fontSize: 14, fontWeight: 'bold' }} />
+                    {openIndex === `${index}` ? <ExpandLess /> : <ExpandMore />}
+                  </ListItemButton>
+                </ListItem>
+                <CollapseItem
+                  open={openIndex === `${index}`}
+                  forceOpen={query !== '' && filteredData.length > 0}
+                  methods={item}
+                  onClick={handleMethodItemClick}
+                />
+                <Divider sx={{ backgroundColor: '#6a6a6a' }} />
+              </Box>
+            ))}
+          </List>
+        </>
       )}
     </Box>
   );

@@ -8,7 +8,7 @@ import { CalculationSliceState, ResultsNode } from '@/types';
 
 const initialState: CalculationSliceState = {
   results: [],
-  filteredResults: null,
+  filteredResults: [],
   rankingResults: [],
   correlationResults: [],
   alternatives: 3,
@@ -72,7 +72,7 @@ const calculationSlice = createSlice({
       })
       .addCase(getResults.rejected, (state: CalculationSliceState, action: PayloadAction<any>) => {
         state.results = [];
-        state.filteredResults = null;
+        state.filteredResults = [];
         state.error = action.payload.response.data.message;
         state.loading = false;
       })

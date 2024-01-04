@@ -1,8 +1,8 @@
-import { ResultsType } from '@/types';
+import { ResultsNode } from '@/types';
 // import html2canvas from 'html2canvas';
 // import jsPDF from 'jspdf';
 
-export const generateResultsFile = (results: [] | ResultsType) => {
+export const generateResultsFile = (results: [] | ResultsNode[]) => {
   const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(JSON.stringify(results, null, 2))}`;
   const link = document.createElement('a');
   link.href = jsonString;

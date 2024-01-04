@@ -15,6 +15,8 @@ export default function Results() {
   // const { matrixFilter } = useAppSelector((state) => state.filters);
   // const [filteredMatrixId, setFilteredMatrixId] = useState<number[]>(matrixId);
 
+  console.log(filteredResults);
+
   const { t } = useTranslation();
 
   // useEffect(() => {

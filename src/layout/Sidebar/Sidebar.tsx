@@ -92,15 +92,31 @@ export default function Sidebar() {
 
         <Box>
           <List>
-            <ListItemButton
-              onClick={handleCollapse}
-              sx={{ py: 0, pl: 1, pr: 2, minWidth: 32, display: 'flex', justifyContent: 'space-between' }}
+            <ListItem
+              sx={{
+                p: 0,
+                minWidth: 32,
+                bgcolor: 'secondary.dark',
+              }}
             >
-              <Typography variant="body2" sx={{ fontSize: openMenu ? 12 : 16, transition: 'font-size 0.3s' }}>
-                {t('common:menu').toUpperCase()}
-              </Typography>
-              {openMenu ? <ExpandLess /> : <ExpandMore />}
-            </ListItemButton>
+              <ListItemButton
+                onClick={handleCollapse}
+                sx={{
+                  py: openMenu ? 0 : 1,
+                  pl: 1,
+                  pr: 2,
+                  minWidth: 32,
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  transition: 'padding 0.3s',
+                }}
+              >
+                <Typography variant="body2" sx={{ fontSize: openMenu ? 12 : 16, transition: 'font-size 0.3s' }}>
+                  {t('common:menu').toUpperCase()}
+                </Typography>
+                {openMenu ? <ExpandLess /> : <ExpandMore />}
+              </ListItemButton>
+            </ListItem>
             <Collapse in={openMenu} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
                 {MENU_ITEMS.map((item) => (

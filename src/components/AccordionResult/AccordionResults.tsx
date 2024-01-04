@@ -179,8 +179,8 @@ export default function AccordionResults({ matrixId, defaultExpanded }: Accordio
   };
 
   return (
-    <Container>
-      <Accordion defaultExpanded={defaultExpanded}>
+    <Container disableGutters>
+      <Accordion defaultExpanded={defaultExpanded} sx={{ border: '2px solid gray', boxShadow: '0 4px 2px -2px gray' }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls={`result-${matrixId}-content`}
