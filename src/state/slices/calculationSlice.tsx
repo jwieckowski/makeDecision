@@ -17,8 +17,11 @@ const initialState: CalculationSliceState = {
     matrixFiles: [],
   },
   convertedMatrix: null,
-  loading: false,
+  resultsLoading: false,
+  kwargsLoading: false,
+  matrixLoading: false,
   error: null,
+  resultsError: null,
   matrixId: [],
   methodsKwargsItems: {},
 };
@@ -53,6 +56,7 @@ const calculationSlice = createSlice({
     resetResults: (state) => {
       state.results = initialState.results;
       state.filteredResults = initialState.filteredResults;
+      state.resultsError = null;
       state.error = null;
     },
     setFilteredResults: (state, action) => {
@@ -62,55 +66,71 @@ const calculationSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getResults.pending, (state: CalculationSliceState) => {
-        state.error = null;
-        state.loading = true;
+        state.resultsError = null;
+        state.resultsLoading = true;
       })
       .addCase(getResults.fulfilled, (state: CalculationSliceState, action: PayloadAction<ResultsNode[]>) => {
         state.results = action.payload;
-        // state.filteredResults = action.payload;
-        state.loading = false;
+        state.filteredResults = action.payload;
+        state.resultsLoading = false;
       })
       .addCase(getResults.rejected, (state: CalculationSliceState, action: PayloadAction<any>) => {
         state.results = [];
         state.filteredResults = [];
-        state.error = action.payload.response.data.message;
-        state.loading = false;
+        if (action.payload?.response?.data) {
+          state.resultsError = action.payload.response.data.message;
+        } else {
+          state.resultsError = action.payload.message;
+        }
+        state.resultsLoading = false;
       })
       .addCase(uploadMatrixFile.pending, (state: CalculationSliceState) => {
         state.error = null;
-        state.loading = true;
+        state.matrixLoading = true;
       })
       .addCase(uploadMatrixFile.fulfilled, (state: CalculationSliceState, action: PayloadAction<any>) => {
         state.convertedMatrix = action.payload;
-        state.loading = false;
+        state.matrixLoading = false;
       })
       .addCase(uploadMatrixFile.rejected, (state: CalculationSliceState, action: PayloadAction<any>) => {
-        state.error = action.payload.response.data.message;
-        state.loading = false;
+        if (action.payload?.response?.data) {
+          state.error = action.payload.response.data.message;
+        } else {
+          state.error = action.payload.message;
+        }
+        state.matrixLoading = false;
       })
       .addCase(generateMatrix.pending, (state: CalculationSliceState) => {
         state.error = null;
-        state.loading = true;
+        state.matrixLoading = true;
       })
       .addCase(generateMatrix.fulfilled, (state: CalculationSliceState, action: PayloadAction<any>) => {
         state.convertedMatrix = action.payload;
-        state.loading = false;
+        state.matrixLoading = false;
       })
       .addCase(generateMatrix.rejected, (state: CalculationSliceState, action: PayloadAction<any>) => {
-        state.error = action.payload.response.data.message;
-        state.loading = false;
+        if (action.payload?.response?.data) {
+          state.error = action.payload.response.data.message;
+        } else {
+          state.error = action.payload.message;
+        }
+        state.matrixLoading = false;
       })
       .addCase(getKwargsItems.pending, (state: CalculationSliceState) => {
         state.error = null;
-        state.loading = true;
+        state.kwargsLoading = true;
       })
       .addCase(getKwargsItems.fulfilled, (state: CalculationSliceState, action: PayloadAction<any>) => {
         state.methodsKwargsItems = { ...state.methodsKwargsItems, ...action.payload };
-        state.loading = false;
+        state.kwargsLoading = false;
       })
       .addCase(getKwargsItems.rejected, (state: CalculationSliceState, action: PayloadAction<any>) => {
-        state.error = action.payload.response.data.message;
-        state.loading = false;
+        if (action.payload?.response?.data) {
+          state.error = action.payload.response.data.message;
+        } else {
+          state.error = action.payload.message;
+        }
+        state.kwargsLoading = false;
       });
   },
 });

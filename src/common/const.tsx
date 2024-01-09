@@ -34,6 +34,12 @@ export const APP_URL = 'http://make-decision.it';
 
 export const APP_NAME_PATH = '/';
 
+// REQUEST TIMEOUT
+// export const REQUEST_TIMEOUT_CALCULATION = 300000; // 1000 * 60 * 5 (5 MINUTES)
+// export const REQUEST_TIMEOUT_SHORT = 30000; // (30 seconds)
+export const REQUEST_TIMEOUT_CALCULATION = 3000; // (3 seconds) TEST
+export const REQUEST_TIMEOUT_SHORT = 3000; // (3 seconds) TEST
+
 // APPLICATION CONST
 export const APPLICATION_NAME = 'MakeDecision.it';
 export const NAV_HEIGHT = 80;

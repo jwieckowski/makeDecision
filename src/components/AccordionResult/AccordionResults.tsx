@@ -124,12 +124,17 @@ export default function AccordionResults({ matrixId, defaultExpanded }: Accordio
     );
   };
 
+  const getRankingsID = (nodes: ResultsNode[0]) => {
+    return getNodeData(nodes, 'ranking').map((node) => node.id);
+  };
+
   const getRankingTable = (nodes: ResultsNode[]) => {
     const data = getRankingTableData(nodes);
 
     if (data.length === 0) return null;
 
     const labels = getRankingTableLabel(results);
+    const rankingIDs = getRankingsID(nodes);
 
     return data.map((item, idx) => {
       return (
@@ -138,7 +143,7 @@ export default function AccordionResults({ matrixId, defaultExpanded }: Accordio
           data={item}
           labels={labels[idx]}
           headers={getTableLabels(item[0].length, 'A')}
-          title={`${t('results:ranking')}`}
+          title={`${t('results:ranking')} (ID ${rankingIDs[idx]})`}
         />
       );
     });
@@ -153,7 +158,7 @@ export default function AccordionResults({ matrixId, defaultExpanded }: Accordio
   };
 
   const getCorrelationTableTitle = (nodes: ResultsNode[]) => {
-    return getNodeData(nodes, 'correlation').map((item) => item.method);
+    return getNodeData(nodes, 'correlation').map((item) => `${item.method} (ID ${item.id})`);
   };
 
   const getCorrelationTable = (nodes: ResultsNode[]) => {

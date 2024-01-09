@@ -85,7 +85,14 @@ export default function CustomTable({ data, headers, labels, title, precision }:
                   {Array.from({ length: row?.length ? row.length : 0 }).map((_, rowIdx) => (
                     <TableCell key={rowIdx}>
                       <Typography>
-                        {precision ? parseFloat(`${data[colIdx][rowIdx]}`).toFixed(precision) : data[colIdx][rowIdx]}
+                        {precision
+                          ? `${data[colIdx][rowIdx]}`.includes(',')
+                            ? `${data[colIdx][rowIdx]}`
+                                .split(',')
+                                .map((item) => `${parseFloat(item).toFixed(precision)}`)
+                                .join(', ')
+                            : parseFloat(`${data[colIdx][rowIdx]}`).toFixed(precision)
+                          : data[colIdx][rowIdx]}
                       </Typography>
                     </TableCell>
                   ))}

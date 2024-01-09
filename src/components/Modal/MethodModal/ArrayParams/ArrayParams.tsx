@@ -35,6 +35,8 @@ export default function ArrayParams({ label, matrixId, paramId, kwargId, values,
   const { isCrispInputValid, isFuzzyInputValid } = useValidation();
   const { t } = useTranslation();
 
+  console.log(values);
+
   const getMatrixCriteria = () => {
     return blocks.find((block) => block.id === matrixId)?.data.criteria ?? DEFAULT_CRITERIA;
   };
@@ -90,14 +92,17 @@ export default function ArrayParams({ label, matrixId, paramId, kwargId, values,
       )
     ) {
       if (values.length !== 0) value = [values.map((i) => ({ value: `${i}`, error: false }))];
-      // if (label === 'characteristic values') value = [getMatrixCValues().map((i) => ({ value: i, error: true }))];
-      if (label === 'expected solution points') value = [getMeanESP().map((b) => ({ value: `${b}`, error: false }))];
-      else
-        value = [
-          Array(getMatrixCriteria())
-            .fill('0')
-            .map((i) => ({ value: `${i}`, error: true })),
-        ];
+      else {
+        // if (label === 'characteristic values') value = [getMatrixCValues().map((i) => ({ value: i, error: true }))];
+        if (['expected solution points', 'reference ideal', 'reference points'].includes(label))
+          value = [getMeanESP().map((b) => ({ value: `${b}`, error: false }))];
+        else
+          value = [
+            Array(getMatrixCriteria())
+              .fill('0')
+              .map((i) => ({ value: `${i}`, error: true })),
+          ];
+      }
     } else if (label === 'bounds') {
       if (values.length !== 0)
         value = (values as string[][]).map((row: string[]) => row.map((i) => ({ value: `${i}`, error: false })));

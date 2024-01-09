@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, useEffect, useMemo } from 'react';
+import { useState, ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Container, Stack } from '@mui/material';
 
@@ -20,28 +20,16 @@ import Select from '@/components/Select';
 
 // UTILS
 import { generateResultsFile } from '@/utils/files';
-import {
-  getResultsMatrixItems,
-  getResultsMethodItems,
-  getResultsCorrelationItems,
-  filterResults,
-} from '@/utils/filtering';
+import { getMatrixFilterItems, filterResults } from '@/utils/filtering';
 
-type FiltersProps = {
-  matrix: string;
-  weights: string;
-  method: string;
-  correlation: string;
-};
+// TYPES
+import { FiltersProps } from '@/types';
 
 export default function Filters() {
   const { results } = useAppSelector((state) => state.calculation);
 
   const [filters, setFilters] = useState<FiltersProps>({
-    matrix: '',
-    weights: '',
-    method: '',
-    correlation: '',
+    matrix: 'all',
   });
 
   const dispatch = useAppDispatch();
@@ -54,49 +42,7 @@ export default function Filters() {
     }));
   };
 
-  const getMatrixFilterItems = () => {
-    return [
-      { value: '', label: '' },
-      ...results
-        .filter((node) => node.node_type === 'matrix')
-        .map((node) => ({ value: `${node.id}`, label: `ID ${node.id}` })),
-    ];
-  };
-
-  const getWeightsFilterItems = () => {
-    let weights = results.filter((node) => node.node_type === 'weights');
-    if (filters.matrix !== '') {
-      weights = weights.filter((node) => node.data.filter((item) => item.matrix_id === +filters.matrix).length > 0);
-    }
-
-    return [{ value: '', label: '' }, ...weights.map((node) => ({ value: node.method, label: node.method }))];
-  };
-  const getMethodFilterItems = () => {
-    let method = results.filter((node) => node.node_type === 'method');
-    if (filters.matrix !== '') {
-      method = method.filter((node) => node.data.filter((item) => item.matrix_id === +filters.matrix).length > 0);
-    }
-    if (filters.weights !== '') {
-      method = method.filter((node) => node.data.filter((item) => item?.weights_method === filters.weights).length > 0);
-    }
-
-    return [{ value: '', label: '' }, ...method.map((node) => ({ value: node.method, label: node.method }))];
-  };
-
-  const getCorrelationFilterItems = () => {
-    let correlation = results.filter((node) => node.node_type === 'correlation');
-    if (filters.matrix !== '') {
-      correlation = correlation.filter(
-        (node) => node.data.filter((item) => item.matrix_id === +filters.matrix).length > 0,
-      );
-    }
-
-    return [{ value: '', label: '' }, ...correlation.map((node) => ({ value: node.method, label: node.method }))];
-  };
-
   const handleResultsFiltering = () => {
-    // if (results === null) return;
-    // dispatch(setFilteredResults(filterResults(results, matrixFilter, methodFilter, correlationFilter)));
     if (results.length === 0) return;
     dispatch(setFilteredResults(filterResults(results, filters)));
   };
@@ -104,25 +50,29 @@ export default function Filters() {
   const handleClearFilters = () => {
     dispatch(clearFilters());
     dispatch(setFilteredResults(results));
+    setFilters((prev) => ({
+      ...prev,
+      matrix: 'all',
+    }));
   };
 
-  useEffect(() => {
-    setFilters((prev) => {
-      return {
-        ...prev,
-        weights: getWeightsFilterItems()
-          .map((item) => item.value)
-          .includes(prev.weights)
-          ? prev.weights
-          : '',
-        method: getMethodFilterItems()
-          .map((item) => item.value)
-          .includes(prev.method)
-          ? prev.method
-          : '',
-      };
-    });
-  }, [filters]);
+  // useEffect(() => {
+  //   setFilters((prev) => {
+  //     return {
+  //       ...prev,
+  //       weights: getWeightsFilterItems()
+  //         .map((item) => item.value)
+  //         .includes(prev.weights)
+  //         ? prev.weights
+  //         : '',
+  //       method: getMethodFilterItems()
+  //         .map((item) => item.value)
+  //         .includes(prev.method)
+  //         ? prev.method
+  //         : '',
+  //     };
+  //   });
+  // }, [filters]);
 
   return (
     <Container
@@ -133,13 +83,13 @@ export default function Filters() {
       <Stack direction="row" gap={2}>
         <Select
           name="matrix"
-          items={getMatrixFilterItems()}
+          items={getMatrixFilterItems(results)}
           value={filters.matrix}
           onChange={handleSelectChange}
           label={t('results:matrix')}
           minWidth={120}
         />
-        <Select
+        {/* <Select
           name="weights"
           items={getWeightsFilterItems()}
           value={filters.weights}
@@ -162,7 +112,7 @@ export default function Filters() {
           onChange={handleSelectChange}
           label={t('results:correlation')}
           minWidth={120}
-        />
+        /> */}
       </Stack>
       <Stack direction="row" gap={2} sx={{ height: '40px', pl: 1 }}>
         <Button

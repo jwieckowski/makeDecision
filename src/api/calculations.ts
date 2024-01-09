@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 // CONST
-import { BASE_URL } from '@/common/const';
+import { BASE_URL, REQUEST_TIMEOUT_CALCULATION } from '@/common/const';
 
 // TYPES
 import { CalculationBodyTypeNew } from '@/types';
@@ -45,6 +45,7 @@ const uploadMatrixFile = createAsyncThunk(
           locale: locale,
           'Content-Type': 'multipart/form-data',
         },
+        timeout: REQUEST_TIMEOUT_CALCULATION,
       });
       return data.data.response;
     } catch (e) {
@@ -61,6 +62,7 @@ const generateMatrix = createAsyncThunk(
         headers: {
           locale: locale,
         },
+        timeout: REQUEST_TIMEOUT_CALCULATION,
       });
       return data.data.response;
     } catch (e) {
@@ -82,6 +84,7 @@ const getKwargsItems = createAsyncThunk(
           headers: {
             locale: locale,
           },
+          timeout: REQUEST_TIMEOUT_CALCULATION,
         },
       );
       return { [method]: data.data.response };
@@ -99,6 +102,7 @@ const getResults = createAsyncThunk(
         headers: {
           locale: locale,
         },
+        timeout: REQUEST_TIMEOUT_CALCULATION,
       });
       return data.data.response;
     } catch (e) {

@@ -14,6 +14,7 @@ import MenuBookIcon from '@mui/icons-material/MenuBook';
 import FolderIcon from '@mui/icons-material/Folder';
 import DeveloperBoardIcon from '@mui/icons-material/DeveloperBoard';
 import UpdateIcon from '@mui/icons-material/Update';
+import GradeIcon from '@mui/icons-material/Grade';
 
 // REDUX
 import { useAppDispatch, useAppSelector } from '@/state';
@@ -27,7 +28,14 @@ export default function AboutMenu() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
-  const TABS = [t('about:tab-1'), t('about:tab-2'), t('about:tab-3'), t('about:tab-4'), t('about:tab-5')];
+  const TABS = [
+    t('about:tab-1'),
+    t('about:tab-2'),
+    t('about:tab-3'),
+    t('about:tab-4'),
+    t('about:tab-5'),
+    t('about:tab-6'),
+  ];
 
   const ICONS = [
     <CallSplitIcon key={'icon-1'} />,
@@ -35,6 +43,7 @@ export default function AboutMenu() {
     <FolderIcon key={'icon-3'} />,
     <DeveloperBoardIcon key={'icon-4'} />,
     <UpdateIcon key={'icon-5'} />,
+    <GradeIcon key={'icon-6'} />,
   ];
 
   const handleItemClick = (index: number) => {

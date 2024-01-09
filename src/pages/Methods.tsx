@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Container, Box, Stack, Typography, Grid, Divider } from '@mui/material';
 
@@ -15,6 +15,7 @@ import { useLocale } from '@/hooks';
 import MarkdownText from '@/components/MarkdownText';
 import Loader from '@/components/Loader';
 import Select from '@/components/Select';
+import Error from '@/components/Error';
 
 export default function Methods() {
   const [groupIndex, setGroupIndex] = useState<number>(0);
@@ -22,7 +23,7 @@ export default function Methods() {
   const [groupValue, setGroupValue] = useState<string>('');
   const [methodValue, setMethodValue] = useState<string>('');
 
-  const { methods, loading } = useAppSelector((state) => state.description);
+  const { methods, loading, error } = useAppSelector((state) => state.description);
 
   const { t } = useTranslation();
   const dataFetchedRef = useRef(false);
@@ -50,7 +51,7 @@ export default function Methods() {
     setMethodValue(methods[groupIndex].data[0].name);
   }, [groupValue]);
 
-  const changeCategory = (e) => {
+  const changeCategory = (e: ChangeEvent<HTMLInputElement>) => {
     const idx = methods.findIndex((item) => item.key === e.target.value);
     setGroupIndex(idx);
     setGroupValue(e.target.value);
@@ -58,16 +59,20 @@ export default function Methods() {
     setMethodValue(methods[idx].data[0].name);
   };
 
-  const changeMethod = (e) => {
+  const changeMethod = (e: ChangeEvent<HTMLInputElement>) => {
     setMethodValue(e.target.value);
     setMethodIndex(methods[groupIndex].data.findIndex((method) => method.name === e.target.value));
   };
 
+  if (error) {
+    return <Error />;
+  }
+
   return (
     <Container maxWidth="lg" sx={{ my: '50px' }}>
-      {methods.length === 0 || loading ? (
+      {loading ? (
         <Container sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <Loader size={100} />
+          <Loader size={150} />
         </Container>
       ) : (
         <Container maxWidth={false} disableGutters>

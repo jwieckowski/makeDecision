@@ -1,7 +1,5 @@
 import { ChangeEvent } from 'react';
-import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Typography from '@mui/material/Typography';
 import { TextField } from '@mui/material';
 
 type Items = {
@@ -59,14 +57,13 @@ export default function MySelect({
         inputProps={{ style: { fontSize: fontSize ?? 16 } }}
       >
         {placeholder ? (
-          <option disabled value="">
-            <em>{placeholder}</em>
+          <option disabled value="placeholder">
+            {placeholder}
           </option>
         ) : null}
         {items.map((item, index) => {
           return (
             <option key={`select-${index}`} value={item.value}>
-              {/* <Typography sx={{ p: 0, m: 0, fontSize: fontSize ?? 16 }}>{item.label}</Typography> */}
               {item.label}
             </option>
           );

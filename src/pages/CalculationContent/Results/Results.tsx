@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Container, Stack, Divider, Typography } from '@mui/material';
 
@@ -11,37 +10,34 @@ import Loader from '@/components/Loader';
 import AccordionResults from '@/components/AccordionResult';
 
 export default function Results() {
-  const { filteredResults, matrixId, loading, results } = useAppSelector((state) => state.calculation);
-  // const { matrixFilter } = useAppSelector((state) => state.filters);
-  // const [filteredMatrixId, setFilteredMatrixId] = useState<number[]>(matrixId);
-
-  console.log(filteredResults);
+  const { filteredResults, resultsLoading } = useAppSelector((state) => state.calculation);
 
   const { t } = useTranslation();
 
-  // useEffect(() => {
-  //   if (matrixFilter !== '') setFilteredMatrixId([matrixId[+matrixFilter]]);
-  //   else setFilteredMatrixId(matrixId);
-  // }, [filteredResults]);
+  if (!resultsLoading && filteredResults.length === 0) return null;
 
-  return loading ? (
-    <Container>
-      <Loader />
-    </Container>
-  ) : results.length > 0 ? (
+  return (
     <Container id="resultsContainer">
-      <Divider textAlign="center" sx={{ pb: 2 }}>
-        <Typography variant="h5">{t('results:results')}</Typography>
-      </Divider>
+      {resultsLoading ? (
+        <Container sx={{ display: 'flex', justifyContent: 'center', py: 10 }}>
+          <Loader size={200} />
+        </Container>
+      ) : (
+        <>
+          <Divider textAlign="center" sx={{ pb: 2 }}>
+            <Typography variant="h5">{t('results:results')}</Typography>
+          </Divider>
 
-      <Filters />
-      <Stack gap={2} mt={5}>
-        {results
-          .filter((node) => node.node_type === 'matrix')
-          .map((node, idx) => {
-            return <AccordionResults key={node.id} matrixId={node.id} defaultExpanded={idx === 0} />;
-          })}
-      </Stack>
+          <Filters />
+          <Stack gap={2} mt={5}>
+            {filteredResults
+              .filter((node) => node.node_type === 'matrix')
+              .map((node, idx) => {
+                return <AccordionResults key={node.id} matrixId={node.id} defaultExpanded={idx === 0} />;
+              })}
+          </Stack>
+        </>
+      )}
     </Container>
-  ) : null;
+  );
 }

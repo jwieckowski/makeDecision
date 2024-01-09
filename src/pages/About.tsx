@@ -5,7 +5,7 @@ import Container from '@mui/material/Container';
 import { useAppSelector } from '@/state';
 
 // COMPONENTS
-import { Files, MCDA, Instruction, Technology, Updates } from './AboutContent';
+import { Files, MCDA, Instruction, Technology, Updates, Rating } from './AboutContent';
 
 export default function About() {
   const { menuItemIndex } = useAppSelector((state) => state.menu);
@@ -17,6 +17,7 @@ export default function About() {
       <Files key={`about-3`} />,
       <Technology key={`about-4`} />,
       <Updates key={`about-5`} />,
+      <Rating key={`about-6`} />,
     ],
     [],
   );

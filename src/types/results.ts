@@ -129,7 +129,7 @@ export type CalculationBodyType = {
 };
 
 export type CalculationNodeKwargItem = {
-  [key: string]: string | number;
+  [key: string]: string | number | string[];
 };
 
 export type CalculationNode = {
@@ -287,8 +287,11 @@ export type ResultsNode = {
   extension: string;
 } & ResultsNodeData;
 
+export type FiltersProps = {
+  matrix: string;
+};
+
 export type CalculationSliceState = {
-  // results: null | ResultsType;
   results: ResultsNode[];
   filteredResults: ResultsNode[];
   rankingResults: [] | RankingType[];
@@ -296,8 +299,11 @@ export type CalculationSliceState = {
   alternatives: number;
   criteria: number;
   calculationBody: TempBodyType;
-  loading: boolean;
+  resultsLoading: boolean;
+  kwargsLoading: boolean;
+  matrixLoading: boolean;
   error: null | string;
+  resultsError: null | string;
   convertedMatrix: null | ConvertedMatrixType;
   matrixId: [] | number[];
   methodsKwargsItems: MethodsKwargsItemsType;

@@ -42,7 +42,7 @@ import { DEFAULT_ALTERNATIVES, DEFAULT_CRITERIA } from '@/common/const';
 export default function CalculationsMenu() {
   const { blocks } = useAppSelector((state) => state.blocks);
   const { query } = useAppSelector((state) => state.search);
-  const { allMethods, loading } = useAppSelector((state) => state.dictionary);
+  const { allMethods, loading, error } = useAppSelector((state) => state.dictionary);
   const [openIndex, setOpenIndex] = useState('');
   // const { isOpen, currentStep, setCurrentStep } = useTour();
 
@@ -181,7 +181,7 @@ export default function CalculationsMenu() {
         <Box sx={{ height: '200px', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <Loader size={100} />
         </Box>
-      ) : (
+      ) : !error ? (
         <>
           <Box
             sx={{
@@ -219,6 +219,10 @@ export default function CalculationsMenu() {
             ))}
           </List>
         </>
+      ) : (
+        <Typography textAlign="center" sx={{ mt: 2 }} variant="h6">
+          {t('common:general-error')}
+        </Typography>
       )}
     </Box>
   );

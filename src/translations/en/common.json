@@ -3,7 +3,7 @@
   "save": "Save",
   "cancel": "Cancel",
   "functionalities": "Functionalities",
-  "general-error": "Error occurred ...",
+  "general-error": "An error occurred while downloading the data",
   "reload": "Reload",
   "loading": "Loading...",
   "search-placeholder": "Search...",

@@ -15,6 +15,7 @@ import Select from '@/components/Select';
 import Input from '@/components/Input';
 import Checkbox from '@/components/Checkbox';
 import Button from '@/components/Button';
+import Loader from '@/components/Loader';
 import ModalContainer from '../ModalContainer';
 
 // SLICES
@@ -74,12 +75,13 @@ type FormProps = {
 };
 
 export default function MatrixModal({ open, closeModal, textSave, textCancel, fullScreen }: ModalProps) {
+  const { matrixLoading, error } = useAppSelector((state) => state.calculation);
   const { activeBlock, blocks, connections } = useAppSelector((state) => state.blocks);
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const { showSnackbar } = useSnackbars();
   const { isCrispInputValid, isFuzzyInputValid, validateMatrixBounds, validateMatrixData } = useValidation();
-  const { getMatrixWeightsConnections, getWeightsMethodConnections } = useCalculation();
+  const { getMatrixWeightsConnections } = useCalculation();
   const { locale } = useLocale();
 
   const extensionItems = useMemo(
@@ -303,15 +305,15 @@ export default function MatrixModal({ open, closeModal, textSave, textCancel, fu
           );
           setCriteriaTypes(response.payload['criteria_types'].map((c: number) => c.toString()));
           dispatch(resetConvertedMatrix());
+          setForm({
+            ...form,
+            showMatrix: false,
+            modified: true,
+            ...(e.target.files[0]?.name !== null && { fileName: e.target.files[0].name }),
+            ...(response.payload['matrix']?.length && { alternatives: response.payload['matrix']?.length }),
+            ...(response.payload['criteria_types']?.length && { criteria: response.payload['criteria_types']?.length }),
+          });
         }
-        setForm({
-          ...form,
-          showMatrix: false,
-          modified: true,
-          ...(e.target.files[0]?.name !== null && { fileName: e.target.files[0].name }),
-          ...(response.payload['matrix']?.length && { alternatives: response.payload['matrix']?.length }),
-          ...(response.payload['criteria_types']?.length && { criteria: response.payload['criteria_types']?.length }),
-        });
       }
     }
   };
@@ -349,6 +351,11 @@ export default function MatrixModal({ open, closeModal, textSave, textCancel, fu
         ...form,
         generateDisable: false,
         modified: true,
+      });
+    } else {
+      setForm({
+        ...form,
+        generateDisable: false,
       });
     }
   };
@@ -457,16 +464,6 @@ export default function MatrixModal({ open, closeModal, textSave, textCancel, fu
         }),
       );
     });
-    // getWeightsMethodConnections(weightsBlock, blocks, connections).forEach((block) => {
-    //   block.forEach((b) => {
-    //     dispatch(
-    //       setBlockAdditionals({
-    //         id: b.id,
-    //         data: [],
-    //       }),
-    //     );
-    //   });
-    // });
 
     closeModal();
   };
@@ -572,7 +569,11 @@ export default function MatrixModal({ open, closeModal, textSave, textCancel, fu
           {activeBlock !== null && activeBlock.name === 'file' ? (
             <>
               <FileUploader onUpload={handleFileChange} label={t('common:upload-files') as string} />
-              {form.fileName !== null ? (
+              {matrixLoading ? (
+                <Container sx={{ p: 2, display: 'flex', justifyContent: 'center' }}>
+                  <Loader size={100} />
+                </Container>
+              ) : form.fileName !== null ? (
                 <Container>
                   <Stack direction="row" sx={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}>
                     <Checkbox
@@ -593,24 +594,34 @@ export default function MatrixModal({ open, closeModal, textSave, textCancel, fu
                     </Stack>
                   </Stack>
                 </Container>
-              ) : null}
+              ) : (
+                <Typography textAlign="center" sx={{ color: 'error.main' }}>
+                  {t('snackbar:matrix-upload-error')}
+                </Typography>
+              )}
             </>
           ) : null}
           {/* INPUT MATRIX */}
           {activeBlock !== null && (['input', 'random'].includes(activeBlock.name) || form.showMatrix) ? (
             <Box mt={2}>
-              <Stack direction="row" gap={1}>
-                <InputMatrix
-                  matrix={matrix}
-                  alternatives={form.alternatives}
-                  criteria={form.criteria}
-                  extension={form.extension}
-                  onChange={handleMatrixInputChange}
-                  criteriaTypes={criteriaTypes}
-                  onCriteriaTypeChange={handleTypeChange}
-                  onMatrixBlur={onMatrixBlur}
-                />
-              </Stack>
+              {matrixLoading ? (
+                <Container sx={{ p: 2, display: 'flex', justifyContent: 'center' }}>
+                  <Loader size={100} />
+                </Container>
+              ) : (
+                <Stack direction="row" gap={1}>
+                  <InputMatrix
+                    matrix={matrix}
+                    alternatives={form.alternatives}
+                    criteria={form.criteria}
+                    extension={form.extension}
+                    onChange={handleMatrixInputChange}
+                    criteriaTypes={criteriaTypes}
+                    onCriteriaTypeChange={handleTypeChange}
+                    onMatrixBlur={onMatrixBlur}
+                  />
+                </Stack>
+              )}
             </Box>
           ) : null}
         </Container>

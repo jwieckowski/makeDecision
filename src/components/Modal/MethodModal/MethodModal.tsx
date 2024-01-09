@@ -12,7 +12,7 @@ import { useAppSelector, useAppDispatch } from '@/state';
 import { setBlockError, setBlockKwargs } from '@/state/slices/blocksSlice';
 
 // TYPES
-import { MethodsKwargsValueType } from '@/types';
+import { MethodsKwargsValueType, BlockDataKwargsType } from '@/types';
 
 // HOOKS
 import { useLocale } from '@/hooks';
@@ -26,6 +26,7 @@ import ModificationModal from '../ModificationModal';
 import Select from '@/components/Select';
 import Input from '@/components/Input';
 import Checkbox from '@/components/Checkbox';
+import Loader from '@/components/Loader';
 
 import ArrayParams from './ArrayParams';
 
@@ -59,9 +60,10 @@ type KwargsItemsProps = {
   data: KwargsItemsValueProps[];
 };
 
+// TODO wczytywanie ref ideal np w ERVD
 export default function MethodModal({ open, closeModal, textSave, textCancel, fullScreen }: ModalProps) {
   const { activeBlock } = useAppSelector((state) => state.blocks);
-  const { methodsKwargsItems } = useAppSelector((state) => state.calculation);
+  const { methodsKwargsItems, kwargsLoading, error } = useAppSelector((state) => state.calculation);
 
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
@@ -71,6 +73,13 @@ export default function MethodModal({ open, closeModal, textSave, textCancel, fu
   const [modified, setModified] = useState<boolean>(false);
   const [modifiedModalOpen, setModifiedModalOpen] = useState<boolean>(false);
   const [kwargsItems, setKwargsItems] = useState<KwargsItemsProps[]>([]);
+
+  const isCometEspRequired = (blockData: BlockDataKwargsType | undefined) => {
+    if (!blockData) return false;
+    if (activeBlock === null || activeBlock.name.toUpperCase() !== 'COMET' || activeBlock.data.kwargs.length === 0)
+      return false;
+    return blockData.data[0].value == 'esp_expert';
+  };
 
   const getMethodItems = async () => {
     if (activeBlock === null || activeBlock.typeKwargs.length === 0) return;
@@ -83,26 +92,37 @@ export default function MethodModal({ open, closeModal, textSave, textCancel, fu
       items = methodsKwargsItems[activeBlock.name.toUpperCase()];
     }
 
+    if (!items || items.length === 0) {
+      closeModal();
+      return;
+    }
+
     const methodExtensions: MatricesProps[] = getMethodsConnectedBlocksExtensions(activeBlock);
 
-    const methodItems = methodExtensions.map((ext) => {
-      const blockMatrixKwargs = activeBlock.data.kwargs.find((kwargs) => kwargs.matrixId === ext.id);
-      return {
-        data: [
-          ...items
-            .filter((item) => item.extension == ext.extension)
-            .map((item, idx) => {
-              return {
-                ...item,
-                value: blockMatrixKwargs?.data[idx].value ?? item.default,
-                ...(item?.required && { arrayShow: item.required }),
-              };
-            }),
-        ],
-        matrixId: ext.id,
-        extension: ext.extension,
-      };
-    });
+    const methodItems = methodExtensions
+      .map((ext) => {
+        const blockMatrixKwargs = activeBlock.data.kwargs.find((kwargs) => kwargs.matrixId === ext.id);
+        return {
+          data: [
+            ...items
+              .filter((item) => item.extension == ext.extension)
+              .map((item, idx) => {
+                return {
+                  ...item,
+                  value: blockMatrixKwargs?.data[idx].value ?? item.default,
+                  ...(item?.required === false &&
+                    isCometEspRequired(blockMatrixKwargs) && {
+                      required: true,
+                    }),
+                  ...(item?.required && { arrayShow: item.required }),
+                };
+              }),
+          ],
+          matrixId: ext.id,
+          extension: ext.extension,
+        };
+      })
+      .filter((item) => item.data.length > 0);
 
     setKwargsItems(methodItems);
   };
@@ -119,22 +139,17 @@ export default function MethodModal({ open, closeModal, textSave, textCancel, fu
     const copy = [...kwargsItems];
     copy[idx].data[i] = { ...copy[idx].data[i], value: e.target.value };
 
+    // TODO handle esp in comet
     if (e.target.value === 'esp_expert') {
-      copy[idx].data = [
-        ...copy[idx].data,
-        {
-          default: '',
-          dimension: 1,
-          extension: 'crisp',
-          label: 'expected solution points',
-          parameter: 'esp',
-          required: true,
-          type: 'array',
-          value: '',
-        },
-      ];
+      copy[idx].data[1] = {
+        ...copy[idx].data[1],
+        required: true,
+      };
     } else if (['method_expert', 'compromise_expert'].includes(e.target.value) && copy[idx].data.length > 1) {
-      copy[idx].data = [copy[idx].data[0]];
+      copy[idx].data[1] = {
+        ...copy[idx].data[1],
+        required: false,
+      };
     }
     setKwargsItems(copy);
   };
@@ -169,6 +184,14 @@ export default function MethodModal({ open, closeModal, textSave, textCancel, fu
   };
 
   console.log(kwargsItems);
+  console.log(activeBlock);
+
+  const isShowKwargItemIndependent = (idx: number) => {
+    if (activeBlock?.name.toUpperCase() !== 'COMET') return true;
+
+    // COMET ESP
+    return kwargsItems[idx].data[0].value === 'esp_expert';
+  };
 
   const handleArrayInputChange = (arrayValues: string[][], kwargId: number, paramId: number) => {
     const copy = [...kwargsItems];
@@ -232,94 +255,102 @@ export default function MethodModal({ open, closeModal, textSave, textCancel, fu
     >
       <>
         <Container maxWidth="md">
-          <Divider textAlign="center">{activeBlock?.name.toUpperCase()}</Divider>
-          {kwargsItems.map((kwargs, idx) => {
-            return (
-              <Accordion
-                defaultExpanded={idx === 0}
-                key={idx}
-                sx={{ bgcolor: 'secondary.light', px: 2, mt: 1, borderRadius: 2, boxShadow: '0 4px 2px -2px gray' }}
-              >
-                <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
-                  aria-controls="matrix-accordion"
-                  id={`matrix-accordion-${idx}`}
-                >
-                  <Typography>
-                    {t('results:matrix')} ID {kwargs.matrixId} ({kwargs.extension.toLowerCase()})
-                  </Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  {kwargs.data.length > 0 ? (
-                    <Stack
-                      gap={3}
-                      p={2}
-                      direction="column"
-                      alignItems="center"
-                      sx={{ bgcolor: 'white', borderRadius: 2 }}
+          {kwargsLoading ? (
+            <Container sx={{ p: 2, display: 'flex', justifyContent: 'center' }}>
+              <Loader size={80} />
+            </Container>
+          ) : !error ? (
+            <>
+              <Divider textAlign="center">{activeBlock?.name.toUpperCase()}</Divider>
+              {kwargsItems.map((kwargs, idx) => {
+                return (
+                  <Accordion
+                    defaultExpanded={idx === 0}
+                    key={idx}
+                    sx={{ border: '2px solid gray', borderRadius: 2, boxShadow: '0 4px 2px -2px gray', px: 2, mt: 1 }}
+                  >
+                    <AccordionSummary
+                      expandIcon={<ExpandMoreIcon />}
+                      aria-controls="matrix-accordion"
+                      id={`matrix-accordion-${idx}`}
                     >
-                      {kwargs.data.map((kwargItem, i) => {
-                        return (
-                          <Box key={`parameter-wrapper-${idx}-${i}`} sx={{ maxWidth: '600px' }}>
-                            {['select', 'bool'].includes(kwargItem.type) && kwargItem.items ? (
-                              <Select
-                                key={`parameter-${idx}-${i}`}
-                                label={kwargItem.label.toUpperCase()}
-                                items={kwargItem.items}
-                                value={kwargItem.value as string}
-                                onChange={(e) => handleSelectKwargChange(e, idx, i)}
-                                minWidth={200}
-                              />
-                            ) : null}
-                            {kwargItem.type === 'input' ? (
-                              <Input
-                                key={`parameter-${idx}-${i}`}
-                                type={'number'}
-                                value={kwargItem.value as string}
-                                label={kwargItem.label.toUpperCase()}
-                                onChange={(e) => handleInputKwargChange(e, idx, i)}
-                                width={200}
-                                min={kwargItem.min ?? 0}
-                                max={kwargItem?.max}
-                                step={STEP_CURVENESS_VALUE}
-                              />
-                            ) : null}
-                            {kwargItem.type === 'array' ? (
-                              <>
-                                {kwargItem?.required ? (
-                                  <Typography align="center">{kwargItem.label.toUpperCase()}</Typography>
-                                ) : (
-                                  <Checkbox
-                                    id="arrayCheckbox"
+                      <Typography sx={{ fontWeight: 'bold' }}>
+                        {t('results:matrix').toUpperCase()} (ID {kwargs.matrixId} - {kwargs.extension.toLowerCase()})
+                      </Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      {kwargs.data.length > 0 ? (
+                        <Stack
+                          gap={3}
+                          p={2}
+                          direction="column"
+                          alignItems="center"
+                          sx={{ bgcolor: 'white', borderRadius: 2 }}
+                        >
+                          {kwargs.data.map((kwargItem, i) => {
+                            return (
+                              <Box key={`parameter-wrapper-${idx}-${i}`} sx={{ maxWidth: '600px' }}>
+                                {['select', 'bool'].includes(kwargItem.type) && kwargItem.items ? (
+                                  <Select
+                                    key={`parameter-${idx}-${i}`}
                                     label={kwargItem.label.toUpperCase()}
-                                    value={showArrayParam(kwargs.data, i)}
-                                    onChange={(e) => handleArrayShowClick(e, idx, i)}
-                                    placement="start"
-                                    disabled={isArrayRequired(kwargs.data)}
-                                  />
-                                )}
-                                {kwargItem?.required || showArrayParam(kwargs.data, i) ? (
-                                  <ArrayParams
-                                    label={kwargItem.label}
-                                    matrixId={kwargs.matrixId}
-                                    values={kwargItem.value !== '' ? (kwargItem.value as string[]) : []}
-                                    onChange={handleArrayInputChange}
-                                    kwargId={idx}
-                                    paramId={i}
-                                    setKwargsItems={setKwargsItems}
+                                    items={kwargItem.items}
+                                    value={kwargItem.value as string}
+                                    onChange={(e) => handleSelectKwargChange(e, idx, i)}
+                                    minWidth={200}
                                   />
                                 ) : null}
-                              </>
-                            ) : null}
-                          </Box>
-                        );
-                      })}
-                    </Stack>
-                  ) : null}
-                </AccordionDetails>
-              </Accordion>
-            );
-          })}
+                                {kwargItem.type === 'input' ? (
+                                  <Input
+                                    key={`parameter-${idx}-${i}`}
+                                    type={'number'}
+                                    value={kwargItem.value as string}
+                                    label={kwargItem.label.toUpperCase()}
+                                    onChange={(e) => handleInputKwargChange(e, idx, i)}
+                                    width={200}
+                                    min={kwargItem.min ?? 0}
+                                    max={kwargItem?.max}
+                                    step={STEP_CURVENESS_VALUE}
+                                  />
+                                ) : null}
+                                {kwargItem.type === 'array' && isShowKwargItemIndependent(idx) ? (
+                                  <>
+                                    {kwargItem?.required ? (
+                                      <Typography align="center">{kwargItem.label.toUpperCase()}</Typography>
+                                    ) : (
+                                      <Checkbox
+                                        id="arrayCheckbox"
+                                        label={kwargItem.label.toUpperCase()}
+                                        value={showArrayParam(kwargs.data, i)}
+                                        onChange={(e) => handleArrayShowClick(e, idx, i)}
+                                        placement="start"
+                                        disabled={isArrayRequired(kwargs.data)}
+                                      />
+                                    )}
+                                    {kwargItem?.required || showArrayParam(kwargs.data, i) ? (
+                                      <ArrayParams
+                                        label={kwargItem.label}
+                                        matrixId={kwargs.matrixId}
+                                        values={kwargItem.value !== '' ? (kwargItem.value as string[]) : []}
+                                        onChange={handleArrayInputChange}
+                                        kwargId={idx}
+                                        paramId={i}
+                                        setKwargsItems={setKwargsItems}
+                                      />
+                                    ) : null}
+                                  </>
+                                ) : null}
+                              </Box>
+                            );
+                          })}
+                        </Stack>
+                      ) : null}
+                    </AccordionDetails>
+                  </Accordion>
+                );
+              })}
+            </>
+          ) : null}
         </Container>
         <ModificationModal
           open={modifiedModalOpen}

@@ -44,7 +44,7 @@ export default function DragArea() {
     (state) => state.blocks,
   );
 
-  const { error } = useAppSelector((state) => state.calculation);
+  const { error, resultsError } = useAppSelector((state) => state.calculation);
 
   const { size, headSize, curveness, color, path, scale, gridOn, gridSize } = useAppSelector((state) => state.settings);
 
@@ -99,12 +99,13 @@ export default function DragArea() {
   }, [blocks]);
 
   useEffect(() => {
-    if (error === null) return;
-    enqueueSnackbar(error, {
+    if (error === null && resultsError === null) return;
+    const snackbarError = error ?? resultsError;
+    enqueueSnackbar(snackbarError, {
       variant: 'error',
       autoHideDuration: HIDE_DURATION,
     });
-  }, [error]);
+  }, [error, resultsError]);
 
   // useEffect(() => {
   //   if (!isOpen) return;

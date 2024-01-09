@@ -12,6 +12,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 
+// REDUX
+import { useAppSelector } from '@/state';
+
 // COMPONENTS
 import Button from '@/components/Button';
 
@@ -56,6 +59,7 @@ export default function ModalContainer({
   fullScreen,
   errorText,
 }: ModalProps) {
+  const { matrixLoading, kwargsLoading } = useAppSelector((state) => state.calculation);
   const { t } = useTranslation();
   const classes = useStyles();
 
@@ -111,7 +115,7 @@ export default function ModalContainer({
               variant="contained"
               text={textSave ? textSave : t('common:save')}
               onClick={handleSave}
-              disabled={errorText ? true : false}
+              disabled={errorText || matrixLoading || kwargsLoading ? true : false}
             />
           </Stack>
         </Stack>

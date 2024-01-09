@@ -71,6 +71,7 @@ export default function useBlocksConnection() {
             }
           } else {
             dispatch(addConnection([clickedBlocks[0], clickedBlocks[1]]));
+            //
             [inputBlock, outputBlock].map((item) => {
               if (!['matrix', 'method'].includes(item.type.toLowerCase()) && item.name.toLowerCase() !== 'input') {
                 dispatch(
@@ -109,16 +110,17 @@ export default function useBlocksConnection() {
                   }),
                 );
               });
-              getWeightsMethodConnections(weightsBlock, blocks, currentConnections).forEach((block) => {
-                block.forEach((b) => {
-                  dispatch(
-                    setBlockKwargs({
-                      id: b.id,
-                      data: [],
-                    }),
-                  );
-                });
-              });
+              // console.log(getWeightsMethodConnections(weightsBlock, blocks, currentConnections));
+              // getWeightsMethodConnections(weightsBlock, blocks, currentConnections).forEach((block) => {
+              //   block.forEach((b) => {
+              //     dispatch(
+              //       setBlockKwargs({
+              //         id: b.id,
+              //         data: [],
+              //       }),
+              //     );
+              //   });
+              // });
             }
           }
         } else {

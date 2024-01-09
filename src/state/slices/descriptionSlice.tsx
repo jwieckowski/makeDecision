@@ -1,14 +1,10 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 // API
-import { getHomeDescriptions, getMethodsDescriptions } from "@/api/descriptions";
+import { getHomeDescriptions, getMethodsDescriptions } from '@/api/descriptions';
 
 // TYPES
-import {
-  DescriptionsSliceState,
-  DescriptionType,
-  MethodsDescriptionType,
-} from "@/types";
+import { DescriptionsSliceState, DescriptionType, MethodsDescriptionType } from '@/types';
 
 const initialState: DescriptionsSliceState = {
   home: [],
@@ -18,7 +14,7 @@ const initialState: DescriptionsSliceState = {
 };
 
 const descriptionsSlice = createSlice({
-  name: "descriptions",
+  name: 'descriptions',
   initialState: initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -29,45 +25,30 @@ const descriptionsSlice = createSlice({
       })
       .addCase(
         getHomeDescriptions.fulfilled,
-        (
-          state: DescriptionsSliceState,
-          action: PayloadAction<DescriptionType[]>
-        ) => {
+        (state: DescriptionsSliceState, action: PayloadAction<DescriptionType[]>) => {
           state.home = action.payload;
           state.loading = false;
-        }
+        },
       )
-      .addCase(
-        getHomeDescriptions.rejected,
-        (state: DescriptionsSliceState) => {
-          state.error = "Error occurred while getting data from server";
-          state.loading = false;
-        }
-      )
-      .addCase(
-        getMethodsDescriptions.pending,
-        (state: DescriptionsSliceState) => {
-          state.error = null;
-          state.loading = true;
-        }
-      )
+      .addCase(getHomeDescriptions.rejected, (state: DescriptionsSliceState, action: any) => {
+        state.error = action.payload;
+        state.loading = false;
+      })
+      .addCase(getMethodsDescriptions.pending, (state: DescriptionsSliceState) => {
+        state.error = null;
+        state.loading = true;
+      })
       .addCase(
         getMethodsDescriptions.fulfilled,
-        (
-          state: DescriptionsSliceState,
-          action: PayloadAction<MethodsDescriptionType[]>
-        ) => {
+        (state: DescriptionsSliceState, action: PayloadAction<MethodsDescriptionType[]>) => {
           state.methods = action.payload;
           state.loading = false;
-        }
+        },
       )
-      .addCase(
-        getMethodsDescriptions.rejected,
-        (state: DescriptionsSliceState) => {
-          state.error = "Error occurred while getting data from server";
-          state.loading = false;
-        }
-      );
+      .addCase(getMethodsDescriptions.rejected, (state: DescriptionsSliceState, action: any) => {
+        state.error = action.payload;
+        state.loading = false;
+      });
   },
 });
 const { reducer } = descriptionsSlice;

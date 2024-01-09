@@ -50,6 +50,7 @@
   "color": "Color",
   "path": "Path",
   "reset": "Reset",
+  "all": "All",
 
   "not-connected": "Not all elements have been connected. Do you want to continue with the calculations?",
   "work-area": "Work area is to small",

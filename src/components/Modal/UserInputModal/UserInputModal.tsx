@@ -1,4 +1,4 @@
-import { useState, useEffect, ChangeEvent, FocusEvent } from 'react';
+import { useState, useEffect, ChangeEvent, FocusEvent, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Container, Stack, Divider } from '@mui/material';
 
@@ -7,6 +7,7 @@ import { useAppSelector, useAppDispatch } from '@/state';
 
 // COMPONENTS
 import Input from '@/components/Input';
+import Select from '@/components/Select';
 import ModalContainer from '../ModalContainer';
 import ModificationModal from '../ModificationModal';
 
@@ -14,7 +15,6 @@ import ModificationModal from '../ModificationModal';
 import { DEFAULT_ALTERNATIVES, MIN_ALTERNATIVES, MAX_ALTERNATIVES } from '@/common/const';
 
 // UTILS
-// import useCalculation from '@/utils/calculation';
 import useValidation from '@/utils/validation';
 import { convertCrispInput } from '@/utils/formatting';
 import { setBlockError, setBlockData } from '@/state/slices/blocksSlice';
@@ -57,6 +57,14 @@ export default function UserInputModal({ open, type, closeModal, textSave, textC
     modifiedModalOpen: false,
     alternatives: activeBlock?.data?.alternatives || DEFAULT_ALTERNATIVES,
   });
+
+  const alternativesItems = useMemo(
+    () =>
+      Array(MAX_ALTERNATIVES - MIN_ALTERNATIVES)
+        .fill(0)
+        .map((_, i) => ({ label: `${i + 1 + MIN_ALTERNATIVES}`, value: `${i + 1 + MIN_ALTERNATIVES}` })),
+    [],
+  );
 
   // ALTERNATIVES EFFECTS
   useEffect(() => {
@@ -145,17 +153,12 @@ export default function UserInputModal({ open, type, closeModal, textSave, textC
     closeModal();
   };
 
-  const validateInput = (value: number, min: number, max: number) => {
-    return value < min || value > max;
-  };
-
-  const handleInputChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    if (isNaN(+event.target.value)) return;
-    setForm({
-      ...form,
+  const handleSelectChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    setForm((prev) => ({
+      ...prev,
       [event.target.name]: +event.target.value,
       modified: +event.target.value !== activeBlock?.data.alternatives,
-    });
+    }));
   };
 
   const onInputBlur = (e: FocusEvent<HTMLInputElement>, col: number) => {
@@ -205,15 +208,14 @@ export default function UserInputModal({ open, type, closeModal, textSave, textC
           <Stack direction="column" gap={2} sx={{ display: 'flex', justifyContent: 'center' }}>
             <Divider textAlign="center">{activeBlock?.name.toUpperCase()}</Divider>
             <Stack direction="row" gap={1} sx={{ display: 'flex', justifyContent: 'center' }}>
-              <Input
+              <Select
                 name="alternatives"
-                value={form.alternatives}
                 label={t('results:alternatives') as string}
-                onChange={(e) => handleInputChange(e)}
-                width={100}
+                items={alternativesItems}
+                value={`${form.alternatives}`}
+                onChange={handleSelectChange}
+                minWidth={100}
                 required
-                helperText={t('results:from-to', { from: MIN_ALTERNATIVES, to: MAX_ALTERNATIVES })}
-                error={validateInput(form.alternatives, MIN_ALTERNATIVES, MAX_ALTERNATIVES)}
               />
             </Stack>
 

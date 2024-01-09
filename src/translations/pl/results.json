@@ -50,6 +50,7 @@
   "color": "Kolor",
   "path": "Typ",
   "reset": "Reset",
+  "all": "Wszystkie",
 
   "not-connected": "Nie wszystkie elementy zostały połączone. Czy chcesz kontynuować obliczenia?",
   "work-area": "Obszar roboczy jest za mały",
