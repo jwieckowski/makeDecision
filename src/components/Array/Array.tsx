@@ -5,7 +5,8 @@ import { Container, Stack, Box, Typography } from '@mui/material';
 import Input from '@/components/Input';
 
 // CONST
-import { MAX_CRITERIA, MATRIX_LABEL_WIDTH, MATRIX_INPUT_WIDTH, STEP_CURVENESS_VALUE } from '@/common/const';
+import { MAX_CRITERIA } from '@/common/calculations';
+import { MATRIX_LABEL_WIDTH, MATRIX_INPUT_WIDTH, STEP_CURVENESS_VALUE } from '@/common/ui';
 
 type ArrayValueItem = {
   value: string;

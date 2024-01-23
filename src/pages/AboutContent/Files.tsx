@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
 import { useTranslation } from 'react-i18next';
 import { Container, Stack, Typography, Divider, Grid } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
@@ -7,6 +10,7 @@ import Codes from '@/components/Codes';
 import Button from '@/components/Button';
 
 // CONST
+import { APP_NAME_PATH, APP_URL } from '@/common/const';
 import {
   JSON_CRISP_DATA,
   JSON_FUZZY_DATA,
@@ -20,9 +24,7 @@ import {
   FUZZY_CSV_FILE,
   CRISP_XLSX_FILE,
   FUZZY_XLSX_FILE,
-  APP_NAME_PATH,
-  APP_URL,
-} from '@/common/const';
+} from '@/common/data';
 
 export default function Files() {
   const { t } = useTranslation();

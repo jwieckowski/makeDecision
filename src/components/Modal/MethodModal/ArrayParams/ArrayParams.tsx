@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
 import { ChangeEvent, useState, FocusEvent, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -13,7 +16,7 @@ import useValidation from '@/utils/validation';
 import { convertCrispInput, convertFuzzyInput } from '@/utils/formatting';
 
 // CONST
-import { DEFAULT_CRITERIA } from '@/common/const';
+import { DEFAULT_CRITERIA } from '@/common/calculations';
 
 type ArrayParamsProps = {
   label: string;

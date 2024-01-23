@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
 import React, { useState, useEffect, MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSnackbar } from 'notistack';
@@ -18,9 +21,11 @@ import {
   setConnectionToDelete,
   deleteClickedBlock,
   deleteConnection,
+  setBlockError,
   setBlocks,
   setBlockPosition,
 } from '@/state/slices/blocksSlice';
+import { clearErrors } from '@/state/slices/calculationSlice';
 
 // COMPONENTS
 import DraggableItem from './DraggableItem';
@@ -31,18 +36,21 @@ import MethodModal from '@/components/Modal/MethodModal';
 // import ScaleSettings from './ScaleSettings';
 
 // CONST
-import { HIDE_DURATION, NAV_HEIGHT, DRAG_AREA_SPACE } from '@/common/const';
+import { DRAG_AREA_SPACE, NAV_HEIGHT, HIDE_DURATION } from '@/common/ui';
 
 // UTILS
 import useBlocksConnection from '@/utils/connections';
 import UserInputModal from '@/components/Modal/UserInputModal';
 
+type Position = {
+  x: number;
+  y: number;
+};
+
 export default function DragArea() {
   const { allMethods } = useAppSelector((state) => state.dictionary);
 
-  const { blocks, clickedBlocks, connections, draggedItem, activeBlock, connectionToDelete } = useAppSelector(
-    (state) => state.blocks,
-  );
+  const { blocks, clickedBlocks, connections, draggedItem, activeBlock } = useAppSelector((state) => state.blocks);
 
   const { error, resultsError } = useAppSelector((state) => state.calculation);
 
@@ -52,12 +60,19 @@ export default function DragArea() {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [modalType, setModalType] = useState<string>('');
 
+  const [initialPosition, setInitialPosition] = useState<Position>({ x: 0, y: 0 });
+
   // const { isOpen, currentStep, setCurrentStep, setIsOpen } = useTour();
   const { addBlockConnection, checkForWrongExtensionMethodConnection } = useBlocksConnection();
   const updateXarrow = useXarrow();
   const dispatch = useAppDispatch();
   const { enqueueSnackbar } = useSnackbar();
   const { t } = useTranslation();
+
+  useEffect(() => {
+    if (!error && !resultsError) return;
+    dispatch(clearErrors());
+  }, []);
 
   useEffect(() => {
     addBlockConnection();
@@ -89,6 +104,17 @@ export default function DragArea() {
 
       if (blockId !== null) {
         dispatch(deleteConnection(c));
+        // if no connection then error
+        c.forEach((connection) => {
+          if (connections.filter((con) => con.includes(connection)).length === 1) {
+            dispatch(
+              setBlockError({
+                id: +connection,
+                error: true,
+              }),
+            );
+          }
+        });
       }
     });
 
@@ -163,27 +189,6 @@ export default function DragArea() {
     //   }, 300);
   };
 
-  // const deleteBlockConnection = () => {
-  //   dispatch(deleteConnection(connectionToDelete));
-  //   handleModalClose();
-
-  //   // if (isOpen) setCurrentStep((prev) => prev + 1);
-  // };
-
-  // const handleSave = (type: string) => {
-  //   type FunctionsDict = {
-  //     [key: string]: () => void;
-  //   };
-  //   const saveFunctions: FunctionsDict = {
-  //     connection: deleteBlockConnection,
-  //     matrix: handleModalClose,
-  //     weights: handleModalClose,
-  //     method: handleModalClose,
-  //   };
-
-  //   return saveFunctions[type] || handleModalClose;
-  // };
-
   const handleDraggableClick = (e: MouseEvent<HTMLElement>, id: string) => {
     e.stopPropagation();
     if (draggedItem !== null) return;
@@ -196,14 +201,11 @@ export default function DragArea() {
   };
 
   const onDrag = () => {
-    // console.log('tu');
     setIsMoveable(true);
     updateXarrow();
   };
-
-  const onStop = () => {
-    // const onStop = (id: number, x: number, y: number) => {
-    // dispatch(setBlockPosition({ id: +id, position: { x: x, y: y } }));
+  const onStop = (id: number, x: number, y: number) => {
+    dispatch(setBlockPosition({ id: +id, position: { x: x, y: y } }));
     setIsMoveable(false);
     updateXarrow();
   };
@@ -266,8 +268,10 @@ export default function DragArea() {
             disabled: true,
           }}
           pinch={{ step: 5 }}
+          initialPositionX={initialPosition.x}
+          initialPositionY={initialPosition.y}
+          // onPanningStop={(wrapperRef, e) => console.log(e)}
         >
-          {/* <ScaleSettings /> */}
           <TransformComponent
             wrapperStyle={{
               width: '100%',

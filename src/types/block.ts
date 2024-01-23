@@ -38,6 +38,7 @@ export type BlockType = {
   data: BlockDataType;
   error: boolean;
   errorMessage: null | string;
+  isFilled: boolean;
   position: BlockPosition;
   typeKwargs: [] | MethodKwargs[];
 };

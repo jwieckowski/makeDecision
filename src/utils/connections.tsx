@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -66,6 +69,12 @@ export default function useBlocksConnection() {
 
             if (outConnections.filter((c) => rankingBlocks.map((b) => b.id).includes(+c)).length === 0) {
               dispatch(addConnection([clickedBlocks[0], clickedBlocks[1]]));
+              dispatch(
+                setBlockError({
+                  id: +clickedBlocks[1],
+                  error: false,
+                }),
+              );
             } else {
               showSnackbar(t('snackbar:method-ranking'), 'error');
             }
@@ -73,6 +82,9 @@ export default function useBlocksConnection() {
             dispatch(addConnection([clickedBlocks[0], clickedBlocks[1]]));
             //
             [inputBlock, outputBlock].map((item) => {
+              // used isFilled param
+              console.log('item.isFilled');
+              console.log(item.isFilled);
               if (!['matrix', 'method'].includes(item.type.toLowerCase()) && item.name.toLowerCase() !== 'input') {
                 dispatch(
                   setBlockError({
@@ -81,12 +93,30 @@ export default function useBlocksConnection() {
                   }),
                 );
               } else {
-                dispatch(
-                  setBlockError({
-                    id: item.id,
-                    error: item.error,
-                  }),
-                );
+                console.log('tu');
+                console.log(item);
+                // new matrix connected to method
+                if (item.type.toLowerCase() === 'method') {
+                  const matricesId = connections.filter((c) => c.includes(`${inputBlock.id}`)).map((c) => +c[0]);
+                  const inputMatricesId = outputBlock.data.kwargs.map((k) => k.matrixId);
+                  matricesId.forEach((mid) => {
+                    if (!inputMatricesId.includes(mid)) {
+                      dispatch(
+                        setBlockError({
+                          id: item.id,
+                          error: true,
+                        }),
+                      );
+                    }
+                  });
+                } else {
+                  dispatch(
+                    setBlockError({
+                      id: item.id,
+                      error: !item.isFilled,
+                    }),
+                  );
+                }
               }
             });
 
@@ -94,8 +124,10 @@ export default function useBlocksConnection() {
             // UPDATE EXTENSIONS IN WEIGHTS AND METHODS BLOCKS CONNECTED TO MATRIX
             if (inputBlock.type === 'matrix') {
               const weightsBlock = getMatrixWeightsConnections(blocks, currentConnections, inputBlock);
+              console.log(weightsBlock);
               weightsBlock.forEach((b) => {
                 if (b.data.criteria !== inputBlock.data.criteria) {
+                  console.log('czyścimy wagi');
                   dispatch(
                     setBlockWeights({
                       id: b.id,
@@ -110,17 +142,6 @@ export default function useBlocksConnection() {
                   }),
                 );
               });
-              // console.log(getWeightsMethodConnections(weightsBlock, blocks, currentConnections));
-              // getWeightsMethodConnections(weightsBlock, blocks, currentConnections).forEach((block) => {
-              //   block.forEach((b) => {
-              //     dispatch(
-              //       setBlockKwargs({
-              //         id: b.id,
-              //         data: [],
-              //       }),
-              //     );
-              //   });
-              // });
             }
           }
         } else {

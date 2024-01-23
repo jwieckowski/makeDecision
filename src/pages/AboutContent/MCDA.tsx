@@ -1,6 +1,5 @@
-import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Container, Stack, Typography, Divider } from '@mui/material';
+import { Container, Stack, Typography } from '@mui/material';
 
 // COMPONENTS
 import Image from '@/components/Image';

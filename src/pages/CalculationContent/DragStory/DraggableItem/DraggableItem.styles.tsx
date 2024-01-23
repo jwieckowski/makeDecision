@@ -1,5 +1,5 @@
 // CONST
-import { DRAGGABLE_WIDTH, DRAGGABLE_HEIGHT } from '@/common/const';
+import { DRAGGABLE_WIDTH, DRAGGABLE_HEIGHT } from '@/common/ui';
 
 type dict = {
   [key: string]: object;

@@ -24,7 +24,9 @@ import Contact from '@/pages/Contact';
 import { useOnlineStatus } from '@/hooks';
 
 // CONST
-import { DRAWER_WIDTH, HIDE_DURATION, MENU_ITEMS, APP_NAME_PATH } from '@/common/const';
+import { APP_NAME_PATH } from '@/common/const';
+import { DRAWER_WIDTH, HIDE_DURATION } from '@/common/ui';
+import { MENU_ITEMS } from '@/common/menu';
 
 type AppLayoutProps = {
   children: React.ReactElement;

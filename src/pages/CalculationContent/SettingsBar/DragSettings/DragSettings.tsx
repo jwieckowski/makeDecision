@@ -26,8 +26,8 @@ import Checkbox from '@/components/Checkbox';
 import ColorPicker from '@/components/ColorPicker';
 
 // CONST
+import { PATHS } from '@/common/calculations';
 import {
-  PATHS,
   MIN_SETTINGS_VALUE,
   MIN_CURVENESS_VALUE,
   MAX_SETTINGS_VALUE,
@@ -36,7 +36,7 @@ import {
   STEP_CURVENESS_VALUE,
   MIN_GRID_VALUE,
   MAX_GRID_VALUE,
-} from '@/common/const';
+} from '@/common/ui';
 
 export default function DragSettings() {
   const { size, headSize, curveness, path, color, gridOn, gridSize } = useSelector(
@@ -85,6 +85,15 @@ export default function DragSettings() {
         max={MAX_SETTINGS_VALUE}
         step={STEP_SETTINGS_VALUE}
       />
+      <Select
+        items={PATHS}
+        value={path}
+        onChange={(e) => {
+          dispatch(setPath(e.target.value));
+        }}
+        label={`${t('results:path')}`}
+        minWidth={100}
+      />
       <Input
         type={'number'}
         value={curveness}
@@ -95,15 +104,7 @@ export default function DragSettings() {
         min={MIN_CURVENESS_VALUE}
         max={MAX_CURVENESS_VALUE}
         step={STEP_CURVENESS_VALUE}
-      />
-      <Select
-        items={PATHS}
-        value={path}
-        onChange={(e) => {
-          dispatch(setPath(e.target.value));
-        }}
-        label={`${t('results:path')}`}
-        minWidth={100}
+        disabled={path !== PATHS[0].value}
       />
       <ColorPicker
         value={color}

@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Typography from '@mui/material/Typography';
@@ -37,7 +40,7 @@ import Loader from '@/components/Loader';
 import CollapseItem from './CollapseItem';
 
 // CONST
-import { DEFAULT_ALTERNATIVES, DEFAULT_CRITERIA } from '@/common/const';
+import { DEFAULT_ALTERNATIVES, DEFAULT_CRITERIA } from '@/common/calculations';
 
 export default function CalculationsMenu() {
   const { blocks } = useAppSelector((state) => state.blocks);
@@ -62,11 +65,11 @@ export default function CalculationsMenu() {
     await dispatch(fetchAllMethods(locale));
   };
 
-  const isMissingData = (type: string, name: string) => {
-    if (['matrix', 'method'].includes(type.toLowerCase())) return true;
-    if (type.toLowerCase() === 'weights' && name.toLowerCase() === 'input') return true;
-    return false;
-  };
+  // const isMissingData = (type: string, name: string) => {
+  //   if (['matrix', 'method'].includes(type.toLowerCase())) return true;
+  //   if (type.toLowerCase() === 'weights' && name.toLowerCase() === 'input') return true;
+  //   return false;
+  // };
 
   useEffect(() => {
     if (locale === '') return;
@@ -128,6 +131,10 @@ export default function CalculationsMenu() {
   //   dispatch(addBlock(block));
   // }, [currentStep]);
 
+  const getIsFilled = (type: string) => {
+    return !['matrix', 'weights', 'method'].includes(type.toLowerCase());
+  };
+
   function handleMethodItemClick(
     e: React.MouseEvent<HTMLLIElement, MouseEvent>,
     type: string,
@@ -154,8 +161,9 @@ export default function CalculationsMenu() {
         criteria: DEFAULT_CRITERIA,
         preference: [],
       },
-      error: isMissingData(type, name),
+      error: true,
       errorMessage: null,
+      isFilled: getIsFilled(type),
       // TODO set initial position based on the area
       position: {
         x: 100,

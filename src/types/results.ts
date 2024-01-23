@@ -269,7 +269,7 @@ export type ResultsVisualizationNodeData = {
 };
 
 export type ResultsVisualizationNode = {
-  node_type: 'correlation';
+  node_type: 'visualization';
   data: ResultsVisualizationNodeData[];
 };
 

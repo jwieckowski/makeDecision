@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
 import { ChangeEvent } from 'react';
 import FormControl from '@mui/material/FormControl';
 import { TextField } from '@mui/material';

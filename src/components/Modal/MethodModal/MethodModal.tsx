@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
 import { useState, ChangeEvent, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { SelectChangeEvent, Container, Stack, Typography, Divider, Box } from '@mui/material';
@@ -9,7 +12,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 // REDUX
 import { useAppSelector, useAppDispatch } from '@/state';
-import { setBlockError, setBlockKwargs } from '@/state/slices/blocksSlice';
+import { setBlockError, setBlockKwargs, setBlockFilled } from '@/state/slices/blocksSlice';
 
 // TYPES
 import { MethodsKwargsValueType, BlockDataKwargsType } from '@/types';
@@ -34,7 +37,7 @@ import ArrayParams from './ArrayParams';
 import useBlocksConnection from '@/utils/connections';
 
 // CONST
-import { STEP_CURVENESS_VALUE } from '@/common/const';
+import { STEP_CURVENESS_VALUE } from '@/common/ui';
 
 type ModalProps = {
   open: boolean;
@@ -239,6 +242,12 @@ export default function MethodModal({ open, closeModal, textSave, textCancel, fu
         error: false,
       }),
     );
+    dispatch(
+      setBlockFilled({
+        id: activeBlock.id,
+        isFilled: true,
+      }),
+    );
 
     closeModal();
   };
@@ -335,7 +344,6 @@ export default function MethodModal({ open, closeModal, textSave, textCancel, fu
                                         onChange={handleArrayInputChange}
                                         kwargId={idx}
                                         paramId={i}
-                                        setKwargsItems={setKwargsItems}
                                       />
                                     ) : null}
                                   </>

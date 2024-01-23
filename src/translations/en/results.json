@@ -39,6 +39,7 @@
   "crisp": "Crisp",
   "fuzzy": "Fuzzy",
 
+  "save": "Save",
   "save-graph": "Graph",
   "clear": "Clear",
   "calculate": "Calculate",
@@ -58,5 +59,10 @@
   "bigger-screen": "To use the calculation, page run the application on the bigger screen",
   "show-matrix": "Show uploaded matrix",
   "filter": "Filter",
-  "cancel-modified-data": "The data in the block has been modified. Are you sure you want to continue without saving?"
+  "cancel-modified-data": "The data in the block has been modified. Are you sure you want to continue without saving?",
+
+  "missing-decimal-value": "Decimal value missing",
+  "missing-three-values": "3 values are not provided",
+  "not-ascending-order": "Numbers not in ascending order",
+  "missing-numerical-value": "Numerical value missing"
 }

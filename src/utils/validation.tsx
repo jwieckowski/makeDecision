@@ -76,15 +76,7 @@ const useValidation = () => {
     return true;
   };
 
-  const validateUserInputCrispMatrixZeros = (matrix: string[][], id: number) => {
-    if (matrix.map((r: string[]) => r.some((item) => +item === 0) === true).some((r: boolean) => r === true) === true) {
-      showSnackbar(t('snackbar:zeros-in-matrix', { id }), 'error');
-      return false;
-    }
-    return true;
-  };
-
-  const validateUserInputCrispMatrixSameValuesInColumn = (matrix: string[][], id: number) => {
+  const validateUserInputMatrixSameValuesInColumn = (matrix: string[][], id: number) => {
     for (let i = 0; i < matrix[0].length; i++) {
       const colValue = [...matrix.map((r: string[]) => r[i])];
       const unique = Array.from(new Set(colValue));
@@ -96,16 +88,16 @@ const useValidation = () => {
     return true;
   };
 
-  const validateUserInputFuzzyMatrixZeros = (matrix: string[][], id: number) => {
-    if (
-      matrix.map((r: string[]) => r.some((item) => item === '0, 0, 0') === true).some((r: boolean) => r === true) ===
-      true
-    ) {
-      showSnackbar(t('snackbar:zeros-in-matrix', { id }), 'error');
-      return false;
-    }
-    return true;
-  };
+  // const validateUserInputFuzzyMatrixZeros = (matrix: string[][], id: number) => {
+  //   if (
+  //     matrix.map((r: string[]) => r.some((item) => item === '0, 0, 0') === true).some((r: boolean) => r === true) ===
+  //     true
+  //   ) {
+  //     showSnackbar(t('snackbar:zeros-in-matrix', { id }), 'error');
+  //     return false;
+  //   }
+  //   return true;
+  // };
 
   const validateUserInputFuzzyMatrixTFN = (matrix: string[][], id: number) => {
     if (
@@ -144,11 +136,11 @@ const useValidation = () => {
 
   const validateMatrixData = (matrix: string[][], extension: string, id: number) => {
     if (extension === 'crisp') {
-      if (!validateUserInputCrispMatrixZeros(matrix, id)) return false;
       if (!validateUserInputMatrixEmpty(matrix, id)) return false;
-      if (!validateUserInputCrispMatrixSameValuesInColumn(matrix, id)) return false;
+      if (!validateUserInputMatrixSameValuesInColumn(matrix, id)) return false;
     } else if (extension === 'fuzzy') {
-      if (!validateUserInputFuzzyMatrixZeros(matrix, id)) return false;
+      if (!validateUserInputMatrixSameValuesInColumn(matrix, id)) return false;
+      // if (!validateUserInputFuzzyMatrixZeros(matrix, id)) return false;
       if (!validateUserInputFuzzyMatrixTFN(matrix, id)) return false;
       if (!validateUserInputFuzzyMatrixOrder(matrix, id)) return false;
     }
@@ -264,7 +256,6 @@ const useValidation = () => {
     } else if (extension === 'fuzzy') {
       if (!validateUserInputFuzzyWeightsZeros(weights, id)) return false;
       if (!validateUserInputFuzzyWeightsTFN(weights, id)) return false;
-      if (!validateUserInputFuzzyWeightsTFN(weights, id)) return false;
     }
     return true;
   };
@@ -277,9 +268,9 @@ const useValidation = () => {
     validateMatrixWeightsConnections,
     validateUploadedMatrix,
     validateUserInputMatrixEmpty,
-    validateUserInputCrispMatrixZeros,
-    validateUserInputCrispMatrixSameValuesInColumn,
-    validateUserInputFuzzyMatrixZeros,
+    // validateUserInputCrispMatrixZeros,
+    validateUserInputMatrixSameValuesInColumn,
+    // validateUserInputFuzzyMatrixZeros,
     validateUserInputFuzzyMatrixTFN,
     validateUserInputFuzzyMatrixOrder,
     validateCriteriaTypes,

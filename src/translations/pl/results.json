@@ -39,6 +39,7 @@
   "crisp": "Ostre",
   "fuzzy": "Rozmyte",
 
+  "save": "Zapisz",
   "save-graph": "Schemat",
   "clear": "Wyczyść",
   "calculate": "Oblicz",
@@ -58,5 +59,10 @@
   "bigger-screen": "By wykonać obliczenia, uruchom aplikację na większym urządzeniu",
   "show-matrix": "Pokaż załadowaną macierz",
   "filter": "Filtruj",
-  "cancel-modified-data": "Dane w bloku zostały zmodyfikowane. Czy na pewno chcesz kontynuować bez zapisu?"
+  "cancel-modified-data": "Dane w bloku zostały zmodyfikowane. Czy na pewno chcesz kontynuować bez zapisu?",
+
+  "missing-decimal-value": "Brakuje wartości dziesiętnej",
+  "missing-three-values": "Nie zostały podane 3 wartości",
+  "not-ascending-order": "Liczby nie są w kolejności niemalejącej",
+  "missing-numerical-value": "Brakuje wartości liczbowej"
 }

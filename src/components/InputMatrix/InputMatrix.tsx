@@ -6,7 +6,8 @@ import Input from '@/components/Input';
 import CriteriaTypes from '@/components/CriteriaTypes';
 
 // CONST
-import { MAX_ALTERNATIVES, MAX_CRITERIA, MATRIX_LABEL_WIDTH, MATRIX_INPUT_WIDTH } from '@/common/const';
+import { MAX_ALTERNATIVES, MAX_CRITERIA } from '@/common/calculations';
+import { MATRIX_LABEL_WIDTH, MATRIX_INPUT_WIDTH } from '@/common/ui';
 
 type MatrixCellProps = {
   value: string;

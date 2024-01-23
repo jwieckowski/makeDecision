@@ -1,5 +1,3 @@
-import React from "react";
-
 type JsonCodesProps = {
   data: string | any[][];
 };

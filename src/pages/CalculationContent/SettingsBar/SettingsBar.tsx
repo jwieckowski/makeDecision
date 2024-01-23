@@ -28,7 +28,6 @@ import useSnackbars from '@/utils/snackbars';
 
 export default function SettingsBar() {
   const { blocks, connections } = useAppSelector((state) => state.blocks);
-  const { allMethods } = useAppSelector((state) => state.dictionary);
   // const { results } = useAppSelector((state) => state.calculation);
 
   const { t } = useTranslation();

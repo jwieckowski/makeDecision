@@ -11,13 +11,13 @@ import ModalContainer from '../ModalContainer';
 import ModificationModal from '../ModificationModal';
 
 // CONST
-import { DEFAULT_CRITERIA, MAX_CRITERIA } from '@/common/const';
+import { DEFAULT_CRITERIA, MAX_CRITERIA } from '@/common/calculations';
 
 // UTILS
 // import useCalculation from '@/utils/calculation';
 import useValidation from '@/utils/validation';
 import { convertCrispInput, convertFuzzyInput } from '@/utils/formatting';
-import { setBlockWeights, setBlockError } from '@/state/slices/blocksSlice';
+import { setBlockWeights, setBlockError, setBlockFilled } from '@/state/slices/blocksSlice';
 
 type ModalProps = {
   open: boolean;
@@ -115,6 +115,12 @@ export default function WeightsModal({ open, closeModal, textSave, textCancel, f
       setBlockError({
         id: activeBlock.id,
         error: false,
+      }),
+    );
+    dispatch(
+      setBlockFilled({
+        id: activeBlock.id,
+        isFilled: true,
       }),
     );
 

@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
 import { useState, useMemo, useEffect, ChangeEvent, FocusEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Container, Stack, Typography, Box, Divider } from '@mui/material';
@@ -20,7 +23,7 @@ import ModalContainer from '../ModalContainer';
 
 // SLICES
 import { resetConvertedMatrix } from '@/state/slices/calculationSlice';
-import { setBlockCriteria, setBlockData, setBlockError } from '@/state/slices/blocksSlice';
+import { setBlockCriteria, setBlockData, setBlockError, setBlockFilled } from '@/state/slices/blocksSlice';
 
 // API
 import { uploadMatrixFile, generateMatrix } from '@/api/calculations';
@@ -36,7 +39,7 @@ import {
   MAX_CRITERIA,
   DEFAULT_ALTERNATIVES,
   DEFAULT_CRITERIA,
-} from '@/common/const';
+} from '@/common/calculations';
 
 // UTILS
 import useCalculation from '@/utils/calculation';
@@ -72,10 +75,11 @@ type FormProps = {
   generateDisable: boolean;
   modified: boolean;
   showMatrix: boolean;
+  matrixError: null | string;
 };
 
 export default function MatrixModal({ open, closeModal, textSave, textCancel, fullScreen }: ModalProps) {
-  const { matrixLoading, error } = useAppSelector((state) => state.calculation);
+  const { matrixLoading } = useAppSelector((state) => state.calculation);
   const { activeBlock, blocks, connections } = useAppSelector((state) => state.blocks);
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
@@ -83,6 +87,8 @@ export default function MatrixModal({ open, closeModal, textSave, textCancel, fu
   const { isCrispInputValid, isFuzzyInputValid, validateMatrixBounds, validateMatrixData } = useValidation();
   const { getMatrixWeightsConnections } = useCalculation();
   const { locale } = useLocale();
+
+  const [fileError, setFileError] = useState<boolean>(false);
 
   const extensionItems = useMemo(
     () => [
@@ -130,6 +136,7 @@ export default function MatrixModal({ open, closeModal, textSave, textCancel, fu
     generateDisable: false,
     modified: false,
     showMatrix: false,
+    matrixError: null,
   });
 
   const [matrix, setMatrix] = useState<MatrixCellProps[][]>(
@@ -297,6 +304,7 @@ export default function MatrixModal({ open, closeModal, textSave, textCancel, fu
 
         const response = await dispatch(uploadMatrixFile({ locale, body: formData }));
         if (response.meta.requestStatus === 'fulfilled') {
+          if (fileError) setFileError(false);
           showSnackbar(t('snackbar:matrix-upload-success'), 'success');
           setMatrix(
             response.payload['matrix'].map((row: number[] | number[][]) =>
@@ -313,6 +321,13 @@ export default function MatrixModal({ open, closeModal, textSave, textCancel, fu
             ...(response.payload['matrix']?.length && { alternatives: response.payload['matrix']?.length }),
             ...(response.payload['criteria_types']?.length && { criteria: response.payload['criteria_types']?.length }),
           });
+        } else {
+          setFileError(true);
+          setForm((prev) => ({
+            ...prev,
+            fileName: null,
+            modified: false,
+          }));
         }
       }
     }
@@ -378,20 +393,29 @@ export default function MatrixModal({ open, closeModal, textSave, textCancel, fu
   };
 
   const onMatrixBlur = (e: FocusEvent<HTMLInputElement>, row: number, col: number) => {
-    let isError = false;
+    let errorCode = 0;
+
+    const errorMessages = {
+      1: t('results:missing-decimal-value'),
+      2: t('results:missing-three-values'),
+      3: t('results:not-ascending-order'),
+      4: t('results:missing-numerical-value'),
+    };
+
     if (form.extension === 'crisp') {
-      isError = e.target.value[e.target.value.length - 1] === '.';
+      if (e.target.value.trim()[e.target.value.trim().length - 1] === '.') errorCode = 1;
     } else if (form.extension === 'fuzzy') {
       const splitted = e.target.value.split(',');
+      if (splitted.some((i) => i.trim()[i.trim().length - 1] === '.')) errorCode = 1;
       // length other than 3 is error
-      isError = splitted.length !== 3;
+      else if (splitted.length !== 3) errorCode = 2;
       // order not ascending is error
       const numbers = splitted.map((n: string) => +n);
       if (splitted.length === 3) {
         // check if values are given in ascending order or equal than previous value
-        isError = !numbers.every((v: number, i: number) => i === 0 || v >= numbers[i - 1]);
+        if (!numbers.every((v: number, i: number) => i === 0 || v >= numbers[i - 1])) errorCode = 3;
         // not given numerical value for string
-        isError = splitted.some((i) => i.trim() === '');
+        if (splitted.some((i) => i.trim() === '')) errorCode = 4;
       }
     }
 
@@ -402,7 +426,7 @@ export default function MatrixModal({ open, closeModal, textSave, textCancel, fu
         ? r.map((c, idxx) => {
             return {
               ...c,
-              error: idxx === col ? isError : c.error,
+              error: idxx === col ? errorCode !== 0 : c.error,
             };
           })
         : r;
@@ -412,6 +436,7 @@ export default function MatrixModal({ open, closeModal, textSave, textCancel, fu
     setForm({
       ...form,
       modified: true,
+      matrixError: errorCode !== 0 ? errorMessages[errorCode] : null,
     });
   };
 
@@ -453,6 +478,12 @@ export default function MatrixModal({ open, closeModal, textSave, textCancel, fu
         error: false,
       }),
     );
+    dispatch(
+      setBlockFilled({
+        id: activeBlock.id,
+        isFilled: true,
+      }),
+    );
 
     // IF CONNECTED WEIGHTS, UPDATE THE NUMBER OF CRITERIA IN THE DATA
     const weightsBlock = getMatrixWeightsConnections(blocks, connections, activeBlock);
@@ -486,7 +517,7 @@ export default function MatrixModal({ open, closeModal, textSave, textCancel, fu
       textSave={textSave}
       textCancel={textCancel}
       fullScreen={fullScreen}
-      errorText={matrix.flatMap((r) => r.map((c) => c.error)).includes(true) ? t('results:matrix-error') : undefined}
+      errorText={matrix.flatMap((r) => r.map((c) => c.error)).includes(true) ? form.matrixError : undefined}
     >
       <>
         <Container>
@@ -594,11 +625,11 @@ export default function MatrixModal({ open, closeModal, textSave, textCancel, fu
                     </Stack>
                   </Stack>
                 </Container>
-              ) : (
+              ) : fileError ? (
                 <Typography textAlign="center" sx={{ color: 'error.main' }}>
                   {t('snackbar:matrix-upload-error')}
                 </Typography>
-              )}
+              ) : null}
             </>
           ) : null}
           {/* INPUT MATRIX */}

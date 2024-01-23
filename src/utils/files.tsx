@@ -11,6 +11,14 @@ export const generateResultsFile = (results: [] | ResultsNode[]) => {
   link.click();
 };
 
+export const saveIMG = (img: string) => {
+  const link = document.createElement('a');
+  link.href = img;
+  link.download = `resultsIMG.png`;
+
+  link.click();
+};
+
 export const printDocument = () => {
   const input = document.getElementById('blockArea');
 

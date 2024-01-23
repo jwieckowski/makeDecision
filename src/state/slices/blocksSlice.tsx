@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { BlocksSliceState, BlockDataType } from '@/types';
-import { DEFAULT_ALTERNATIVES, DEFAULT_CRITERIA } from '@/common/const';
+import { DEFAULT_ALTERNATIVES, DEFAULT_CRITERIA } from '@/common/calculations';
 
 const initialState: BlocksSliceState = {
   blocks: [],
@@ -280,12 +280,35 @@ const blocksSlice = createSlice({
         }
       });
     },
+    setBlockFilled: (state, action) => {
+      state.blocks = state.blocks.map((b) => {
+        return b.id === action.payload.id
+          ? {
+              ...b,
+              isFilled: action.payload.isFilled,
+            }
+          : b;
+      });
+    },
     clearBlockData: (state, action) => {
       state.blocks = state.blocks.map((b) => {
         return b.id === action.payload.id
           ? {
               ...b,
               data: initialBlockData,
+            }
+          : b;
+      });
+    },
+    deleteDataKwargs: (state, action) => {
+      state.blocks = state.blocks.map((b) => {
+        return b.id === action.payload.id
+          ? {
+              ...b,
+              data: {
+                ...b.data,
+                kwargs: b.data.kwargs.filter((item) => item.matrixId !== action.payload.matrixId),
+              },
             }
           : b;
       });
@@ -324,6 +347,8 @@ export const {
   setBlockPosition,
   setBlockError,
   setBlockData,
+  setBlockFilled,
   clearBlockData,
+  deleteDataKwargs,
 } = actions;
 export default reducer;

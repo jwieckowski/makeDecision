@@ -62,6 +62,10 @@ const calculationSlice = createSlice({
     setFilteredResults: (state, action) => {
       state.filteredResults = action.payload;
     },
+    clearErrors: (state) => {
+      state.error = null;
+      state.resultsError = null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -145,5 +149,6 @@ export const {
   resetResults,
   resetConvertedMatrix,
   setFilteredResults,
+  clearErrors,
 } = actions;
 export default reducer;

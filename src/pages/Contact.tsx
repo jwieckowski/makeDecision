@@ -12,6 +12,7 @@ import LanguageIcon from '@mui/icons-material/Language';
 import LinedSubheader from '@/components/LinedSubheader';
 
 // CONST
+import { allPackages } from '@/common/packages';
 import {
   GITHUB_PROFILE_LABEL,
   GITHUB_PROFILE_LINK,
@@ -22,53 +23,10 @@ import {
   COMET_LINK,
   MCDA_IT_LABEL,
   MCDA_IT_LINK,
-  PYMCDM_LABEL,
-  PYMCDM_LINK,
-  PYMCDM_APA,
-  PYMCDM_DOI,
-  PYMCDM_11_LABEL,
-  PYMCDM_11_LINK,
-  PYMCDM_11_APA,
-  PYMCDM_11_DOI,
-  PYFDM_LABEL,
-  PYFDM_LINK,
-  PYFDM_APA,
-  PYFDM_DOI,
-  PYIFDM_LABEL,
-  PYIFDM_LINK,
-  PYIFDM_APA,
-  PYIFDM_DOI,
-} from '@/common/const';
+} from '@/common/socials';
 
 export default function Contact() {
   const { t } = useTranslation();
-
-  const packages = [
-    {
-      link: PYMCDM_LINK,
-      label: PYMCDM_LABEL,
-      apa: PYMCDM_APA,
-      doi: PYMCDM_DOI,
-    },
-    {
-      link: PYMCDM_11_LINK,
-      label: PYMCDM_11_LABEL,
-      apa: PYMCDM_11_APA,
-      doi: PYMCDM_11_DOI,
-    },
-    {
-      link: PYFDM_LINK,
-      label: PYFDM_LABEL,
-      apa: PYFDM_APA,
-      doi: PYFDM_DOI,
-    },
-    {
-      link: PYIFDM_LINK,
-      label: PYIFDM_LABEL,
-      apa: PYIFDM_APA,
-      doi: PYIFDM_DOI,
-    },
-  ];
 
   const websites = [
     {
@@ -155,7 +113,7 @@ export default function Contact() {
             {t('common:packages')}
           </Typography>
 
-          {packages.map((item, idx) => {
+          {allPackages.map((item, idx) => {
             return (
               <Box key={idx}>
                 <a

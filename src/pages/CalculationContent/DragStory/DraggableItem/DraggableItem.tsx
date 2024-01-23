@@ -1,5 +1,8 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
 import React, { useState, useEffect, useMemo, MouseEvent } from 'react';
-import Draggable, { DraggableEvent } from 'react-draggable';
+import Draggable, { DraggableEvent, DraggableData } from 'react-draggable';
 import { Container, Typography, Stack, Box } from '@mui/material';
 // import { useTour } from "@reactour/tour";
 
@@ -7,6 +10,7 @@ import { Container, Typography, Stack, Box } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 // REDUX
 import { useAppSelector, useAppDispatch } from '@/state';
@@ -41,7 +45,7 @@ type DraggableProps = {
   scale: number;
   extension: string;
   onDrag: () => void;
-  onStop: () => void;
+  onStop: (id: number, x: number, y: number) => void;
   error: boolean;
   position: BlockPosition;
   inputConnections: string[];
@@ -69,11 +73,11 @@ export default function DraggableItem({
   // const { isOpen, currentStep } = useTour();
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    if (type.toLowerCase() === 'method' && !hasKwargs()) dispatch(setBlockError({ id: +id, error: false }));
-  }, []);
+  // useEffect(() => {
+  //   if (type.toLowerCase() === 'method' && !hasKwargs()) dispatch(setBlockError({ id: +id, error: false }));
+  // }, []);
 
-  function handleSettingsClick(e: React.MouseEvent<SVGElement>) {
+  function handleSettingsClick(e: MouseEvent<SVGElement>) {
     e.stopPropagation();
     setModalOpen(true);
 
@@ -114,11 +118,28 @@ export default function DraggableItem({
     });
   };
 
-  function handleDeleteClick(e: React.MouseEvent<SVGElement>, id: string) {
+  console.log(activeBlock);
+
+  function handleDeleteClick(e: MouseEvent<SVGElement>, id: string) {
     e.stopPropagation();
     deleteKwargsFromMethodByMatrixId();
     dispatch(deleteBlock(+id));
     dispatch(deleteClickedBlock(id));
+    const connectedBlocks = connections.filter((c) => c.includes(id)).flatMap((c) => c.filter((cc) => cc !== id));
+
+    console.log(connectedBlocks);
+    connectedBlocks.map((c) => {
+      const blockConnections = connections.filter((con) => con.includes(c));
+      console.log(blockConnections);
+      if (blockConnections.length === 1) {
+        dispatch(
+          setBlockError({
+            id: +id,
+            error: true,
+          }),
+        );
+      }
+    });
   }
 
   function drag(e: DraggableEvent) {
@@ -127,9 +148,8 @@ export default function DraggableItem({
     dispatch(changeDraggedItemStatus(id));
   }
 
-  function stop(e: DraggableEvent) {
-    // onStop(id, position.x + e.offsetX, position.y + e.offsetY);
-    onStop();
+  function stop(e: DraggableEvent, data: DraggableData) {
+    onStop(id, data.x, data.y);
     setTimeout(() => {
       dispatch(changeDraggedItemStatus(null));
     }, 250);
@@ -180,13 +200,13 @@ export default function DraggableItem({
     return false;
   };
 
+  console.log(error);
   return (
     <Draggable
       onDrag={(e: DraggableEvent) => drag(e)}
-      // onStop={stop}
-      onStop={(e: DraggableEvent) => stop(e)}
+      onStop={(e: DraggableEvent, data) => stop(e, data)}
       scale={scale}
-      // position={{ x: position.x, y: position.y }}
+      position={{ x: position.x, y: position.y }}
       defaultPosition={{ x: position.x, y: position.y }}
       // defaultPosition={id === '2' && isOpen ? { x: 240, y: 0 } : { x: 0, y: 0 }}
     >
@@ -267,6 +287,19 @@ export default function DraggableItem({
 
             {showSettingsIcon() ? (
               <SettingsIcon
+                fontSize="small"
+                onClick={(e) => handleSettingsClick(e)}
+                sx={{
+                  transition: 'color 200ms ease-in',
+                  color: 'rgba(0, 0, 0, 0.6)',
+                  '&:hover': {
+                    color: 'rgb(0, 0, 0)',
+                  },
+                }}
+              />
+            ) : null}
+            {type.toLowerCase() === 'visualization' ? (
+              <VisibilityIcon
                 fontSize="small"
                 onClick={(e) => handleSettingsClick(e)}
                 sx={{

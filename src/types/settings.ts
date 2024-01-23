@@ -6,7 +6,7 @@ export type SettingsSliceState = {
   headSize: number;
   color: string;
   curveness: number;
-  path: any;
+  path: 'smooth' | 'grid' | 'straight';
 };
 
 //  FILTER SLICE TYPES --------------------------------------------------------

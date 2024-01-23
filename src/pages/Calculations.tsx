@@ -18,15 +18,15 @@ import { scrollToElement } from '@/utils/scroll';
 
 export default function Calculations() {
   const { t } = useTranslation();
-  const { results } = useAppSelector((state) => state.calculation);
+  const { results, resultsLoading } = useAppSelector((state) => state.calculation);
 
   console.log(results);
 
   useEffect(() => {
-    if (results == null) return;
+    if (resultsLoading == false) return;
 
     scrollToElement('resultsContainer');
-  }, [results]);
+  }, [resultsLoading]);
 
   return (
     <Container maxWidth={false} sx={{ mb: '50px' }} disableGutters>

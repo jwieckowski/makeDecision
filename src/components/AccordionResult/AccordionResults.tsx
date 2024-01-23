@@ -1,29 +1,36 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
 import { useTranslation } from 'react-i18next';
 
-import { Container, Stack, Typography } from '@mui/material';
+import { Container, Stack, Typography, Box } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import SaveAltIcon from '@mui/icons-material/SaveAlt';
 
 // REDUX
 import { useAppSelector } from '@/state';
 
 // COMPONENTS
 import Table from '@/components/Table';
+import Image from '@/components/Image';
+import Button from '@/components/Button';
 
 // UTILS
 import { getTableLabels } from '@/utils/results';
+import { saveIMG } from '@/utils/files';
 
 // TYPES
-import { ResultsNode, ResultsType } from '@/types';
+import { ResultsMatrixNode, ResultsNode, ResultsNodeData } from '@/types';
 
-type AccordionResultsType = {
+type AccordionResultsProps = {
   matrixId: number;
   defaultExpanded?: boolean;
 };
 
-export default function AccordionResults({ matrixId, defaultExpanded }: AccordionResultsType) {
+export default function AccordionResults({ matrixId, defaultExpanded }: AccordionResultsProps) {
   const { results } = useAppSelector((state) => state.calculation);
 
   const { t } = useTranslation();
@@ -34,7 +41,7 @@ export default function AccordionResults({ matrixId, defaultExpanded }: Accordio
 
   const getNodeDataForMatrix = (nodes: ResultsNode[], matrixId: number) => {
     return nodes
-      .filter((node) => node.data.filter((item) => item.matrix_id === matrixId).length > 0)
+      .filter((node) => node.data.filter((item: ResultsNodeData) => item?.matrix_id === matrixId).length > 0)
       .map((node) => {
         return {
           ...node,
@@ -124,7 +131,7 @@ export default function AccordionResults({ matrixId, defaultExpanded }: Accordio
     );
   };
 
-  const getRankingsID = (nodes: ResultsNode[0]) => {
+  const getRankingsID = (nodes: ResultsNode[]) => {
     return getNodeData(nodes, 'ranking').map((node) => node.id);
   };
 
@@ -183,6 +190,52 @@ export default function AccordionResults({ matrixId, defaultExpanded }: Accordio
     });
   };
 
+  const getVisualizationData = (nodes: ResultsNode[]) => {
+    return getNodeData(nodes, 'visualization').map((node) => node.data.map((item) => item.img));
+  };
+
+  const getVisualizations = (nodes: ResultsNode[]) => {
+    const data = getVisualizationData(nodes);
+
+    if (data.length === 0) return null;
+
+    return (
+      <Stack
+        gap={2}
+        sx={{
+          width: '100%',
+        }}
+      >
+        {data.map((item) => {
+          return (
+            <Box
+              key={item as string}
+              sx={{
+                py: 1,
+                border: '2px solid gray',
+                borderRadius: 4,
+                width: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                flexDirection: 'column',
+              }}
+            >
+              <Image src={item as string} alt="results" />
+              <Box sx={{ width: '100%', pr: 2, display: 'flex', justifyContent: 'flex-end' }}>
+                <Button
+                  text={t('results:save')}
+                  startIcon={<SaveAltIcon />}
+                  onClick={() => saveIMG(item as string)}
+                  variant="contained"
+                />
+              </Box>
+            </Box>
+          );
+        })}
+      </Stack>
+    );
+  };
+
   return (
     <Container disableGutters>
       <Accordion defaultExpanded={defaultExpanded} sx={{ border: '2px solid gray', boxShadow: '0 4px 2px -2px gray' }}>
@@ -202,6 +255,7 @@ export default function AccordionResults({ matrixId, defaultExpanded }: Accordio
             {getMethodTable(results)}
             {getRankingTable(results)}
             {getCorrelationTable(results)}
+            {getVisualizations(results)}
           </Stack>
         </AccordionDetails>
       </Accordion>

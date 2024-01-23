@@ -1,4 +1,4 @@
-import { HIDE_DURATION } from '@/common/const';
+import { HIDE_DURATION } from '@/common/ui';
 import { useSnackbar, VariantType } from 'notistack';
 
 const useSnackbars = () => {

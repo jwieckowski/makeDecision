@@ -12,7 +12,7 @@ import ModalContainer from '../ModalContainer';
 import ModificationModal from '../ModificationModal';
 
 // CONST
-import { DEFAULT_ALTERNATIVES, MIN_ALTERNATIVES, MAX_ALTERNATIVES } from '@/common/const';
+import { DEFAULT_ALTERNATIVES, MIN_ALTERNATIVES, MAX_ALTERNATIVES } from '@/common/calculations';
 
 // UTILS
 import useValidation from '@/utils/validation';

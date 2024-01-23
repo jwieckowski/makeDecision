@@ -6,7 +6,8 @@ import { Stack, Box, Typography } from '@mui/material';
 import Select from '@/components/Select';
 
 // CONST
-import { MAX_CRITERIA, MATRIX_LABEL_WIDTH, MATRIX_INPUT_WIDTH } from '@/common/const';
+import { MAX_CRITERIA } from '@/common/calculations';
+import { MATRIX_LABEL_WIDTH, MATRIX_INPUT_WIDTH } from '@/common/ui';
 
 type CriteriaTypesProps = {
   criteria: number;

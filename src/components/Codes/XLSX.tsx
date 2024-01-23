@@ -1,4 +1,3 @@
-import React from 'react';
 import 'pikaday/css/pikaday.css';
 import { HotTable } from '@handsontable/react';
 import 'handsontable/dist/handsontable.min.css';

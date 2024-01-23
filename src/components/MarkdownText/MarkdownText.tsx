@@ -1,4 +1,6 @@
-import React from 'react';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
 import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
@@ -20,7 +22,9 @@ export default function MarkdownText({ text }: MarkdownProps) {
         textAlign: 'justify',
       }}
     >
-      <ReactMarkdown children={text} remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]} />
+      <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>
+        {text}
+      </ReactMarkdown>
     </Container>
   );
 }

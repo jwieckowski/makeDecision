@@ -11,49 +11,11 @@ import PanToolIcon from '@mui/icons-material/PanTool';
 import OpenWithIcon from '@mui/icons-material/OpenWith';
 
 // CONST
-import {
-  PYMCDM_LABEL,
-  PYMCDM_LINK,
-  PYMCDM_APA,
-  PYMCDM_DOI,
-  PYMCDM_11_LABEL,
-  PYMCDM_11_LINK,
-  PYMCDM_11_APA,
-  PYMCDM_11_DOI,
-  PYFDM_LABEL,
-  PYFDM_LINK,
-  PYFDM_APA,
-  PYFDM_DOI,
-  API_DOCUMENTATION,
-  REACT_LINK,
-  RTK_LINK,
-  DRAGGABLE_LINK,
-  XARROWS_LINK,
-} from '@/common/const';
+import { API_DOCUMENTATION, REACT_LINK, RTK_LINK, DRAGGABLE_LINK, XARROWS_LINK } from '@/common/const';
+import { appPackages } from '@/common/packages';
 
 export default function Technology() {
   const { t } = useTranslation();
-
-  const packages = [
-    {
-      link: PYMCDM_LINK,
-      label: PYMCDM_LABEL,
-      apa: PYMCDM_APA,
-      doi: PYMCDM_DOI,
-    },
-    {
-      link: PYMCDM_11_LINK,
-      label: PYMCDM_11_LABEL,
-      apa: PYMCDM_11_APA,
-      doi: PYMCDM_11_DOI,
-    },
-    {
-      link: PYFDM_LINK,
-      label: PYFDM_LABEL,
-      apa: PYFDM_APA,
-      doi: PYFDM_DOI,
-    },
-  ];
 
   const webAppItems = [
     {
@@ -138,7 +100,7 @@ export default function Technology() {
 
         <Typography align="justify">{t('about:server-description-text-3')}</Typography>
 
-        {packages.map((item, idx) => {
+        {appPackages.map((item, idx) => {
           return (
             <Box key={idx}>
               <a href={item.link} target="_blank" rel="noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>

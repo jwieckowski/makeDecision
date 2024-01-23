@@ -19,7 +19,7 @@ import Select from '@/components/Select';
 import { getUpdatedBlocksLanguage } from '@/utils/blocks';
 
 // CONST
-import { LANGUAGES } from '@/common/const';
+import { LANGUAGES } from '@/common/languages';
 
 export default function Language() {
   const { blocks } = useSelector((state: RootState) => state.blocks);

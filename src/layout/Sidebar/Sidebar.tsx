@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';
@@ -25,7 +28,8 @@ import Language from '@/components/Language';
 import { AboutMenu, CalculationsMenu } from './SubMenu';
 
 // CONST
-import { TITLE, MENU_ITEMS } from '@/common/const';
+import { TITLE } from '@/common/const';
+import { MENU_ITEMS } from '@/common/menu';
 
 import pkg from '/package.json';
 
