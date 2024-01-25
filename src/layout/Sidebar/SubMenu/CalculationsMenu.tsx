@@ -26,7 +26,7 @@ import { fetchAllMethods } from '@/api/dictionary';
 import { addBlock } from '@/state/slices/blocksSlice';
 
 // HOOKS
-import { useLocale } from '@/hooks';
+import { useLocale, useConnectionList } from '@/hooks';
 
 // TYPES
 import { AllMethodsItem } from '@/types';
@@ -46,6 +46,7 @@ export default function CalculationsMenu() {
   const { blocks } = useAppSelector((state) => state.blocks);
   const { query } = useAppSelector((state) => state.search);
   const { allMethods, loading, error } = useAppSelector((state) => state.dictionary);
+  const { addListNode } = useConnectionList();
   const [openIndex, setOpenIndex] = useState('');
   // const { isOpen, currentStep, setCurrentStep } = useTour();
 
@@ -64,12 +65,6 @@ export default function CalculationsMenu() {
   const fetchData = async () => {
     await dispatch(fetchAllMethods(locale));
   };
-
-  // const isMissingData = (type: string, name: string) => {
-  //   if (['matrix', 'method'].includes(type.toLowerCase())) return true;
-  //   if (type.toLowerCase() === 'weights' && name.toLowerCase() === 'input') return true;
-  //   return false;
-  // };
 
   useEffect(() => {
     if (locale === '') return;
@@ -147,6 +142,9 @@ export default function CalculationsMenu() {
   ) {
     e.preventDefault();
 
+    console.log(inputConnections);
+    console.log(outputConnections);
+
     const block = {
       type: type.toLowerCase(),
       name: name.toLowerCase(),
@@ -174,6 +172,13 @@ export default function CalculationsMenu() {
       },
     };
     dispatch(addBlock(block));
+    addListNode(
+      blocks.length === 0 ? 1 : Math.max(...blocks.map((b) => b.id)) + 1,
+      type,
+      name,
+      inputConnections,
+      outputConnections,
+    );
 
     // if (isOpen) setCurrentStep((prev) => prev + 1);
   }

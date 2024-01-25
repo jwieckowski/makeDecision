@@ -5,10 +5,13 @@ import { Container, Typography } from '@mui/material';
 import { useAppSelector, useAppDispatch } from '@/state';
 
 // SLICES
-import { deleteConnection, clearBlockData, setBlockError, deleteDataKwargs } from '@/state/slices/blocksSlice';
+import { clearBlockData, setBlockError, deleteDataKwargs } from '@/state/slices/blocksSlice';
 
 // UTILS
 import useBlocksConnection from '@/utils/connections';
+
+// HOOKS
+import { useConnectionList } from '@/hooks';
 
 // COMPONENTS
 import ModalContainer from '../ModalContainer';
@@ -27,6 +30,7 @@ export default function ConnectionModal({ open, closeModal, textSave, textCancel
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const { deleteKwargsFromMatrix, deleteConnectionArrow } = useBlocksConnection();
+  const { removeListConnection } = useConnectionList();
 
   const handleSave = () => {
     if (connectionToDelete?.length !== 2) return;
@@ -36,7 +40,7 @@ export default function ConnectionModal({ open, closeModal, textSave, textCancel
     // delete kwargs if last connected weights from given matrix removed
     deleteKwargsFromMatrix(connectionToDelete);
 
-    dispatch(deleteConnection(connectionToDelete));
+    removeListConnection(connectionToDelete[0], connectionToDelete[1]);
 
     closeModal();
   };

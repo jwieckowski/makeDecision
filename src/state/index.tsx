@@ -10,6 +10,7 @@ import descriptionSlice from './slices/descriptionSlice';
 import settingsSlice from './slices/settingsSlice';
 import filteringSlice from './slices/filteringSlice';
 import menuSlice from './slices/menuSlice';
+import connectionsSlice from './slices/connectionsSlice';
 
 const store = configureStore({
   reducer: {
@@ -21,6 +22,7 @@ const store = configureStore({
     settings: settingsSlice,
     filters: filteringSlice,
     menu: menuSlice,
+    connections: connectionsSlice,
   },
 });
 

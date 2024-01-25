@@ -7,3 +7,4 @@ export * from './menu';
 export * from './results';
 export * from './search';
 export * from './settings';
+export * from './connections';

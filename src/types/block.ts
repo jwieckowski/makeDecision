@@ -44,11 +44,8 @@ export type BlockType = {
 };
 
 export type BlocksSliceState = {
-  blocks: [] | BlockType[];
-  clickedBlocks: [] | string[];
-  connections: [] | string[][];
+  blocks: BlockType[];
   activeBlock: null | BlockType;
-  clickedBlockId: null | number;
   draggedItem: null | string;
   modalOpen: boolean;
   modalType: null | string;

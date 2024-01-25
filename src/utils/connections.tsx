@@ -9,11 +9,7 @@ import { useAppSelector, useAppDispatch } from '@/state';
 
 // SLICES
 import {
-  addConnection,
-  deleteConnection,
-  setClickedBlocks,
   setActiveBlock,
-  setClickedBlockId,
   setBlockWeights,
   setBlockCriteria,
   setBlockExtension,
@@ -27,14 +23,15 @@ import {
 import useCalculation from './calculation';
 import { getFilteredMethods, getMethodData, getSingleItemByName } from './filtering';
 import { getBlocksOfType } from './blocks';
-import useSnackbars from './snackbars';
+import useSnackbars from '../hooks/useSnackbars';
 
 // TYPES
 import { BlockDataType, BlockType } from '@/types';
 
 export default function useBlocksConnection() {
+  const { clickedItems, connections } = useAppSelector((state) => state.connections);
   const { allMethods } = useAppSelector((state) => state.dictionary);
-  const { blocks, clickedBlocks, connections } = useAppSelector((state) => state.blocks);
+  const { blocks } = useAppSelector((state) => state.blocks);
   const { t } = useTranslation();
   const { showSnackbar } = useSnackbars();
   const { getMatrixWeightsConnections, getWeightsMethodConnections } = useCalculation();
@@ -67,10 +64,10 @@ export default function useBlocksConnection() {
     const outputConnections = getOutputConnections(inputId);
     const rankingBlocks = blocks.filter((block) => block.type === 'ranking');
     if (outputConnections.filter((c) => rankingBlocks.map((b) => b.id).includes(+c)).length === 0) {
-      dispatch(addConnection([clickedBlocks[0], clickedBlocks[1]]));
+      // dispatch(addConnection([clickedItems[0], clickedItems[1]]));
       dispatch(
         setBlockError({
-          id: +clickedBlocks[1],
+          id: +clickedItems[1],
           error: false,
         }),
       );
@@ -174,10 +171,10 @@ export default function useBlocksConnection() {
   };
 
   const addBlockConnection = () => {
-    if (clickedBlocks.length === 2) {
-      if (connections.filter((c) => c[0] === clickedBlocks[0] && c[1] === clickedBlocks[1]).length === 0) {
-        const inputBlock = blocks.filter((b) => b.id === +clickedBlocks[0])[0];
-        const outputBlock = blocks.filter((b) => b.id === +clickedBlocks[1])[0];
+    if (clickedItems.length === 2) {
+      if (connections.filter((c) => c[0] === clickedItems[0] && c[1] === clickedItems[1]).length === 0) {
+        const inputBlock = blocks.filter((b) => b.id === +clickedItems[0])[0];
+        const outputBlock = blocks.filter((b) => b.id === +clickedItems[1])[0];
 
         if (inputBlock === undefined || outputBlock === undefined) return;
 
@@ -221,7 +218,7 @@ export default function useBlocksConnection() {
             checkMatrixToInputWeightConnection(inputBlock, outputBlock);
 
             if (checkMatrixWeightsConnection(inputBlock, outputBlock)) {
-              dispatch(addConnection([clickedBlocks[0], clickedBlocks[1]]));
+              // dispatch(addConnection([clickedItems[0], clickedItems[1]]));
             } else {
               showSnackbar(t('snackbar:matrix-size'), 'error');
             }
@@ -233,11 +230,10 @@ export default function useBlocksConnection() {
         }
       }
       // TO REMEMBER LAST CLICKED BLOCK IN THE CLICKED BLOCKS ARRAY
-      // dispatch(setClickedBlocks([clickedBlocks[1]]));
+      // dispatch(setclickedItems([clickedItems[1]]));
 
       // TO RESET ACTIVE BLOCK AFTER MAKING THE CONNECTION
-      dispatch(setClickedBlockId(null));
-      dispatch(setClickedBlocks([]));
+      // dispatch(setclickedItems([]));
       dispatch(setActiveBlock(null));
     }
   };
@@ -322,7 +318,7 @@ export default function useBlocksConnection() {
                 }),
                 'error',
               );
-              dispatch(deleteConnection(c));
+              // dispatch(deleteConnection(c));
               if (getOutputConnections(+c[0]).length === 1) {
                 dispatch(
                   setBlockError({
@@ -358,7 +354,7 @@ export default function useBlocksConnection() {
                   }),
                   'error',
                 );
-                dispatch(deleteConnection(c));
+                // dispatch(deleteConnection(c));
                 if (getInputConnections(+c[1]).length === 1) {
                   dispatch(
                     setBlockError({
@@ -397,7 +393,7 @@ export default function useBlocksConnection() {
         criteriaSizes.forEach((item, index) => {
           if (item !== criteriaSizes[0]) {
             showSnackbar(t('snackbar:matrix-size'), 'error');
-            dispatch(deleteConnection(matrixConnections.filter((c) => +c[0] === matrixID[index])[0]));
+            // dispatch(deleteConnection(matrixConnections.filter((c) => +c[0] === matrixID[index])[0]));
             criteriaSizes = criteriaSizes.filter((_, i) => i !== index);
           }
         });

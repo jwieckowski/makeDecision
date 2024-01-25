@@ -45,7 +45,7 @@ import {
 import useCalculation from '@/utils/calculation';
 import useValidation from '@/utils/validation';
 import { convertCrispInput, convertFuzzyInput, convertTextLength } from '@/utils/formatting';
-import useSnackbars from '@/utils/snackbars';
+import useSnackbars from '@/hooks/useSnackbars';
 import useBlocksConnection from '@/utils/connections';
 
 // COMPONENTS
@@ -81,7 +81,8 @@ type FormProps = {
 
 export default function MatrixModal({ open, closeModal, textSave, textCancel, fullScreen }: ModalProps) {
   const { matrixLoading } = useAppSelector((state) => state.calculation);
-  const { activeBlock, blocks, connections } = useAppSelector((state) => state.blocks);
+  const { activeBlock, blocks } = useAppSelector((state) => state.blocks);
+  const { connections } = useAppSelector((state) => state.connections);
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const { showSnackbar } = useSnackbars();

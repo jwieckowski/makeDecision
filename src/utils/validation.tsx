@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { BlockType } from '@/types';
 
 // UTILS
-import useSnackbars from './snackbars';
+import useSnackbars from '@/hooks/useSnackbars';
 
 const useValidation = () => {
   const { showSnackbar } = useSnackbars();

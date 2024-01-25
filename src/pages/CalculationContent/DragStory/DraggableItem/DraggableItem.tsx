@@ -18,12 +18,14 @@ import { useAppSelector, useAppDispatch } from '@/state';
 // SLICES
 import {
   deleteBlock,
-  deleteClickedBlock,
   changeDraggedItemStatus,
   setActiveBlock,
   setBlockError,
   setBlockKwargs,
 } from '@/state/slices/blocksSlice';
+
+// HOOKS
+import { useConnectionList } from '@/hooks';
 
 // UTILS
 import { getFilteredMethods, getMethodData } from '@/utils/filtering';
@@ -68,7 +70,8 @@ export default function DraggableItem({
   typeKwargs,
 }: DraggableProps) {
   const { allMethods } = useAppSelector((state) => state.dictionary);
-  const { activeBlock, blocks, connections } = useAppSelector((state) => state.blocks);
+  const { activeBlock, blocks } = useAppSelector((state) => state.blocks);
+  const { connections, removeListNode, deleteClickedListItem } = useConnectionList();
 
   // const { isOpen, currentStep } = useTour();
   const dispatch = useAppDispatch();
@@ -118,13 +121,15 @@ export default function DraggableItem({
     });
   };
 
-  console.log(activeBlock);
+  // console.log(activeBlock);
 
   function handleDeleteClick(e: MouseEvent<SVGElement>, id: string) {
     e.stopPropagation();
     deleteKwargsFromMethodByMatrixId();
     dispatch(deleteBlock(+id));
-    dispatch(deleteClickedBlock(id));
+    deleteClickedListItem(id);
+    removeListNode(id);
+
     const connectedBlocks = connections.filter((c) => c.includes(id)).flatMap((c) => c.filter((cc) => cc !== id));
 
     console.log(connectedBlocks);

@@ -11,10 +11,10 @@ import { getResults } from '@/api/calculations';
 
 // SLICES
 import { clearBody, resetBody, resetResults } from '@/state/slices/calculationSlice';
-import { setBlocks, setClickedBlocks, setConnections, setActiveBlock, setBlockError } from '@/state/slices/blocksSlice';
+import { setBlocks, setActiveBlock, setBlockError } from '@/state/slices/blocksSlice';
 
 // HOOKS
-import { useLocale } from '@/hooks';
+import { useLocale, useConnectionList } from '@/hooks';
 
 // COMPONENTS
 import Button from '@/components/Button';
@@ -24,25 +24,26 @@ import DragSettings from './DragSettings';
 // import { printDocument, generateResultsFile } from '@/utils/files';
 import useCalculation from '@/utils/calculation';
 import { getNotConnectedBlocks } from '@/utils/blocks';
-import useSnackbars from '@/utils/snackbars';
+import useSnackbars from '@/hooks/useSnackbars';
 
 export default function SettingsBar() {
-  const { blocks, connections } = useAppSelector((state) => state.blocks);
+  const { blocks } = useAppSelector((state) => state.blocks);
   // const { results } = useAppSelector((state) => state.calculation);
 
   const { t } = useTranslation();
   const { locale } = useLocale();
   const dispatch = useAppDispatch();
   const { getCalculationBody } = useCalculation();
+  const { connections, clearListNodes, setClickedListItems } = useConnectionList();
   const { showSnackbar } = useSnackbars();
 
   const handleClearClick = () => {
-    dispatch(setClickedBlocks([]));
+    setClickedListItems([]);
     dispatch(setActiveBlock(null));
-    dispatch(setConnections([]));
     dispatch(setBlocks([]));
     dispatch(resetResults());
     dispatch(resetBody());
+    clearListNodes();
   };
 
   const handleCalculateClick = async () => {

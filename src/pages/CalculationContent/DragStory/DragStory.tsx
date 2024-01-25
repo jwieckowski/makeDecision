@@ -14,13 +14,8 @@ import { useAppSelector, useAppDispatch } from '@/state';
 
 // SLICES
 import {
-  addClickedBlock,
   setActiveBlock,
-  setClickedBlocks,
-  setClickedBlockId,
   setConnectionToDelete,
-  deleteClickedBlock,
-  deleteConnection,
   setBlockError,
   setBlocks,
   setBlockPosition,
@@ -42,6 +37,9 @@ import { DRAG_AREA_SPACE, NAV_HEIGHT, HIDE_DURATION } from '@/common/ui';
 import useBlocksConnection from '@/utils/connections';
 import UserInputModal from '@/components/Modal/UserInputModal';
 
+// HOOKS
+import { useConnectionList } from '@/hooks';
+
 type Position = {
   x: number;
   y: number;
@@ -50,11 +48,26 @@ type Position = {
 export default function DragArea() {
   const { allMethods } = useAppSelector((state) => state.dictionary);
 
-  const { blocks, clickedBlocks, connections, draggedItem, activeBlock } = useAppSelector((state) => state.blocks);
+  // const { blocks, draggedItem, activeBlock } = useAppSelector((state) => state.blocks);
+  const { blocks, draggedItem, activeBlock } = useAppSelector((state) => state.blocks);
 
   const { error, resultsError } = useAppSelector((state) => state.calculation);
 
   const { size, headSize, curveness, color, path, scale, gridOn, gridSize } = useAppSelector((state) => state.settings);
+
+  const {
+    nodes,
+    connections,
+    clickedItems,
+    addListConnection,
+    addClickedListItem,
+    setClickedListItems,
+    deleteClickedListItem,
+    removeListConnection,
+  } = useConnectionList();
+
+  console.log(nodes);
+  console.log(connections);
 
   const [isMoveable, setIsMoveable] = useState<boolean>(false);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
@@ -75,9 +88,11 @@ export default function DragArea() {
   }, []);
 
   useEffect(() => {
-    addBlockConnection();
-    checkForWrongExtensionMethodConnection(connections);
-  }, [blocks, clickedBlocks]);
+    if (clickedItems.length !== 2) return;
+    addListConnection(clickedItems[0], clickedItems[1]);
+    // addBlockConnection();
+    // checkForWrongExtensionMethodConnection(connections);
+  }, [blocks, clickedItems]);
 
   useEffect(() => {
     updateXarrow();
@@ -92,9 +107,9 @@ export default function DragArea() {
   useEffect(() => {
     const currentBlocks = blocks.map((b) => b.id);
 
-    clickedBlocks.forEach((b) => {
+    clickedItems.forEach((b) => {
       if (!currentBlocks.includes(+b)) {
-        dispatch(deleteClickedBlock(b));
+        deleteClickedListItem(b);
       }
     });
     connections.forEach((c) => {
@@ -103,7 +118,7 @@ export default function DragArea() {
       else if (!currentBlocks.includes(+c[1])) blockId = c[1];
 
       if (blockId !== null) {
-        dispatch(deleteConnection(c));
+        removeListConnection(c[0], c[1]);
         // if no connection then error
         c.forEach((connection) => {
           if (connections.filter((con) => con.includes(connection)).length === 1) {
@@ -136,7 +151,7 @@ export default function DragArea() {
   // useEffect(() => {
   //   if (!isOpen) return;
   //   if (currentStep === 10 && connections.length === 0) {
-  //     dispatch(setClickedBlocks(['1', '2']));
+  //     setClickedListItems(['1', '2']);
   //     addBlockConnection();
   //   }
   //   if (currentStep === 11) {
@@ -167,12 +182,11 @@ export default function DragArea() {
   const handleModalClose = () => {
     setModalOpen(false);
     dispatch(setActiveBlock(null));
-    dispatch(setClickedBlocks([]));
+    setClickedListItems([]);
   };
 
   const handleGridClick = () => {
-    dispatch(setClickedBlockId(null));
-    dispatch(setClickedBlocks([]));
+    setClickedListItems([]);
     dispatch(setActiveBlock(null));
     setModalType('');
   };
@@ -192,9 +206,8 @@ export default function DragArea() {
   const handleDraggableClick = (e: MouseEvent<HTMLElement>, id: string) => {
     e.stopPropagation();
     if (draggedItem !== null) return;
-    if (clickedBlocks.includes(id as never)) return;
-    dispatch(addClickedBlock(id));
-    dispatch(setClickedBlockId(+id));
+    if (clickedItems.includes(id as never)) return;
+    addClickedListItem(id);
 
     dispatch(setActiveBlock(id));
     // if (isOpen) setCurrentStep((prev) => prev + 1);

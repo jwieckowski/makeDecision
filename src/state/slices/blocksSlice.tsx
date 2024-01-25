@@ -4,10 +4,7 @@ import { DEFAULT_ALTERNATIVES, DEFAULT_CRITERIA } from '@/common/calculations';
 
 const initialState: BlocksSliceState = {
   blocks: [],
-  clickedBlocks: [],
-  connections: [],
   activeBlock: null,
-  clickedBlockId: null,
   draggedItem: null,
   modalOpen: false,
   modalType: null,
@@ -54,36 +51,12 @@ const blocksSlice = createSlice({
     setConnectionToDelete: (state, action) => {
       state.connectionToDelete = action.payload;
     },
-    setClickedBlocks: (state, action) => {
-      state.clickedBlocks = action.payload;
-    },
-    addClickedBlock: (state, action) => {
-      state.clickedBlocks = [...state.clickedBlocks, action.payload];
-    },
     changeDraggedItemStatus: (state, action) => {
       state.draggedItem = action.payload;
-    },
-    deleteClickedBlock: (state, action) => {
-      state.clickedBlocks = state.clickedBlocks.filter((block) => block !== action.payload);
-    },
-    addConnection: (state, action) => {
-      state.connections = [...state.connections, action.payload];
-    },
-    deleteConnection: (state, action) => {
-      state.connections = state.connections.filter(
-        (connection) => !(connection[0] === action.payload[0] && connection[1] === action.payload[1]),
-      );
-      if (state.connectionToDelete !== null) state.connectionToDelete = null;
-    },
-    setConnections: (state, action) => {
-      state.connections = action.payload;
     },
     setActiveBlock: (state, action) => {
       state.activeBlock =
         action.payload !== null ? state.blocks.filter((block) => block.id === +action.payload)[0] : null;
-    },
-    setClickedBlockId: (state, action) => {
-      state.clickedBlockId = action.payload;
     },
     setBlockMatrix: (state, action) => {
       state.blocks = state.blocks.map((b) => {
@@ -320,17 +293,10 @@ export const {
   addBlock,
   deleteBlock,
   setBlocks,
-  setClickedBlocks,
-  addClickedBlock,
-  deleteClickedBlock,
   changeDraggedItemStatus,
-  addConnection,
-  deleteConnection,
-  setConnections,
   setModalOpen,
   setModalType,
   setActiveBlock,
-  setClickedBlockId,
   setConnectionToDelete,
   setBlockMatrix,
   setBlockMatrixFile,
