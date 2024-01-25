@@ -19,6 +19,8 @@ import {
   setBlockExtension,
   setBlockError,
   setBlockKwargs,
+  setBlockFilled,
+  deleteDataKwargs,
 } from '@/state/slices/blocksSlice';
 
 // UTILS
@@ -49,6 +51,128 @@ export default function useBlocksConnection() {
 
   const dispatch = useAppDispatch();
 
+  const getInputConnections = (id: number) => {
+    return connections.filter((c) => c[1] === `${id}`).map((c) => c[0]);
+  };
+
+  const getOutputConnections = (id: number) => {
+    return connections.filter((c) => c[0] === `${id}`).map((c) => c[1]);
+  };
+
+  const isDataFilled = (block: BlockType) => {
+    return block.isFilled;
+  };
+
+  const setForSingleMethodRankingConnection = (inputId: number) => {
+    const outputConnections = getOutputConnections(inputId);
+    const rankingBlocks = blocks.filter((block) => block.type === 'ranking');
+    if (outputConnections.filter((c) => rankingBlocks.map((b) => b.id).includes(+c)).length === 0) {
+      dispatch(addConnection([clickedBlocks[0], clickedBlocks[1]]));
+      dispatch(
+        setBlockError({
+          id: +clickedBlocks[1],
+          error: false,
+        }),
+      );
+    } else {
+      showSnackbar(t('snackbar:method-ranking'), 'error');
+    }
+  };
+
+  const checkMatrixToInputWeightConnection = (inputBlock: BlockType, outputBlock: BlockType) => {
+    if (
+      inputBlock.type.toLowerCase() !== 'matrix' ||
+      outputBlock.type.toLowerCase() !== 'weights' ||
+      outputBlock.name.toLowerCase() !== 'input'
+    )
+      return;
+    if (inputBlock.data.criteria === outputBlock.data.criteria) return;
+    const inputConnections = getInputConnections(outputBlock.id);
+    if (inputConnections.length > 0) return;
+
+    // different number of weights and no connections, so clear current weights
+    dispatch(
+      setBlockWeights({
+        id: outputBlock.id,
+        data: [],
+      }),
+    );
+    dispatch(
+      setBlockFilled({
+        id: outputBlock.id,
+        isFilled: false,
+      }),
+    );
+    dispatch(
+      setBlockError({
+        id: outputBlock.id,
+        error: true,
+      }),
+    );
+    dispatch(
+      setBlockCriteria({
+        id: outputBlock.id,
+        data: inputBlock.data.criteria,
+      }),
+    );
+  };
+
+  const checkMatrixWeightsConnection = (inputBlock: BlockType, outputBlock: BlockType) => {
+    if (
+      inputBlock.type.toLowerCase() !== 'matrix' ||
+      outputBlock.type.toLowerCase() !== 'weights' ||
+      outputBlock.name.toLowerCase() !== 'input'
+    )
+      return true;
+    if (inputBlock.data.criteria === outputBlock.data.criteria) return true;
+    const inputConnections = getInputConnections(outputBlock.id);
+    if (inputConnections.length === 0) return true;
+    const size = blocks.filter((b) => inputConnections.includes(`${b.id}`)).map((b) => b.data.criteria);
+    return +size[0] == inputBlock.data.criteria;
+  };
+
+  const checkIfNewMatrixConnectedToMethod = (inputBlock: BlockType, outputBlock: BlockType) => {
+    if (inputBlock.type.toLowerCase() === 'weights' && outputBlock.type.toLowerCase() === 'method') {
+      const matricesId = getInputConnections(inputBlock.id);
+      const currentMatricesId = outputBlock.data.kwargs.map((item) => item.matrixId);
+      if (matricesId.filter((mid) => currentMatricesId.includes(+mid)).length > 0) return;
+      dispatch(
+        setBlockError({
+          id: outputBlock.id,
+          error: true,
+        }),
+      );
+      dispatch(
+        setBlockFilled({
+          id: outputBlock.id,
+          isFilled: false,
+        }),
+      );
+    } else if (inputBlock.type.toLowerCase() === 'matrix' && outputBlock.type.toLowerCase() === 'weights') {
+      const currentMethodsId = getOutputConnections(outputBlock.id);
+      blocks
+        .filter((b) => currentMethodsId.includes(`${b.id}`))
+        .forEach((b) => {
+          const currentMatricesId = b.data.kwargs.map((item) => item.matrixId);
+          if (!currentMatricesId.includes(inputBlock.id)) {
+            dispatch(
+              setBlockError({
+                id: b.id,
+                error: true,
+              }),
+            );
+            dispatch(
+              setBlockFilled({
+                id: b.id,
+                isFilled: false,
+              }),
+            );
+          }
+        });
+    }
+    return;
+  };
+
   const addBlockConnection = () => {
     if (clickedBlocks.length === 2) {
       if (connections.filter((c) => c[0] === clickedBlocks[0] && c[1] === clickedBlocks[1]).length === 0) {
@@ -57,92 +181,52 @@ export default function useBlocksConnection() {
 
         if (inputBlock === undefined || outputBlock === undefined) return;
 
-        if (outputBlock.inputConnections.includes(inputBlock.type as never)) {
-          // check if newly connected matrix has the same number of criteria as already connected matrix
-          // if (outputBlock.type === 'weights') {
-          // }
-
+        if (outputBlock.inputConnections.includes(inputBlock.type as string)) {
           // check for only one ranking connection
-          if (outputBlock.type === 'ranking') {
-            const outConnections = connections.filter((c) => c[0] === inputBlock.id.toString()).map((c) => c[1]);
-            const rankingBlocks = blocks.filter((block) => block.type === 'ranking');
-
-            if (outConnections.filter((c) => rankingBlocks.map((b) => b.id).includes(+c)).length === 0) {
-              dispatch(addConnection([clickedBlocks[0], clickedBlocks[1]]));
-              dispatch(
-                setBlockError({
-                  id: +clickedBlocks[1],
-                  error: false,
-                }),
-              );
-            } else {
-              showSnackbar(t('snackbar:method-ranking'), 'error');
-            }
+          if (outputBlock.type.toLowerCase() === 'ranking') {
+            setForSingleMethodRankingConnection(inputBlock.id);
           } else {
-            dispatch(addConnection([clickedBlocks[0], clickedBlocks[1]]));
-            //
-            [inputBlock, outputBlock].map((item) => {
-              // used isFilled param
-              console.log('item.isFilled');
-              console.log(item.isFilled);
-              if (!['matrix', 'method'].includes(item.type.toLowerCase()) && item.name.toLowerCase() !== 'input') {
+            if (inputBlock.type.toLowerCase() === 'matrix') {
+              if (isDataFilled(inputBlock)) {
                 dispatch(
                   setBlockError({
-                    id: item.id,
+                    id: inputBlock.id,
                     error: false,
                   }),
                 );
-              } else {
-                console.log('tu');
-                console.log(item);
-                // new matrix connected to method
-                if (item.type.toLowerCase() === 'method') {
-                  const matricesId = connections.filter((c) => c.includes(`${inputBlock.id}`)).map((c) => +c[0]);
-                  const inputMatricesId = outputBlock.data.kwargs.map((k) => k.matrixId);
-                  matricesId.forEach((mid) => {
-                    if (!inputMatricesId.includes(mid)) {
-                      dispatch(
-                        setBlockError({
-                          id: item.id,
-                          error: true,
-                        }),
-                      );
-                    }
-                  });
-                } else {
-                  dispatch(
-                    setBlockError({
-                      id: item.id,
-                      error: !item.isFilled,
-                    }),
-                  );
-                }
               }
-            });
-
-            const currentConnections = [...connections, [clickedBlocks[0], clickedBlocks[1]]];
-            // UPDATE EXTENSIONS IN WEIGHTS AND METHODS BLOCKS CONNECTED TO MATRIX
-            if (inputBlock.type === 'matrix') {
-              const weightsBlock = getMatrixWeightsConnections(blocks, currentConnections, inputBlock);
-              console.log(weightsBlock);
-              weightsBlock.forEach((b) => {
-                if (b.data.criteria !== inputBlock.data.criteria) {
-                  console.log('czyścimy wagi');
-                  dispatch(
-                    setBlockWeights({
-                      id: b.id,
-                      data: [],
-                    }),
-                  );
-                }
+            } else {
+              if (isDataFilled(inputBlock)) {
                 dispatch(
-                  setBlockCriteria({
-                    id: b.id,
-                    data: inputBlock.data.criteria,
+                  setBlockError({
+                    id: inputBlock.id,
+                    error: getInputConnections(inputBlock.id).length !== 1,
                   }),
                 );
-              });
+              }
             }
+
+            if (outputBlock.type.toLowerCase() !== 'method') {
+              if (isDataFilled(outputBlock)) {
+                dispatch(
+                  setBlockError({
+                    id: outputBlock.id,
+                    error: false,
+                  }),
+                );
+              }
+            }
+
+            // weights with data and different number of criteria
+            checkMatrixToInputWeightConnection(inputBlock, outputBlock);
+
+            if (checkMatrixWeightsConnection(inputBlock, outputBlock)) {
+              dispatch(addConnection([clickedBlocks[0], clickedBlocks[1]]));
+            } else {
+              showSnackbar(t('snackbar:matrix-size'), 'error');
+            }
+
+            checkIfNewMatrixConnectedToMethod(inputBlock, outputBlock);
           }
         } else {
           showSnackbar(t('snackbar:cannot-connect'), 'error');
@@ -156,6 +240,68 @@ export default function useBlocksConnection() {
       dispatch(setClickedBlocks([]));
       dispatch(setActiveBlock(null));
     }
+  };
+
+  const deleteConnectionArrow = (connection: string[]) => {
+    const inputBlock = blocks.find((block) => block.id === +connection[0]);
+    const outputBlock = blocks.find((block) => block.id === +connection[1]);
+
+    if (inputBlock.type.toLowerCase() !== 'matrix') {
+      if (['method', 'ranking'].includes(inputBlock.type.toLowerCase()) && inputBlock?.name.toLowerCase() === 'input') {
+      } else {
+        console.log(getInputConnections(inputBlock.id).length);
+        dispatch(
+          setBlockError({
+            id: inputBlock.id,
+            error: getInputConnections(inputBlock.id).length === 0,
+          }),
+        );
+      }
+    }
+
+    dispatch(
+      setBlockError({
+        id: outputBlock.id,
+        error: getInputConnections(outputBlock.id).length <= 1,
+      }),
+    );
+  };
+
+  const deleteKwargsFromMatrix = (connection: string[]) => {
+    const inputBlock = blocks.find((block) => block.id === +connection[0]);
+    const outputBlock = blocks.find((block) => block.id === +connection[1]);
+
+    if (inputBlock?.type.toLowerCase() === 'weights' && outputBlock?.type.toLowerCase() === 'method') {
+      const weightsId = getInputConnections(connection[1]);
+      const matricesId = getInputConnections(connection[0]);
+      const matrixConnections = connections.filter((c) => matricesId.includes(c[0]));
+
+      matrixConnections.forEach((matrix) => {
+        if (matrixConnections.filter((m) => weightsId.includes(m[1])).length === 1) {
+          dispatch(
+            deleteDataKwargs({
+              id: +connection[1],
+              matrixId: +matrix[0],
+            }),
+          );
+        }
+      });
+    } else if (inputBlock?.type.toLowerCase() === 'matrix' && outputBlock?.type.toLowerCase() === 'weights') {
+      const methodsId = getOutputConnections(outputBlock.id);
+      methodsId.forEach((methodId) => {
+        const weightsConnections = getInputConnections(+methodId);
+        const matrixConnections = weightsConnections.flatMap((weightsC) => getInputConnections(weightsC));
+        if (matrixConnections.length === 1) {
+          dispatch(
+            deleteDataKwargs({
+              id: +methodId,
+              matrixId: inputBlock.id,
+            }),
+          );
+        }
+      });
+    }
+    return;
   };
 
   const checkForWrongExtensionMethodConnection = (connections: [] | string[][]) => {
@@ -177,6 +323,22 @@ export default function useBlocksConnection() {
                 'error',
               );
               dispatch(deleteConnection(c));
+              if (getOutputConnections(+c[0]).length === 1) {
+                dispatch(
+                  setBlockError({
+                    id: +c[0],
+                    error: true,
+                  }),
+                );
+              }
+              if (getInputConnections(+c[1]).length === 1) {
+                dispatch(
+                  setBlockError({
+                    id: +c[1],
+                    error: true,
+                  }),
+                );
+              }
             }
           }
           weightsID = [...weightsID, c[1]];
@@ -197,6 +359,14 @@ export default function useBlocksConnection() {
                   'error',
                 );
                 dispatch(deleteConnection(c));
+                if (getInputConnections(+c[1]).length === 1) {
+                  dispatch(
+                    setBlockError({
+                      id: +c[1],
+                      error: true,
+                    }),
+                  );
+                }
               }
             }
           }
@@ -211,7 +381,7 @@ export default function useBlocksConnection() {
     };
 
     getBlocksOfType(blocks, 'weights').forEach((weights) => {
-      let matrixID: [] | number[] = [];
+      let matrixID: number[] = [];
       let matrixConnections: [] | string[][] = [];
       connections.forEach((c) => {
         if (weights.name === 'input' && c[1] === weights.id.toString()) {
@@ -266,7 +436,11 @@ export default function useBlocksConnection() {
   };
 
   return {
+    getInputConnections,
+    getOutputConnections,
     addBlockConnection,
+    deleteKwargsFromMatrix,
+    deleteConnectionArrow,
     checkForWrongExtensionMethodConnection,
     getMethodsConnectedBlocksExtensions,
   };

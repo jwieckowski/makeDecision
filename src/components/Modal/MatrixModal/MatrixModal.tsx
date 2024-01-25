@@ -46,6 +46,7 @@ import useCalculation from '@/utils/calculation';
 import useValidation from '@/utils/validation';
 import { convertCrispInput, convertFuzzyInput, convertTextLength } from '@/utils/formatting';
 import useSnackbars from '@/utils/snackbars';
+import useBlocksConnection from '@/utils/connections';
 
 // COMPONENTS
 import ModificationModal from '../ModificationModal';
@@ -86,6 +87,7 @@ export default function MatrixModal({ open, closeModal, textSave, textCancel, fu
   const { showSnackbar } = useSnackbars();
   const { isCrispInputValid, isFuzzyInputValid, validateMatrixBounds, validateMatrixData } = useValidation();
   const { getMatrixWeightsConnections } = useCalculation();
+  const { getInputConnections, getOutputConnections } = useBlocksConnection();
   const { locale } = useLocale();
 
   const [fileError, setFileError] = useState<boolean>(false);
@@ -475,7 +477,7 @@ export default function MatrixModal({ open, closeModal, textSave, textCancel, fu
     dispatch(
       setBlockError({
         id: activeBlock.id,
-        error: false,
+        error: getOutputConnections(activeBlock.id).length === 0,
       }),
     );
     dispatch(
@@ -488,12 +490,14 @@ export default function MatrixModal({ open, closeModal, textSave, textCancel, fu
     // IF CONNECTED WEIGHTS, UPDATE THE NUMBER OF CRITERIA IN THE DATA
     const weightsBlock = getMatrixWeightsConnections(blocks, connections, activeBlock);
     weightsBlock.forEach((b) => {
-      dispatch(
-        setBlockCriteria({
-          id: b.id,
-          data: form.criteria,
-        }),
-      );
+      if (getInputConnections(b.id).length === 1) {
+        dispatch(
+          setBlockCriteria({
+            id: b.id,
+            data: form.criteria,
+          }),
+        );
+      }
     });
 
     closeModal();

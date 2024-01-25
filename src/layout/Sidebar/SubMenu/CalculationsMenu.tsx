@@ -131,8 +131,11 @@ export default function CalculationsMenu() {
   //   dispatch(addBlock(block));
   // }, [currentStep]);
 
-  const getIsFilled = (type: string) => {
-    return !['matrix', 'weights', 'method'].includes(type.toLowerCase());
+  const getIsFilled = (type: string, name: string) => {
+    if (type.toLowerCase() === 'matrix') return false;
+    if (type.toLowerCase() === 'method' && getKwargsFromDictionary(allMethods, name)?.length > 0) return false;
+    if (type.toLowerCase() === 'weights' && name.toLowerCase() === 'input') return false;
+    return true;
   };
 
   function handleMethodItemClick(
@@ -163,7 +166,7 @@ export default function CalculationsMenu() {
       },
       error: true,
       errorMessage: null,
-      isFilled: getIsFilled(type),
+      isFilled: getIsFilled(type, name),
       // TODO set initial position based on the area
       position: {
         x: 100,

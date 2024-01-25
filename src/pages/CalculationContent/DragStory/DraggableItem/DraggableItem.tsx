@@ -200,7 +200,6 @@ export default function DraggableItem({
     return false;
   };
 
-  console.log(error);
   return (
     <Draggable
       onDrag={(e: DraggableEvent) => drag(e)}
