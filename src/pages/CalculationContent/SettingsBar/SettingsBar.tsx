@@ -68,6 +68,9 @@ export default function SettingsBar() {
       await dispatch(setErrorsList(errors));
       await dispatch(setErrorModalOpen(true));
       return;
+    } else {
+      await dispatch(setErrorsList([]));
+      await dispatch(setErrorModalOpen(false));
     }
 
     setTimeout(async () => {
