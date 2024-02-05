@@ -112,12 +112,6 @@ export default function WeightsModal({ open, closeModal, textSave, textCancel, f
     // SAVE WEIGHTS DATA
     dispatch(setBlockWeights({ id: activeBlock?.id, data: form.userWeights.map((i) => i.value) }));
     dispatch(
-      setBlockError({
-        id: activeBlock.id,
-        error: false,
-      }),
-    );
-    dispatch(
       setBlockFilled({
         id: activeBlock.id,
         isFilled: true,

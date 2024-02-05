@@ -162,7 +162,7 @@ export default function CalculationsMenu() {
         criteria: DEFAULT_CRITERIA,
         preference: [],
       },
-      error: true,
+      error: false,
       errorMessage: null,
       isFilled: getIsFilled(type, name),
       // TODO set initial position based on the area

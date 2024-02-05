@@ -76,7 +76,7 @@ export default function DragArea() {
   const [initialPosition, setInitialPosition] = useState<Position>({ x: 0, y: 0 });
 
   // const { isOpen, currentStep, setCurrentStep, setIsOpen } = useTour();
-  const { addBlockConnection, checkForWrongExtensionMethodConnection } = useBlocksConnection();
+  const { checkForWrongExtensionMethodConnection } = useBlocksConnection();
   const updateXarrow = useXarrow();
   const dispatch = useAppDispatch();
   const { enqueueSnackbar } = useSnackbar();
@@ -90,7 +90,6 @@ export default function DragArea() {
   useEffect(() => {
     if (clickedItems.length !== 2) return;
     addListConnection(clickedItems[0], clickedItems[1]);
-    // addBlockConnection();
     // checkForWrongExtensionMethodConnection(connections);
   }, [blocks, clickedItems]);
 
@@ -119,17 +118,6 @@ export default function DragArea() {
 
       if (blockId !== null) {
         removeListConnection(c[0], c[1]);
-        // if no connection then error
-        c.forEach((connection) => {
-          if (connections.filter((con) => con.includes(connection)).length === 1) {
-            dispatch(
-              setBlockError({
-                id: +connection,
-                error: true,
-              }),
-            );
-          }
-        });
       }
     });
 

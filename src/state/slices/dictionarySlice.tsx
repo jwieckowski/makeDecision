@@ -1,10 +1,10 @@
-import { createSlice,  PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 // API
-import { fetchAllMethods } from "@/api/dictionary";
+import { fetchAllMethods } from '@/api/dictionary';
 
 // TYPES
-import { DictionarySliceState, AllMethodsItem } from "@/types";
+import { DictionarySliceState, AllMethodsItem } from '@/types';
 
 const initialState: DictionarySliceState = {
   allMethods: [],
@@ -13,7 +13,7 @@ const initialState: DictionarySliceState = {
 };
 
 const dictionarySlice = createSlice({
-  name: "dictionary",
+  name: 'dictionary',
   initialState: initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -22,18 +22,12 @@ const dictionarySlice = createSlice({
         state.error = null;
         state.loading = true;
       })
-      .addCase(
-        fetchAllMethods.fulfilled,
-        (
-          state: DictionarySliceState,
-          action: PayloadAction<AllMethodsItem[]>
-        ) => {
-          state.allMethods = action.payload;
-          state.loading = false;
-        }
-      )
-      .addCase(fetchAllMethods.rejected, (state: DictionarySliceState) => {
-        state.error = "Error occurred while getting data from server";
+      .addCase(fetchAllMethods.fulfilled, (state: DictionarySliceState, action: PayloadAction<AllMethodsItem[]>) => {
+        state.allMethods = action.payload;
+        state.loading = false;
+      })
+      .addCase(fetchAllMethods.rejected, (state: DictionarySliceState, action: PayloadAction<any>) => {
+        state.error = action.payload;
         state.loading = false;
       });
   },

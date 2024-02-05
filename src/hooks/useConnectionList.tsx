@@ -7,6 +7,9 @@ import { useAppSelector, useAppDispatch } from '@/state';
 // HOOKS
 import useSnackbars from '@/hooks/useSnackbars';
 
+// TYPES
+import { StructureErrorItem } from '@/types';
+
 // SLICE
 import {
   addNode,
@@ -89,12 +92,20 @@ export default function UseConnectionList() {
     dispatch(clearNodes());
   };
 
+  const getInputConnections = (id: string) => {
+    return nodes[id].inputConnections.length;
+  };
+
+  const getOutputConnections = (id: string) => {
+    return nodes[id].outputConnections.length;
+  };
+
   const hasInputConnections = (id: string) => {
-    return nodes[id].inputConnections.length !== 0;
+    return getInputConnections(id) !== 0;
   };
 
   const hasOutputConnections = (id: string) => {
-    return nodes[id].outputConnections.length !== 0;
+    return getOutputConnections(id) !== 0;
   };
 
   const isInputRequired = (type: string, name: string) => {
@@ -122,6 +133,29 @@ export default function UseConnectionList() {
     dispatch(deleteClickedItem(id));
   };
 
+  const isDataFilled = (id: string) => {
+    return blocks.find((block) => block.id === +id)?.isFilled ?? true;
+  };
+
+  const getStructureErrors = () => {
+    let errorList: StructureErrorItem[] = [];
+    Object.keys(nodes).map((id) => {
+      // 1. Missing input connections
+      if (isInputRequired(nodes[id].type, nodes[id].name) && !hasInputConnections(id)) {
+        errorList = [...errorList, { id: id, type: nodes[id].type, message: t('results:missing-input') }];
+      }
+      // 2. Missing output connections
+      if (isOutputRequired(nodes[id].type, nodes[id].name) && !hasOutputConnections(id)) {
+        errorList = [...errorList, { id: id, type: nodes[id].type, message: t('results:missing-output') }];
+      }
+      // 3. Input data is not filled
+      if (!isDataFilled(id)) {
+        errorList = [...errorList, { id: id, type: nodes[id].type, message: t('results:missing-data-filled') }];
+      }
+    });
+    return errorList;
+  };
+
   //   useEffect(() => {
   //     // Perform any side effects related to the ConnectionList state here
   //     // This effect will run when the component mounts or when the nodes state changes
@@ -139,5 +173,8 @@ export default function UseConnectionList() {
     addClickedListItem,
     setClickedListItems,
     deleteClickedListItem,
+    getInputConnections,
+    getOutputConnections,
+    getStructureErrors,
   };
 }

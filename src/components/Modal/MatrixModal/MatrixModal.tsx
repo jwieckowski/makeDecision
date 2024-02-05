@@ -29,7 +29,7 @@ import { setBlockCriteria, setBlockData, setBlockError, setBlockFilled } from '@
 import { uploadMatrixFile, generateMatrix } from '@/api/calculations';
 
 // HOOKS
-import { useLocale } from '@/hooks';
+import { useLocale, useConnectionList } from '@/hooks';
 
 // CONST
 import {
@@ -88,7 +88,7 @@ export default function MatrixModal({ open, closeModal, textSave, textCancel, fu
   const { showSnackbar } = useSnackbars();
   const { isCrispInputValid, isFuzzyInputValid, validateMatrixBounds, validateMatrixData } = useValidation();
   const { getMatrixWeightsConnections } = useCalculation();
-  const { getInputConnections, getOutputConnections } = useBlocksConnection();
+  const { getInputConnections } = useConnectionList();
   const { locale } = useLocale();
 
   const [fileError, setFileError] = useState<boolean>(false);
@@ -476,12 +476,6 @@ export default function MatrixModal({ open, closeModal, textSave, textCancel, fu
     );
 
     dispatch(
-      setBlockError({
-        id: activeBlock.id,
-        error: getOutputConnections(activeBlock.id).length === 0,
-      }),
-    );
-    dispatch(
       setBlockFilled({
         id: activeBlock.id,
         isFilled: true,
@@ -491,7 +485,7 @@ export default function MatrixModal({ open, closeModal, textSave, textCancel, fu
     // IF CONNECTED WEIGHTS, UPDATE THE NUMBER OF CRITERIA IN THE DATA
     const weightsBlock = getMatrixWeightsConnections(blocks, connections, activeBlock);
     weightsBlock.forEach((b) => {
-      if (getInputConnections(b.id).length === 1) {
+      if (getInputConnections(`${b.id}`).length === 1) {
         dispatch(
           setBlockCriteria({
             id: b.id,

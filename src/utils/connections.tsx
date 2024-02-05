@@ -170,99 +170,6 @@ export default function useBlocksConnection() {
     return;
   };
 
-  const addBlockConnection = () => {
-    if (clickedItems.length === 2) {
-      if (connections.filter((c) => c[0] === clickedItems[0] && c[1] === clickedItems[1]).length === 0) {
-        const inputBlock = blocks.filter((b) => b.id === +clickedItems[0])[0];
-        const outputBlock = blocks.filter((b) => b.id === +clickedItems[1])[0];
-
-        if (inputBlock === undefined || outputBlock === undefined) return;
-
-        if (outputBlock.inputConnections.includes(inputBlock.type as string)) {
-          // check for only one ranking connection
-          if (outputBlock.type.toLowerCase() === 'ranking') {
-            setForSingleMethodRankingConnection(inputBlock.id);
-          } else {
-            if (inputBlock.type.toLowerCase() === 'matrix') {
-              if (isDataFilled(inputBlock)) {
-                dispatch(
-                  setBlockError({
-                    id: inputBlock.id,
-                    error: false,
-                  }),
-                );
-              }
-            } else {
-              if (isDataFilled(inputBlock)) {
-                dispatch(
-                  setBlockError({
-                    id: inputBlock.id,
-                    error: getInputConnections(inputBlock.id).length !== 1,
-                  }),
-                );
-              }
-            }
-
-            if (outputBlock.type.toLowerCase() !== 'method') {
-              if (isDataFilled(outputBlock)) {
-                dispatch(
-                  setBlockError({
-                    id: outputBlock.id,
-                    error: false,
-                  }),
-                );
-              }
-            }
-
-            // weights with data and different number of criteria
-            checkMatrixToInputWeightConnection(inputBlock, outputBlock);
-
-            if (checkMatrixWeightsConnection(inputBlock, outputBlock)) {
-              // dispatch(addConnection([clickedItems[0], clickedItems[1]]));
-            } else {
-              showSnackbar(t('snackbar:matrix-size'), 'error');
-            }
-
-            checkIfNewMatrixConnectedToMethod(inputBlock, outputBlock);
-          }
-        } else {
-          showSnackbar(t('snackbar:cannot-connect'), 'error');
-        }
-      }
-      // TO REMEMBER LAST CLICKED BLOCK IN THE CLICKED BLOCKS ARRAY
-      // dispatch(setclickedItems([clickedItems[1]]));
-
-      // TO RESET ACTIVE BLOCK AFTER MAKING THE CONNECTION
-      // dispatch(setclickedItems([]));
-      dispatch(setActiveBlock(null));
-    }
-  };
-
-  const deleteConnectionArrow = (connection: string[]) => {
-    const inputBlock = blocks.find((block) => block.id === +connection[0]);
-    const outputBlock = blocks.find((block) => block.id === +connection[1]);
-
-    if (inputBlock.type.toLowerCase() !== 'matrix') {
-      if (['method', 'ranking'].includes(inputBlock.type.toLowerCase()) && inputBlock?.name.toLowerCase() === 'input') {
-      } else {
-        console.log(getInputConnections(inputBlock.id).length);
-        dispatch(
-          setBlockError({
-            id: inputBlock.id,
-            error: getInputConnections(inputBlock.id).length === 0,
-          }),
-        );
-      }
-    }
-
-    dispatch(
-      setBlockError({
-        id: outputBlock.id,
-        error: getInputConnections(outputBlock.id).length <= 1,
-      }),
-    );
-  };
-
   const deleteKwargsFromMatrix = (connection: string[]) => {
     const inputBlock = blocks.find((block) => block.id === +connection[0]);
     const outputBlock = blocks.find((block) => block.id === +connection[1]);
@@ -432,11 +339,7 @@ export default function useBlocksConnection() {
   };
 
   return {
-    getInputConnections,
-    getOutputConnections,
-    addBlockConnection,
     deleteKwargsFromMatrix,
-    deleteConnectionArrow,
     checkForWrongExtensionMethodConnection,
     getMethodsConnectedBlocksExtensions,
   };

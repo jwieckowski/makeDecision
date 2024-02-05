@@ -10,7 +10,6 @@ import { Container, Typography, Stack, Box } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
-import VisibilityIcon from '@mui/icons-material/Visibility';
 
 // REDUX
 import { useAppSelector, useAppDispatch } from '@/state';
@@ -108,20 +107,8 @@ export default function DraggableItem({
           data: block.data.kwargs,
         }),
       );
-
-      console.log(block.typeKwargs.filter((item) => item.extension === extension));
-      if (block.typeKwargs.filter((item) => item.extension === extension).length > 0) {
-        dispatch(
-          setBlockError({
-            id: block.id,
-            error: true,
-          }),
-        );
-      }
     });
   };
-
-  // console.log(activeBlock);
 
   function handleDeleteClick(e: MouseEvent<SVGElement>, id: string) {
     e.stopPropagation();
@@ -129,22 +116,6 @@ export default function DraggableItem({
     dispatch(deleteBlock(+id));
     deleteClickedListItem(id);
     removeListNode(id);
-
-    const connectedBlocks = connections.filter((c) => c.includes(id)).flatMap((c) => c.filter((cc) => cc !== id));
-
-    console.log(connectedBlocks);
-    connectedBlocks.map((c) => {
-      const blockConnections = connections.filter((con) => con.includes(c));
-      console.log(blockConnections);
-      if (blockConnections.length === 1) {
-        dispatch(
-          setBlockError({
-            id: +id,
-            error: true,
-          }),
-        );
-      }
-    });
   }
 
   function drag(e: DraggableEvent) {
@@ -291,19 +262,6 @@ export default function DraggableItem({
 
             {showSettingsIcon() ? (
               <SettingsIcon
-                fontSize="small"
-                onClick={(e) => handleSettingsClick(e)}
-                sx={{
-                  transition: 'color 200ms ease-in',
-                  color: 'rgba(0, 0, 0, 0.6)',
-                  '&:hover': {
-                    color: 'rgb(0, 0, 0)',
-                  },
-                }}
-              />
-            ) : null}
-            {type.toLowerCase() === 'visualization' ? (
-              <VisibilityIcon
                 fontSize="small"
                 onClick={(e) => handleSettingsClick(e)}
                 sx={{

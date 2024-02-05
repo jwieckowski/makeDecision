@@ -29,13 +29,11 @@ export default function ConnectionModal({ open, closeModal, textSave, textCancel
 
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const { deleteKwargsFromMatrix, deleteConnectionArrow } = useBlocksConnection();
+  const { deleteKwargsFromMatrix } = useBlocksConnection();
   const { removeListConnection } = useConnectionList();
 
   const handleSave = () => {
     if (connectionToDelete?.length !== 2) return;
-
-    deleteConnectionArrow(connectionToDelete);
 
     // delete kwargs if last connected weights from given matrix removed
     deleteKwargsFromMatrix(connectionToDelete);

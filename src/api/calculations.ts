@@ -5,7 +5,7 @@ import axios from 'axios';
 import { BASE_URL, REQUEST_TIMEOUT_CALCULATION } from '@/common/const';
 
 // TYPES
-import { CalculationBodyTypeNew } from '@/types';
+import { CalculationBodyType } from '@/types';
 
 type RandomMatrixProps = {
   extension: string;
@@ -33,7 +33,7 @@ type GetKwargsItemsProps = {
 
 type GetResultsProps = {
   locale: string;
-  params: CalculationBodyTypeNew;
+  params: CalculationBodyType;
 };
 
 const uploadMatrixFile = createAsyncThunk(

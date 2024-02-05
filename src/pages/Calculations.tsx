@@ -12,13 +12,14 @@ import { useAppSelector } from '@/state';
 import SettingsBar from './CalculationContent/SettingsBar';
 import DragStory from './CalculationContent/DragStory';
 import Results from './CalculationContent/Results';
+import DraggableModal from '@/components/Modal/DraggableModal';
 
 // UTILS
 import { scrollToElement } from '@/utils/scroll';
 
 export default function Calculations() {
   const { t } = useTranslation();
-  const { results, resultsLoading } = useAppSelector((state) => state.calculation);
+  const { results, resultsLoading, errorModalOpen } = useAppSelector((state) => state.calculation);
 
   console.log(results);
 
@@ -42,6 +43,7 @@ export default function Calculations() {
             <Results />
           </Container>
         ) : null}
+        {errorModalOpen && <DraggableModal />}
       </Container>
       {/* SMALL SCREEN INFO */}
       <Container

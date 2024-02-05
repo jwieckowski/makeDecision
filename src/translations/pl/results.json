@@ -64,5 +64,11 @@
   "missing-decimal-value": "Brakuje wartości dziesiętnej",
   "missing-three-values": "Nie zostały podane 3 wartości",
   "not-ascending-order": "Liczby nie są w kolejności niemalejącej",
-  "missing-numerical-value": "Brakuje wartości liczbowej"
+  "missing-numerical-value": "Brakuje wartości liczbowej",
+
+  "model-structure-errors": "Błędy w strukturze modelu",
+  "fill-matrix": "Najpierw wypełnij macierz decyzyjną",
+  "missing-input": "Brakuje połączenia na wejściu",
+  "missing-output": "Brakuje połączenia na wyjściu",
+  "missing-data-filled": "Dane nie zostały uzupełnione"
 }

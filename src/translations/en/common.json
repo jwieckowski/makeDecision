@@ -2,6 +2,7 @@
   "app": "DECISION MAKING APP",
   "save": "Save",
   "cancel": "Cancel",
+  "close": "Close",
   "functionalities": "Functionalities",
   "general-error": "An error occurred while downloading the data",
   "reload": "Reload",

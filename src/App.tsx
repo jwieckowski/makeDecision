@@ -129,7 +129,13 @@ function AppLayout({ children }: AppLayoutProps) {
 export default function App() {
   return (
     <HashRouter basename={`${APP_NAME_PATH}`}>
-      <SnackbarProvider maxSnack={4}>
+      <SnackbarProvider
+        maxSnack={4}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center',
+        }}
+      >
         <AppLayout>
           <Routes>
             <Route path={`/`} element={<Dashboard />} />

@@ -97,19 +97,6 @@ const blocksSlice = createSlice({
           : b;
       });
     },
-    setBlockRandomMatrix: (state, action) => {
-      state.blocks = state.blocks.map((b) => {
-        return b.id === action.payload.id
-          ? {
-              ...b,
-              data: {
-                ...b.data,
-                randomMatrix: action.payload.data,
-              },
-            }
-          : b;
-      });
-    },
     setBlockTypes: (state, action) => {
       state.blocks = state.blocks.map((b) => {
         return b.id === action.payload.id
@@ -201,23 +188,6 @@ const blocksSlice = createSlice({
           : b;
       });
     },
-    blockFileDelete: (state, action) => {
-      state.blocks = state.blocks.map((b) => {
-        return b.id === action.payload.id
-          ? {
-              ...b,
-              data: {
-                ...b.data,
-                fileName: null,
-                matrix: [],
-                criteriaTypes: [],
-                criteria: 3,
-                alternatives: 3,
-              },
-            }
-          : b;
-      });
-    },
     setBlockPosition: (state, action) => {
       state.blocks = state.blocks.map((b) => {
         return b.id === action.payload.id
@@ -301,7 +271,6 @@ export const {
   setBlockMatrix,
   setBlockMatrixFile,
   setBlockFileName,
-  setBlockRandomMatrix,
   setBlockTypes,
   setBlockWeights,
   setBlockExtension,
@@ -309,7 +278,6 @@ export const {
   setBlockAlternatives,
   setBlockCriteria,
   setBlockStyles,
-  blockFileDelete,
   setBlockPosition,
   setBlockError,
   setBlockData,

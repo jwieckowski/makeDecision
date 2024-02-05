@@ -2,12 +2,7 @@
 import { BlockType, AllMethodsItem } from '@/types';
 
 export const getNotConnectedBlocks = (blocks: [] | BlockType[], connections: [] | string[][]) => {
-  return blocks.filter(
-    (block) =>
-      // connections.filter((c) => c.includes(block._id.toString())).length === 0 ||
-      // (block.type === 'weights' && connections.filter((c) => c[0] === block._id.toString()).length === 0),
-      connections.filter((c) => c.includes(block.id.toString())).length === 0,
-  );
+  return blocks.filter((block) => connections.filter((c) => c.includes(block.id.toString())).length === 0);
 };
 
 export const getBlocksOfType = (blocks: [] | BlockType[], type: string) => {

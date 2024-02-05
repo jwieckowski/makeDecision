@@ -3,6 +3,7 @@
 
 import { ChangeEvent, useState, FocusEvent, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Typography } from '@mui/material';
 
 // COMPONENTS
 import ArrayInput from '@/components/Array';
@@ -64,12 +65,18 @@ export default function ArrayParams({ label, matrixId, paramId, kwargId, values,
 
   const getMatrixBounds = () => {
     const matrix = getInputMatrix();
+    if (matrix.length === 0) return [];
     const minB = [];
     const maxB = [];
     for (let j = 0; j < matrix[1].length; j++) {
       const temp = [];
       for (let i = 0; i < matrix[0].length; i++) {
-        temp.push(+matrix[i][j]);
+        if (matrix[i][j].includes(',')) {
+          const items = matrix[i][j].split(',').map((item) => +item);
+          temp.push(...items);
+        } else {
+          temp.push(+matrix[i][j]);
+        }
       }
       minB.push(Math.min(...temp));
       maxB.push(Math.max(...temp));
@@ -79,11 +86,14 @@ export default function ArrayParams({ label, matrixId, paramId, kwargId, values,
 
   const getMatrixBoundsHelperText = () => {
     const bounds = getMatrixBounds();
-    return bounds[0].map((_, idx) => t('results:from-to', { from: bounds[0][idx], to: bounds[1][idx] }));
+    if (bounds.length === 0) return [];
+    // return bounds[0].map((_, idx) => t('results:from-to', { from: bounds[0][idx], to: bounds[1][idx] }));
+    return bounds[0].map((_, idx) => 'hello\nBig');
   };
 
   const getMeanESP = () => {
     const bounds = getMatrixBounds();
+    if (bounds.length === 0) return [];
     return bounds[0].map((_, idx) => ((bounds[0][idx] + bounds[1][idx]) / 2).toFixed(3));
   };
 
@@ -111,6 +121,7 @@ export default function ArrayParams({ label, matrixId, paramId, kwargId, values,
         value = (values as string[][]).map((row: string[]) => row.map((i) => ({ value: `${i}`, error: false })));
       else value = getMatrixBounds().map((row) => row.map((i) => ({ value: `${i}`, error: false })));
     }
+    console.log(value);
     return value;
   };
   const [arrayValues, setArrayValues] = useState<ArrayValueItem[][]>(getArrayInitialValue());
@@ -222,5 +233,13 @@ export default function ArrayParams({ label, matrixId, paramId, kwargId, values,
         return null;
     }
   };
+
+  if (getInputMatrix().length === 0)
+    return (
+      <Typography align="center" sx={{ color: 'error.main', fontWeight: 'bold' }}>
+        Firstly fill decision matrix
+      </Typography>
+    );
+
   return <>{getArrayContent()}</>;
 }

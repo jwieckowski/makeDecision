@@ -9,9 +9,12 @@ import { useAppSelector, useAppDispatch } from '@/state';
 // API
 import { getResults } from '@/api/calculations';
 
+// TYPES
+import { StructureErrorItem } from '@/types';
+
 // SLICES
-import { clearBody, resetBody, resetResults } from '@/state/slices/calculationSlice';
-import { setBlocks, setActiveBlock, setBlockError } from '@/state/slices/blocksSlice';
+import { clearBody, resetBody, resetResults, setErrorModalOpen, setErrorsList } from '@/state/slices/calculationSlice';
+import { setBlocks, setActiveBlock } from '@/state/slices/blocksSlice';
 
 // HOOKS
 import { useLocale, useConnectionList } from '@/hooks';
@@ -23,8 +26,6 @@ import DragSettings from './DragSettings';
 // UTILS
 // import { printDocument, generateResultsFile } from '@/utils/files';
 import useCalculation from '@/utils/calculation';
-import { getNotConnectedBlocks } from '@/utils/blocks';
-import useSnackbars from '@/hooks/useSnackbars';
 
 export default function SettingsBar() {
   const { blocks } = useAppSelector((state) => state.blocks);
@@ -34,8 +35,7 @@ export default function SettingsBar() {
   const { locale } = useLocale();
   const dispatch = useAppDispatch();
   const { getCalculationBody } = useCalculation();
-  const { connections, clearListNodes, setClickedListItems } = useConnectionList();
-  const { showSnackbar } = useSnackbars();
+  const { connections, clearListNodes, setClickedListItems, getStructureErrors } = useConnectionList();
 
   const handleClearClick = () => {
     setClickedListItems([]);
@@ -48,39 +48,25 @@ export default function SettingsBar() {
 
   const handleCalculateClick = async () => {
     dispatch(clearBody());
+
+    let errors: StructureErrorItem[] = [];
+
     if (blocks.length === 0) {
-      showSnackbar(t('snackbar:no-input-data'), 'error');
-      return;
+      errors = [{ id: null, type: null, message: t('snackbar:no-input-data') }];
+    } else {
+      // check for minimum block structure
+      const minStructure = ['matrix', 'weights'];
+      const blocksType = blocks.map((block) => block.type);
+      const isMinStructure = minStructure.every((value) => blocksType.includes(value));
+      if (!isMinStructure) {
+        errors = [{ id: null, type: null, message: t('snackbar:structure-missing') }];
+      }
     }
 
-    // check if some blocks have not filled data
-    const notFilledBlocks = blocks.filter((block) => block.error);
-    if (notFilledBlocks.length > 0) {
-      showSnackbar(t('snackbar:not-filled-blocks'), 'error');
-      return;
-    }
-
-    // check for minimum block structure
-    const minStructure = ['matrix', 'weights'];
-    const blocksType = blocks.map((block) => block.type);
-    const isMinStructure = minStructure.every((value) => blocksType.includes(value));
-    if (!isMinStructure) {
-      showSnackbar(t('snackbar:structure-missing'), 'error');
-      return;
-    }
-
-    // show added but not connected blocks
-    const notConnectedBlocks = getNotConnectedBlocks(blocks, connections);
-    if (notConnectedBlocks.length > 0) {
-      notConnectedBlocks.forEach((b) => {
-        dispatch(
-          setBlockError({
-            id: b.id,
-            error: true,
-          }),
-        );
-      });
-      showSnackbar(t('snackbar:not-connected-blocks'), 'error');
+    errors = [...errors, ...getStructureErrors()];
+    if (errors.length > 0) {
+      await dispatch(setErrorsList(errors));
+      await dispatch(setErrorModalOpen(true));
       return;
     }
 

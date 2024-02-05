@@ -143,12 +143,6 @@ export default function UserInputModal({ open, type, closeModal, textSave, textC
         },
       }),
     );
-    dispatch(
-      setBlockError({
-        id: activeBlock.id,
-        error: false,
-      }),
-    );
 
     closeModal();
   };

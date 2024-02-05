@@ -237,12 +237,6 @@ export default function MethodModal({ open, closeModal, textSave, textCancel, fu
     dispatch(setBlockKwargs({ id: activeBlock.id, data }));
 
     dispatch(
-      setBlockError({
-        id: activeBlock.id,
-        error: false,
-      }),
-    );
-    dispatch(
       setBlockFilled({
         id: activeBlock.id,
         isFilled: true,

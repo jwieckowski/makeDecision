@@ -64,5 +64,11 @@
   "missing-decimal-value": "Decimal value missing",
   "missing-three-values": "3 values are not provided",
   "not-ascending-order": "Numbers not in ascending order",
-  "missing-numerical-value": "Numerical value missing"
+  "missing-numerical-value": "Numerical value missing",
+
+  "model-structure-errors": "Errors in model structure",
+  "fill-matrix": "Firstly fill decision matrix",
+  "missing-input": "Missing input connection",
+  "missing-output": "Missing output connection",
+  "missing-data-filled": "Data is not filled"
 }

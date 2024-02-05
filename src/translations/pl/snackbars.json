@@ -1,7 +1,7 @@
 {
   "not-connected-blocks": "Nie wszystkie bloki zostały połączone",
   "not-filled-blocks": "Nie wszystkie bloki zostały uzupełnione",
-  "structure-missing": "Nie wszystkie wygamane bloki zostały podane (Macierz or Wagi)",
+  "structure-missing": "Nie wszystkie wygamane bloki zostały podane (Macierz lub Wagi)",
 
   "matrix-upload-error": "Błąd przy wczytywaniu macierzy",
   "matrix-upload-success": "Macierz wczytana poprawnie",

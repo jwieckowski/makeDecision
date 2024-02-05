@@ -9,8 +9,6 @@ import { CalculationSliceState, ResultsNode } from '@/types';
 const initialState: CalculationSliceState = {
   results: [],
   filteredResults: [],
-  rankingResults: [],
-  correlationResults: [],
   alternatives: 3,
   criteria: 3,
   calculationBody: {
@@ -24,6 +22,8 @@ const initialState: CalculationSliceState = {
   resultsError: null,
   matrixId: [],
   methodsKwargsItems: {},
+  errorModalOpen: false,
+  errorsList: [],
 };
 
 const calculationSlice = createSlice({
@@ -65,6 +65,12 @@ const calculationSlice = createSlice({
     clearErrors: (state) => {
       state.error = null;
       state.resultsError = null;
+    },
+    setErrorModalOpen: (state, action) => {
+      state.errorModalOpen = action.payload;
+    },
+    setErrorsList: (state, action) => {
+      state.errorsList = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -150,5 +156,7 @@ export const {
   resetConvertedMatrix,
   setFilteredResults,
   clearErrors,
+  setErrorModalOpen,
+  setErrorsList,
 } = actions;
 export default reducer;
