@@ -191,7 +191,9 @@ export default function AccordionResults({ matrixId, defaultExpanded }: Accordio
   };
 
   const getVisualizationData = (nodes: ResultsNode[]) => {
-    return getNodeData(nodes, 'visualization').map((node) => node.data.map((item) => item.img));
+    return getNodeData(nodes, 'visualization').flatMap((node) =>
+      node.data.map((item) => ({ img: item.img, title: node.method, metric: item?.metric ?? null })),
+    );
   };
 
   const getVisualizations = (nodes: ResultsNode[]) => {
@@ -209,7 +211,7 @@ export default function AccordionResults({ matrixId, defaultExpanded }: Accordio
         {data.map((item) => {
           return (
             <Box
-              key={item as string}
+              key={item.img as string}
               sx={{
                 py: 1,
                 border: '2px solid gray',
@@ -220,12 +222,13 @@ export default function AccordionResults({ matrixId, defaultExpanded }: Accordio
                 flexDirection: 'column',
               }}
             >
-              <Image src={item as string} alt="results" />
+              <Typography sx={{ fontWeight: 'bold', width: '100%', pl: 2 }}>{item.title} {item.metric ? <>({item.metric})</> : null}</Typography>
+              <Image src={item.img as string} alt="results" />
               <Box sx={{ width: '100%', pr: 2, display: 'flex', justifyContent: 'flex-end' }}>
                 <Button
                   text={t('results:save')}
                   startIcon={<SaveAltIcon />}
-                  onClick={() => saveIMG(item as string)}
+                  onClick={() => saveIMG(item.img as string)}
                   variant="contained"
                 />
               </Box>

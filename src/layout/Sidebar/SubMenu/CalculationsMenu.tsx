@@ -128,7 +128,11 @@ export default function CalculationsMenu() {
 
   const getIsFilled = (type: string, name: string) => {
     if (type.toLowerCase() === 'matrix') return false;
-    if (type.toLowerCase() === 'method' && getKwargsFromDictionary(allMethods, name)?.length > 0) return false;
+    if (
+      type.toLowerCase() === 'method' &&
+      getKwargsFromDictionary(allMethods, name)?.filter((item) => item.extension === 'crisp').length > 0
+    )
+      return false;
     if (type.toLowerCase() === 'weights' && name.toLowerCase() === 'input') return false;
     return true;
   };

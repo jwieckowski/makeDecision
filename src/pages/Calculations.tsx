@@ -1,15 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Container, Stack, Typography } from '@mui/material';
-
-// ICONS
 import AspectRatioIcon from '@mui/icons-material/AspectRatio';
 
 // REDUX
 import { useAppSelector, useAppDispatch } from '@/state';
 
 // HOOKS
-import { useSurveyStatus } from '@/hooks';
+import { useSurveyStatus, useLocale } from '@/hooks';
 
 // COMPONENTS
 import SettingsBar from './CalculationContent/SettingsBar';
@@ -18,14 +16,11 @@ import Results from './CalculationContent/Results';
 import DraggableModal from '@/components/Modal/DraggableModal';
 import SurveyModal from '@/components/Modal/SurveyModal';
 
-// HOOKS
-import { useLocale } from '@/hooks';
-
 // UTILS
 import { scrollToElement } from '@/utils/scroll';
 
 // API
-import { fetchUsageSurvey, getUsageSurveyItems } from '@/api/surveys';
+import { fetchUsageSurvey } from '@/api/surveys';
 
 // TYPES
 import { SurveyUsage } from '@/types';
@@ -52,7 +47,7 @@ export default function Calculations() {
         setSurveyOpen(true);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
 
     // dispatch(getUsageSurveyItems()).then((data) => {

@@ -99,6 +99,7 @@ export default function SettingsBar() {
         gap: '8px',
         px: 3,
         py: 1,
+        borderRadius: 0,
       }}
     >
       <Grid container spacing={2}>
