@@ -63,7 +63,6 @@ type KwargsItemsProps = {
   data: KwargsItemsValueProps[];
 };
 
-// TODO wczytywanie ref ideal np w ERVD
 export default function MethodModal({ open, closeModal, textSave, textCancel, fullScreen }: ModalProps) {
   const { activeBlock } = useAppSelector((state) => state.blocks);
   const { methodsKwargsItems, kwargsLoading, error } = useAppSelector((state) => state.calculation);
@@ -142,7 +141,6 @@ export default function MethodModal({ open, closeModal, textSave, textCancel, fu
     const copy = [...kwargsItems];
     copy[idx].data[i] = { ...copy[idx].data[i], value: e.target.value };
 
-    // TODO handle esp in comet
     if (e.target.value === 'esp_expert') {
       copy[idx].data[1] = {
         ...copy[idx].data[1],
@@ -185,9 +183,6 @@ export default function MethodModal({ open, closeModal, textSave, textCancel, fu
       false
     );
   };
-
-  console.log(kwargsItems);
-  console.log(activeBlock);
 
   const isShowKwargItemIndependent = (idx: number) => {
     if (activeBlock?.name.toUpperCase() !== 'COMET') return true;
@@ -236,10 +231,21 @@ export default function MethodModal({ open, closeModal, textSave, textCancel, fu
 
     dispatch(setBlockKwargs({ id: activeBlock.id, data }));
 
+    let filled = true;
+    if (
+      (activeBlock.name.toLowerCase() === 'comet' &&
+        kwargsItems.filter((item) => item.data[0].value === 'esp_expert' && item.data[1].value.length === 0).length >
+          0) ||
+      (['rim', 'spotis'].includes(activeBlock.name.toLowerCase()) &&
+        kwargsItems.filter((item) => item.data[0].value.length === 0).length > 0)
+    ) {
+      filled = false;
+    }
+
     dispatch(
       setBlockFilled({
         id: activeBlock.id,
-        isFilled: true,
+        isFilled: filled,
       }),
     );
 

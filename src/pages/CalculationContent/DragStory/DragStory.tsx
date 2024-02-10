@@ -66,9 +66,6 @@ export default function DragArea() {
     removeListConnection,
   } = useConnectionList();
 
-  console.log(nodes);
-  console.log(connections);
-
   const [isMoveable, setIsMoveable] = useState<boolean>(false);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [modalType, setModalType] = useState<string>('');
@@ -76,7 +73,6 @@ export default function DragArea() {
   const [initialPosition, setInitialPosition] = useState<Position>({ x: 0, y: 0 });
 
   // const { isOpen, currentStep, setCurrentStep, setIsOpen } = useTour();
-  const { checkForWrongExtensionMethodConnection } = useBlocksConnection();
   const updateXarrow = useXarrow();
   const dispatch = useAppDispatch();
   const { enqueueSnackbar } = useSnackbar();
@@ -90,7 +86,6 @@ export default function DragArea() {
   useEffect(() => {
     if (clickedItems.length !== 2) return;
     addListConnection(clickedItems[0], clickedItems[1]);
-    // checkForWrongExtensionMethodConnection(connections);
   }, [blocks, clickedItems]);
 
   useEffect(() => {

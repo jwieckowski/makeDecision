@@ -9,3 +9,4 @@ export * from './search';
 export * from './settings';
 export * from './connections';
 export * from './calculations';
+export * from './surveys';

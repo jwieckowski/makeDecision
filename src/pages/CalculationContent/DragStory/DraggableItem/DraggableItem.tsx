@@ -88,7 +88,7 @@ export default function DraggableItem({
 
   const deleteKwargsFromMethodByMatrixId = () => {
     if (type !== 'matrix') return;
-    console.log('tutaj');
+    // console.log('tutaj');
     const methods = blocks
       .filter((block) => block.type === 'method')
       .map((block) => {
@@ -147,10 +147,8 @@ export default function DraggableItem({
       .filter((connection) => inputConnections.map((c) => c[0]).includes(connection[1]))
       .map((item) => +item[0]);
     const extensions = blocks.filter((block) => matricesID.includes(block.id)).map((block) => block.data.extension);
-    // return typeKwargs.length > 0;
     return typeKwargs.filter((t) => extensions.includes(t.extension)).length > 0;
   };
-  hasKwargs();
 
   const isMethodConnectedToMatrix = () => {
     if (type.toLowerCase() !== 'method') return false;

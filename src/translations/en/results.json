@@ -70,5 +70,7 @@
   "fill-matrix": "Firstly fill decision matrix",
   "missing-input": "Missing input connection",
   "missing-output": "Missing output connection",
-  "missing-data-filled": "Data is not filled"
+  "missing-data-filled": "Data is not filled",
+  "min-val": "Min: {{val}}",
+  "max-val": "Max: {{val}}"
 }

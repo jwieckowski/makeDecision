@@ -17,7 +17,7 @@ import { DEFAULT_ALTERNATIVES, MIN_ALTERNATIVES, MAX_ALTERNATIVES } from '@/comm
 // UTILS
 import useValidation from '@/utils/validation';
 import { convertCrispInput } from '@/utils/formatting';
-import { setBlockError, setBlockData } from '@/state/slices/blocksSlice';
+import { setBlockData } from '@/state/slices/blocksSlice';
 
 type ModalProps = {
   open: boolean;

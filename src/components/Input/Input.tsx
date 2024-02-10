@@ -1,6 +1,8 @@
 import { ChangeEvent, FocusEvent } from 'react';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 
+import HelperText from './HelperText';
+
 type InputProps = {
   type?: string;
   value: string | number;
@@ -15,7 +17,7 @@ type InputProps = {
   width?: number;
   textCenter?: boolean;
   error?: boolean;
-  helperText?: string;
+  helperText?: string | string[];
   required?: boolean;
   name?: string;
 };
@@ -38,6 +40,46 @@ export default function Input({
   required,
   name,
 }: InputProps) {
+  if (Array.isArray(helperText)) {
+    return (
+      <>
+        <TextField
+          name={name}
+          size="small"
+          id="input"
+          variant={variant ?? 'outlined'}
+          value={value}
+          onChange={onChange}
+          type={type ?? 'string'}
+          label={label ?? ''}
+          disabled={disabled}
+          onBlur={onBlur}
+          inputProps={{
+            min: min ?? null,
+            max: max ?? null,
+            step: step ?? null,
+            style: {
+              textAlign: textCenter ? 'center' : 'start',
+            },
+          }}
+          InputLabelProps={{
+            shrink: true,
+          }}
+          sx={{
+            width: width ?? '80px',
+            '& .MuiInputLabel-asterisk': {
+              color: 'red',
+            },
+          }}
+          error={error ?? false}
+          helperText={null}
+          required={required ?? false}
+        />
+        <HelperText messages={helperText} />
+      </>
+    );
+  }
+
   return (
     <TextField
       name={name}

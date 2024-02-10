@@ -137,13 +137,11 @@ export default function CalculationsMenu() {
     e: React.MouseEvent<HTMLLIElement, MouseEvent>,
     type: string,
     name: string,
-    inputConnections: [] | string[],
-    outputConnections: [] | string[],
+    inputConnections: string[],
+    outputConnections: string[],
+    extensions: string[],
   ) {
     e.preventDefault();
-
-    console.log(inputConnections);
-    console.log(outputConnections);
 
     const block = {
       type: type.toLowerCase(),
@@ -178,6 +176,7 @@ export default function CalculationsMenu() {
       name,
       inputConnections,
       outputConnections,
+      extensions,
     );
 
     // if (isOpen) setCurrentStep((prev) => prev + 1);

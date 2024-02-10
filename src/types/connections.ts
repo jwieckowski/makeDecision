@@ -6,6 +6,7 @@ export type Node = {
   outputConnections: string[];
   allowedInput: string[];
   allowedOutput: string[];
+  extensions: string[];
 };
 
 export type ConnectionsSliceState = {

@@ -87,8 +87,10 @@ export default function ArrayParams({ label, matrixId, paramId, kwargId, values,
   const getMatrixBoundsHelperText = () => {
     const bounds = getMatrixBounds();
     if (bounds.length === 0) return [];
-    // return bounds[0].map((_, idx) => t('results:from-to', { from: bounds[0][idx], to: bounds[1][idx] }));
-    return bounds[0].map((_, idx) => 'hello\nBig');
+    return bounds[0].map((_, idx) => [
+      t('results:min-val', { val: bounds[0][idx] }),
+      t('results:max-val', { val: bounds[1][idx] }),
+    ]);
   };
 
   const getMeanESP = () => {
@@ -237,7 +239,7 @@ export default function ArrayParams({ label, matrixId, paramId, kwargId, values,
   if (getInputMatrix().length === 0)
     return (
       <Typography align="center" sx={{ color: 'error.main', fontWeight: 'bold' }}>
-        Firstly fill decision matrix
+        {t('results:fill-matrix')}
       </Typography>
     );
 

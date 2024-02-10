@@ -34,7 +34,8 @@
   "correlation-connection-1": "This correlation method is used to calculate preference similarities, not rankings",
   "correlation-connection-2": "This correlation method is used to calculate ranking similarities, not preferences",
   "cannot-connect": "Blocks cannot be connected",
-  "weights-extension": "The weighting method {{method}} cannot be connected to fuzzy data. The link will be deleted",
-  "mcda-extension": "The MCDA method {{method}} cannot be connected to fuzzy data. The link will be deleted",
-  "matrix-size": "The matrices connected to one weighting block must have an equal number of criteria. The link will be deleted"
+  "weights-extension": "The weighting method {{method}} cannot be connected to fuzzy data",
+  "mcda-extension": "The MCDA method {{method}} cannot be connected to fuzzy data",
+  "matrix-size": "The matrices connected to one input weighting block must have an equal number of criteria",
+  "weights-mcda-extension": "{{method}} method does not support fuzzy data"
 }

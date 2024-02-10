@@ -17,7 +17,7 @@ import { DEFAULT_CRITERIA, MAX_CRITERIA } from '@/common/calculations';
 // import useCalculation from '@/utils/calculation';
 import useValidation from '@/utils/validation';
 import { convertCrispInput, convertFuzzyInput } from '@/utils/formatting';
-import { setBlockWeights, setBlockError, setBlockFilled } from '@/state/slices/blocksSlice';
+import { setBlockWeights, setBlockFilled } from '@/state/slices/blocksSlice';
 
 type ModalProps = {
   open: boolean;

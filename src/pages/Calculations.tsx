@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Container, Stack, Typography } from '@mui/material';
 
@@ -6,22 +6,65 @@ import { Container, Stack, Typography } from '@mui/material';
 import AspectRatioIcon from '@mui/icons-material/AspectRatio';
 
 // REDUX
-import { useAppSelector } from '@/state';
+import { useAppSelector, useAppDispatch } from '@/state';
+
+// HOOKS
+import { useSurveyStatus } from '@/hooks';
 
 // COMPONENTS
 import SettingsBar from './CalculationContent/SettingsBar';
 import DragStory from './CalculationContent/DragStory';
 import Results from './CalculationContent/Results';
 import DraggableModal from '@/components/Modal/DraggableModal';
+import SurveyModal from '@/components/Modal/SurveyModal';
+
+// HOOKS
+import { useLocale } from '@/hooks';
 
 // UTILS
 import { scrollToElement } from '@/utils/scroll';
 
+// API
+import { fetchUsageSurvey, getUsageSurveyItems } from '@/api/surveys';
+
+// TYPES
+import { SurveyUsage } from '@/types';
+
 export default function Calculations() {
+  const { isSurveyAnswered, isSurveyAnsweredToday } = useSurveyStatus();
   const { t } = useTranslation();
+  const { locale } = useLocale();
+  const dispatch = useAppDispatch();
   const { results, resultsLoading, errorModalOpen } = useAppSelector((state) => state.calculation);
+  const [survey, setSurvey] = useState<SurveyUsage | undefined>(undefined);
+  const [surveyOpen, setSurveyOpen] = useState<boolean>(false);
 
   console.log(results);
+
+  const handleSurveySave = async () => {
+    setSurveyOpen(false);
+  };
+
+  const fetchSurveyData = async () => {
+    dispatch(fetchUsageSurvey(locale))
+      .then((data) => {
+        setSurvey(data.payload);
+        setSurveyOpen(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    // dispatch(getUsageSurveyItems()).then((data) => {
+    //   console.log(data);
+    // });
+  };
+
+  useEffect(() => {
+    if (locale === '') return;
+    if (isSurveyAnswered() && isSurveyAnsweredToday()) return;
+    fetchSurveyData();
+  }, [locale]);
 
   useEffect(() => {
     if (resultsLoading == false) return;
@@ -44,6 +87,7 @@ export default function Calculations() {
           </Container>
         ) : null}
         {errorModalOpen && <DraggableModal />}
+        {survey && <SurveyModal open={surveyOpen} survey={survey} handleSave={handleSurveySave} />}
       </Container>
       {/* SMALL SCREEN INFO */}
       <Container

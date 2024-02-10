@@ -2,10 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { Container, Typography } from '@mui/material';
 
 // REDUX
-import { useAppSelector, useAppDispatch } from '@/state';
-
-// SLICES
-import { clearBlockData, setBlockError, deleteDataKwargs } from '@/state/slices/blocksSlice';
+import { useAppSelector } from '@/state';
 
 // UTILS
 import useBlocksConnection from '@/utils/connections';
@@ -27,7 +24,6 @@ type ModalProps = {
 export default function ConnectionModal({ open, closeModal, textSave, textCancel, fullScreen }: ModalProps) {
   const { connectionToDelete } = useAppSelector((state) => state.blocks);
 
-  const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const { deleteKwargsFromMatrix } = useBlocksConnection();
   const { removeListConnection } = useConnectionList();

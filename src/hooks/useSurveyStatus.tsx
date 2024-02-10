@@ -1,49 +1,36 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-const useSurveyStatus = () => {
-  const [hasAnsweredSurvey, setHasAnsweredSurvey] = useState<boolean>(false);
-  const [hoursPassed, setHoursPassed] = useState<number>(0);
+const useSurveyStatus = (localStorageKey = 'usageSurveyStatus') => {
+  const [surveyDate, setSurveyDate] = useState<string | null>(null);
 
   useEffect(() => {
-    const checkSurveyStatus = () => {
-      const storedAnsweredSurvey = localStorage.getItem('answeredSurveyMakeDecision');
-      const answeredTimestamp = localStorage.getItem('lastTimestampMakeDecision');
+    const storedStatus = localStorage.getItem(localStorageKey);
+    if (storedStatus) {
+      const parsedStatus = JSON.parse(storedStatus);
+      setSurveyDate(parsedStatus.date);
+    }
+  }, [localStorageKey]);
 
-      console.log(storedAnsweredSurvey);
-      console.log(answeredTimestamp);
+  const recordSurveyAnswer = () => {
+    const currentDate = new Date();
+    const formattedDate = `${currentDate.getDate()}/${currentDate.getMonth() + 1}/${currentDate.getFullYear()}`;
+    const surveyStatus = { date: formattedDate };
 
-      if (!storedAnsweredSurvey || !answeredTimestamp) return;
-
-      const currentTime = new Date().getTime();
-      const lastAnsweredTimestamp = parseInt(answeredTimestamp, 10);
-      const hours = (currentTime - lastAnsweredTimestamp) / (1000 * 60 * 60);
-      console.log(hours);
-      setHasAnsweredSurvey(true);
-      setHoursPassed(hours);
-    };
-
-    checkSurveyStatus();
-  }, []);
-
-  const canAnswerSurvey = () => {
-    console.log(hasAnsweredSurvey);
-    console.log(hoursPassed);
-    const answeredTimestamp = localStorage.getItem('lastTimestampMakeDecision');
-    const currentTime = new Date().getTime();
-    const lastAnsweredTimestamp = parseInt(answeredTimestamp ?? '0', 10);
-    const hours = (currentTime - lastAnsweredTimestamp) / (1000 * 60 * 60);
-    console.log(hours);
-    return !hasAnsweredSurvey || hours >= 0.000002;
+    localStorage.setItem(localStorageKey, JSON.stringify(surveyStatus));
+    setSurveyDate(formattedDate);
   };
 
-  const updateSurveyStatus = () => {
-    const currentTime = new Date().getTime();
-    localStorage.setItem('lastTimestampMakeDecision', currentTime.toString());
-    localStorage.setItem('answeredSurveyMakeDecision', 'true');
-    setHasAnsweredSurvey(true);
+  const isSurveyAnswered = () => {
+    return surveyDate !== null;
   };
 
-  return { hasAnsweredSurvey, hoursPassed, canAnswerSurvey, updateSurveyStatus };
+  const isSurveyAnsweredToday = () => {
+    const currentDate = new Date();
+    const formattedCurrentDate = `${currentDate.getDate()}/${currentDate.getMonth() + 1}/${currentDate.getFullYear()}`;
+    return surveyDate === formattedCurrentDate;
+  };
+
+  return { recordSurveyAnswer, isSurveyAnswered, isSurveyAnsweredToday, surveyDate };
 };
 
 export default useSurveyStatus;

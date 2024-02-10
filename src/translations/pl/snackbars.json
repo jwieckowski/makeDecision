@@ -34,7 +34,8 @@
   "correlation-connection-1": "Ta metoda korelacji służy do obliczenia podobieństw preferencji, nie rankingów",
   "correlation-connection-2": "Ta metoda korelacji służy do obliczenia podobieństw rankingów, nie preferencji",
   "cannot-connect": "Nie można połączyć bloków",
-  "weights-extension": "Metoda ważenia {{method}} nie może byc połączona z danymi w formie rozmytej. Połączenie zostanie usunięte",
-  "mcda-extension": "Metoda {{method}} nie może byc połączona z danymi w formie rozmytej. Połączenie zostanie usunięte",
-  "matrix-size": "Połączone macierze do jednego bloku wag muszą mieć jednakową ilość kryteriów. Połączenie zostanie usunięte"
+  "weights-extension": "Metoda ważenia {{method}} nie może byc połączona z danymi w formie rozmytej",
+  "mcda-extension": "Metoda {{method}} nie może byc połączona z danymi w formie rozmytej",
+  "matrix-size": "Połączone macierze do jednego bloku wag Input muszą mieć jednakową ilość kryteriów",
+  "weights-mcda-extension": "Metoda {{method}} nie obsługuje danych w postaci rozmytej"
 }

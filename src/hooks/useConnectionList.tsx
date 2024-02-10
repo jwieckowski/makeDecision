@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 // STATE
@@ -24,7 +23,7 @@ import {
 import { setActiveBlock } from '@/state/slices/blocksSlice';
 
 // HELPERS
-import { isMethodConnectedToRanking } from './helpers/connectionList';
+import { isMethodConnectedToRanking, isConnectionExtensionValid, isCriteriaSizeEqual } from './helpers/connectionList';
 
 export default function UseConnectionList() {
   const { blocks } = useAppSelector((state) => state.blocks);
@@ -39,6 +38,7 @@ export default function UseConnectionList() {
     name: string,
     allowedInput: string[],
     allowedOutput: string[],
+    extensions: string[],
   ): void => {
     if (nodes[id]) {
       throw new Error(`Node with the same ID (${id}) already exists`);
@@ -53,6 +53,7 @@ export default function UseConnectionList() {
         outputConnections: [],
         allowedInput,
         allowedOutput,
+        extensions,
       }),
     );
   };
@@ -68,10 +69,39 @@ export default function UseConnectionList() {
   const addListConnection = (from: string, to: string): void => {
     if (connections.filter((con) => con[0] === from && con[1] === to).length === 0) {
       if (nodes[to].allowedInput.includes(nodes[from].type)) {
+        if (!isConnectionExtensionValid(nodes, blocks, from, to)) {
+          if (nodes[to].type === 'weights' && nodes[to].outputConnections.length === 0) {
+            showSnackbar(
+              t('snackbar:weights-extension', {
+                method: nodes[to].name.toUpperCase(),
+              }),
+              'error',
+            );
+          } else if (nodes[to].type === 'weights' && nodes[to].outputConnections.length > 0) {
+            nodes[to].outputConnections
+              .filter(() => nodes[to].extensions.includes('fuzzy'))
+              .map((item) => {
+                showSnackbar(
+                  t('snackbar:weights-mcda-extension', {
+                    method: nodes[item].name.toUpperCase(),
+                  }),
+                  'error',
+                );
+              });
+          } else {
+            showSnackbar(
+              t('snackbar:mcda-extension', {
+                method: nodes[to].name.toUpperCase(),
+              }),
+              'error',
+            );
+          }
+        } else if (!isCriteriaSizeEqual(nodes, blocks, from, to)) {
+          showSnackbar(t('snackbar:matrix-size'), 'error');
+        }
         // TODO
-        // check for matrix size connection to weights
-        // check if new matrix connected
-        if (isMethodConnectedToRanking(blocks, nodes[from], nodes[to])) {
+        // check if new matrix connected to change filled data status
+        else if (isMethodConnectedToRanking(blocks, nodes[from], nodes[to])) {
           showSnackbar(t('snackbar:method-ranking'), 'error');
         } else {
           dispatch(addConnection({ from, to }));
@@ -80,6 +110,7 @@ export default function UseConnectionList() {
         showSnackbar(t('snackbar:cannot-connect'), 'error');
       }
     }
+
     dispatch(setClickedItems([]));
     dispatch(setActiveBlock(null));
   };

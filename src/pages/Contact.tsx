@@ -57,16 +57,16 @@ export default function Contact() {
     },
   ];
 
-  const bibtexData = `@article{Author2022,
-    title = {Your Title},
-    author = {Author, Name},
-    journal = {Journal Name},
-    year = {2022},
-    volume = {1},
-    number = {1},
-    pages = {1--10},
-    doi = {your-doi}
-  }`;
+  // const bibtexData = `@article{Author2022,
+  //   title = {Your Title},
+  //   author = {Author, Name},
+  //   journal = {Journal Name},
+  //   year = {2022},
+  //   volume = {1},
+  //   number = {1},
+  //   pages = {1--10},
+  //   doi = {your-doi}
+  // }`;
   {
     /* <pre style={{ whiteSpace: 'pre-wrap' }}>{bibtexData}</pre> */
   }

@@ -19,8 +19,9 @@ export type CollapseItemProps = {
     e: React.MouseEvent<HTMLLIElement, MouseEvent>,
     type: string,
     name: string,
-    inputConnections: [] | string[],
-    outputConnections: [] | string[],
+    inputConnections: string[],
+    outputConnections: string[],
+    extensions: string[],
   ) => void;
 };
 
@@ -33,7 +34,14 @@ export default function CollapseItem({ open, forceOpen, methods, onClick }: Coll
             <Box key={method.name}>
               <ListItem
                 onClick={(e) => {
-                  onClick(e, methods.type, method.name, method.inputConnections, method.outputConnections);
+                  onClick(
+                    e,
+                    methods.type,
+                    method.name,
+                    method.inputConnections,
+                    method.outputConnections,
+                    method?.extensions ?? [],
+                  );
                 }}
                 disablePadding
                 secondaryAction={

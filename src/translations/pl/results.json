@@ -70,5 +70,7 @@
   "fill-matrix": "Najpierw wypełnij macierz decyzyjną",
   "missing-input": "Brakuje połączenia na wejściu",
   "missing-output": "Brakuje połączenia na wyjściu",
-  "missing-data-filled": "Dane nie zostały uzupełnione"
+  "missing-data-filled": "Dane nie zostały uzupełnione",
+  "min-val": "Min: {{val}}",
+  "max-val": "Max: {{val}}"
 }
