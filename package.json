@@ -5,7 +5,7 @@
   "private": false,
   "type": "commonjs",
   "scripts": {
-    "start": "",
+    "start": "vite preview",
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives",
@@ -40,6 +40,7 @@
     "react-xarrows": "^2.0.2",
     "react-zoom-pan-pinch": "^3.1.0",
     "rehype-katex": "^7.0.0",
+    "remark": "^15.0.1",
     "remark-math": "^6.0.0"
   },
   "devDependencies": {

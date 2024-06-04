@@ -4,5 +4,8 @@
   "contact-text-2": "If you would like the tool to be developed with new multi-criteria methods or other metrics used in the multi-criteria evaluation process, please contact us. We would appreciate it if you could prepare an implementation of your chosen technique in Python, together with a short comment on how the method works and an example of its usage, so that we can try to add your proposal to the range of techniques that can be used in the application.",
   "contact-text-3": "In addition, if you have any ideas on how the application could be improved, we would be pleased if you shared your opinion with us.",
   "bugs-text-1": "If you have encountered an error while using the application, please report it using the following channels.",
-  "bugs-text-2": "We would be grateful if you could describe in detail the case in which the error occurred including the input data used, the structure of the block connections, or the order in which the individual actions were performed in the application."
+  "bugs-text-2": "We would be grateful if you could describe in detail the case in which the error occurred including the input data used, the structure of the block connections, or the order in which the individual actions were performed in the application.",
+  "cite-text-1": "If you are using the developed application for research purposes, please quote to appreciate the work put into the development of this tool",
+  "copy-to-clipboard": "Copy to clipboard",
+  "text-copied": "Text was copied"
 }

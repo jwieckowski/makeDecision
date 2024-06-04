@@ -26,3 +26,6 @@ dist-ssr
 
 # deploy instructions
 deploy.txt
+
+# .zip project
+*.zip

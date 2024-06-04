@@ -8,11 +8,15 @@ import EmailIcon from '@mui/icons-material/Email';
 import HomeWorkIcon from '@mui/icons-material/HomeWork';
 import LanguageIcon from '@mui/icons-material/Language';
 
+// HOOKS
+import useSnackbars from '@/hooks/useSnackbars';
+
 // COMPONENTS
 import LinedSubheader from '@/components/LinedSubheader';
+import BibtexItem from '@/components/BibtexItem';
 
 // CONST
-import { allPackages } from '@/common/packages';
+import { allPackages, bibtexData } from '@/common/packages';
 import {
   GITHUB_PROFILE_LABEL,
   GITHUB_PROFILE_LINK,
@@ -27,6 +31,13 @@ import {
 
 export default function Contact() {
   const { t } = useTranslation();
+  const { showSnackbar } = useSnackbars();
+
+  const copyToClipboard = (bibtexData: string) => {
+    navigator.clipboard.writeText(bibtexData).then(() => {
+      showSnackbar(t('contact:text-copied'), 'success');
+    });
+  };
 
   const websites = [
     {
@@ -57,20 +68,6 @@ export default function Contact() {
     },
   ];
 
-  // const bibtexData = `@article{Author2022,
-  //   title = {Your Title},
-  //   author = {Author, Name},
-  //   journal = {Journal Name},
-  //   year = {2022},
-  //   volume = {1},
-  //   number = {1},
-  //   pages = {1--10},
-  //   doi = {your-doi}
-  // }`;
-  {
-    /* <pre style={{ whiteSpace: 'pre-wrap' }}>{bibtexData}</pre> */
-  }
-
   return (
     <Container maxWidth="lg" sx={{ my: '50px' }}>
       <Container sx={{ marginBottom: '50px' }}>
@@ -82,6 +79,8 @@ export default function Contact() {
           <Typography align="justify">{t('contact:contact-text-3')}</Typography>
         </Stack>
       </Container>
+
+      <BibtexItem bibtexData={bibtexData} copyToClipboard={copyToClipboard} />
 
       <Container>
         <Stack spacing={3}>

@@ -90,5 +90,17 @@
   "complex-structure-text-3": "Po za wymaganymi blokami, użyte zostały również bloki o funkcjonalności zapewniającej wyznaczenie rankingu pozycyjnego w przypadku metod ARAS oraz COCOSO dla macierzy decyzyjnej o ID 1 oraz dla metody COCOSO dla macierzy o ID 2. Blok funkcjonalny rankingu pozwala na wyznacznie rankingu pozycyjnego na podstawie ocen uzyskanych z metod wielokryterialnych, które wynik zwracają w postaci wartości preferencji. Obliczenie rankingu pozwala na łatwiejszą interpretację uzyskanych wyników.",
   "complex-structure-text-4": "Został użyty również blok pozwalający na obliczenie korelacji pomiędzy wynikami za pomocą metody PEARSON. Podobieństwo wyników w przedstawionych schemacie uwzględni osobno rezultaty z metody COCOSO dla macierzy decyzyjnej o ID 1, oraz dla metod COCOSO, OCRA oraz MOORA dla macierzy o ID 2. Zaprezentowana struktura mogła zostać stworzona poprzez wykorzystanie indywidualnych bloków dla każdej z metod, nie tworząc tym samym połączeń powiązanych. Ten wariant pozwoliłby na zachowanie większej przejrzystości w strukturze modelu. Jednak przykład został przedstawiony w celu pokazania, iż aplikacja umożliwia ograniczenie ilości użytych bloków, a połączenia powiązane są obsługiwane.",
 
+  "updates": "Aktualizacje aplikacji",
+  "rate-us": "Oceń nas",
+  "rate-us-text-1": "Będziemy wdzięczni, jeśli podzielisz się z nami swoją opinią na temat rozwijanej aplikacji. Twoja odpowiedź będzie dla nas cenną wskazówką, w jakim kierunku rozwijać i usprawniać to narzędzie do wspomagania podejmowania decyzji",
+  "rate-question-1": "Czy aplikacja jest pomocna w tworzeniu i wizualizacji strukturalnych modeli decyzyjnych?",
+  "rate-question-2": "Czy tworzenie prototypów z interfejsem graficznym jest łatwe?",
+  "rate-question-3": "Jak ogólnie oceniasz aplikację?",
+  "rate-question-4": "Co chciałbyś zmienić w aplikacji?",
+  "rate-question-5": "Jak łatwa w użyciu jest aplikacja?",
+  "rate-question-6": "Jak oceniasz działanie aplikacji?",
+  "rate-question-7": "Czy są jakieś funkcje, które chciałbyś zobaczyć w przyszłych aktualizacjach?",
+  "rate-required": "To pole jest wymagane",
+
   "application-tutorial": "Powyżej przedstawione zostały przykładowe struktury tworzenia modeli decyzyjnych. Całość funkcjonalności narzędzia obejmuje również listę dostępnych metod, panel dostępnych akcji, panel modyfikacji wyglądu, czy obszar wyświetlania wyników wraz z ich filtrowaniem. Instruktaż korzystania z całości funkcjonalności aplikacji i dostępnego obszaru roboczego dostępny jest w zakładce 'Obliczenia'."
 }

@@ -17,7 +17,9 @@
   "packages": "Programming packages",
   "websites": "Websites",
   "report-bugs": "Bugs and improvements",
+  "cite-us": "Reference to the article",
 
+  "submit": "Submit",
   "yes": "Yes",
   "no": "No",
   "connection-delete": "Delete connection",

@@ -90,5 +90,17 @@
   "complex-structure-text-3": "In addition to the required blocks, blocks with functionality for determining the positional ranking were used for the ARAS and COCOSO methods for the decision matrix with ID 1 and for the COCOSO method for the matrix with ID 2. The ranking functionality block allows the positional ranking to be determined based on the evaluations obtained from the multi-criteria methods, which return a result in the form of a preference values. The calculation of the ranking allows for an easier interpretation of the results obtained.",
   "complex-structure-text-4": "A block was also used to calculate the correlation between the results using the PEARSON method. The similarity of results in the presented schema will take into account the results from the COCOSO method for the decision matrix with ID 1, and the COCOSO, OCRA and MOORA methods for the matrix with ID 2 separately. The presented structure could have been created by using individual blocks for each method, thus not creating linked connections. This option would have allowed for more transparency in the model structure. However, the example is presented to show that the application allows for a reduction in the number of blocks used and that linked connections are supported.",
 
+  "updates": "Application updates",
+  "rate-us": "Rate us",
+  "rate-us-text-1": "We would be grateful if you would share with us your opinion on the application under development. Your response will give us valuable guidance on how to develop and improve this decision support tool",
+  "rate-question-1": "Is the app helpful to build and visualize the structural decision models?",
+  "rate-question-2": "Is building prototypes with graphical interface easy?",
+  "rate-question-3": "How do you rate the application overall?",
+  "rate-question-4": "What would you like to change in the app?",
+  "rate-question-5": "How easy is the app to use?",
+  "rate-question-6": "How do you rate the performance of the app?",
+  "rate-question-7": "Are there any features you would like to see in future updates?",
+  "rate-required": "This field is required",
+
   "application-tutorial": "Examples of structures for creating decision-making models are presented above. The entire functionality of the tool also includes a list of available methods, a panel of available actions, a panel for modifying the design, or an area for displaying results along with their filtering. Instructions on how to use the entire functionality of the application and the available workspace are available in the 'Calculations' tab."
 }

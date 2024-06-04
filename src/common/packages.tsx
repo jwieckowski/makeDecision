@@ -24,6 +24,16 @@ export const PYIFDM_APA =
   'Więckowski, J., Kizielewicz, B., & Sałabun, W. (2023). Handling decision-making in Intuitionistic Fuzzy environment: PyIFDM package. SoftwareX, 22, 101344.';
 export const PYIFDM_DOI = 'https://doi.org/10.1016/j.softx.2023.101344';
 
+export const bibtexData = `@article{wikeckowski2024makedecision,
+  title={MakeDecision: Online system for the graphical design of decision-making models in crisp and fuzzy environments},
+  author={Wi{\k{e}}ckowski, Jakub and Sa{\l}abun, Wojciech},
+  journal={SoftwareX},
+  volume={26},
+  pages={101658},
+  year={2024},
+  publisher={Elsevier}
+}`;
+
 export const appPackages = [
   {
     link: PYMCDM_LINK,

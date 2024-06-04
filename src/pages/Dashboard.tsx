@@ -10,10 +10,15 @@ import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 
 // HOOKS
 import { useLocale } from '@/hooks';
+import useSnackbars from '@/hooks/useSnackbars';
 
 // COMPONENTS
 import Image from '@/components/Image';
 import LinedSubheader from '@/components/LinedSubheader';
+import BibtexItem from '@/components/BibtexItem';
+
+// CONST
+import { bibtexData } from '@/common/packages';
 
 // ASSETS
 import fc1_EN from '@/assets/img/MCDA_EN.png';
@@ -25,6 +30,13 @@ import CardItem from '@/components/CardItem';
 export default function Dashboard() {
   const { t } = useTranslation();
   const { locale } = useLocale();
+  const { showSnackbar } = useSnackbars();
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(bibtexData).then(() => {
+      showSnackbar(t('contact:text-copied'), 'success');
+    });
+  };
 
   const keywords = [
     {
@@ -96,6 +108,7 @@ export default function Dashboard() {
       </Grid>
 
       <Container sx={{ mt: 4 }}>
+        <BibtexItem bibtexData={bibtexData} copyToClipboard={copyToClipboard} titleUppercase={true} />
         <LinedSubheader label={t('home:home-heading-1')} />
 
         <Stack gap={3} mt={2}>
