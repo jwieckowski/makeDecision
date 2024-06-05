@@ -15,29 +15,35 @@ import {
   FormHelperText,
 } from '@mui/material';
 
-type FormData = {
-  helpful: string;
-  easyInterface: string;
-  overallRating: number;
-  changeSuggestion: string;
-  easeOfUse: number;
-  performanceRating: number;
-  featureRequests: string;
-};
+// HOOKS
+import useSnackbars from '@/hooks/useSnackbars';
+
+// REDUX
+import { useAppDispatch } from '@/state';
+
+// API
+import { postRatingSurveyItem } from '@/api/surveys';
+
+// TYPES
+import { SurveyRating } from '@/types';
 
 export default function Rating() {
   const { t } = useTranslation();
-  const [formData, setFormData] = useState<FormData>({
+  const dispatch = useAppDispatch();
+  const { showSnackbar } = useSnackbars();
+
+  const initialFormData: SurveyRating = {
     helpful: '',
     easyInterface: '',
     overallRating: 0,
     changeSuggestion: '',
     easeOfUse: 0,
-    performanceRating: 0,
-    featureRequests: '',
-  });
+    features: '',
+  };
 
-  const [errors, setErrors] = useState<{ [key in keyof FormData]?: string }>({});
+  const [formData, setFormData] = useState<SurveyRating>(initialFormData);
+
+  const [errors, setErrors] = useState<{ [key in keyof SurveyRating]?: string }>({});
 
   const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target;
@@ -51,7 +57,7 @@ export default function Rating() {
     }));
   };
 
-  const handleSliderChange = (name: keyof FormData) => (event: Event, value: number | number[]) => {
+  const handleSliderChange = (name: keyof SurveyRating) => (event: Event, value: number | number[]) => {
     setFormData((prevData) => ({
       ...prevData,
       [name]: value as number,
@@ -65,13 +71,20 @@ export default function Rating() {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (validate()) {
-      console.log(formData);
-      // You can replace the console.log with the functionality to handle form data, like sending it to a server
+      dispatch(postRatingSurveyItem(formData))
+        .then(() => {
+          setFormData(initialFormData);
+          setErrors({});
+          showSnackbar(t('common:survey-thanks'), 'success');
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   };
 
   const validate = () => {
-    let newErrors: { [key in keyof FormData]?: string } = {};
+    let newErrors: { [key in keyof SurveyRating]?: string } = {};
 
     if (!formData.helpful) newErrors.helpful = t('about:rate-required');
     if (!formData.easyInterface) newErrors.easyInterface = t('about:rate-required');
@@ -116,9 +129,26 @@ export default function Rating() {
               {errors.easyInterface && <FormHelperText>{errors.easyInterface}</FormHelperText>}
             </FormControl>
 
+            <FormControl component="fieldset" error={!!errors.easeOfUse}>
+              <FormLabel component="legend">
+                {t('about:rate-question-5')} <span style={{ color: 'red' }}>*</span>
+              </FormLabel>
+              <Slider
+                value={formData.easeOfUse}
+                onChange={handleSliderChange('easeOfUse')}
+                aria-labelledby="ease-of-use-slider"
+                valueLabelDisplay="auto"
+                step={1}
+                marks
+                min={0}
+                max={5}
+              />
+              {errors.easeOfUse && <FormHelperText>{errors.easeOfUse}</FormHelperText>}
+            </FormControl>
+
             <FormControl component="fieldset" error={!!errors.overallRating}>
               <FormLabel component="legend">
-                {t('about:rate-question-3')} <span style={{ color: 'red' }}>*</span>
+                {t('about:rate-question-6')} <span style={{ color: 'red' }}>*</span>
               </FormLabel>
               <Slider
                 value={formData.overallRating}
@@ -144,44 +174,10 @@ export default function Rating() {
               inputProps={{ maxLength: 200 }}
             />
 
-            <FormControl component="fieldset" error={!!errors.easeOfUse}>
-              <FormLabel component="legend">
-                {t('about:rate-question-5')} <span style={{ color: 'red' }}>*</span>
-              </FormLabel>
-              <Slider
-                value={formData.easeOfUse}
-                onChange={handleSliderChange('easeOfUse')}
-                aria-labelledby="ease-of-use-slider"
-                valueLabelDisplay="auto"
-                step={1}
-                marks
-                min={0}
-                max={5}
-              />
-              {errors.easeOfUse && <FormHelperText>{errors.easeOfUse}</FormHelperText>}
-            </FormControl>
-
-            <FormControl component="fieldset" error={!!errors.performanceRating}>
-              <FormLabel component="legend">
-                {t('about:rate-question-6')} <span style={{ color: 'red' }}>*</span>
-              </FormLabel>
-              <Slider
-                value={formData.performanceRating}
-                onChange={handleSliderChange('performanceRating')}
-                aria-labelledby="performance-rating-slider"
-                valueLabelDisplay="auto"
-                step={1}
-                marks
-                min={0}
-                max={5}
-              />
-              {errors.performanceRating && <FormHelperText>{errors.performanceRating}</FormHelperText>}
-            </FormControl>
-
             <TextField
-              name="featureRequests"
+              name="features"
               label={t('about:rate-question-7')}
-              value={formData.featureRequests}
+              value={formData.features}
               onChange={handleChange}
               multiline
               rows={4}

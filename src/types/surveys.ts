@@ -14,3 +14,12 @@ export type SurveyUsage = {
   title: string;
   options: UsageOption[];
 };
+
+export type SurveyRating = {
+  helpful: string;
+  easyInterface: string;
+  easeOfUse: number;
+  overallRating: number;
+  changeSuggestion: string;
+  features: string;
+};
