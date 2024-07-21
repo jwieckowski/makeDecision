@@ -8,6 +8,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Drawer from '@mui/material/Drawer';
 import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
+import { TourProvider } from '@reactour/tour';
 
 // LAYOUT
 import Header from '@/layout/Header';
@@ -27,6 +28,8 @@ import { useOnlineStatus } from '@/hooks';
 import { APP_NAME_PATH } from '@/common/const';
 import { DRAWER_WIDTH, HIDE_DURATION } from '@/common/ui';
 import { MENU_ITEMS } from '@/common/menu';
+
+import useTourSteps from './tourSteps';
 
 type AppLayoutProps = {
   children: React.ReactElement;
@@ -127,26 +130,34 @@ function AppLayout({ children }: AppLayoutProps) {
 }
 
 export default function App() {
+  const { tourSteps } = useTourSteps();
+
   return (
-    <HashRouter basename={`${APP_NAME_PATH}`}>
-      <SnackbarProvider
-        maxSnack={4}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'center',
-        }}
-      >
-        <AppLayout>
-          <Routes>
-            <Route path={`/`} element={<Dashboard />} />
-            <Route path={`/calculations`} element={<Calculations />} />
-            <Route path={`/methods`} element={<Methods />} />
-            <Route path={`/about`} element={<About />} />
-            <Route path={`/contact`} element={<Contact />} />
-            <Route path="*" element={<Navigate to={`/`} replace={true} />} />
-          </Routes>
-        </AppLayout>
-      </SnackbarProvider>
-    </HashRouter>
+    <TourProvider
+      steps={tourSteps}
+      disableDotsNavigation={true}
+      beforeClose={() => window.localStorage.setItem('tour', 'done')}
+    >
+      <HashRouter basename={`${APP_NAME_PATH}`}>
+        <SnackbarProvider
+          maxSnack={4}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'center',
+          }}
+        >
+          <AppLayout>
+            <Routes>
+              <Route path={`/`} element={<Dashboard />} />
+              <Route path={`/calculations`} element={<Calculations />} />
+              <Route path={`/methods`} element={<Methods />} />
+              <Route path={`/about`} element={<About />} />
+              <Route path={`/contact`} element={<Contact />} />
+              <Route path="*" element={<Navigate to={`/`} replace={true} />} />
+            </Routes>
+          </AppLayout>
+        </SnackbarProvider>
+      </HashRouter>
+    </TourProvider>
   );
 }

@@ -7,7 +7,7 @@ import { useSnackbar } from 'notistack';
 import Xarrow, { useXarrow } from 'react-xarrows';
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 import { Container, Typography, Paper } from '@mui/material';
-// import { useTour } from "@reactour/tour";
+import { useTour } from '@reactour/tour';
 
 // REDUX
 import { useAppSelector, useAppDispatch } from '@/state';
@@ -55,6 +55,8 @@ export default function DragArea() {
 
   const { size, headSize, curveness, color, path, scale, gridOn, gridSize } = useAppSelector((state) => state.settings);
 
+  console.log(blocks);
+
   const {
     nodes,
     connections,
@@ -64,6 +66,7 @@ export default function DragArea() {
     setClickedListItems,
     deleteClickedListItem,
     removeListConnection,
+    clearListNodes,
   } = useConnectionList();
 
   const [isMoveable, setIsMoveable] = useState<boolean>(false);
@@ -72,11 +75,16 @@ export default function DragArea() {
 
   const [initialPosition, setInitialPosition] = useState<Position>({ x: 0, y: 0 });
 
-  // const { isOpen, currentStep, setCurrentStep, setIsOpen } = useTour();
+  const { isOpen, currentStep, setCurrentStep, setIsOpen } = useTour();
   const updateXarrow = useXarrow();
   const dispatch = useAppDispatch();
   const { enqueueSnackbar } = useSnackbar();
   const { t } = useTranslation();
+
+  useEffect(() => {
+    if (window.localStorage.getItem('tour') || allMethods.length === 0) return;
+    setIsOpen(true);
+  }, [allMethods]);
 
   useEffect(() => {
     if (!error && !resultsError) return;
@@ -131,32 +139,6 @@ export default function DragArea() {
     });
   }, [error, resultsError]);
 
-  // useEffect(() => {
-  //   if (!isOpen) return;
-  //   if (currentStep === 10 && connections.length === 0) {
-  //     setClickedListItems(['1', '2']);
-  //     addBlockConnection();
-  //   }
-  //   if (currentStep === 11) {
-  //     setModalOpen(true);
-  //     setModalType('connection');
-  //     dispatch(setConnectionToDelete(['1', '2']));
-  //   }
-
-  //   if (currentStep === 12 && connections.length > 0) {
-  //     dispatch(deleteConnection(['1', '2']));
-  //     handleModalClose();
-  //   } else if (currentStep === 12) {
-  //     handleModalClose();
-  //   }
-  // }, [currentStep]);
-
-  // useEffect(() => {
-  //   if (!isOpen && blocks.length > 0) {
-  //     dispatch(setBlocks([]));
-  //   }
-  // }, [isOpen]);
-
   useEffect(() => {
     if (modalOpen) return;
     setModalType('');
@@ -166,6 +148,10 @@ export default function DragArea() {
     setModalOpen(false);
     dispatch(setActiveBlock(null));
     setClickedListItems([]);
+
+    if (isOpen) {
+      setCurrentStep((prev) => prev + 1);
+    }
   };
 
   const handleGridClick = () => {
@@ -180,10 +166,10 @@ export default function DragArea() {
     setModalType('connection');
     dispatch(setConnectionToDelete(c));
 
-    // if (isOpen)
-    //   setTimeout(() => {
-    //     setCurrentStep((prev) => prev + 1);
-    //   }, 300);
+    if (isOpen)
+      setTimeout(() => {
+        setCurrentStep((prev) => prev + 1);
+      }, 300);
   };
 
   const handleDraggableClick = (e: MouseEvent<HTMLElement>, id: string) => {
@@ -193,7 +179,7 @@ export default function DragArea() {
     addClickedListItem(id);
 
     dispatch(setActiveBlock(id));
-    // if (isOpen) setCurrentStep((prev) => prev + 1);
+    if (isOpen) setCurrentStep((prev) => prev + 1);
   };
 
   const onDrag = () => {
@@ -245,6 +231,7 @@ export default function DragArea() {
       id="blockArea"
     >
       <Paper
+        className="tour-step-one tour-step-seven"
         elevation={0}
         sx={{
           cursor: 'pointer',
@@ -266,7 +253,6 @@ export default function DragArea() {
           pinch={{ step: 5 }}
           initialPositionX={initialPosition.x}
           initialPositionY={initialPosition.y}
-          // onPanningStop={(wrapperRef, e) => console.log(e)}
         >
           <TransformComponent
             wrapperStyle={{
@@ -325,9 +311,19 @@ export default function DragArea() {
       <Typography
         mt={1}
         align="right"
+        sx={{
+          cursor: 'pointer',
+          transition: 'all 0.5s ease-out',
+          color: '#333',
+          '&:hover': {
+            color: 'primary.dark',
+          },
+        }}
         onClick={() => {
-          // setCurrentStep(0);
-          // setIsOpen(true);
+          dispatch(setBlocks([]));
+          clearListNodes();
+          setCurrentStep(0);
+          setIsOpen(true);
         }}
       >
         {t('common:tutorial')}

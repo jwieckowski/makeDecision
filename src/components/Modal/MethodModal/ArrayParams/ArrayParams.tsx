@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 
-import { ChangeEvent, useState, FocusEvent, useEffect } from 'react';
+import { ChangeEvent, useState, FocusEvent, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Typography } from '@mui/material';
 
@@ -26,6 +26,8 @@ type ArrayParamsProps = {
   paramId: number;
   values: string[] | string[][];
   onChange: (arrayValues: string[][], kwargId: number, paramId: number) => void;
+  boundsData: string[][] | null;
+  setBoundsData: (values: string[][]) => void;
 };
 
 type ArrayValueItem = {
@@ -33,21 +35,52 @@ type ArrayValueItem = {
   error: boolean;
 };
 
-export default function ArrayParams({ label, matrixId, paramId, kwargId, values, onChange }: ArrayParamsProps) {
+export default function ArrayParams({
+  label,
+  matrixId,
+  paramId,
+  kwargId,
+  values,
+  onChange,
+  boundsData,
+  setBoundsData,
+}: ArrayParamsProps) {
   const { blocks } = useAppSelector((state) => state.blocks);
 
   const { isCrispInputValid, isFuzzyInputValid } = useValidation();
   const { t } = useTranslation();
 
+  console.log('array params bounds', boundsData, label);
+  // TODO matrix bounds must be in defined in parent component
+  const [arrayValues, setArrayValues] = useState<ArrayValueItem[][]>(getArrayInitialValue());
+  const matrixBounds = useMemo(() => {
+    // return getMatrixBounds();
+    return Array.isArray(values[0]) ? values : getMatrixBounds();
+  }, [values]);
+
+  console.log(matrixBounds);
+  console.log(values);
+
+  useEffect(() => {
+    if (label.toLowerCase() !== 'bounds') return;
+    setBoundsData(values);
+  }, [values]);
+
+  const helperTextBounds = useMemo(() => {
+    return getMatrixBoundsHelperText();
+  }, [boundsData]);
+
+  console.log(matrixBounds);
+  console.log(helperTextBounds);
   console.log(values);
 
   const getMatrixCriteria = () => {
     return blocks.find((block) => block.id === matrixId)?.data.criteria ?? DEFAULT_CRITERIA;
   };
 
-  const getInputMatrix = () => {
+  function getInputMatrix() {
     return blocks.find((block) => block.id === matrixId)?.data.matrix ?? [];
-  };
+  }
 
   // const getMatrixCValues = () => {
   //   const matrix = getInputMatrix();
@@ -63,14 +96,18 @@ export default function ArrayParams({ label, matrixId, paramId, kwargId, values,
   //   return cvalues.map((v) => v.map((i) => i.toFixed(3)).join(', '));
   // };
 
-  const getMatrixBounds = () => {
+  function getMatrixBounds() {
     const matrix = getInputMatrix();
+    if (boundsData !== null) {
+      return boundsData;
+    }
+
     if (matrix.length === 0) return [];
     const minB = [];
     const maxB = [];
-    for (let j = 0; j < matrix[1].length; j++) {
+    for (let j = 0; j < matrix[0].length; j++) {
       const temp = [];
-      for (let i = 0; i < matrix[0].length; i++) {
+      for (let i = 0; i < matrix.length; i++) {
         if (matrix[i][j].includes(',')) {
           const items = matrix[i][j].split(',').map((item) => +item);
           temp.push(...items);
@@ -82,24 +119,33 @@ export default function ArrayParams({ label, matrixId, paramId, kwargId, values,
       maxB.push(Math.max(...temp));
     }
     return [minB, maxB];
-  };
+  }
 
-  const getMatrixBoundsHelperText = () => {
+  function getMatrixBoundsHelperText() {
     const bounds = getMatrixBounds();
+    console.log(bounds);
     if (bounds.length === 0) return [];
     return bounds[0].map((_, idx) => [
       t('results:min-val', { val: bounds[0][idx] }),
       t('results:max-val', { val: bounds[1][idx] }),
     ]);
-  };
+    // console.log('matrixBounds', matrixBounds);
+    // if (matrixBounds.length === 0) return [];
+    // return matrixBounds[0].map((_, idx) => [
+    //   t('results:min-val', { val: matrixBounds[0][idx] }),
+    //   t('results:max-val', { val: matrixBounds[1][idx] }),
+    // ]);
+  }
 
-  const getMeanESP = () => {
+  function getMeanESP() {
     const bounds = getMatrixBounds();
     if (bounds.length === 0) return [];
-    return bounds[0].map((_, idx) => ((bounds[0][idx] + bounds[1][idx]) / 2).toFixed(3));
-  };
+    return bounds[0].map((_, idx) => ((+bounds[0][idx] + +bounds[1][idx]) / 2).toFixed(3));
+    // if (matrixBounds.length === 0) return [];
+    // return matrixBounds[0].map((_, idx) => ((matrixBounds[0][idx] + matrixBounds[1][idx]) / 2).toFixed(3));
+  }
 
-  const getArrayInitialValue = () => {
+  function getArrayInitialValue() {
     let value: ArrayValueItem[][] = [];
     if (
       ['p', 'q', 'characteristic values', 'expected solution points', 'reference ideal', 'reference points'].includes(
@@ -125,8 +171,7 @@ export default function ArrayParams({ label, matrixId, paramId, kwargId, values,
     }
     console.log(value);
     return value;
-  };
-  const [arrayValues, setArrayValues] = useState<ArrayValueItem[][]>(getArrayInitialValue());
+  }
 
   useEffect(() => {
     if (values.length !== 0) return;
@@ -207,7 +252,8 @@ export default function ArrayParams({ label, matrixId, paramId, kwargId, values,
             values={arrayValues}
             onChange={handleArrayValueChange}
             onBlur={handleArrayValueBlur}
-            helperTexts={getMatrixBoundsHelperText()}
+            // helperTexts={getMatrixBoundsHelperText()}
+            helperTexts={helperTextBounds}
           />
         );
       case 'bounds':

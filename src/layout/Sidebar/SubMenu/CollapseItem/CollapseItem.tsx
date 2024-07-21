@@ -29,9 +29,18 @@ export default function CollapseItem({ open, forceOpen, methods, onClick }: Coll
   return (
     <Collapse in={open || forceOpen} timeout="auto" unmountOnExit>
       <List component="div" disablePadding>
-        {methods.data.map((method) => {
+        {methods.data.map((method, index) => {
           return (
-            <Box key={method.name}>
+            <Box
+              key={method.name}
+              className={
+                methods.key.includes('matrix') && index === 2
+                  ? 'tour-step-six'
+                  : methods.key === 'Weights' && index === 0
+                  ? 'tour-step-eight'
+                  : ''
+              }
+            >
               <ListItem
                 onClick={(e) => {
                   onClick(

@@ -37,5 +37,8 @@
   "weights-extension": "Metoda ważenia {{method}} nie może byc połączona z danymi w formie rozmytej",
   "mcda-extension": "Metoda {{method}} nie może byc połączona z danymi w formie rozmytej",
   "matrix-size": "Połączone macierze do jednego bloku wag Input muszą mieć jednakową ilość kryteriów",
-  "weights-mcda-extension": "Metoda {{method}} nie obsługuje danych w postaci rozmytej"
+  "weights-mcda-extension": "Metoda {{method}} nie obsługuje danych w postaci rozmytej",
+  "crisp-weights-visualization": "Wizualizacja wag może być wykonywana tylko dla danych ostrych",
+  "scatter-ranking-inputs": "Wizualizacja o ID {{id}} wymaga dokładnie dwóch rankingów wejściowych. Obecna ilość rankingów: {{counter}}",
+  "methods-same-criteria-types": "Takie same typy kryteriów w metodzie {{name}}. Sprawdź macierz o ID {{id}}"
 }

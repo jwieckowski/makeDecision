@@ -21,13 +21,19 @@ const useSurveyStatus = (localStorageKey = 'usageSurveyStatus') => {
   };
 
   const isSurveyAnswered = () => {
-    return surveyDate !== null;
+    return localStorage.getItem(localStorageKey) !== null;
   };
 
   const isSurveyAnsweredToday = () => {
+    const storedStatus = localStorage.getItem(localStorageKey);
+    let surveyDateStore = surveyDate;
+    if (storedStatus) {
+      surveyDateStore = JSON.parse(storedStatus).date;
+    }
     const currentDate = new Date();
+
     const formattedCurrentDate = `${currentDate.getDate()}/${currentDate.getMonth() + 1}/${currentDate.getFullYear()}`;
-    return surveyDate === formattedCurrentDate;
+    return surveyDateStore === formattedCurrentDate;
   };
 
   return { recordSurveyAnswer, isSurveyAnswered, isSurveyAnsweredToday, surveyDate };

@@ -4,7 +4,7 @@
 import React, { useState, useEffect, useMemo, MouseEvent } from 'react';
 import Draggable, { DraggableEvent, DraggableData } from 'react-draggable';
 import { Container, Typography, Stack, Box } from '@mui/material';
-// import { useTour } from "@reactour/tour";
+import { useTour } from '@reactour/tour';
 
 // ICONS
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -72,12 +72,8 @@ export default function DraggableItem({
   const { activeBlock, blocks } = useAppSelector((state) => state.blocks);
   const { connections, removeListNode, deleteClickedListItem } = useConnectionList();
 
-  // const { isOpen, currentStep } = useTour();
+  const { isOpen, currentStep, setCurrentStep } = useTour();
   const dispatch = useAppDispatch();
-
-  // useEffect(() => {
-  //   if (type.toLowerCase() === 'method' && !hasKwargs()) dispatch(setBlockError({ id: +id, error: false }));
-  // }, []);
 
   function handleSettingsClick(e: MouseEvent<SVGElement>) {
     e.stopPropagation();
@@ -88,7 +84,6 @@ export default function DraggableItem({
 
   const deleteKwargsFromMethodByMatrixId = () => {
     if (type !== 'matrix') return;
-    // console.log('tutaj');
     const methods = blocks
       .filter((block) => block.type === 'method')
       .map((block) => {
@@ -181,7 +176,6 @@ export default function DraggableItem({
       scale={scale}
       position={{ x: position.x, y: position.y }}
       defaultPosition={{ x: position.x, y: position.y }}
-      // defaultPosition={id === '2' && isOpen ? { x: 240, y: 0 } : { x: 0, y: 0 }}
     >
       <Container
         id={id}
@@ -194,9 +188,9 @@ export default function DraggableItem({
           ...blockStyles(type, isActiveBlock(), error),
         }}
         onClick={(e) => handleClick(e, id)}
-        // className={`${id === '1' ? (currentStep === 6 ? 'tour-step-seven' : 'tour-step-nine') : ''} ${
-        //   id === '2' ? 'tour-step-ten' : ''
-        // }`}
+        className={`${id === '1' ? (currentStep === 6 ? 'tour-step-seven' : 'tour-step-nine') : ''} ${
+          id === '2' ? 'tour-step-ten' : ''
+        }`}
       >
         <Stack gap={1}>
           <Container

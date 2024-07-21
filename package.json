@@ -20,6 +20,7 @@
     "@mui/material": "^5.14.10",
     "@mui/styles": "^5.14.20",
     "@mui/system": "^5.14.10",
+    "@reactour/tour": "^3.7.0",
     "@reduxjs/toolkit": "^1.9.5",
     "axios": "^1.5.0",
     "eslint-config-prettier": "^9.0.0",

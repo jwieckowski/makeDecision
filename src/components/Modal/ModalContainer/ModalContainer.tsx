@@ -116,6 +116,7 @@ export default function ModalContainer({
               text={textSave ? textSave : t('common:save')}
               onClick={handleSave}
               disabled={errorText || matrixLoading || kwargsLoading ? true : false}
+              className="tour-step-twelve"
             />
           </Stack>
         </Stack>

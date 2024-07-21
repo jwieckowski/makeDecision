@@ -7,23 +7,15 @@ import Image from '@/components/Image';
 import Button from '@/components/Button';
 import LinedSubheader from '@/components/LinedSubheader';
 
-// HOOKS
-import { useLocale } from '@/hooks';
-
 // ASSETS
-import fc1_EN from '@/assets/img/APP_BLOCKS_EN.png';
-import fc1_PL from '@/assets/img/APP_BLOCKS_PL.png';
-import structure1_PL from '@/assets/img/STRUCTURE_1_PL.png';
-import structure1_EN from '@/assets/img/STRUCTURE_1_EN.png';
-import structure2_PL from '@/assets/img/STRUCTURE_2_PL.png';
-import structure2_EN from '@/assets/img/STRUCTURE_2_EN.png';
-import structure3_PL from '@/assets/img/STRUCTURE_3_PL.png';
-import structure3_EN from '@/assets/img/STRUCTURE_3_EN.png';
-import structure4_PL from '@/assets/img/STRUCTURE_4_PL.png';
-import structure4_EN from '@/assets/img/STRUCTURE_4_EN.png';
+import appBlocks from '@/assets/img/APP_BLOCKS.png';
+import struct1 from '@/assets/img/Struct1.png';
+import struct2 from '@/assets/img/Struct2.png';
+import struct3 from '@/assets/img/Struct3.png';
+import struct4 from '@/assets/img/Struct4.png';
+import struct5 from '@/assets/img/Struct5.png';
 
 export default function Instruction() {
-  const { locale } = useLocale();
   const { t } = useTranslation();
   const navigate = useNavigate();
 
@@ -47,12 +39,7 @@ export default function Instruction() {
           <Typography align="justify">{t('about:connections-structure-text-3')}</Typography>
 
           <Container sx={{ display: 'flex', justifyContent: 'center' }}>
-            <Image
-              src={locale === 'en' ? fc1_EN : fc1_PL}
-              alt={t('home:fig-alt-app-flow')}
-              width={500}
-              maxWidth={'100%'}
-            />
+            <Image src={appBlocks} alt={t('home:fig-alt-app-flow')} width={800} maxWidth={'100%'} />
           </Container>
         </Stack>
 
@@ -62,15 +49,8 @@ export default function Instruction() {
 
           <Typography align="justify">{t('about:basic-structure-text-1')}</Typography>
 
-          <Typography align="justify">{t('about:basic-structure-text-2')}</Typography>
-
           <Container sx={{ display: 'flex', justifyContent: 'center' }}>
-            <Image
-              src={locale === 'en' ? structure1_EN : structure1_PL}
-              alt={t('home:fig-alt-app-flow')}
-              width={800}
-              maxWidth={'100%'}
-            />
+            <Image src={struct1} alt={t('home:fig-alt-app-flow')} width={800} maxWidth={'100%'} />
           </Container>
         </Stack>
 
@@ -79,14 +59,10 @@ export default function Instruction() {
           <LinedSubheader label={t('about:multiple-mcda-structure').toUpperCase()} />
 
           <Typography align="justify">{t('about:multiple-mcda-structure-text-1')}</Typography>
+          <Typography align="justify">{t('about:multiple-mcda-structure-text-2')}</Typography>
 
           <Container sx={{ display: 'flex', justifyContent: 'center' }}>
-            <Image
-              src={locale === 'en' ? structure2_EN : structure2_PL}
-              alt={t('home:fig-alt-app-flow')}
-              width={800}
-              maxWidth={'100%'}
-            />
+            <Image src={struct2} alt={t('home:fig-alt-app-flow')} width={800} maxWidth={'100%'} />
           </Container>
         </Stack>
 
@@ -97,12 +73,7 @@ export default function Instruction() {
           <Typography align="justify">{t('about:multiple-weights-structure-text-1')}</Typography>
 
           <Container sx={{ display: 'flex', justifyContent: 'center' }}>
-            <Image
-              src={locale === 'en' ? structure3_EN : structure3_PL}
-              alt={t('home:fig-alt-app-flow')}
-              width={800}
-              maxWidth={'100%'}
-            />
+            <Image src={struct3} alt={t('home:fig-alt-app-flow')} width={800} maxWidth={'100%'} />
           </Container>
         </Stack>
 
@@ -112,20 +83,15 @@ export default function Instruction() {
 
           <Typography align="justify">{t('about:complex-structure-text-1')}</Typography>
 
+          <Container sx={{ display: 'flex', justifyContent: 'center' }}>
+            <Image src={struct4} alt={t('home:fig-alt-app-flow')} width={800} maxWidth={'100%'} />
+          </Container>
+
           <Typography align="justify">{t('about:complex-structure-text-2')}</Typography>
 
           <Container sx={{ display: 'flex', justifyContent: 'center' }}>
-            <Image
-              src={locale === 'en' ? structure4_EN : structure4_PL}
-              alt={t('home:fig-alt-app-flow')}
-              width={800}
-              maxWidth={'100%'}
-            />
+            <Image src={struct5} alt={t('home:fig-alt-app-flow')} width={800} maxWidth={'100%'} />
           </Container>
-
-          <Typography align="justify">{t('about:complex-structure-text-3')}</Typography>
-
-          <Typography align="justify">{t('about:complex-structure-text-4')}</Typography>
         </Stack>
 
         <Typography align="justify">{t('about:application-tutorial')}</Typography>

@@ -89,6 +89,7 @@ export default function SettingsBar() {
 
   return (
     <Paper
+      className="tour-step-three"
       elevation={4}
       sx={{
         height: '100%',

@@ -96,7 +96,7 @@ export default function AccordionResults({ matrixId, defaultExpanded }: Accordio
   };
 
   const getMethodTableData = (nodes: ResultsNode[]) => {
-    return getNodeData(nodes, 'method').map((node) => node.data[0].preference);
+    return getNodeData(nodes, 'method').flatMap((node) => node.data.map((d) => d.preference));
   };
 
   const getMethodTableLabel = (nodes: ResultsNode[]) => {
@@ -222,8 +222,10 @@ export default function AccordionResults({ matrixId, defaultExpanded }: Accordio
                 flexDirection: 'column',
               }}
             >
-              <Typography sx={{ fontWeight: 'bold', width: '100%', pl: 2 }}>{item.title} {item.metric ? <>({item.metric})</> : null}</Typography>
-              <Image src={item.img as string} alt="results" />
+              <Typography sx={{ fontWeight: 'bold', width: '100%', pl: 2 }}>
+                {item.title} {item.metric ? <>({item.metric})</> : null}
+              </Typography>
+              <Image src={item.img as string} alt="results" maxHeight="100%" maxWidth="100%" />
               <Box sx={{ width: '100%', pr: 2, display: 'flex', justifyContent: 'flex-end' }}>
                 <Button
                   text={t('results:save')}

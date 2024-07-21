@@ -10,6 +10,7 @@ type ButtonProps = {
   variant?: ButtonOwnProps['variant'];
   fullWidth?: boolean;
   width?: number;
+  className?: string;
 };
 
 export default function MyButton({
@@ -21,6 +22,7 @@ export default function MyButton({
   variant,
   fullWidth,
   width,
+  className,
 }: ButtonProps) {
   return (
     <Button
@@ -31,6 +33,7 @@ export default function MyButton({
       endIcon={endIcon || null}
       fullWidth={fullWidth}
       sx={{ width: width ?? null }}
+      className={className ?? ''}
     >
       {text}
     </Button>

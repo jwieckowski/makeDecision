@@ -67,6 +67,7 @@ export default function Sidebar() {
 
   return (
     <Box
+      className="tour-step-two"
       sx={{
         height: '100%',
         display: 'flex',
@@ -123,9 +124,10 @@ export default function Sidebar() {
             </ListItem>
             <Collapse in={openMenu} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
-                {MENU_ITEMS.map((item) => (
+                {MENU_ITEMS.map((item, index) => (
                   <Link to={item.href} key={item.id} style={{ textDecoration: 'none', color: 'inherit' }}>
                     <ListItem
+                      className={index === 3 ? 'tour-step-thirteen' : ''}
                       disablePadding
                       sx={
                         location.pathname === item.href

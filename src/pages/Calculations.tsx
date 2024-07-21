@@ -49,10 +49,6 @@ export default function Calculations() {
       .catch((err) => {
         console.error(err);
       });
-
-    // dispatch(getUsageSurveyItems()).then((data) => {
-    //   console.log(data);
-    // });
   };
 
   useEffect(() => {
@@ -68,7 +64,7 @@ export default function Calculations() {
   }, [resultsLoading]);
 
   return (
-    <Container maxWidth={false} sx={{ mb: '50px' }} disableGutters>
+    <Container maxWidth={false} sx={{ mb: '50px' }} disableGutters className="tour-step-fourteen">
       <Container maxWidth={false} sx={{ display: { xs: 'none', md: 'block' } }} disableGutters>
         <Container maxWidth={false} disableGutters sx={{ minHeight: '60px', backgroundColor: 'white' }}>
           <SettingsBar />

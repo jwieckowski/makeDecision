@@ -1,4 +1,7 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
+import { useState, ChangeEvent, FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Container,

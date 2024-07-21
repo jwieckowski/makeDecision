@@ -60,7 +60,7 @@ const blocksSlice = createSlice({
     },
     setBlockMatrix: (state, action) => {
       state.blocks = state.blocks.map((b) => {
-        return b.id === action.payload.id
+        return b.id === +action.payload.id
           ? {
               ...b,
               data: {
@@ -73,7 +73,7 @@ const blocksSlice = createSlice({
     },
     setBlockMatrixFile: (state, action) => {
       state.blocks = state.blocks.map((b) => {
-        return b.id === action.payload.id
+        return b.id === +action.payload.id
           ? {
               ...b,
               data: {
@@ -86,7 +86,7 @@ const blocksSlice = createSlice({
     },
     setBlockFileName: (state, action) => {
       state.blocks = state.blocks.map((b) => {
-        return b.id === action.payload.id
+        return b.id === +action.payload.id
           ? {
               ...b,
               data: {
@@ -99,7 +99,7 @@ const blocksSlice = createSlice({
     },
     setBlockTypes: (state, action) => {
       state.blocks = state.blocks.map((b) => {
-        return b.id === action.payload.id
+        return b.id === +action.payload.id
           ? {
               ...b,
               data: {
@@ -112,7 +112,7 @@ const blocksSlice = createSlice({
     },
     setBlockWeights: (state, action) => {
       state.blocks = state.blocks.map((b) => {
-        return b.id === action.payload.id
+        return b.id === +action.payload.id
           ? {
               ...b,
               data: {
@@ -125,7 +125,7 @@ const blocksSlice = createSlice({
     },
     setBlockExtension: (state, action) => {
       state.blocks = state.blocks.map((b) => {
-        return b.id === action.payload.id
+        return b.id === +action.payload.id
           ? {
               ...b,
               data: {
@@ -138,7 +138,7 @@ const blocksSlice = createSlice({
     },
     setBlockKwargs: (state, action) => {
       state.blocks = state.blocks.map((b) => {
-        return b.id === action.payload.id
+        return b.id === +action.payload.id
           ? {
               ...b,
               data: {
@@ -151,7 +151,7 @@ const blocksSlice = createSlice({
     },
     setBlockAlternatives: (state, action) => {
       state.blocks = state.blocks.map((b) => {
-        return b.id === action.payload.id
+        return b.id === +action.payload.id
           ? {
               ...b,
               data: {
@@ -164,7 +164,7 @@ const blocksSlice = createSlice({
     },
     setBlockCriteria: (state, action) => {
       state.blocks = state.blocks.map((b) => {
-        return b.id === action.payload.id
+        return b.id === +action.payload.id
           ? {
               ...b,
               data: {
@@ -177,7 +177,7 @@ const blocksSlice = createSlice({
     },
     setBlockStyles: (state, action) => {
       state.blocks = state.blocks.map((b) => {
-        return b.id === action.payload.id
+        return b.id === +action.payload.id
           ? {
               ...b,
               data: {
@@ -190,7 +190,7 @@ const blocksSlice = createSlice({
     },
     setBlockPosition: (state, action) => {
       state.blocks = state.blocks.map((b) => {
-        return b.id === action.payload.id
+        return b.id === +action.payload.id
           ? {
               ...b,
               position: action.payload.position,
@@ -200,7 +200,7 @@ const blocksSlice = createSlice({
     },
     setBlockError: (state, action) => {
       state.blocks = state.blocks.map((b) => {
-        return b.id === action.payload.id
+        return b.id === +action.payload.id
           ? {
               ...b,
               error: action.payload.error,
@@ -211,7 +211,7 @@ const blocksSlice = createSlice({
     setBlockData: (state, action) => {
       state.blocks = state.blocks.map((b) => {
         {
-          return b.id === action.payload.id
+          return b.id === +action.payload.id
             ? {
                 ...b,
                 data: {
@@ -225,7 +225,7 @@ const blocksSlice = createSlice({
     },
     setBlockFilled: (state, action) => {
       state.blocks = state.blocks.map((b) => {
-        return b.id === action.payload.id
+        return b.id === +action.payload.id
           ? {
               ...b,
               isFilled: action.payload.isFilled,
@@ -235,7 +235,7 @@ const blocksSlice = createSlice({
     },
     clearBlockData: (state, action) => {
       state.blocks = state.blocks.map((b) => {
-        return b.id === action.payload.id
+        return b.id === +action.payload.id
           ? {
               ...b,
               data: initialBlockData,
@@ -245,7 +245,7 @@ const blocksSlice = createSlice({
     },
     deleteDataKwargs: (state, action) => {
       state.blocks = state.blocks.map((b) => {
-        return b.id === action.payload.id
+        return b.id === +action.payload.id
           ? {
               ...b,
               data: {

@@ -66,6 +66,7 @@ type KwargsItemsProps = {
 export default function MethodModal({ open, closeModal, textSave, textCancel, fullScreen }: ModalProps) {
   const { activeBlock } = useAppSelector((state) => state.blocks);
   const { methodsKwargsItems, kwargsLoading, error } = useAppSelector((state) => state.calculation);
+  const [boundsData, setBoundsData] = useState<string[][]>([]);
 
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
@@ -132,6 +133,9 @@ export default function MethodModal({ open, closeModal, textSave, textCancel, fu
   useEffect(() => {
     getMethodItems();
   }, []);
+
+  useEffect(() => {}, [kwargsItems]);
+  console.log(kwargsItems);
 
   const handleSelectKwargChange = (e: SelectChangeEvent, idx: number, i: number) => {
     if (activeBlock?.data?.kwargs[idx]?.data[i]?.value === e.target.value) {
@@ -201,6 +205,14 @@ export default function MethodModal({ open, closeModal, textSave, textCancel, fu
     };
 
     setKwargsItems(copy);
+  };
+
+  console.log(boundsData);
+
+  const getDataBounds = (kwargs: KwargsItemsProps, label: string) => {
+    if (!['reference ideal', 'expected solution points'].includes(label.toLowerCase())) return null;
+    // return kwargs.data.find((item) => item.parameter === 'bounds')?.value ?? null;
+    return boundsData;
   };
 
   const handleModalClose = () => {
@@ -344,6 +356,8 @@ export default function MethodModal({ open, closeModal, textSave, textCancel, fu
                                         onChange={handleArrayInputChange}
                                         kwargId={idx}
                                         paramId={i}
+                                        boundsData={getDataBounds(kwargs, kwargItem.label)}
+                                        setBoundsData={setBoundsData}
                                       />
                                     ) : null}
                                   </>

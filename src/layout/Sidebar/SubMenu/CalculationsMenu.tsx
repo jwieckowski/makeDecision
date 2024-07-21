@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
@@ -10,7 +10,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-// import { useTour } from "@reactour/tour";
+import { useTour } from '@reactour/tour';
 
 // ICONS
 import ExpandLess from '@mui/icons-material/ExpandLess';
@@ -48,7 +48,10 @@ export default function CalculationsMenu() {
   const { allMethods, loading, error } = useAppSelector((state) => state.dictionary);
   const { addListNode } = useConnectionList();
   const [openIndex, setOpenIndex] = useState('');
-  // const { isOpen, currentStep, setCurrentStep } = useTour();
+  const { isOpen, currentStep, setCurrentStep } = useTour();
+
+  const hasAddedMatrixBlockRef = useRef(false);
+  const hasAddedWeightsBlockRef = useRef(false);
 
   const handleClick = (index: string) => {
     if (openIndex === index) {
@@ -94,37 +97,14 @@ export default function CalculationsMenu() {
     return temp;
   }, [allMethods, query, locale]);
 
-  // useEffect(() => {
-  //   if (!isOpen) return;
-  //   if (currentStep !== 6 && currentStep !== 8) return;
-  //   if ((currentStep === 6 && blocks.length > 0) || (currentStep === 8 && blocks.length > 1)) return;
-
-  //   const index = currentStep === 6 ? 0 : 1;
-  //   const { key, label, inputConnections, outputConnections } = allMethods[index];
-  //   const { name, label: methodLabel } = allMethods[index].data[0];
-  //   const block = {
-  //     type: key.includes('matrix') ? key.split(' ')[1].toLowerCase() : key.toLowerCase(),
-  //     typeLabel: label.toLocaleLowerCase(),
-  //     method: name.toLowerCase(),
-  //     label: methodLabel.toLowerCase(),
-  //     inputConnections,
-  //     outputConnections,
-  //     data: {
-  //       matrix: [],
-  //       matrixFile: [],
-  //       fileName: null,
-  //       randomMatrix: [],
-  //       types: [],
-  //       weights: [],
-  //       extension: 'crisp',
-  //       additionals: [],
-  //       alternatives: DEFAULT_ALTERNATIVES,
-  //       criteria: DEFAULT_CRITERIA,
-  //       styles: null,
-  //     },
-  //   };
-  //   dispatch(addBlock(block));
-  // }, [currentStep]);
+  useEffect(() => {
+    if (currentStep === 4) {
+      setOpenIndex('0');
+    }
+    if (currentStep === 6) {
+      setOpenIndex('1');
+    }
+  }, [currentStep]);
 
   const getIsFilled = (type: string, name: string) => {
     if (type.toLowerCase() === 'matrix') return false;
@@ -167,9 +147,8 @@ export default function CalculationsMenu() {
       error: false,
       errorMessage: null,
       isFilled: getIsFilled(type, name),
-      // TODO set initial position based on the area
       position: {
-        x: 100,
+        x: isOpen && currentStep === 7 ? 300 : 100,
         y: 100,
       },
     };
@@ -183,11 +162,12 @@ export default function CalculationsMenu() {
       extensions,
     );
 
-    // if (isOpen) setCurrentStep((prev) => prev + 1);
+    if (isOpen) setCurrentStep((prev) => prev + 1);
   }
 
   return (
     <Box
+      className="tour-step-five"
       sx={{
         display: {
           xs: 'none',

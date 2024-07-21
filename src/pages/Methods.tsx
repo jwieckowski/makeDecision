@@ -32,6 +32,10 @@ export default function Methods() {
 
   useEffect(() => {
     if (locale === '') return;
+
+    setGroupIndex(0);
+    setMethodIndex(0);
+
     if (dataFetchedRef.current) return;
     dataFetchedRef.current = true;
 
@@ -40,7 +44,6 @@ export default function Methods() {
 
   useEffect(() => {
     if (methods.length === 0) return;
-
     setGroupValue(methods[0].key);
     setMethodValue(methods[0].data[0].name);
   }, [methods]);

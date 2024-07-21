@@ -37,5 +37,8 @@
   "weights-extension": "The weighting method {{method}} cannot be connected to fuzzy data",
   "mcda-extension": "The MCDA method {{method}} cannot be connected to fuzzy data",
   "matrix-size": "The matrices connected to one input weighting block must have an equal number of criteria",
-  "weights-mcda-extension": "{{method}} method does not support fuzzy data"
+  "weights-mcda-extension": "{{method}} method does not support fuzzy data",
+  "crisp-weights-visualization": "Visualization of the weights can only be done for crisp data",
+  "scatter-ranking-inputs": "Visualization with ID {{id}} requires exactly two input rankings. Current number of rankings: {{counter}}",
+  "methods-same-criteria-types": "The same types of criteria in the method {{name}}. Check matrix with ID {{id}}"
 }

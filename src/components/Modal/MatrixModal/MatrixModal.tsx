@@ -80,6 +80,7 @@ type FormProps = {
 };
 
 export default function MatrixModal({ open, closeModal, textSave, textCancel, fullScreen }: ModalProps) {
+  const { allMethods } = useAppSelector((state) => state.dictionary);
   const { matrixLoading } = useAppSelector((state) => state.calculation);
   const { activeBlock, blocks } = useAppSelector((state) => state.blocks);
   const { connections } = useAppSelector((state) => state.connections);
@@ -88,7 +89,7 @@ export default function MatrixModal({ open, closeModal, textSave, textCancel, fu
   const { showSnackbar } = useSnackbars();
   const { isCrispInputValid, isFuzzyInputValid, validateMatrixBounds, validateMatrixData } = useValidation();
   const { getMatrixWeightsConnections } = useCalculation();
-  const { getInputConnections } = useConnectionList();
+  const { getInputConnections, checkMatrixConnection } = useConnectionList();
   const { locale } = useLocale();
 
   const [fileError, setFileError] = useState<boolean>(false);
@@ -485,6 +486,15 @@ export default function MatrixModal({ open, closeModal, textSave, textCancel, fu
     // IF CONNECTED WEIGHTS, UPDATE THE NUMBER OF CRITERIA IN THE DATA
     const weightsBlock = getMatrixWeightsConnections(blocks, connections, activeBlock);
     weightsBlock.forEach((b) => {
+      // if (
+      //   !allMethods
+      //     .find((m) => m.type == 'weights')
+      //     .data.find((item) => item.name.toLowerCase() === b.name)
+      //     ?.extensions.includes(form.extension)
+      // ) {
+      //   console.log('metoda nie ma fuzzy obsługi');
+      //   checkMatrixConnection(`${activeBlock.id}`, `${b.id}`);
+      // } else {
       if (getInputConnections(`${b.id}`).length === 1) {
         dispatch(
           setBlockCriteria({
@@ -493,8 +503,10 @@ export default function MatrixModal({ open, closeModal, textSave, textCancel, fu
           }),
         );
       }
+      // }
     });
 
+    checkMatrixConnection(`${activeBlock.id}`, form.extension);
     closeModal();
   };
 

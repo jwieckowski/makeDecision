@@ -47,7 +47,12 @@ export default function DragSettings() {
   const dispatch = useAppDispatch();
 
   return (
-    <Stack direction="row" gap={2} sx={{ height: '100%', display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
+    <Stack
+      className="tour-step-four"
+      direction="row"
+      gap={2}
+      sx={{ height: '100%', display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}
+    >
       <Box
         sx={{
           minHeight: '50px',
