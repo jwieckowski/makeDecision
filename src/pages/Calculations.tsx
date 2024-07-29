@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Container, Stack, Typography } from '@mui/material';
 import AspectRatioIcon from '@mui/icons-material/AspectRatio';
+import { useTour } from '@reactour/tour';
 
 // REDUX
 import { useAppSelector, useAppDispatch } from '@/state';
@@ -26,18 +27,23 @@ import { fetchUsageSurvey } from '@/api/surveys';
 import { SurveyUsage } from '@/types';
 
 export default function Calculations() {
+  const [survey, setSurvey] = useState<SurveyUsage | undefined>(undefined);
+  const [surveyOpen, setSurveyOpen] = useState<boolean>(false);
+  const { results, resultsLoading, errorModalOpen } = useAppSelector((state) => state.calculation);
+  const { allMethods } = useAppSelector((state) => state.dictionary);
+
   const { isSurveyAnswered, isSurveyAnsweredToday } = useSurveyStatus();
   const { t } = useTranslation();
   const { locale } = useLocale();
   const dispatch = useAppDispatch();
-  const { results, resultsLoading, errorModalOpen } = useAppSelector((state) => state.calculation);
-  const [survey, setSurvey] = useState<SurveyUsage | undefined>(undefined);
-  const [surveyOpen, setSurveyOpen] = useState<boolean>(false);
+  const { setIsOpen } = useTour();
 
   console.log(results);
 
   const handleSurveySave = async () => {
     setSurveyOpen(false);
+    if (window.localStorage.getItem('tour') || allMethods.length === 0) return;
+    setIsOpen(true);
   };
 
   const fetchSurveyData = async () => {

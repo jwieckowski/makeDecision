@@ -38,7 +38,7 @@ import useBlocksConnection from '@/utils/connections';
 import UserInputModal from '@/components/Modal/UserInputModal';
 
 // HOOKS
-import { useConnectionList } from '@/hooks';
+import { useConnectionList, useSurveyStatus } from '@/hooks';
 
 type Position = {
   x: number;
@@ -47,15 +47,9 @@ type Position = {
 
 export default function DragArea() {
   const { allMethods } = useAppSelector((state) => state.dictionary);
-
-  // const { blocks, draggedItem, activeBlock } = useAppSelector((state) => state.blocks);
   const { blocks, draggedItem, activeBlock } = useAppSelector((state) => state.blocks);
-
   const { error, resultsError } = useAppSelector((state) => state.calculation);
-
   const { size, headSize, curveness, color, path, scale, gridOn, gridSize } = useAppSelector((state) => state.settings);
-
-  console.log(blocks);
 
   const {
     nodes,
@@ -80,11 +74,13 @@ export default function DragArea() {
   const dispatch = useAppDispatch();
   const { enqueueSnackbar } = useSnackbar();
   const { t } = useTranslation();
+  const { surveyDate, isSurveyAnswered, isSurveyAnsweredToday } = useSurveyStatus();
 
   useEffect(() => {
+    if (!isSurveyAnswered() && !isSurveyAnsweredToday()) return;
     if (window.localStorage.getItem('tour') || allMethods.length === 0) return;
     setIsOpen(true);
-  }, [allMethods]);
+  }, [allMethods, surveyDate]);
 
   useEffect(() => {
     if (!error && !resultsError) return;

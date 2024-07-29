@@ -249,7 +249,8 @@ export default function UseConnectionList() {
     return nodes[id].outputConnections.length;
   };
 
-  const hasInputConnections = (id: string) => {
+  const hasInputConnections = (id: string, input = true) => {
+    if (input) return true;
     return getInputConnections(id) !== 0;
   };
 
@@ -359,11 +360,15 @@ export default function UseConnectionList() {
     Object.keys(nodes).map((id) => {
       // 1. Missing input connections
       if (isInputRequired(nodes[id].type, nodes[id].name) && !hasInputConnections(id)) {
-        errorList = [...errorList, { id: id, type: nodes[id].type, message: t('results:missing-input') }];
+        if (!['method', 'ranking'].includes(nodes[id].type.toLowerCase()) && nodes[id].name.toLowerCase() !== 'input') {
+          errorList = [...errorList, { id: id, type: nodes[id].type, message: t('results:missing-input') }];
+        }
       }
       // 2. Missing output connections
       if (isOutputRequired(nodes[id].type, nodes[id].name) && !hasOutputConnections(id)) {
-        errorList = [...errorList, { id: id, type: nodes[id].type, message: t('results:missing-output') }];
+        if (!['method', 'ranking'].includes(nodes[id].type.toLowerCase()) && nodes[id].name.toLowerCase() !== 'input') {
+          errorList = [...errorList, { id: id, type: nodes[id].type, message: t('results:missing-output') }];
+        }
       }
       // 3. Input data is not filled
       if (!isDataFilled(id)) {

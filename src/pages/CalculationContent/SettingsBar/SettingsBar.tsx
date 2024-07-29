@@ -56,10 +56,27 @@ export default function SettingsBar() {
     } else {
       // check for minimum block structure
       const minStructure = ['matrix', 'weights'];
+      const minStructureInput = ['method', 'ranking'];
       const blocksType = blocks.map((block) => block.type);
-      const isMinStructure = minStructure.every((value) => blocksType.includes(value));
-      if (!isMinStructure) {
-        errors = [{ id: null, type: null, message: t('snackbar:structure-missing') }];
+      // with matrix
+      if (blocksType.includes('matrix')) {
+        const isMinStructure = minStructure.every((value) => blocksType.includes(value));
+        if (!isMinStructure) {
+          errors = [{ id: null, type: null, message: t('snackbar:structure-missing') }];
+        }
+      }
+      // without matrix
+      else {
+        if (blocksType.includes('weights')) {
+          errors = [{ id: null, type: null, message: 'Wagi nie powinny być użyte bez macierzy' }];
+        } else {
+          if (
+            blocks.filter((block) => minStructureInput.includes(block.type) && block.name.toLowerCase() === 'input')
+              .length === 0
+          ) {
+            errors = [{ id: null, type: null, message: 'Struktura porównań powinna mieć dane z inputa' }];
+          }
+        }
       }
     }
 

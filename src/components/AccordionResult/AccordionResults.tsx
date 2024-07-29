@@ -40,14 +40,19 @@ export default function AccordionResults({ matrixId, defaultExpanded }: Accordio
   };
 
   const getNodeDataForMatrix = (nodes: ResultsNode[], matrixId: number) => {
-    return nodes
-      .filter((node) => node.data.filter((item: ResultsNodeData) => item?.matrix_id === matrixId).length > 0)
-      .map((node) => {
-        return {
-          ...node,
-          data: [...node.data.filter((item) => item.matrix_id === matrixId)],
-        };
-      });
+    if (matrixId !== 0) {
+      return nodes
+        .filter((node) => node.data.filter((item: ResultsNodeData) => item?.matrix_id === matrixId).length > 0)
+        .map((node) => {
+          return {
+            ...node,
+            data: [...node.data.filter((item) => item.matrix_id === matrixId)],
+          };
+        });
+    } else {
+      console.log(nodes);
+      return nodes;
+    }
   };
 
   const getNodeData = (nodes: ResultsNode[], type: ResultsNode['node_type']) => {
@@ -244,15 +249,17 @@ export default function AccordionResults({ matrixId, defaultExpanded }: Accordio
   return (
     <Container disableGutters>
       <Accordion defaultExpanded={defaultExpanded} sx={{ border: '2px solid gray', boxShadow: '0 4px 2px -2px gray' }}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls={`result-${matrixId}-content`}
-          id={`result-${matrixId}-header`}
-        >
-          <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
-            {t('results:matrix').toUpperCase()} (ID {matrixId})
-          </Typography>
-        </AccordionSummary>
+        {matrixId !== 0 ? (
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls={`result-${matrixId}-content`}
+            id={`result-${matrixId}-header`}
+          >
+            <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
+              {t('results:matrix').toUpperCase()} (ID {matrixId})
+            </Typography>
+          </AccordionSummary>
+        ) : null}
         <AccordionDetails>
           <Stack gap={5}>
             {getMatrixTable(results)}
