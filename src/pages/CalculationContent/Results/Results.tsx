@@ -19,8 +19,6 @@ export default function Results() {
 
   if (!resultsLoading && filteredResults.length === 0) return null;
 
-  console.log(filteredResults);
-
   return (
     <Container id="resultsContainer">
       {resultsLoading ? (

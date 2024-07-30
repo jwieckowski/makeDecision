@@ -221,7 +221,6 @@ export default function UseConnectionList() {
     nodes[id].outputConnections.forEach((methodNodeID) => {
       const block = blocks.find((block) => block.id === +methodNodeID);
       if (block?.data.extension !== extension) {
-        console.log('zmiana rozszerzenia');
         dispatch(clearBlockData({ id: +methodNodeID }));
         dispatch(setBlockFilled({ id: +methodNodeID, isFilled: false }));
       }

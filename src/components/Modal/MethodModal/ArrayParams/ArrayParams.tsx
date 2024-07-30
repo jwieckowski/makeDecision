@@ -50,16 +50,10 @@ export default function ArrayParams({
   const { isCrispInputValid, isFuzzyInputValid } = useValidation();
   const { t } = useTranslation();
 
-  console.log('array params bounds', boundsData, label);
-  // TODO matrix bounds must be in defined in parent component
   const [arrayValues, setArrayValues] = useState<ArrayValueItem[][]>(getArrayInitialValue());
   const matrixBounds = useMemo(() => {
-    // return getMatrixBounds();
     return Array.isArray(values[0]) ? values : getMatrixBounds();
   }, [values]);
-
-  console.log(matrixBounds);
-  console.log(values);
 
   useEffect(() => {
     if (label.toLowerCase() !== 'bounds') return;
@@ -69,10 +63,6 @@ export default function ArrayParams({
   const helperTextBounds = useMemo(() => {
     return getMatrixBoundsHelperText();
   }, [boundsData]);
-
-  console.log(matrixBounds);
-  console.log(helperTextBounds);
-  console.log(values);
 
   const getMatrixCriteria = () => {
     return blocks.find((block) => block.id === matrixId)?.data.criteria ?? DEFAULT_CRITERIA;
@@ -123,26 +113,17 @@ export default function ArrayParams({
 
   function getMatrixBoundsHelperText() {
     const bounds = getMatrixBounds();
-    console.log(bounds);
     if (bounds.length === 0) return [];
     return bounds[0].map((_, idx) => [
       t('results:min-val', { val: bounds[0][idx] }),
       t('results:max-val', { val: bounds[1][idx] }),
     ]);
-    // console.log('matrixBounds', matrixBounds);
-    // if (matrixBounds.length === 0) return [];
-    // return matrixBounds[0].map((_, idx) => [
-    //   t('results:min-val', { val: matrixBounds[0][idx] }),
-    //   t('results:max-val', { val: matrixBounds[1][idx] }),
-    // ]);
   }
 
   function getMeanESP() {
     const bounds = getMatrixBounds();
     if (bounds.length === 0) return [];
     return bounds[0].map((_, idx) => ((+bounds[0][idx] + +bounds[1][idx]) / 2).toFixed(3));
-    // if (matrixBounds.length === 0) return [];
-    // return matrixBounds[0].map((_, idx) => ((matrixBounds[0][idx] + matrixBounds[1][idx]) / 2).toFixed(3));
   }
 
   function getArrayInitialValue() {
@@ -169,7 +150,6 @@ export default function ArrayParams({
         value = (values as string[][]).map((row: string[]) => row.map((i) => ({ value: `${i}`, error: false })));
       else value = getMatrixBounds().map((row) => row.map((i) => ({ value: `${i}`, error: false })));
     }
-    console.log(value);
     return value;
   }
 

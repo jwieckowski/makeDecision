@@ -50,7 +50,6 @@ export default function AccordionResults({ matrixId, defaultExpanded }: Accordio
           };
         });
     } else {
-      console.log(nodes);
       return nodes;
     }
   };

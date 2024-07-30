@@ -92,7 +92,6 @@ export default function SettingsBar() {
 
     setTimeout(async () => {
       const data = getCalculationBody(blocks, connections);
-      console.log(data);
       await dispatch(
         getResults({
           locale,

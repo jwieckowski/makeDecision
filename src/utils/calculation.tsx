@@ -81,7 +81,6 @@ const useCalculation = () => {
   };
 
   const getCalculationBody = (blocks: BlockType[], connections: string[][]) => {
-    console.log(blocks);
     const data: CalculationNode[] = blocks.map((block) => {
       return {
         id: block.id,
@@ -99,7 +98,6 @@ const useCalculation = () => {
       };
     });
 
-    console.log(data);
     return data;
   };
 

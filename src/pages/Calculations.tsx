@@ -38,8 +38,6 @@ export default function Calculations() {
   const dispatch = useAppDispatch();
   const { setIsOpen } = useTour();
 
-  console.log(results);
-
   const handleSurveySave = async () => {
     setSurveyOpen(false);
     if (window.localStorage.getItem('tour') || allMethods.length === 0) return;

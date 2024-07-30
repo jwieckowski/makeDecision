@@ -134,9 +134,6 @@ export default function MethodModal({ open, closeModal, textSave, textCancel, fu
     getMethodItems();
   }, []);
 
-  useEffect(() => {}, [kwargsItems]);
-  console.log(kwargsItems);
-
   const handleSelectKwargChange = (e: SelectChangeEvent, idx: number, i: number) => {
     if (activeBlock?.data?.kwargs[idx]?.data[i]?.value === e.target.value) {
       setModified(false);
@@ -206,8 +203,6 @@ export default function MethodModal({ open, closeModal, textSave, textCancel, fu
 
     setKwargsItems(copy);
   };
-
-  console.log(boundsData);
 
   const getDataBounds = (kwargs: KwargsItemsProps, label: string) => {
     if (!['reference ideal', 'expected solution points'].includes(label.toLowerCase())) return null;
