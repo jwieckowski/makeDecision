@@ -486,7 +486,14 @@ export default function MatrixModal({ open, closeModal, textSave, textCancel, fu
     // IF CONNECTED WEIGHTS, UPDATE THE NUMBER OF CRITERIA IN THE DATA
     const weightsBlock = getMatrixWeightsConnections(blocks, connections, activeBlock);
     weightsBlock.forEach((b) => {
-      if (getInputConnections(`${b.id}`).length === 1) {
+      if (b.name === 'input') {
+        dispatch(
+          setBlockCriteria({
+            id: b.id,
+            data: form.criteria,
+          }),
+        );
+      } else if (getInputConnections(`${b.id}`).length === 1) {
         dispatch(
           setBlockCriteria({
             id: b.id,

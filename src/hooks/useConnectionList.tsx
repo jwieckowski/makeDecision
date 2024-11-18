@@ -20,7 +20,7 @@ import {
   addClickedItem,
   deleteClickedItem,
 } from '@/state/slices/connectionsSlice';
-import { setActiveBlock, clearBlockData, setBlockFilled } from '@/state/slices/blocksSlice';
+import { setActiveBlock, clearBlockData, setBlockFilled, setBlockCriteria } from '@/state/slices/blocksSlice';
 
 // UTILS
 import { getKwargsFromDictionary } from '@/utils/filtering';
@@ -136,6 +136,10 @@ export default function UseConnectionList() {
         } else if (isMethodConnectedToRanking(blocks, nodes[from], nodes[to])) {
           showSnackbar(t('snackbar:method-ranking'), 'error');
         } else {
+          if (nodes[from].type === 'matrix' && nodes[to].type === 'weights' && nodes[to].name === 'input') {
+            const matrixBlockData = blocks.find((b) => b.id === +from);
+            dispatch(setBlockCriteria({ id: to, data: matrixBlockData?.data?.criteria }));
+          }
           dispatch(addConnection({ from, to }));
         }
       } else {
